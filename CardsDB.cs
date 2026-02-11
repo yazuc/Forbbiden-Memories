@@ -5,7 +5,7 @@ namespace fm
     public class CardDatabase
     {
         private static CardDatabase? _instance;
-        private List<Cards> _cards;
+        private List<Cards> _cards = new List<Cards>();
 
         private CardDatabase() { }
 
