@@ -36,7 +36,7 @@ namespace QuickType
         public long Level { get; set; }
 
         [JsonProperty("Type")]
-        public long Type { get; set; }
+        public CardTypeEnum Type { get; set; }
 
         [JsonProperty("Attack")]
         public long Attack { get; set; }

@@ -14,8 +14,8 @@ namespace fm
     {
         public static async Task<string> Fusion(string args)
         {
-            string jsonString = await File.ReadAllTextAsync("/mnt/Nvme/fm/cards.json");
-            QuickType.Cards[] cards = QuickType.Cards.FromJson(jsonString);
+            CardDatabase.Instance.LoadCards("cards.json");
+            var cards = CardDatabase.Instance.GetAllCards();
 
             var cardIds = args.Split(',').Select(int.Parse).ToList();
             var queue = new Queue<int>(cardIds);
@@ -47,7 +47,7 @@ namespace fm
             return cards.FirstOrDefault(x => x.Id == currentCard)?.Name ?? "No fusion found.";
         }
         
-        public static bool TryGetFusion(int card1ID, int card2ID, Cards[] cards, out int result)
+        public static bool TryGetFusion(int card1ID, int card2ID, List<Cards> cards, out int result)
         {
             result = -1;
             var fusion = cards.FirstOrDefault(x => x.Id == card1ID);
