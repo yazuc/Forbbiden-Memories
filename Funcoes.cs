@@ -5,7 +5,8 @@ namespace fm
 {
     public class Funcoes
     {
-        public static void WriteOutputToFile(List<QuickType.Cards> cards, string filePath = "output.txt")
+        //to be savefile manager
+        public static void WriteCardsToFile(List<QuickType.Cards> cards, string filePath = "output.txt")
         {
             try
             {
