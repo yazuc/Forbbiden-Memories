@@ -2,6 +2,7 @@ namespace fm
 {
     public class Program
     {
+        //forma principal de testar funções, vai ser substituido pelo loop do jogo
         public static async Task Main()
         {            
             CardDatabase.Instance.LoadCards("cards.json");
