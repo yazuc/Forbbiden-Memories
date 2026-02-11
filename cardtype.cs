@@ -24,7 +24,7 @@ namespace QuickType
         public string Description { get; set; }
 
         [JsonProperty("Id")]
-        public long Id { get; set; }
+        public int Id { get; set; }
 
         [JsonProperty("GuardianStarA")]
         public long GuardianStarA { get; set; }
@@ -63,13 +63,13 @@ namespace QuickType
     public partial class Fusion
     {
         [JsonProperty("_card1")]
-        public long Card1 { get; set; }
+        public int Card1 { get; set; }
 
         [JsonProperty("_card2")]
-        public long Card2 { get; set; }
+        public int Card2 { get; set; }
 
         [JsonProperty("_result")]
-        public long Result { get; set; }
+        public int Result { get; set; }
     }
 
     public partial class Ritual

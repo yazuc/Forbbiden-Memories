@@ -58,7 +58,7 @@ namespace fm
                 {
                     if(item.Card2 == card2ID)
                     {
-                        result = (int)item.Result;
+                        result = item.Result;
                         return true;
                     }                
                 }
