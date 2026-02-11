@@ -15,3 +15,4 @@
 /mnt/Nvme/fm/obj/Debug/net8.0/fm.pdb
 /mnt/Nvme/fm/obj/Debug/net8.0/fm.genruntimeconfig.cache
 /mnt/Nvme/fm/obj/Debug/net8.0/ref/fm.dll
+/mnt/Nvme/fm/obj/Debug/net8.0/fm.sourcelink.json

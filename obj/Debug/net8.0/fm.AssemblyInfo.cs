@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("fm")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b9aac6d6986c47fe852ea9b2da9425511cbff3b8")]
 [assembly: System.Reflection.AssemblyProductAttribute("fm")]
 [assembly: System.Reflection.AssemblyTitleAttribute("fm")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

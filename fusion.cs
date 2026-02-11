@@ -28,16 +28,13 @@ namespace fm
             while (queue.Count > 0)
             {
                 var nextCard = queue.Dequeue();
-                int resultCard = -1;
                 
-                if(TryGetFusion(currentCard, nextCard, cards, out resultCard))
+                int card1 = Math.Min(currentCard, nextCard);
+                int card2 = Math.Max(currentCard, nextCard);
+                
+                if(TryGetFusion(card1, card2, cards, out int resultCard))
                 {
                     Console.WriteLine($"Fused {currentCard} + {nextCard} = {resultCard}");
-                    currentCard = resultCard;
-                }
-                else if(TryGetFusion(nextCard, currentCard, cards, out resultCard))
-                {
-                    Console.WriteLine($"Fused {currentCard} + {nextCard} = {resultCard} (reverse fusion)");
                     currentCard = resultCard;
                 }
                 else
