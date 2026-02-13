@@ -25,6 +25,27 @@ namespace fm
             }
         }
 
+    public static List<Cards> convertStringCommaToDeck(string input)
+    { 
+        var cardIds = input.Split(',').Select(id => int.Parse(id.Trim())).ToList();
+        var deck = new List<Cards>();
+
+        foreach (var id in cardIds)
+        {
+            var card = CardDatabase.Instance.GetCardById(id);
+            if (card != null)
+            {
+                deck.Add(card);
+            }
+            else
+            {
+                Console.WriteLine($"Warning: Card with ID {id} not found in database.");
+            }
+        }
+
+        return deck;
+    }
+
         public static List<Cards> LoadUserDeck(string filePath = "output.txt")
         {
             try

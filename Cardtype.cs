@@ -12,6 +12,7 @@ namespace QuickType
     using System.Collections.Generic;
 
     using System.Globalization;
+    using fm;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
 
@@ -94,7 +95,7 @@ namespace QuickType
     {
         public static Cards[] FromJson(string json) => JsonConvert.DeserializeObject<Cards[]>(json, QuickType.Converter.Settings);
     }
-
+        
     public static class Serialize
     {
         public static string ToJson(this Cards[] self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
