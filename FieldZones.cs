@@ -23,9 +23,42 @@ namespace fm
             FieldSpell = null;
         }
 
-        public bool PlaceMonster(int zoneIndex, Cards card, bool isAttackMode = true)
+        public void DrawFieldState()
         {
-            if (zoneIndex < 0 || zoneIndex >= MONSTER_ZONES || MonsterZones[zoneIndex] != null)
+            Console.WriteLine("=== Field State ===");
+            Console.WriteLine("Monster Zones:");
+            for (int i = 0; i < MONSTER_ZONES; i++)
+            {
+                var monster = MonsterZones[i];
+                if (monster != null)
+                {
+                    Console.WriteLine($"- Zone {i + 1}: {monster.Card.Name} - Status ATK:{monster.Card.Attack} DEF:{monster.Card.Defense} ({(monster.IsAttackMode ? "ATK" : "DEF")}, Turns: {monster.TurnsOnField})");
+                }
+                else
+                {
+                    Console.WriteLine($"- Zone {i + 1}: Empty");
+                }
+            }
+
+            Console.WriteLine("Spell/Trap Zones:");
+            for (int i = 0; i < SPELL_TRAP_ZONES; i++)
+            {
+                var spellTrap = SpellTrapZones[i];
+                if (spellTrap != null)
+                {
+                    Console.WriteLine($"- Zone {i + 1}: {(spellTrap.IsFaceDown ? "Face-down" : spellTrap.Card.Name)}");
+                }
+                else
+                {
+                    Console.WriteLine($"- Zone {i + 1}: Empty");
+                }
+            }
+        }
+
+        public bool PlaceMonster(Cards card, bool isAttackMode = true)
+        {
+            int zoneIndex = MonsterZones.ToList().FindIndex(z => z == null);
+            if (zoneIndex < 0 || zoneIndex >= MONSTER_ZONES)
                 return false;
 
             MonsterZones[zoneIndex] = new FieldMonster 

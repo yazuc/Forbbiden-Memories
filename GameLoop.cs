@@ -183,7 +183,10 @@ namespace fm
             if (input.Trim().ToLower() == "b") return null;
 
             //we need to set the result of this into field zones, independent of which
-            return await Function.Fusion(input);            
+            var endCard = await Function.Fusion(input);
+            player.Field.PlaceMonster(endCard);
+            player.Field.DrawFieldState();
+            return endCard.Name;            
         }
 
         public bool IsGameOver() => _gameState.IsGameOver();

@@ -12,7 +12,7 @@ namespace fm
 {
     public class Function
     {
-        public static async Task<string> Fusion(string args)
+        public static async Task<Cards> Fusion(string args)
         {
             CardDatabase.Instance.LoadCards("cards.json");
             var cards = CardDatabase.Instance.GetAllCards();
@@ -21,7 +21,7 @@ namespace fm
             var queue = new Queue<int>(cardIds);
             
             if (queue.Count == 0)
-                return "No cards to fuse.";
+                return null;
 
             var currentCard = queue.Dequeue();
 
@@ -44,7 +44,7 @@ namespace fm
                 }
             }
 
-            return cards.FirstOrDefault(x => x.Id == currentCard)?.Name ?? "No fusion found.";
+            return cards.FirstOrDefault(x => x.Id == currentCard) ?? null;
         }
         
         public static bool TryGetFusion(int card1ID, int card2ID, List<Cards> cards, out int result)
