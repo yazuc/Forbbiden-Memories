@@ -35,10 +35,12 @@ namespace fm
             foreach (var card in _gameState.Player1.Hand)
             {
                 Console.WriteLine($"- {_gameState.Player1.Name} has {card.Name} in hand.");
-            }            
+            }
+
+            _ = RunTurn();
         }
 
-        public void RunTurn()
+        public async Task RunTurn()
         {
             if (_gameState.IsGameOver())
             {
@@ -53,15 +55,11 @@ namespace fm
             if (_gameState.IsGameOver()) return;
 
             // Main Phase 1
-            ExecuteMainPhase();
+            await ExecuteMainPhase();
             if (_gameState.IsGameOver()) return;
 
             // Battle Phase
             ExecuteBattlePhase();
-            if (_gameState.IsGameOver()) return;
-
-            // Main Phase 2
-            ExecuteMainPhase();
             if (_gameState.IsGameOver()) return;
 
             // End Phase
@@ -76,6 +74,11 @@ namespace fm
             _gameState.CurrentPhase = TurnPhase.Draw;
             Console.WriteLine($"{_gameState.CurrentPlayer.Name} draws a card.");
             
+            if(_gameState.CurrentPlayer.Hand.Count() == HAND_SIZE)
+            {
+                return;
+            }
+
             if (_gameState.CurrentPlayer.HasCards() && _gameState.CurrentPlayer.Hand.Count < HAND_SIZE)
             {
                 DrawCard(_gameState.CurrentPlayer);
@@ -87,10 +90,16 @@ namespace fm
             }
         }
 
-        private void ExecuteMainPhase()
+        private async Task ExecuteMainPhase()
         {
-            _gameState.AdvancePhase();
             Console.WriteLine($"--- {_gameState.CurrentPlayer.Name}'s {_gameState.CurrentPhase} ---");
+            
+            foreach(var card in _gameState.CurrentPlayer.Hand)
+            {
+                Console.WriteLine($"- {_gameState.CurrentPlayer.Name} has {card.Name} in hand.");
+            }            
+            Console.WriteLine("You summoned:" + await SelectCardIndexFromHand(_gameState.CurrentPlayer, $"Hello {_gameState.CurrentPlayer.Name}, select a card to play (index) or 'b' to pass:"));
+            _gameState.AdvancePhase();
             // TODO: Implement player actions in main phase
             // - Summon monsters
             // - Activate spell/trap cards
@@ -136,6 +145,45 @@ namespace fm
                 // TODO: Implement UI for card selection
                 player.Hand.RemoveAt(0); // Placeholder
             }
+        }
+
+        // Lists the player's hand with indices and prompts for a selection.
+        // Returns the selected index, or null if cancelled/invalid.
+        private async Task<string?> SelectCardIndexFromHand(Player player, string prompt = "Select a card (index):")
+        {
+            if (player.Hand == null || player.Hand.Count == 0)
+            {
+                Console.WriteLine("No cards in hand.");
+                return null;
+            }
+
+            Console.WriteLine(prompt);
+            for (int i = 0; i < player.Hand.Count; i++)
+            {
+                var c = player.Hand[i];
+                Console.WriteLine($"[{player.Hand[i].Id}] {c.Name} - {c.Type}");
+            }
+
+            var input = Console.ReadLine();
+            List<string> selectedCardIds = new List<string>();
+            if (!string.IsNullOrWhiteSpace(input))            {
+                selectedCardIds = input.Split(',').Select(s => s.Trim()).ToList();
+            }
+            
+            foreach (var id in selectedCardIds)
+            {
+                var card = player.Hand.FirstOrDefault(c => c.Id == int.Parse(id));
+                if (card != null)
+                {
+                    player.Hand.Remove(card);
+                }
+            }
+
+            if (string.IsNullOrWhiteSpace(input)) return null;
+            if (input.Trim().ToLower() == "b") return null;
+
+            //we need to set the result of this into field zones, independent of which
+            return await Function.Fusion(input);            
         }
 
         public bool IsGameOver() => _gameState.IsGameOver();
