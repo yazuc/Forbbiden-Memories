@@ -59,6 +59,7 @@ namespace QuickType
 
         [JsonProperty("Attribute")]
         public long Attribute { get; set; }
+        public bool IsFaceDown { get; set; } // For Spell/Trap cards to indicate if they are face-down
     }
 
     public partial class Fusion

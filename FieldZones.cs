@@ -55,7 +55,16 @@ namespace fm
             }
         }
 
-        public bool PlaceMonster(Cards card, bool isAttackMode = true)
+        public bool placeCard(Cards card, bool isAttackMode = true, bool isFaceDown = false)
+        {
+            if (card.Type != CardTypeEnum.Trap && card.Type != CardTypeEnum.Spell)
+                return PlaceMonster(card, isAttackMode, isFaceDown);
+            else if (card.Type == CardTypeEnum.Spell || card.Type == CardTypeEnum.Trap)
+                return PlaceSpellTrap(card, isFaceDown); // For simplicity, we place all spells/traps in the first zone
+            return false;
+        }
+
+        public bool PlaceMonster(Cards card, bool isAttackMode = true, bool isFaceDown = false)
         {
             int zoneIndex = MonsterZones.ToList().FindIndex(z => z == null);
             if (zoneIndex < 0 || zoneIndex >= MONSTER_ZONES)
@@ -65,20 +74,23 @@ namespace fm
             { 
                 Card = card, 
                 IsAttackMode = isAttackMode,
+                IsFaceDown = isFaceDown,
                 TurnsOnField = 0
+                
             };
             return true;
         }
 
-        public bool PlaceSpellTrap(int zoneIndex, Cards card)
+        public bool PlaceSpellTrap(Cards card, bool isFaceDown = false)
         {
-            if (zoneIndex < 0 || zoneIndex >= SPELL_TRAP_ZONES || SpellTrapZones[zoneIndex] != null)
+            int zoneIndex = SpellTrapZones.ToList().FindIndex(z => z == null);
+            if (zoneIndex < 0 || zoneIndex >= SPELL_TRAP_ZONES  )
                 return false;
 
             SpellTrapZones[zoneIndex] = new FieldSpellTrap 
             { 
                 Card = card, 
-                IsFaceDown = false
+                IsFaceDown = isFaceDown
             };
             return true;
         }
@@ -102,6 +114,7 @@ namespace fm
     {
         public Cards Card { get; set; }
         public bool IsAttackMode { get; set; }
+        public bool IsFaceDown { get; set; }
         public int TurnsOnField { get; set; }
         public bool HasAttackedThisTurn { get; set; }
     }

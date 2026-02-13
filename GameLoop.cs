@@ -113,6 +113,9 @@ namespace fm
             // TODO: Implement battle phase
             // - Declare attacks
             // - Resolve battles
+            Console.WriteLine("Monsters on the field:");
+            DisplayCards(_gameState.CurrentPlayer.Field.MonsterZones.Select(x => x.Card).ToList());
+
             BattleSystem.ResetBattleStates(_gameState.CurrentPlayer);
         }
 
@@ -184,8 +187,9 @@ namespace fm
 
             //we need to set the result of this into field zones, independent of which
             var endCard = await Function.Fusion(input);
-            player.Field.PlaceMonster(endCard);
-            player.Field.DrawFieldState();
+            player.Field.placeCard(endCard);
+            //player.Field.DrawFieldState();
+            GameDisplay.DisplayGameBoard(_gameState);
             return endCard.Name;            
         }
 
@@ -214,6 +218,15 @@ namespace fm
             Console.WriteLine($"{_gameState.Player2.Name} LP: {_gameState.Player2.LifePoints}");
             Console.WriteLine($"Turn: {_gameState.CurrentTurn} | Phase: {_gameState.CurrentPhase}");
             Console.WriteLine($"Current Player: {_gameState.CurrentPlayer.Name}");
+        }
+
+        public void DisplayCards(List<Cards> cards)
+        {
+            Console.WriteLine("=== Cards ===");
+            foreach (var card in cards)
+            {
+                Console.WriteLine($"- {card.Name} (ID: {card.Id}, Type: {card.Type})");
+            }
         }
     }
 }

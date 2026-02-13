@@ -1,3 +1,6 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
 using QuickType;
 
 namespace fm
@@ -13,8 +16,9 @@ namespace fm
 
         public void LoadDeck(List<Cards> cards)
         {
-            Cards = cards.Take(40).ToList(); // Assuming a max deck size of 40
-        }   
+            var rng = new Random();
+            Cards = cards.OrderBy(_ => rng.Next()).Take(40).ToList(); // Shuffle and take up to 40
+        }
 
         public void AddCard(Cards card)
         {
