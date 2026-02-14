@@ -1,0 +1,28 @@
+public enum CardTypeEnum
+{
+    Dragon,
+    Spellcaster,
+    Zombie,
+    Warrior,
+    BeastWarrior,
+    Beast,
+    WingedBeast,
+    Fiend,
+    Fairy,
+    Insect,
+    Dinosaur,
+    Reptile,
+    Fish,
+    SeaSerpent,
+    Machine,
+    Thunder,
+    Aqua,
+    Pyro,
+    Rock,
+    Plant,
+    Spell,
+    Trap,
+    Ritual,
+    Equipment
+
+}

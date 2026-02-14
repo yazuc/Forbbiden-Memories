@@ -1,0 +1,38 @@
+using Godot;
+using System;
+using System.Threading.Tasks;
+
+namespace fm
+{
+	public partial class Main : Node
+	{
+		public override async void _Ready()
+		{
+			GD.Print("Iniciando Banco de Dados e Jogo...");
+
+			// 1. Instanciar Database
+			var db = CardDatabase.Instance;
+			db.SyncJsonToDatabase("cards.json"); // Load cards from JSON into the database if not already loaded
+			// 2. Carregar Deck e Cartas
+			var deck = new Deck();
+			// Certifique-se que o caminho do arquivo está acessível pelo Godot
+			var deckList = Funcoes.LoadUserDeck("/mnt/Nvme/fm/starter_deck.txt");
+			deck.LoadDeck(deckList);
+
+			// 3. Inicializar o GameLoop
+			// Passando Alice e Bob como os duelistas
+			GameLoop gL = new GameLoop(
+				new Player("Alice", deck.Cards, 8000), 
+				new Player("Bob", deck.Cards, 8000)
+			);
+			
+			gL.Initialize();
+
+			GD.Print("GameLoop Inicializado!");
+
+			// Teste de Fusão (se quiser testar agora)
+			// string result = await fm.Function.Fusion("177,296,211");
+			// GD.Print($"Resultado da Fusão: {result}");
+		}
+	}
+}
