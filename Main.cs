@@ -6,7 +6,7 @@ namespace fm
         public static async Task Main()
         {            
             var db = CardDatabase.Instance;
-            db.SyncJsonToDatabase("cards.json"); // Load cards from JSON into the database if not already loaded
+            //db.SyncJsonToDatabase("cards.json"); // Load cards from JSON into the database if not already loaded
             CardDatabase.Instance.GetAllCards();
             var cards = CardDatabase.Instance.GetAllCards();
 
