@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://bloqsdasbvbdc"]
+
+[ext_resource type="PackedScene" uid="uid://dj7s3t4ux6vfw" path="res://Scenes/game.tscn" id="1_12f34"]
+
+[node name="BattleScene" type="Node3D" unique_id=1913536266]
+
+[node name="Game" parent="." unique_id=705124670 instance=ExtResource("1_12f34")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=665429417]
+
+[node name="MaoJogador" type="HBoxContainer" parent="CanvasLayer" unique_id=1902212361]
+offset_right = 807.0
+offset_bottom = 171.0
+alignment = 1

@@ -8,124 +8,127 @@
 using SQLite;
 namespace QuickType
 {
-    using System;
-    using System.Collections.Generic;
+	using System;
+	using System.Collections.Generic;
 
-    using System.Globalization;
-    using fm;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Converters;
-    using SQLite;
+	using System.Globalization;
+	using fm;
+	using Newtonsoft.Json;
+	using Newtonsoft.Json.Converters;
+	using SQLite;
 
-    public partial class Cards
-    {
-        [JsonProperty("Name")]
-        [PrimaryKey]
-        public string Name { get; set; }
+	public partial class Cards
+	{
+		[JsonProperty("Name")]
+		[PrimaryKey]
+		public string Name { get; set; }
 
-        [JsonProperty("Description")]
-        public string Description { get; set; }
+		[JsonProperty("Description")]
+		public string Description { get; set; }
 
-        [JsonProperty("Id")]
-        public int Id { get; set; }
+		[JsonProperty("Id")]
+		public int Id { get; set; }
 
-        [JsonProperty("GuardianStarA")]
-        public long GuardianStarA { get; set; }
+		[JsonProperty("GuardianStarA")]
+		public long GuardianStarA { get; set; }
 
-        [JsonProperty("GuardianStarB")]
-        public long GuardianStarB { get; set; }
+		[JsonProperty("GuardianStarB")]
+		public long GuardianStarB { get; set; }
 
-        [JsonProperty("Level")]
-        public long Level { get; set; }
+		[JsonProperty("Level")]
+		public long Level { get; set; }
 
-        [JsonProperty("Type")]
-        public CardTypeEnum Type { get; set; }
+		[JsonProperty("Type")]
+		public CardTypeEnum Type { get; set; }
 
-        [JsonProperty("Attack")]
-        public long Attack { get; set; }
+		[JsonProperty("Attack")]
+		public long Attack { get; set; }
 
-        [JsonProperty("Defense")]
-        public long Defense { get; set; }
+		[JsonProperty("Defense")]
+		public long Defense { get; set; }
 
-        [JsonProperty("Stars")]
-        public long Stars { get; set; }
+		[JsonProperty("Stars")]
+		public long Stars { get; set; }
 
-        [JsonProperty("CardCode")]
-        public string CardCode { get; set; }
+		[JsonProperty("CardCode")]
+		public string CardCode { get; set; }
 
-        [JsonProperty("Fusions")]
-        [Ignore]
-        public Fusion[] Fusions { get; set; }
-        public string FusionsBlob
-        {
-            get => JsonConvert.SerializeObject(Fusions);
-            set => Fusions = JsonConvert.DeserializeObject<Fusion[]>(value) ?? Array.Empty<Fusion>();
-        }
+		[JsonProperty("Fusions")]
+		[Ignore]
+		public Fusion[] Fusions { get; set; }
+		public string FusionsBlob
+		{
+			get => JsonConvert.SerializeObject(Fusions);
+			set => Fusions = JsonConvert.DeserializeObject<Fusion[]>(value) ?? Array.Empty<Fusion>();
+		}
 
-        [JsonProperty("Ritual")]
-        [Ignore]
-        public Ritual[] Ritual { get; set; }
-        public string RitualBlob
-        {
-            get => JsonConvert.SerializeObject(Ritual);
-            set => Ritual = JsonConvert.DeserializeObject<Ritual[]>(value) ?? Array.Empty<Ritual>();
-        }
+		[JsonProperty("Ritual")]
+		[Ignore]
+		public Ritual[] Ritual { get; set; }
+		public string RitualBlob
+		{
+			get => JsonConvert.SerializeObject(Ritual);
+			set => Ritual = JsonConvert.DeserializeObject<Ritual[]>(value) ?? Array.Empty<Ritual>();
+		}
 
-        [JsonProperty("Attribute")]
-        public long Attribute { get; set; }
-        public bool IsFaceDown { get; set; } // For Spell/Trap cards to indicate if they are face-down
-    }
+		[JsonProperty("Attribute")]
+		public long Attribute { get; set; }
+		public bool IsFaceDown { get; set; } // For Spell/Trap cards to indicate if they are face-down
+		
+		public float AtlasX { get; set; }
+		public float AtlasY { get; set; }
+	}
 
-    public partial class Fusion
-    {
-        [JsonProperty("_card1")]
-        public int Card1 { get; set; }
+	public partial class Fusion
+	{
+		[JsonProperty("_card1")]
+		public int Card1 { get; set; }
 
-        [JsonProperty("_card2")]
-        public int Card2 { get; set; }
+		[JsonProperty("_card2")]
+		public int Card2 { get; set; }
 
-        [JsonProperty("_result")]
-        public int Result { get; set; }
-    }
+		[JsonProperty("_result")]
+		public int Result { get; set; }
+	}
 
-    public partial class Ritual
-    {
-        [JsonProperty("RitualCard")]
-        public long RitualCard { get; set; }
+	public partial class Ritual
+	{
+		[JsonProperty("RitualCard")]
+		public long RitualCard { get; set; }
 
-        [JsonProperty("Card1")]
-        public long Card1 { get; set; }
+		[JsonProperty("Card1")]
+		public long Card1 { get; set; }
 
-        [JsonProperty("Card2")]
-        public long Card2 { get; set; }
+		[JsonProperty("Card2")]
+		public long Card2 { get; set; }
 
-        [JsonProperty("Card3")]
-        public long Card3 { get; set; }
+		[JsonProperty("Card3")]
+		public long Card3 { get; set; }
 
-        [JsonProperty("Result")]
-        public long Result { get; set; }
-    }
+		[JsonProperty("Result")]
+		public long Result { get; set; }
+	}
 
-    public partial class Cards
-    {
-        public static Cards[] FromJson(string json) => JsonConvert.DeserializeObject<Cards[]>(json, QuickType.Converter.Settings);
-    }
-        
-    public static class Serialize
-    {
-        public static string ToJson(this Cards[] self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
-    }
+	public partial class Cards
+	{
+		public static Cards[] FromJson(string json) => JsonConvert.DeserializeObject<Cards[]>(json, QuickType.Converter.Settings);
+	}
+		
+	public static class Serialize
+	{
+		public static string ToJson(this Cards[] self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
+	}
 
-    internal static class Converter
-    {
-        public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
-        {
-            MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
-            DateParseHandling = DateParseHandling.None,
-            Converters =
-            {
-                new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
-            },
-        };
-    }
+	internal static class Converter
+	{
+		public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
+		{
+			MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
+			DateParseHandling = DateParseHandling.None,
+			Converters =
+			{
+				new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
+			},
+		};
+	}
 }

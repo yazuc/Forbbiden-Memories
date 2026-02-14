@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://c2yevercpjoka"]
+
+[ext_resource type="PackedScene" uid="uid://uys23mmogslm" path="res://Carta/CartasBase.tscn" id="1_ygt2j"]
+
+[node name="HudCards" type="CanvasLayer" unique_id=1716697352]
+
+[node name="CartasBase" parent="." unique_id=242195520 instance=ExtResource("1_ygt2j")]

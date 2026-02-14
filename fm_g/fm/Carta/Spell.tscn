@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://gxrbvu40gdx3"]
+
+[ext_resource type="Texture2D" uid="uid://b72wrskajswiv" path="res://Assets/PlayStation - Yu-Gi-Oh! Forbidden Memories - Cards - Cards Frames.png" id="1_gixu8"]
+
+[node name="Spell" type="Node2D" unique_id=269025500]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1981064526]
+texture = ExtResource("1_gixu8")
+region_enabled = true
+region_rect = Rect2(585.5936, 34.07016, 148.81116, 209.04422)

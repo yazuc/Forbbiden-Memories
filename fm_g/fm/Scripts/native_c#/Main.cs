@@ -12,12 +12,14 @@ namespace fm
 
 			// 1. Instanciar Database
 			var db = CardDatabase.Instance;
-			db.SyncJsonToDatabase("cards.json"); // Load cards from JSON into the database if not already loaded
+			//db.SyncJsonToDatabase("cards.json"); // Load cards from JSON into the database if not already loaded
+			//db.MapAtlasCoordinates();
 			// 2. Carregar Deck e Cartas
 			var deck = new Deck();
 			// Certifique-se que o caminho do arquivo está acessível pelo Godot
 			var deckList = Funcoes.LoadUserDeck("/mnt/Nvme/fm/starter_deck.txt");
 			deck.LoadDeck(deckList);
+			GD.Print(deckList.Count());
 
 			// 3. Inicializar o GameLoop
 			// Passando Alice e Bob como os duelistas

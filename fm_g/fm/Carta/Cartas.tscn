@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://b2la5dwmns3e1"]
+
+[ext_resource type="Script" uid="uid://b4gsip74xvh6q" path="res://Carta/Cartas.cs" id="1_0f2kn"]
+[ext_resource type="Texture2D" uid="uid://k5dvfn1mkylv" path="res://Assets/database.png" id="1_h02g4"]
+
+[node name="Cartas" type="Node2D" unique_id=2111384332]
+script = ExtResource("1_0f2kn")
+
+[node name="SpriteCardArt" type="Sprite2D" parent="." unique_id=1045685057]
+texture = ExtResource("1_h02g4")

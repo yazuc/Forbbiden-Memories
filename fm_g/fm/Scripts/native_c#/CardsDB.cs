@@ -31,7 +31,36 @@ namespace fm
 			}
 		}
 
-		
+	public void MapAtlasCoordinates()
+	{
+		const int atlasWidth = 2680;
+		const int atlasHeight = 2934;
+
+		const int columnsInPng = 29; // X
+		const int rowsInPng = 25;    // Y
+
+		float cardWidth = (float)atlasWidth / columnsInPng;
+		float cardHeight = (float)atlasHeight / rowsInPng;
+
+		var allCards = GetAllCards();
+
+		foreach (var card in allCards)
+		{
+			// IDs começam em 1 → base zero
+			int idZeroBased = card.Id - 1;
+
+			int col = idZeroBased % columnsInPng;
+			int row = idZeroBased / columnsInPng;
+
+			card.AtlasX = col * cardWidth;
+			card.AtlasY = row * cardHeight;
+
+			_database?.Update(card);
+		}
+
+		GD.Print("Coordenadas do Atlas mapeadas com sucesso!");
+	}
+
 
 		public void Initialize(string dbPath)
 		{
