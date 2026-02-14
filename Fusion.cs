@@ -14,7 +14,7 @@ namespace fm
     {
         public static async Task<Cards> Fusion(string args)
         {
-            CardDatabase.Instance.LoadCards("cards.json");
+            CardDatabase.Instance.GetAllCards();
             var cards = CardDatabase.Instance.GetAllCards();
 
             var cardIds = args.Split(',').Select(int.Parse).ToList();

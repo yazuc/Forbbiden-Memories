@@ -5,7 +5,9 @@ namespace fm
         //forma principal de testar funções, vai ser substituido pelo loop do jogo
         public static async Task Main()
         {            
-            CardDatabase.Instance.LoadCards("/mnt/Nvme/fm/cards.json");
+            var db = CardDatabase.Instance;
+            db.SyncJsonToDatabase("cards.json"); // Load cards from JSON into the database if not already loaded
+            CardDatabase.Instance.GetAllCards();
             var cards = CardDatabase.Instance.GetAllCards();
 
             var deck = new Deck();

@@ -47,6 +47,10 @@
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.3, )"
+            },
+            "sqlite-net-pcl": {
+              "target": "Package",
+              "version": "[1.9.172, )"
             }
           },
           "imports": [

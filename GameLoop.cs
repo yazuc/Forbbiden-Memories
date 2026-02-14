@@ -188,8 +188,8 @@ namespace fm
             //we need to set the result of this into field zones, independent of which
             var endCard = await Function.Fusion(input);
             player.Field.placeCard(endCard);
-            //player.Field.DrawFieldState();
-            GameDisplay.DisplayGameBoard(_gameState);
+            player.Field.DrawFieldState();
+            //GameDisplay.DisplayGameBoard(_gameState);
             return endCard.Name;            
         }
 

@@ -5,7 +5,7 @@
 //    using QuickType;
 //
 //    var cards = Cards.FromJson(jsonString);
-
+using SQLite;
 namespace QuickType
 {
     using System;
@@ -15,10 +15,12 @@ namespace QuickType
     using fm;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
+    using SQLite;
 
     public partial class Cards
     {
         [JsonProperty("Name")]
+        [PrimaryKey]
         public string Name { get; set; }
 
         [JsonProperty("Description")]
@@ -52,10 +54,22 @@ namespace QuickType
         public string CardCode { get; set; }
 
         [JsonProperty("Fusions")]
+        [Ignore]
         public Fusion[] Fusions { get; set; }
+        public string FusionsBlob
+        {
+            get => JsonConvert.SerializeObject(Fusions);
+            set => Fusions = JsonConvert.DeserializeObject<Fusion[]>(value) ?? Array.Empty<Fusion>();
+        }
 
         [JsonProperty("Ritual")]
+        [Ignore]
         public Ritual[] Ritual { get; set; }
+        public string RitualBlob
+        {
+            get => JsonConvert.SerializeObject(Ritual);
+            set => Ritual = JsonConvert.DeserializeObject<Ritual[]>(value) ?? Array.Empty<Ritual>();
+        }
 
         [JsonProperty("Attribute")]
         public long Attribute { get; set; }
