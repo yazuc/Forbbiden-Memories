@@ -18,6 +18,7 @@ namespace fm{
 		[Signal] public delegate void CartaSelecionadaEventHandler(int id);
 		[Signal] public delegate void AlvoSelecionadoEventHandler(int index);
 		
+		private TaskCompletionSource<int> _tcsCampo = null;
 		private bool _bloquearNavegaçãoManual = false;
 		private Node3D _instanciaSeletor = null;
 		private int _indiceSelecionado = 0;	
@@ -124,7 +125,17 @@ namespace fm{
 					AtualizarPosicaoSeletor3D();
 				}
 			}
-
+		public void CancelarSelecaoNoCampo()
+		{
+			if (_tcsCampo != null && !_tcsCampo.Task.IsCompleted)
+			{
+				// Resolvemos com -1 para indicar que a seleção foi abortada visualmente
+				_tcsCampo.TrySetResult(-1); 
+			}
+			
+			// Desative aqui os highlights ou colisores que você ativou para a seleção
+			GD.Print("Seleção de campo cancelada manualmente.");
+		}
 		private void ControlarSelecaoDeCampo()
 		{
 			int anterior = _indiceCampoSelecionado;
@@ -260,24 +271,26 @@ namespace fm{
 // Método genérico para selecionar um slot no campo (Aliado ou Inimigo)
 		public async Task<int> SelecionarSlotNoCampo(Godot.Collections.Array<Marker3D> slots)
 		{
+			// Inicializa a Task
+			_tcsCampo = new TaskCompletionSource<int>();
+			
 			if (slots == null || slots.Count == 0) return -1;
-			await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+
+			// Pequeno delay para garantir que inputs do frame anterior não interfiram
 			await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 			
-			_bloquearNavegaçãoManual = true; // IMPEDE o HandleNavigation de rodar
-			_selecionandoLocal = true; // Ativa o controle de navegação
+			_bloquearNavegaçãoManual = true; // Trava o HandleNavigation do _Process
+			_selecionandoLocal = true;
 			_indiceCampoSelecionado = 0;
 			_instanciaSeletor.Visible = true;
 
-			// Atualiza a posição inicial
 			AtualizarPosicaoSeletorParaSlots(slots);
 
-			// Loop de espera até o jogador apertar Accept
-			bool confirmado = false;
-			while (!confirmado)
+			// LOOP PRINCIPAL: Roda enquanto a Task não for completada (interna ou externamente)
+			while (!_tcsCampo.Task.IsCompleted)
 			{
-				// Navegação
 				int anterior = _indiceCampoSelecionado;
+
 				if (Input.IsActionJustPressed("ui_right")) 
 					_indiceCampoSelecionado = Mathf.Min(_indiceCampoSelecionado + 1, slots.Count - 1);
 				if (Input.IsActionJustPressed("ui_left")) 
@@ -286,23 +299,31 @@ namespace fm{
 				if (anterior != _indiceCampoSelecionado)
 					AtualizarPosicaoSeletorParaSlots(slots);
 
+				// Confirmação Manual
 				if (Input.IsActionJustPressed("ui_accept"))
-					confirmado = true;
-
-				if (Input.IsActionJustPressed("ui_cancel"))
 				{
-					_instanciaSeletor.Visible = false;
-					_selecionandoLocal = false;
-					return -1; // Cancelou a seleção
+					_tcsCampo.TrySetResult(_indiceCampoSelecionado);
 				}
 
-				// Aguarda o próximo frame para não travar o jogo
+				// Cancelamento Manual (Tecla de Voltar)
+				if (Input.IsActionJustPressed("ui_cancel"))
+				{
+					_tcsCampo.TrySetResult(-1);
+				}
+
+				// Aguarda o próximo frame
 				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 			}
 
+			// --- LIMPEZA PÓS-SELEÇÃO ---
+			// Recuperamos o resultado (seja o index, seja -1 do cancelamento ou do sinal 'V')
+			int resultado = await _tcsCampo.Task;
+
 			_instanciaSeletor.Visible = false;
 			_selecionandoLocal = false;
-			return _indiceCampoSelecionado;
+			_bloquearNavegaçãoManual = false; // LIBERA a navegação para o próximo player/fase
+
+			return resultado;
 		}
 
 		// Método auxiliar para mover o seletor entre diferentes arrays de markers

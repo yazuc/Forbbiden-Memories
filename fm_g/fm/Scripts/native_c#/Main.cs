@@ -10,6 +10,9 @@ namespace fm
 		[Export] public Camera3D CameraHand;
 		[Export] public Camera3D CameraField;
 		[Export] public Camera3D CameraInimigo;
+		
+		private GameLoop gL;
+		
 		public override async void _Ready()
 		{
 			GD.Print("Iniciando Banco de Dados e Jogo...");
@@ -38,7 +41,7 @@ namespace fm
 			// Passando Alice e Bob como os duelistas
 			if (MaoVisual != null)
 			{
-				GameLoop gL = new GameLoop(
+				gL = new GameLoop(
 					new Player("Alice", deck.Cards, 8000), 
 					new Player("Bob", deck.Cards, 8000),
 					MaoVisual,
@@ -55,6 +58,12 @@ namespace fm
 			// Teste de Fusão (se quiser testar agora)
 			// string result = await fm.Function.Fusion("177,296,211");
 			// GD.Print($"Resultado da Fusão: {result}");
+		}
+		// Inside your Main Node script (e.g., Main.cs)
+		public override void _Input(InputEvent @event)
+		{
+			// Forward the input to your game loop logic
+			gL.HandleInput(@event);
 		}
 	}
 }

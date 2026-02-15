@@ -13,6 +13,8 @@ namespace fm
 		private CardEffectManager _effectManager;
 		private const int HAND_SIZE = 5;
 		private const int STARTING_HAND = 5;
+		private bool _isBattlePhaseActive = false;
+		private TaskCompletionSource<bool> _battlePhaseEndSignal;
 
 		public GameLoop(Player player1, Player player2, MaoJogador maoUI, Camera3D CameraHand, Camera3D CameraField, Camera3D CameraInimigo)
 		{
@@ -54,31 +56,37 @@ namespace fm
 
 		public async Task RunTurn()
 		{
-			if (_gameState.IsGameOver())
-			{
-				GD.Print("Game is already over!");
-				return;
+			while(true){
+				CameraHand.Current = true;
+				CameraField.Current = false;
+				CameraInimigo.Current = false;
+				if (_gameState.IsGameOver())
+				{
+					GD.Print("Game is already over!");
+					return;
+				}
+
+				GD.Print($"\n=== Turn {_gameState.CurrentTurn}: {_gameState.CurrentPlayer.Name}'s Turn ===");
+
+				// Draw Phase
+				ExecuteDrawPhase();
+				if (_gameState.IsGameOver()) return;
+
+				// Main Phase 1
+				await ExecuteMainPhase();
+				if (_gameState.IsGameOver()) return;
+
+				// Battle Phase
+				await ExecuteBattlePhase();
+				if (_gameState.IsGameOver()) return;
+
+				// End Phase
+				ExecuteEndPhase();
+
+				// Switch player
+				_gameState.SwitchPlayer();				
+				MaoDoJogador.AtualizarMao(_gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList());
 			}
-
-			GD.Print($"\n=== Turn {_gameState.CurrentTurn}: {_gameState.CurrentPlayer.Name}'s Turn ===");
-
-			// Draw Phase
-			ExecuteDrawPhase();
-			if (_gameState.IsGameOver()) return;
-
-			// Main Phase 1
-			await ExecuteMainPhase();
-			if (_gameState.IsGameOver()) return;
-
-			// Battle Phase
-			await ExecuteBattlePhase();
-			if (_gameState.IsGameOver()) return;
-
-			// End Phase
-			ExecuteEndPhase();
-
-			// Switch player
-			_gameState.SwitchPlayer();
 		}
 
 		private void ExecuteDrawPhase()
@@ -100,7 +108,7 @@ namespace fm
 			{
 				GD.Print($"{_gameState.CurrentPlayer.Name} has no cards to draw! Deck out!");
 				_gameState.EndGame(_gameState.OpponentPlayer);
-			}
+			}							
 		}
 
 		private async Task ExecuteMainPhase()
@@ -112,11 +120,14 @@ namespace fm
 				GD.Print($"- {_gameState.CurrentPlayer.Name} has {card.Name} in hand.");
 			}       
 			
-			var handIds = _gameState.Player1.Hand.Select(x => x.Id).ToList();
+			var handIds = _gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList();
  			MaoDoJogador.AtualizarMao(handIds);   
 			
 			GD.Print("Aguardando jogador selecionar uma carta...");
-			int idEscolhido = await EsperarEscolhaDoJogador(); 			
+			int idEscolhido = await EsperarEscolhaDoJogador(); 		
+			var cardData = CardDatabase.Instance.GetCardById(idEscolhido);	
+			_gameState.CurrentPlayer.Field.placeCard(cardData);
+			_gameState.CurrentPlayer.Field.DrawFieldState();
 			
 			CameraHand.Current = false;
 			CameraField.Current = true;  
@@ -128,48 +139,82 @@ namespace fm
 		{
 			_gameState.CurrentPhase = TurnPhase.Battle; // Ou AdvancePhase()
 			GD.Print($"--- Battle Phase ---");
+			_isBattlePhaseActive = true;
 
-			// Garante que a câmera está no campo
-			CameraHand.Current = false;
-			CameraField.Current = true;
+			while (_isBattlePhaseActive)
+			{
+				CameraHand.Current = false;
+				CameraField.Current = true;
+				CameraInimigo.Current = false;
+				// 1. Criamos o sinal para o fim da fase
+				_battlePhaseEndSignal = new TaskCompletionSource<bool>();
 
-			// 1. Selecionar o Atacante (Seu Campo)
-			GD.Print("Selecione o seu monstro para atacar...");
-			int indexAtacante = await MaoDoJogador.SelecionarSlotNoCampo(MaoDoJogador.SlotsCampo);
-			CameraHand.Current = false;
-			CameraField.Current = false;
-			CameraInimigo.Current = true;
-			
-			if (indexAtacante == -1) {
-				GD.Print("Ataque cancelado.");
-				return;
+				GD.Print("Aguardando ataque ou fim de fase...");
+
+				// 2. Criamos a tarefa de seleção de monstro
+				Task<int> tarefaSelecao = MaoDoJogador.SelecionarSlotNoCampo(MaoDoJogador.SlotsCampo);
+
+				// 3. A mágica: Esperamos o PRIMEIRO que terminar: 
+				// Ou o jogador seleciona um monstro, ou ele aperta V.
+				Task tarefaTerminada = await Task.WhenAny(tarefaSelecao, _battlePhaseEndSignal.Task);
+
+				// Se o sinal de fechar a fase (V) ganhou a corrida
+				if (!_isBattlePhaseActive) 
+				{
+					MaoDoJogador.CancelarSelecaoNoCampo();
+					break; 
+				}
+
+				// Se a seleção ganhou a corrida, processamos o ataque
+				int indexAtacante = await tarefaSelecao; 
+
+				if (indexAtacante != -1)
+				{
+					CameraHand.Current = false;
+					CameraField.Current = false;
+					CameraInimigo.Current = true;
+					// Lógica de seleção de alvo inimigo (mesmo padrão)
+					GD.Print("Selecione o alvo inimigo...");
+					Task<int> tarefaAlvo = MaoDoJogador.SelecionarSlotNoCampo(MaoDoJogador.SlotsCampoIni);
+					
+					// Também permitimos cancelar o alvo apertando V
+					await Task.WhenAny(tarefaAlvo, _battlePhaseEndSignal.Task);
+					
+					if (!_isBattlePhaseActive) break;
+
+					int indexAlvo = await tarefaAlvo;
+					if (indexAlvo != -1)
+					{
+						ResolverBatalha(indexAtacante, indexAlvo);
+						await Task.Delay(500);
+					}
+				}
 			}
-
-			// 2. Selecionar o Alvo (Campo Inimigo)
-			GD.Print("Selecione o alvo no campo inimigo...");
-			int indexAlvo = await MaoDoJogador.SelecionarSlotNoCampo(MaoDoJogador.SlotsCampoIni);
-			CameraHand.Current = false;
-			CameraField.Current = true;
-			CameraInimigo.Current = false;
-			
-			if (indexAlvo == -1) {
-				GD.Print("Alvo não selecionado.");
-				return;
-			}
-
-			// 3. Processar o resultado
-			GD.Print($"Batalha: Meu monstro no slot {indexAtacante} vs Inimigo no slot {indexAlvo}");
-			
-			// TODO: Chame aqui sua lógica de cálculo de dano
-			// ResolverDano(indexAtacante, indexAlvo);
-
-			await Task.Delay(500); // Pequena pausa para o jogador ver o que aconteceu
+			GD.Print("--- Battle Phase Ended ---");
 		}
 
 		private void ResolverBatalha(int atacanteIdx, int alvoIdx)
 		{
 			GD.Print($"Batalha: Meu monstro no slot {atacanteIdx} vs Inimigo no slot {alvoIdx}");
 			// Aqui tu chamas o BattleSystem para comparar ATK/DEF e subtrair LifePoints
+		}
+		
+		public void HandleInput(InputEvent @event)
+		{
+			// Only care about input if we are in the Battle Phase
+			if (!_isBattlePhaseActive) return;
+
+			if (@event is InputEventKey keyEvent && keyEvent.Pressed && keyEvent.Keycode == Key.V)
+			{
+				GD.Print("'V' pressed: Ending Battle Phase.");
+				_isBattlePhaseActive = false;
+				
+				// 1. Interrompe qualquer loop de seleção visual que esteja rodando na UI
+				MaoDoJogador.CancelarSelecaoNoCampo();
+				
+				// Resolve the task so the 'await' in the while loop finishes
+				_battlePhaseEndSignal?.TrySetResult(true);
+			}
 		}
 
 		private void ExecuteEndPhase()
@@ -179,7 +224,6 @@ namespace fm
 			// TODO: Implement end phase effects
 			// - Card effects that trigger at end of turn
 			// - Hand size check (max 6 cards)
-			EnforceHandSize(_gameState.CurrentPlayer);
 		}
 
 		private void DrawCard(Player player)
