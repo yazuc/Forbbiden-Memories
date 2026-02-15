@@ -8,18 +8,20 @@ namespace fm
 		public MaoJogador MaoDoJogador;
 		public Camera3D CameraHand;
 		public Camera3D CameraField;
+		public Camera3D CameraInimigo;
 		private GameState _gameState;
 		private CardEffectManager _effectManager;
 		private const int HAND_SIZE = 5;
 		private const int STARTING_HAND = 5;
 
-		public GameLoop(Player player1, Player player2, MaoJogador maoUI, Camera3D CameraHand, Camera3D CameraField)
+		public GameLoop(Player player1, Player player2, MaoJogador maoUI, Camera3D CameraHand, Camera3D CameraField, Camera3D CameraInimigo)
 		{
 			_gameState = new GameState(player1, player2);
 			_effectManager = new CardEffectManager();
 			this.MaoDoJogador = maoUI;
 			this.CameraHand = CameraHand;
 			this.CameraField = CameraField;
+			this.CameraInimigo = CameraInimigo;
 		}
 
 		public void Initialize()
@@ -69,7 +71,7 @@ namespace fm
 			if (_gameState.IsGameOver()) return;
 
 			// Battle Phase
-			ExecuteBattlePhase();
+			await ExecuteBattlePhase();
 			if (_gameState.IsGameOver()) return;
 
 			// End Phase
@@ -122,15 +124,52 @@ namespace fm
 			_gameState.AdvancePhase();
 		}
 
-		private void ExecuteBattlePhase()
+		private async Task ExecuteBattlePhase()
 		{
-			_gameState.AdvancePhase();
+			_gameState.CurrentPhase = TurnPhase.Battle; // Ou AdvancePhase()
 			GD.Print($"--- Battle Phase ---");
-			// TODO: Implement battle phase
-			// - Declare attacks
-			// - Resolve battles
-			GD.Print("Monsters on the field:");
-			BattleSystem.ResetBattleStates(_gameState.CurrentPlayer);
+
+			// Garante que a câmera está no campo
+			CameraHand.Current = false;
+			CameraField.Current = true;
+
+			// 1. Selecionar o Atacante (Seu Campo)
+			GD.Print("Selecione o seu monstro para atacar...");
+			int indexAtacante = await MaoDoJogador.SelecionarSlotNoCampo(MaoDoJogador.SlotsCampo);
+			CameraHand.Current = false;
+			CameraField.Current = false;
+			CameraInimigo.Current = true;
+			
+			if (indexAtacante == -1) {
+				GD.Print("Ataque cancelado.");
+				return;
+			}
+
+			// 2. Selecionar o Alvo (Campo Inimigo)
+			GD.Print("Selecione o alvo no campo inimigo...");
+			int indexAlvo = await MaoDoJogador.SelecionarSlotNoCampo(MaoDoJogador.SlotsCampoIni);
+			CameraHand.Current = false;
+			CameraField.Current = true;
+			CameraInimigo.Current = false;
+			
+			if (indexAlvo == -1) {
+				GD.Print("Alvo não selecionado.");
+				return;
+			}
+
+			// 3. Processar o resultado
+			GD.Print($"Batalha: Meu monstro no slot {indexAtacante} vs Inimigo no slot {indexAlvo}");
+			
+			// TODO: Chame aqui sua lógica de cálculo de dano
+			// ResolverDano(indexAtacante, indexAlvo);
+
+			await Task.Delay(500); // Pequena pausa para o jogador ver o que aconteceu
+		}
+
+		private void ResolverBatalha(int atacanteIdx, int alvoIdx)
+		{
+			GD.Print($"Batalha: Meu monstro no slot {atacanteIdx} vs Inimigo no slot {alvoIdx}");
+			// Aqui tu chamas o BattleSystem para comparar ATK/DEF e subtrair LifePoints
 		}
 
 		private void ExecuteEndPhase()
@@ -190,7 +229,7 @@ namespace fm
 			MaoDoJogador.Connect(MaoJogador.SignalName.CartaSelecionada, Callable.From<int>((id) => {
 				tcs.TrySetResult(id);
 			}), (uint)GodotObject.ConnectFlags.OneShot); 
-
+			GD.Print("retornou");
 			return tcs.Task;
 		}
 		

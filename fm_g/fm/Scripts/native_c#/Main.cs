@@ -9,6 +9,7 @@ namespace fm
 		[Export] public MaoJogador MaoVisual;
 		[Export] public Camera3D CameraHand;
 		[Export] public Camera3D CameraField;
+		[Export] public Camera3D CameraInimigo;
 		public override async void _Ready()
 		{
 			GD.Print("Iniciando Banco de Dados e Jogo...");
@@ -42,7 +43,8 @@ namespace fm
 					new Player("Bob", deck.Cards, 8000),
 					MaoVisual,
 					CameraHand,
-					CameraField
+					CameraField,
+					CameraInimigo
 				);
 				gL.Initialize();
 			}

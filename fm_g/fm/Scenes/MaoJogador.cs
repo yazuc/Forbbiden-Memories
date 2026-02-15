@@ -9,12 +9,16 @@ namespace fm{
 		[Export] public Marker3D Carta1;
 		[Export] public Godot.Collections.Array<Marker3D> SlotsCampo;
 		[Export] public Godot.Collections.Array<Marker3D> SlotsCampoST;
+		[Export] public Godot.Collections.Array<Marker3D> SlotsCampoIni;
+		[Export] public Godot.Collections.Array<Marker3D> SlotsCampoSTIni;
 		[Export] public PackedScene Carta3d;
 		[Export] public Camera3D CameraHand;
 		[Export] public Camera3D CameraField;
 		[Export] public PackedScene Seletor;
 		[Signal] public delegate void CartaSelecionadaEventHandler(int id);
+		[Signal] public delegate void AlvoSelecionadoEventHandler(int index);
 		
+		private bool _bloquearNavegaçãoManual = false;
 		private Node3D _instanciaSeletor = null;
 		private int _indiceSelecionado = 0;	
 		private int _indiceCampoSelecionado = 0;		
@@ -40,6 +44,7 @@ namespace fm{
 		}
 		private bool HandleNavigation()
 		{
+			if (_bloquearNavegaçãoManual) return false;
 			if (_cartasNaMao.Count == 0) return false;
 
 			if (!_selecionandoLocal) 
@@ -182,16 +187,18 @@ namespace fm{
 				// 5. Limpa a lista de seleção e atualiza a interface
 				_cartasSelecionadasParaFusao.Clear();
 				AtualizarMao(_cartasNaMao.Select(x => x.CurrentID).ToList());
-				
 				SairModoSelecaoCampo();
+				_bloquearNavegaçãoManual = false;
+				
+				EmitSignal(SignalName.CartaSelecionada, (int)resultadoFusao.Id);
 			}
 		}
 
 		private void SairModoSelecaoCampo()
 		{
 			_selecionandoLocal = false;
-			CameraField.Current = false;
-			CameraHand.Current = true;
+			//CameraField.Current = false;
+			//CameraHand.Current = true;
 			if (_instanciaSeletor != null) _instanciaSeletor.Visible = false;
 		}
 
@@ -248,6 +255,63 @@ namespace fm{
 					 .SetTrans(Tween.TransitionType.Quad)
 					 .SetEase(Tween.EaseType.Out);
 			}
+		}
+		
+// Método genérico para selecionar um slot no campo (Aliado ou Inimigo)
+		public async Task<int> SelecionarSlotNoCampo(Godot.Collections.Array<Marker3D> slots)
+		{
+			if (slots == null || slots.Count == 0) return -1;
+			await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+			await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+			
+			_bloquearNavegaçãoManual = true; // IMPEDE o HandleNavigation de rodar
+			_selecionandoLocal = true; // Ativa o controle de navegação
+			_indiceCampoSelecionado = 0;
+			_instanciaSeletor.Visible = true;
+
+			// Atualiza a posição inicial
+			AtualizarPosicaoSeletorParaSlots(slots);
+
+			// Loop de espera até o jogador apertar Accept
+			bool confirmado = false;
+			while (!confirmado)
+			{
+				// Navegação
+				int anterior = _indiceCampoSelecionado;
+				if (Input.IsActionJustPressed("ui_right")) 
+					_indiceCampoSelecionado = Mathf.Min(_indiceCampoSelecionado + 1, slots.Count - 1);
+				if (Input.IsActionJustPressed("ui_left")) 
+					_indiceCampoSelecionado = Mathf.Max(_indiceCampoSelecionado - 1, 0);
+
+				if (anterior != _indiceCampoSelecionado)
+					AtualizarPosicaoSeletorParaSlots(slots);
+
+				if (Input.IsActionJustPressed("ui_accept"))
+					confirmado = true;
+
+				if (Input.IsActionJustPressed("ui_cancel"))
+				{
+					_instanciaSeletor.Visible = false;
+					_selecionandoLocal = false;
+					return -1; // Cancelou a seleção
+				}
+
+				// Aguarda o próximo frame para não travar o jogo
+				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+			}
+
+			_instanciaSeletor.Visible = false;
+			_selecionandoLocal = false;
+			return _indiceCampoSelecionado;
+		}
+
+		// Método auxiliar para mover o seletor entre diferentes arrays de markers
+		private void AtualizarPosicaoSeletorParaSlots(Godot.Collections.Array<Marker3D> slots)
+		{
+			var slotDestino = slots[_indiceCampoSelecionado];
+			Tween tween = GetTree().CreateTween();
+			tween.TweenProperty(_instanciaSeletor, "global_position", slotDestino.GlobalPosition + new Vector3(0, 0.05f, 0), 0.05f);
+			_instanciaSeletor.GlobalRotation = slotDestino.GlobalRotation;
 		}
 	}
 }
