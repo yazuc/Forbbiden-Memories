@@ -12,6 +12,7 @@ namespace fm
 		private Node _currentFrameNode;
 		private AnimatedSprite2D _arteSprite;
 		private Node2D _frameAnchor;
+		public Label _nome, _atk, _def;
 
 		// Caminhos para as suas cenas de frame
 		private readonly Dictionary<string, string> _framePaths = new()
@@ -25,10 +26,13 @@ namespace fm
 		{
 			_frameAnchor = GetNode<Node2D>("FrameAnchor");
 			_arteSprite = GetNode<AnimatedSprite2D>("ArteRecortada");
+			_nome = GetNode<Label>("Nome");
+			_atk = GetNode<Label>("Ataque");
+			_def = GetNode<Label>("Defesa");
 
 			// TESTE: Carrega a carta de ID 1 assim que der Play na cena
 			// Se o seu banco estiver vazio, certifique-se de rodar o SyncJson antes!
-			DisplayCard(1);
+			//DisplayCard(1);
 		}
 
 		public void DisplayCard(int id)
@@ -45,6 +49,12 @@ namespace fm
 			// Define a animação (geralmente "default") e o frame correto
 			_arteSprite.Animation = "default";
 			_arteSprite.Frame = frameIndex;
+			
+			_nome.Text = cardData.Name;
+			if(FixType(cardData.Type) == "Monstro"){
+				_atk.Text = "ATK " + cardData.Attack.ToString();
+				_def.Text = "DEF " + cardData.Defense.ToString();				
+			}
 
 			// Mantém seus ajustes de Transform que você validou anteriormente
 			_arteSprite.Position = new Vector2(1.0f, -0.5f);

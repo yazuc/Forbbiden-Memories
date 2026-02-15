@@ -1,0 +1,9 @@
+[gd_resource type="LabelSettings" format=3 uid="uid://bqriaacb412fv"]
+
+[ext_resource type="FontFile" uid="uid://dvaju2cffkn2i" path="res://Assets/matrix-bold-small-caps-wisabo/MatrixBoldSmallCaps.otf" id="1_kek1q"]
+
+[resource]
+line_spacing = 1.0
+font = ExtResource("1_kek1q")
+font_size = 14
+font_color = Color(0.17641911, 0.17641908, 0.17641908, 1)

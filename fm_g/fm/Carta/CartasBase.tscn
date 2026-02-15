@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://651cxcolva5f" path="res://Carta/CartasBase.cs" id="1_jsbh3"]
 [ext_resource type="Texture2D" uid="uid://k5dvfn1mkylv" path="res://Assets/database.png" id="2_jsbh3"]
+[ext_resource type="LabelSettings" uid="uid://bqriaacb412fv" path="res://Assets/matrix-bold-small-caps-wisabo/new_label_settings.tres" id="3_28wyl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jsbh3"]
 atlas = ExtResource("2_jsbh3")
@@ -5065,10 +5066,10 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="CartasBase" type="Node2D" unique_id=242195520 node_paths=PackedStringArray("_arteSprite", "_frameAnchor")]
+[node name="CartasBase" type="Node2D" unique_id=242195520 node_paths=PackedStringArray("_currentFrameNode", "_arteSprite", "_frameAnchor")]
 script = ExtResource("1_jsbh3")
-_currentFrameNode = null
-_arteSprite = NodePath("")
+_currentFrameNode = NodePath("FrameAnchor/Monstro")
+_arteSprite = NodePath("ArteRecortada")
 _frameAnchor = NodePath("FrameAnchor")
 
 [node name="FrameAnchor" type="Marker2D" parent="." unique_id=1026939207]
@@ -5084,3 +5085,25 @@ offset_bottom = 46.0
 position = Vector2(1, -0.5)
 scale = Vector2(1.02, 1.054)
 sprite_frames = SubResource("SpriteFrames_82yog")
+
+[node name="Nome" type="Label" parent="." unique_id=235811812]
+offset_left = -57.0
+offset_top = -87.0
+offset_right = 55.0
+offset_bottom = -70.0
+text = "Blue eyes white dragon"
+label_settings = ExtResource("3_28wyl")
+
+[node name="Ataque" type="Label" parent="." unique_id=1475170378]
+offset_left = 3.0
+offset_top = 57.0
+offset_right = 47.0
+offset_bottom = 80.0
+label_settings = ExtResource("3_28wyl")
+
+[node name="Defesa" type="Label" parent="." unique_id=1873903686]
+offset_left = 3.0
+offset_top = 69.0
+offset_right = 49.0
+offset_bottom = 92.0
+label_settings = ExtResource("3_28wyl")

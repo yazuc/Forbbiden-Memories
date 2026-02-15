@@ -4,4 +4,6 @@
 
 [node name="HudCards" type="CanvasLayer" unique_id=1716697352]
 
-[node name="CartasBase" parent="." unique_id=242195520 instance=ExtResource("1_ygt2j")]
+[node name="CartasBase" parent="." unique_id=242195520 node_paths=PackedStringArray("_currentFrameNode", "_arteSprite") instance=ExtResource("1_ygt2j")]
+_currentFrameNode = NodePath("FrameAnchor/Monstro")
+_arteSprite = NodePath("ArteRecortada")
