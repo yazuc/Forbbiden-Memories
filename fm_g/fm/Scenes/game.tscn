@@ -29,7 +29,7 @@ transform = Transform3D(-0.0012591501, 0.9976855, -0.06798625, 0.01847398, 0.067
 top_level = true
 position = Vector2(76, 55)
 
-[node name="MaoJogador" type="Node2D" parent="." unique_id=222280098 node_paths=PackedStringArray("IndicadorTriangulo", "Carta1", "SlotsCampo", "CameraHand", "CameraField")]
+[node name="MaoJogador" type="Node2D" parent="." unique_id=222280098 node_paths=PackedStringArray("IndicadorTriangulo", "Carta1", "SlotsCampo", "SlotsCampoST", "CameraHand", "CameraField")]
 process_mode = 3
 position = Vector2(69, 19)
 script = ExtResource("3_3dryh")
@@ -37,6 +37,7 @@ CartaCena = ExtResource("4_wowpa")
 IndicadorTriangulo = NodePath("../IndicadorTriangulo")
 Carta1 = NodePath("../Carta1")
 SlotsCampo = [NodePath("../Carta1"), NodePath("../Carta2"), NodePath("../Carta3"), NodePath("../Carta4"), NodePath("../Carta5")]
+SlotsCampoST = [NodePath("../Carta6"), NodePath("../Carta7"), NodePath("../Carta8"), NodePath("../Carta9"), NodePath("../Carta10")]
 Carta3d = ExtResource("6_i6g32")
 CameraHand = NodePath("../CameraHand")
 CameraField = NodePath("../CameraField")
@@ -62,3 +63,18 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 1.43
 
 [node name="Carta5" type="Marker3D" parent="." unique_id=638832938]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 1.435, 1.369, -4.203)
+
+[node name="Carta6" type="Marker3D" parent="." unique_id=960543589]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.370664, 1.369, 3.905)
+
+[node name="Carta7" type="Marker3D" parent="." unique_id=689594235]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.370664, 1.369, 1.8704555)
+
+[node name="Carta8" type="Marker3D" parent="." unique_id=1263474460]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.370664, 1.369, -0.12868237)
+
+[node name="Carta9" type="Marker3D" parent="." unique_id=1508247149]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.370664, 1.369, -2.1632478)
+
+[node name="Carta10" type="Marker3D" parent="." unique_id=1240761787]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.370664, 1.369, -4.2508955)

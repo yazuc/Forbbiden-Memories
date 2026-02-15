@@ -5,5 +5,5 @@
 [resource]
 line_spacing = 1.0
 font = ExtResource("1_kek1q")
-font_size = 14
-font_color = Color(0.17641911, 0.17641908, 0.17641908, 1)
+font_color = Color(0, 0, 0, 1)
+outline_color = Color(0, 0, 0, 1)

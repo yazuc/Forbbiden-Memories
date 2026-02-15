@@ -49,9 +49,7 @@ namespace fm
 			else
 			{
 				GD.PrintErr("CRÍTICO: O nó MaoVisual não foi encontrado na cena!");
-			}			
-			GD.Print("GameLoop Inicializado!");
-
+			}						
 			// Teste de Fusão (se quiser testar agora)
 			// string result = await fm.Function.Fusion("177,296,211");
 			// GD.Print($"Resultado da Fusão: {result}");

@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://651cxcolva5f" path="res://Carta/CartasBase.cs" id="1_jsbh3"]
 [ext_resource type="Texture2D" uid="uid://k5dvfn1mkylv" path="res://Assets/database.png" id="2_jsbh3"]
 [ext_resource type="LabelSettings" uid="uid://bqriaacb412fv" path="res://Assets/matrix-bold-small-caps-wisabo/new_label_settings.tres" id="3_28wyl"]
+[ext_resource type="Texture2D" uid="uid://csvs46sixcavp" path="res://Assets/Fusion_up.png" id="4_ewkrm"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jsbh3"]
 atlas = ExtResource("2_jsbh3")
@@ -5066,15 +5067,12 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="CartasBase" type="Node2D" unique_id=242195520 node_paths=PackedStringArray("_currentFrameNode", "_arteSprite", "_frameAnchor", "_nome", "_atk", "_def")]
+[sub_resource type="LabelSettings" id="LabelSettings_28wyl"]
+font_size = 18
+font_color = Color(0.13119838, 0.40770075, 0.6313674, 1)
+
+[node name="CartasBase" type="Node2D" unique_id=242195520]
 script = ExtResource("1_jsbh3")
-CurrentID = 1
-_currentFrameNode = NodePath("FrameAnchor/Monstro")
-_arteSprite = NodePath("ArteRecortada")
-_frameAnchor = NodePath("FrameAnchor")
-_nome = NodePath("Nome")
-_atk = NodePath("Ataque")
-_def = NodePath("Defesa")
 
 [node name="FrameAnchor" type="Marker2D" parent="." unique_id=1026939207]
 
@@ -5111,3 +5109,16 @@ offset_top = 69.0
 offset_right = 49.0
 offset_bottom = 92.0
 label_settings = ExtResource("3_28wyl")
+
+[node name="FusionUp" type="Sprite2D" parent="." unique_id=485222596]
+visible = false
+position = Vector2(-51, -109)
+scale = Vector2(0.042410713, 0.045797408)
+texture = ExtResource("4_ewkrm")
+
+[node name="LabelNumero" type="Label" parent="." unique_id=1902003804]
+offset_left = -57.0
+offset_top = -121.0
+offset_right = -17.0
+offset_bottom = -95.0
+label_settings = SubResource("LabelSettings_28wyl")

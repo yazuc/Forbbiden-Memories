@@ -8,6 +8,7 @@ namespace fm{
 		[Export] public Node2D IndicadorTriangulo;
 		[Export] public Marker3D Carta1;
 		[Export] public Godot.Collections.Array<Marker3D> SlotsCampo;
+		[Export] public Godot.Collections.Array<Marker3D> SlotsCampoST;
 		[Export] public PackedScene Carta3d;
 		[Export] public Camera3D CameraHand;
 		[Export] public Camera3D CameraField;
@@ -19,6 +20,7 @@ namespace fm{
 		private int _indiceCampoSelecionado = 0;		
 		private bool _selecionandoLocal = false; // Estado para saber se estamos escolhendo onde colocar a carta
 		private List<CartasBase> _cartasNaMao = new List<CartasBase>();
+		private List<CartasBase> _cartasSelecionadasParaFusao = new List<CartasBase>();
 		// Called when the node enters the scene tree for the first time.
 		public override void _Ready()
 		{
@@ -48,9 +50,19 @@ namespace fm{
 				else if (Input.IsActionJustPressed("ui_left")) _indiceSelecionado = Mathf.Max(_indiceSelecionado - 1, 0);
 
 				if (anterior != _indiceSelecionado) AtualizarPosicaoIndicador();
+				
+				// MECÂNICA DE FUSÃO (Cima/Baixo)
+				if (Input.IsActionJustPressed("ui_up")) 
+				{
+					AlternarSelecaoFusao(_cartasNaMao[_indiceSelecionado]);
+				}
 
 				if (Input.IsActionJustPressed("ui_accept")) 
 				{
+					if (_cartasSelecionadasParaFusao.Count == 0)
+					{
+						_cartasSelecionadasParaFusao.Add(_cartasNaMao[_indiceSelecionado]);
+					}
 					EntrarModoSelecaoCampo();
 				}
 			}
@@ -71,21 +83,42 @@ namespace fm{
 			}
 			return true;
 		}
-
-		private void EntrarModoSelecaoCampo()
+		
+		private void AlternarSelecaoFusao(CartasBase carta)
 		{
-			_selecionandoLocal = true;
-			_indiceCampoSelecionado = 0; // Começa no primeiro slot
-			
-			CameraHand.Current = false;
-			CameraField.Current = true;
-
-			if (_instanciaSeletor != null)
+			if (_cartasSelecionadasParaFusao.Contains(carta))
 			{
-				_instanciaSeletor.Visible = true;
-				AtualizarPosicaoSeletor3D();
+				// Se já estava selecionada, removemos (Desmarcar)
+				_cartasSelecionadasParaFusao.Remove(carta);
+				carta.SetNumeroFusao(0); // 0 ou ocultar o label
+			}
+			else
+			{
+				// Se não estava, adicionamos à lista de fusão
+				_cartasSelecionadasParaFusao.Add(carta);
+			}
+			
+			// Atualiza visualmente os números de todas as selecionadas para manter a ordem 1, 2, 3...
+			for (int i = 0; i < _cartasSelecionadasParaFusao.Count; i++)
+			{
+				_cartasSelecionadasParaFusao[i].SetNumeroFusao(i + 1);
 			}
 		}
+
+			private void EntrarModoSelecaoCampo()
+			{
+				_selecionandoLocal = true;
+				_indiceCampoSelecionado = 0; // Começa no primeiro slot
+				
+				CameraHand.Current = false;
+				CameraField.Current = true;
+
+				if (_instanciaSeletor != null)
+				{
+					_instanciaSeletor.Visible = true;
+					AtualizarPosicaoSeletor3D();
+				}
+			}
 
 		private void ControlarSelecaoDeCampo()
 		{
@@ -115,28 +148,43 @@ namespace fm{
 			_instanciaSeletor.GlobalRotation = slotDestino.GlobalRotation;
 		}
 
-		private void ConfirmarInvocacaoNoCampo()
-		{
-			var slotDestino = SlotsCampo[_indiceCampoSelecionado];
-			var cartaSelecionada = _cartasNaMao[_indiceSelecionado];                
-
-			Node3D novaCarta3d = Carta3d.Instantiate<Node3D>();
-			GetTree().CurrentScene.AddChild(novaCarta3d);
-
-			novaCarta3d.GlobalPosition = slotDestino.GlobalPosition;
-			novaCarta3d.GlobalRotation = slotDestino.GlobalRotation;
-
-			if (novaCarta3d.HasMethod("Setup")) 
-				novaCarta3d.Call("Setup", cartaSelecionada.CurrentID);
-
-			// Remove a carta da mão aqui...
-			EmitSignal(SignalName.CartaSelecionada, cartaSelecionada.CurrentID);
-			_cartasNaMao.Remove(cartaSelecionada);
-			AtualizarMao(_cartasNaMao.Select(x => x.CurrentID).ToList());
+		private async void ConfirmarInvocacaoNoCampo()
+		{			
+			// Aqui você enviaria a LISTA de IDs para o seu sistema de fusão
+			string idsString = string.Join(",", _cartasSelecionadasParaFusao.Select(c => c.CurrentID));			
 			
-			// Finaliza a seleção
-			SairModoSelecaoCampo();
-			
+			// Lógica fictícia: Sua lógica de jogo decide qual carta resulta da fusão
+			var idResultado = await Function.Fusion(idsString); 
+
+			var resultadoFusao = await Function.Fusion(idsString);
+
+			if (resultadoFusao != null)
+			{
+				var slotDestino = SlotsCampo[_indiceCampoSelecionado];
+
+				// 3. Instancia a carta 3D do resultado final
+				Node3D novaCarta3d = Carta3d.Instantiate<Node3D>();
+				GetTree().CurrentScene.AddChild(novaCarta3d);
+
+				novaCarta3d.GlobalPosition = slotDestino.GlobalPosition;
+				novaCarta3d.GlobalRotation = slotDestino.GlobalRotation;
+
+				if (novaCarta3d.HasMethod("Setup")) 
+					novaCarta3d.Call("Setup", (int)resultadoFusao.Id);
+
+				// 4. Remove todas as cartas usadas da mão
+				foreach (var carta in _cartasSelecionadasParaFusao)
+				{
+					_cartasNaMao.Remove(carta);
+					carta.QueueFree();
+				}
+
+				// 5. Limpa a lista de seleção e atualiza a interface
+				_cartasSelecionadasParaFusao.Clear();
+				AtualizarMao(_cartasNaMao.Select(x => x.CurrentID).ToList());
+				
+				SairModoSelecaoCampo();
+			}
 		}
 
 		private void SairModoSelecaoCampo()

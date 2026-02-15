@@ -78,7 +78,16 @@ namespace fm
 					return "Monstro";
 			}
 		}
-
+		
+		public void SetNumeroFusao(int numero) 
+		{
+			var label = GetNode<Label>("LabelNumero"); 
+			var FusionUp = GetNode<Sprite2D>("FusionUp");
+			label.Text = numero > 0 ? numero.ToString() : "";
+			label.Visible = numero > 0;			
+			FusionUp.Visible = label.Visible;	
+		}
+		
 		private void UpdateFrame(string tipo)
 		{
 			// Remove o frame antigo se existir

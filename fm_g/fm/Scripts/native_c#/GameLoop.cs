@@ -92,6 +92,7 @@ namespace fm
 			if (_gameState.CurrentPlayer.HasCards() && _gameState.CurrentPlayer.Hand.Count < HAND_SIZE)
 			{
 				DrawCard(_gameState.CurrentPlayer);
+				MaoDoJogador.AtualizarMao(_gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList());
 			}
 			else
 			{
@@ -114,18 +115,11 @@ namespace fm
 			
 			GD.Print("Aguardando jogador selecionar uma carta...");
 			int idEscolhido = await EsperarEscolhaDoJogador(); 			
-			GD.Print($"O jogador escolheu a carta com ID: {idEscolhido}");
 			
 			CameraHand.Current = false;
 			CameraField.Current = true;  
-			
-			GD.Print($"Hand: {CameraHand.Current.ToString()} Field: {CameraField.Current.ToString()}");
-			//GD.Print("You summoned:" + await SelectCardIndexFromHand(_gameState.CurrentPlayer, $"Hello {_gameState.CurrentPlayer.Name}, select a card to play (index) or 'b' to pass:"));
+					
 			_gameState.AdvancePhase();
-			// TODO: Implement player actions in main phase
-			// - Summon monsters
-			// - Activate spell/trap cards
-			// - Pass
 		}
 
 		private void ExecuteBattlePhase()
@@ -168,49 +162,6 @@ namespace fm
 				// TODO: Implement UI for card selection
 				player.Hand.RemoveAt(0); // Placeholder
 			}
-		}
-
-		// Lists the player's hand with indices and prompts for a selection.
-		// Returns the selected index, or null if cancelled/invalid.
-		private async Task<string?> SelectCardIndexFromHand(Player player, string prompt = "Select a card (index):")
-		{
-			if (player.Hand == null || player.Hand.Count == 0)
-			{
-				GD.Print("No cards in hand.");
-				return null;
-			}
-
-			GD.Print(prompt);
-			for (int i = 0; i < player.Hand.Count; i++)
-			{
-				var c = player.Hand[i];
-				GD.Print($"[{player.Hand[i].Id}] {c.Name} - {c.Type}");
-			}
-
-			var input = Console.ReadLine();
-			List<string> selectedCardIds = new List<string>();
-			if (!string.IsNullOrWhiteSpace(input))            {
-				selectedCardIds = input.Split(',').Select(s => s.Trim()).ToList();
-			}
-			
-			foreach (var id in selectedCardIds)
-			{
-				var card = player.Hand.FirstOrDefault(c => c.Id == int.Parse(id));
-				if (card != null)
-				{
-					player.Hand.Remove(card);
-				}
-			}
-
-			if (string.IsNullOrWhiteSpace(input)) return null;
-			if (input.Trim().ToLower() == "b") return null;
-
-			//we need to set the result of this into field zones, independent of which
-			var endCard = await Function.Fusion(input);
-			player.Field.placeCard(endCard);
-			player.Field.DrawFieldState();
-			//GameDisplay.DisplayGameBoard(_gameState);
-			return endCard.Name;            
 		}
 
 		public bool IsGameOver() => _gameState.IsGameOver();
