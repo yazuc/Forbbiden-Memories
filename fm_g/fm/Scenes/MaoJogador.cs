@@ -129,20 +129,21 @@ namespace fm{
 			if (novaCarta3d.HasMethod("Setup")) 
 				novaCarta3d.Call("Setup", cartaSelecionada.CurrentID);
 
-			// Finaliza a seleção
-			SairModoSelecaoCampo();
-			
 			// Remove a carta da mão aqui...
 			EmitSignal(SignalName.CartaSelecionada, cartaSelecionada.CurrentID);
 			_cartasNaMao.Remove(cartaSelecionada);
 			AtualizarMao(_cartasNaMao.Select(x => x.CurrentID).ToList());
+			
+			// Finaliza a seleção
+			SairModoSelecaoCampo();
+			
 		}
 
 		private void SairModoSelecaoCampo()
 		{
 			_selecionandoLocal = false;
-			//CameraField.Current = false;
-			//CameraHand.Current = true;
+			CameraField.Current = false;
+			CameraHand.Current = true;
 			if (_instanciaSeletor != null) _instanciaSeletor.Visible = false;
 		}
 
