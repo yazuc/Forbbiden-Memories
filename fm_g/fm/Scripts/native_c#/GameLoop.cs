@@ -4,20 +4,26 @@ namespace fm
 {
 	public class GameLoop
 	{
+		public MaoJogador MaoDoJogador;
 		private GameState _gameState;
 		private CardEffectManager _effectManager;
 		private const int HAND_SIZE = 5;
 		private const int STARTING_HAND = 5;
 
-		public GameLoop(Player player1, Player player2)
+		public GameLoop(Player player1, Player player2, MaoJogador maoUI)
 		{
 			_gameState = new GameState(player1, player2);
 			_effectManager = new CardEffectManager();
+			this.MaoDoJogador = maoUI;
 		}
 
 		public void Initialize()
 		{
 			GD.Print("=== Initializing Game ===");
+			if (MaoDoJogador == null) {
+				GD.PrintErr("ERRO: MaoDoJogador é nula no Initialize! Verifique a atribuição no construtor.");
+				return;
+			}
 			// Draw starting hands
 			for (int i = 0; i < STARTING_HAND; i++)
 			{
@@ -36,6 +42,8 @@ namespace fm
 			{
 				GD.Print($"- {_gameState.Player1.Name} has {card.Name} in hand.");
 			}
+			var handIds = _gameState.Player1.Hand.Select(x => x.Id).ToList();
+ 			MaoDoJogador.AtualizarMao(handIds);
 
 			_ = RunTurn();
 		}

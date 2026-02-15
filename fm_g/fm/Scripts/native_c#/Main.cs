@@ -6,10 +6,18 @@ namespace fm
 {
 	public partial class Main : Node
 	{
+		[Export] public MaoJogador MaoVisual;
 		public override async void _Ready()
 		{
 			GD.Print("Iniciando Banco de Dados e Jogo...");
+			PrintTree();
 
+			if (MaoVisual == null)
+			{
+				var root = GetTree().CurrentScene;
+				MaoVisual = root.FindChild("MaoJogador", true, false) as MaoJogador;
+			}
+			
 			// 1. Instanciar Database
 			var db = CardDatabase.Instance;
 			//db.SyncJsonToDatabase("cards.json"); // Load cards from JSON into the database if not already loaded
@@ -23,13 +31,19 @@ namespace fm
 
 			// 3. Inicializar o GameLoop
 			// Passando Alice e Bob como os duelistas
-			GameLoop gL = new GameLoop(
-				new Player("Alice", deck.Cards, 8000), 
-				new Player("Bob", deck.Cards, 8000)
-			);
-			
-			gL.Initialize();
-
+			if (MaoVisual != null)
+			{
+				GameLoop gL = new GameLoop(
+					new Player("Alice", deck.Cards, 8000), 
+					new Player("Bob", deck.Cards, 8000),
+					MaoVisual
+				);
+				gL.Initialize();
+			}
+			else
+			{
+				GD.PrintErr("CRÍTICO: O nó MaoVisual não foi encontrado na cena!");
+			}			
 			GD.Print("GameLoop Inicializado!");
 
 			// Teste de Fusão (se quiser testar agora)

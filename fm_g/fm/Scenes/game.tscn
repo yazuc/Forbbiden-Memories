@@ -2,9 +2,12 @@
 
 [ext_resource type="PackedScene" uid="uid://bxpv0pc6dc3e1" path="res://Untitled.glb" id="1_80nbo"]
 [ext_resource type="Script" uid="uid://daj0t8aw721wf" path="res://Scripts/native_c#/Main.cs" id="1_e2o6t"]
+[ext_resource type="Script" uid="uid://srumahse3qk" path="res://Scenes/MaoJogador.cs" id="3_3dryh"]
+[ext_resource type="PackedScene" uid="uid://uys23mmogslm" path="res://Carta/CartasBase.tscn" id="4_wowpa"]
 
-[node name="Game" type="Node3D" unique_id=705124670]
+[node name="Game" type="Node3D" unique_id=705124670 node_paths=PackedStringArray("MaoVisual")]
 script = ExtResource("1_e2o6t")
+MaoVisual = NodePath("")
 
 [node name="Board" parent="." unique_id=1286735471 instance=ExtResource("1_80nbo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.023628235, 0.19993877, -0.19530249)
@@ -15,3 +18,9 @@ transform = Transform3D(0.025038114, -0.37086505, 0.9283492, 0.016187904, 0.9286
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=188368505]
 transform = Transform3D(-0.0012591501, 0.9976855, -0.06798625, 0.01847398, 0.0679979, 0.9975144, 0.9998286, 4.3895945e-08, -0.01851684, -0.29138947, 13.080857, 0.27553463)
+
+[node name="MaoJogador" type="Node2D" parent="." unique_id=222280098]
+position = Vector2(69, 19)
+script = ExtResource("3_3dryh")
+CartaCena = ExtResource("4_wowpa")
+metadata/_edit_use_anchors_ = true

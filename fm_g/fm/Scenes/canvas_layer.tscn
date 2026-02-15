@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://shie0gp2wco7"]
+
+[ext_resource type="Script" uid="uid://srumahse3qk" path="res://Scenes/MaoJogador.cs" id="1_q85f0"]
+[ext_resource type="PackedScene" uid="uid://uys23mmogslm" path="res://Carta/CartasBase.tscn" id="2_p1mel"]
+
+[node name="CanvasLayer" type="CanvasLayer" unique_id=1593446077]
+
+[node name="MaoJogador" type="HBoxContainer" parent="." unique_id=289021836]
+offset_right = 807.0
+offset_bottom = 171.0
+alignment = 1
+script = ExtResource("1_q85f0")
+CartaCena = ExtResource("2_p1mel")
+metadata/_edit_use_anchors_ = true
