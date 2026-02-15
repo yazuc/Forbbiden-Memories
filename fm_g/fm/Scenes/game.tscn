@@ -5,17 +5,21 @@
 [ext_resource type="Script" uid="uid://srumahse3qk" path="res://Scenes/MaoJogador.cs" id="3_3dryh"]
 [ext_resource type="PackedScene" uid="uid://uys23mmogslm" path="res://Carta/CartasBase.tscn" id="4_wowpa"]
 [ext_resource type="PackedScene" uid="uid://dpjrxybf4pcvc" path="res://HUD/IndicadorTriangulo.tscn" id="5_wowpa"]
+[ext_resource type="PackedScene" uid="uid://c3fy4s3sps4kh" path="res://Carta/Carta3D.tscn" id="6_i6g32"]
 
-[node name="Game" type="Node3D" unique_id=705124670 node_paths=PackedStringArray("MaoVisual")]
+[node name="Game" type="Node3D" unique_id=705124670 node_paths=PackedStringArray("MaoVisual", "CameraHand", "CameraField")]
 script = ExtResource("1_e2o6t")
 MaoVisual = NodePath("MaoJogador")
+CameraHand = NodePath("CameraHand")
+CameraField = NodePath("CameraField")
 
 [node name="Board" parent="." unique_id=1286735471 instance=ExtResource("1_80nbo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.023628235, 0.19993877, -0.19530249)
 script = ExtResource("1_e2o6t")
 
-[node name="Camera3D" type="Camera3D" parent="." unique_id=700016231]
+[node name="CameraHand" type="Camera3D" parent="." unique_id=700016231]
 transform = Transform3D(0.025038114, -0.37086505, 0.9283492, 0.016187904, 0.928669, 0.3705562, -0.99955547, 0.00575, 0.029255647, 9.531659, 4.5710425, 0.11641765)
+current = true
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=188368505]
 transform = Transform3D(-0.0012591501, 0.9976855, -0.06798625, 0.01847398, 0.0679979, 0.9975144, 0.9998286, 4.3895945e-08, -0.01851684, -0.29138947, 13.080857, 0.27553463)
@@ -24,10 +28,20 @@ transform = Transform3D(-0.0012591501, 0.9976855, -0.06798625, 0.01847398, 0.067
 top_level = true
 position = Vector2(76, 55)
 
-[node name="MaoJogador" type="Node2D" parent="." unique_id=222280098 node_paths=PackedStringArray("IndicadorTriangulo")]
+[node name="MaoJogador" type="Node2D" parent="." unique_id=222280098 node_paths=PackedStringArray("IndicadorTriangulo", "Carta1")]
 process_mode = 3
 position = Vector2(69, 19)
 script = ExtResource("3_3dryh")
 CartaCena = ExtResource("4_wowpa")
 IndicadorTriangulo = NodePath("../IndicadorTriangulo")
+Carta1 = NodePath("../Carta1")
+Carta3d = ExtResource("6_i6g32")
 metadata/_edit_use_anchors_ = true
+
+[node name="CameraField" type="Camera3D" parent="." unique_id=573948242]
+transform = Transform3D(0.0052026417, -0.99971455, 0.023318915, 0.004783277, 0.02334384, 0.9997161, -0.999975, -0.005089624, 0.0049033617, 2.9831161, 5.465997, -0.1062417)
+
+[node name="Carta1" type="Marker3D" parent="." unique_id=1859481463]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 1.2987773, 1.3693819, 3.9045076)
+
+[node name="Carta3d" parent="." unique_id=557434675 instance=ExtResource("6_i6g32")]

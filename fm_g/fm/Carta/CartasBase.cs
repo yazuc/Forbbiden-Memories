@@ -9,6 +9,7 @@ namespace fm
 		public override void _Process(double delta)
 		{
 		}
+		public int CurrentID;
 		private Node _currentFrameNode;
 		private AnimatedSprite2D _arteSprite;
 		private Node2D _frameAnchor;
@@ -32,13 +33,15 @@ namespace fm
 
 			// TESTE: Carrega a carta de ID 1 assim que der Play na cena
 			// Se o seu banco estiver vazio, certifique-se de rodar o SyncJson antes!
-			//DisplayCard(1);
+			DisplayCard(1);
 		}
 
 		public void DisplayCard(int id)
 		{
 			var cardData = CardDatabase.Instance.GetCardById(id);
 			if (cardData == null) return;
+			
+			CurrentID = id;
 
 			// Atualiza o frame da moldura (Monster, Spell, Trap)
 			UpdateFrame(FixType(cardData.Type));
@@ -88,7 +91,8 @@ namespace fm
 			{
 				var frameScene = GD.Load<PackedScene>(path);
 				_currentFrameNode = frameScene.Instantiate();
-				_frameAnchor.AddChild(_currentFrameNode);
+				if(_currentFrameNode != null)
+					_frameAnchor.AddChild(_currentFrameNode);
 			}
 		}
 	}

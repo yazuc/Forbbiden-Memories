@@ -1,20 +1,25 @@
 using QuickType;
+using Godot;
 
 namespace fm
 {
 	public class GameLoop
 	{
 		public MaoJogador MaoDoJogador;
+		public Camera3D CameraHand;
+		public Camera3D CameraField;
 		private GameState _gameState;
 		private CardEffectManager _effectManager;
 		private const int HAND_SIZE = 5;
 		private const int STARTING_HAND = 5;
 
-		public GameLoop(Player player1, Player player2, MaoJogador maoUI)
+		public GameLoop(Player player1, Player player2, MaoJogador maoUI, Camera3D CameraHand, Camera3D CameraField)
 		{
 			_gameState = new GameState(player1, player2);
 			_effectManager = new CardEffectManager();
 			this.MaoDoJogador = maoUI;
+			this.CameraHand = CameraHand;
+			this.CameraField = CameraField;
 		}
 
 		public void Initialize()
@@ -42,9 +47,6 @@ namespace fm
 			{
 				GD.Print($"- {_gameState.Player1.Name} has {card.Name} in hand.");
 			}
-			var handIds = _gameState.Player1.Hand.Select(x => x.Id).ToList();
- 			MaoDoJogador.AtualizarMao(handIds);
-
 			_ = RunTurn();
 		}
 
@@ -105,8 +107,20 @@ namespace fm
 			foreach(var card in _gameState.CurrentPlayer.Hand)
 			{
 				GD.Print($"- {_gameState.CurrentPlayer.Name} has {card.Name} in hand.");
-			}            
-			GD.Print("You summoned:" + await SelectCardIndexFromHand(_gameState.CurrentPlayer, $"Hello {_gameState.CurrentPlayer.Name}, select a card to play (index) or 'b' to pass:"));
+			}       
+			
+			var handIds = _gameState.Player1.Hand.Select(x => x.Id).ToList();
+ 			MaoDoJogador.AtualizarMao(handIds);   
+			
+			GD.Print("Aguardando jogador selecionar uma carta...");
+			int idEscolhido = await EsperarEscolhaDoJogador(); 			
+			GD.Print($"O jogador escolheu a carta com ID: {idEscolhido}");
+			
+			CameraHand.Current = false;
+			CameraField.Current = true;  
+			
+			GD.Print($"Hand: {CameraHand.Current.ToString()} Field: {CameraField.Current.ToString()}");
+			//GD.Print("You summoned:" + await SelectCardIndexFromHand(_gameState.CurrentPlayer, $"Hello {_gameState.CurrentPlayer.Name}, select a card to play (index) or 'b' to pass:"));
 			_gameState.AdvancePhase();
 			// TODO: Implement player actions in main phase
 			// - Summon monsters
@@ -122,8 +136,6 @@ namespace fm
 			// - Declare attacks
 			// - Resolve battles
 			GD.Print("Monsters on the field:");
-			DisplayCards(_gameState.CurrentPlayer.Field.MonsterZones.Select(x => x.Card).ToList());
-
 			BattleSystem.ResetBattleStates(_gameState.CurrentPlayer);
 		}
 
@@ -218,7 +230,19 @@ namespace fm
 				GD.Print($"\n{_gameState.Player1.Name} wins! {_gameState.Player2.Name}'s LP reached 0.");
 			}
 		}
+		
+		private Task<int> EsperarEscolhaDoJogador()
+		{
+			var tcs = new TaskCompletionSource<int>();
 
+			// Use Godot.ConnectFlags para resolver o erro CS0103
+			MaoDoJogador.Connect(MaoJogador.SignalName.CartaSelecionada, Callable.From<int>((id) => {
+				tcs.TrySetResult(id);
+			}), (uint)GodotObject.ConnectFlags.OneShot); 
+
+			return tcs.Task;
+		}
+		
 		public void DisplayGameState()
 		{
 			GD.Print($"\n=== Game State ===");

@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://c3fy4s3sps4kh"]
+
+[ext_resource type="Script" uid="uid://c8b5cvb66ig8t" path="res://Carta/Carta3d.cs" id="1_2tffa"]
+[ext_resource type="PackedScene" uid="uid://uys23mmogslm" path="res://Carta/CartasBase.tscn" id="1_itp21"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_itp21"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gjbah"]
+
+[node name="Carta3d" type="Node3D" unique_id=557434675 node_paths=PackedStringArray("Visual")]
+script = ExtResource("1_2tffa")
+Visual = NodePath("SubViewport/CartasBase")
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=1278667879]
+transparent_bg = true
+size = Vector2i(143, 202)
+size_2d_override = Vector2i(50, 23)
+render_target_update_mode = 4
+
+[node name="CartasBase" parent="SubViewport" unique_id=242195520 instance=ExtResource("1_itp21")]
+position = Vector2(72, 100)
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=38909370]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+texture = SubResource("ViewportTexture_itp21")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=1670594247]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=2082988319]
+shape = SubResource("BoxShape3D_gjbah")

@@ -7,10 +7,14 @@ namespace fm
 	public partial class Main : Node
 	{
 		[Export] public MaoJogador MaoVisual;
+		[Export] public Camera3D CameraHand;
+		[Export] public Camera3D CameraField;
 		public override async void _Ready()
 		{
 			GD.Print("Iniciando Banco de Dados e Jogo...");
-			PrintTree();
+			CameraHand.Current = true;
+			CameraField.Current = false;
+			
 
 			if (MaoVisual == null)
 			{
@@ -36,7 +40,9 @@ namespace fm
 				GameLoop gL = new GameLoop(
 					new Player("Alice", deck.Cards, 8000), 
 					new Player("Bob", deck.Cards, 8000),
-					MaoVisual
+					MaoVisual,
+					CameraHand,
+					CameraField
 				);
 				gL.Initialize();
 			}
