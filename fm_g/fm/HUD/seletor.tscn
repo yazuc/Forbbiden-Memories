@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://b2f4acrh1ecd2"]
+
+[ext_resource type="PackedScene" uid="uid://c6xdru4c501sp" path="res://HUD/seletor2D.tscn" id="1_t2qgk"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_8ia5e"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_t2qgk"]
+
+[node name="Seletor" type="Node3D" unique_id=1457202027]
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=1894071533]
+transparent_bg = true
+size = Vector2i(526, 519)
+render_target_update_mode = 4
+
+[node name="Seletor2D" parent="SubViewport" unique_id=1746380690 instance=ExtResource("1_t2qgk")]
+position = Vector2(266, 259)
+scale = Vector2(0.17, 0.17)
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=199037396]
+transform = Transform3D(1.3928467, 0, 0, 0, -8.8427775e-08, -0.8946364, 0, 2.0229917, -3.91058e-08, 0.010910034, 0, 0.021819592)
+texture = SubResource("ViewportTexture_8ia5e")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=1454434311]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=380001278]
+shape = SubResource("BoxShape3D_t2qgk")

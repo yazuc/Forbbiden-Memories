@@ -1,18 +1,7 @@
 [gd_scene format=3 uid="uid://bloqsdasbvbdc"]
 
 [ext_resource type="PackedScene" uid="uid://dj7s3t4ux6vfw" path="res://Scenes/game.tscn" id="1_12f34"]
-[ext_resource type="Script" uid="uid://srumahse3qk" path="res://Scenes/MaoJogador.cs" id="2_hip74"]
-[ext_resource type="PackedScene" uid="uid://uys23mmogslm" path="res://Carta/CartasBase.tscn" id="3_b2eky"]
 
 [node name="BattleScene" type="Node3D" unique_id=1913536266]
 
-[node name="Game" parent="." unique_id=705124670 node_paths=PackedStringArray("MaoVisual") instance=ExtResource("1_12f34")]
-MaoVisual = NodePath("MaoJogador")
-
-[node name="MaoJogador" type="HBoxContainer" parent="Game" unique_id=355697901]
-offset_right = 807.0
-offset_bottom = 171.0
-alignment = 1
-script = ExtResource("2_hip74")
-CartaCena = ExtResource("3_b2eky")
-metadata/_edit_use_anchors_ = true
+[node name="Game" parent="." unique_id=705124670 instance=ExtResource("1_12f34")]

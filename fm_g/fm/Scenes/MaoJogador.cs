@@ -7,13 +7,28 @@ namespace fm{
 		[Export] public PackedScene CartaCena;
 		[Export] public Node2D IndicadorTriangulo;
 		[Export] public Marker3D Carta1;
+		[Export] public Godot.Collections.Array<Marker3D> SlotsCampo;
 		[Export] public PackedScene Carta3d;
+		[Export] public Camera3D CameraHand;
+		[Export] public Camera3D CameraField;
+		[Export] public PackedScene Seletor;
 		[Signal] public delegate void CartaSelecionadaEventHandler(int id);
-		private int _indiceSelecionado = 0;
+		
+		private Node3D _instanciaSeletor = null;
+		private int _indiceSelecionado = 0;	
+		private int _indiceCampoSelecionado = 0;		
+		private bool _selecionandoLocal = false; // Estado para saber se estamos escolhendo onde colocar a carta
 		private List<CartasBase> _cartasNaMao = new List<CartasBase>();
 		// Called when the node enters the scene tree for the first time.
 		public override void _Ready()
 		{
+			if (Seletor != null)
+			{
+				_instanciaSeletor = Seletor.Instantiate<Node3D>();
+				// Adicionamos à cena principal para ele não herdar transformações do Node2D
+				GetTree().CurrentScene.CallDeferred("add_child", _instanciaSeletor);
+				_instanciaSeletor.Visible = false;
+			}
 		}
 
 		// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -25,65 +40,110 @@ namespace fm{
 		{
 			if (_cartasNaMao.Count == 0) return false;
 
-			int anterior = _indiceSelecionado;
+			if (!_selecionandoLocal) 
+			{
+				// SELEÇÃO NA MÃO (2D)
+				int anterior = _indiceSelecionado;
+				if (Input.IsActionJustPressed("ui_right")) _indiceSelecionado = Mathf.Min(_indiceSelecionado + 1, _cartasNaMao.Count - 1);
+				else if (Input.IsActionJustPressed("ui_left")) _indiceSelecionado = Mathf.Max(_indiceSelecionado - 1, 0);
+
+				if (anterior != _indiceSelecionado) AtualizarPosicaoIndicador();
+
+				if (Input.IsActionJustPressed("ui_accept")) 
+				{
+					EntrarModoSelecaoCampo();
+				}
+			}
+			else 
+			{
+				// SELEÇÃO NO CAMPO (3D)
+				ControlarSelecaoDeCampo();
+
+				if (Input.IsActionJustPressed("ui_accept")) 
+				{
+					ConfirmarInvocacaoNoCampo();
+				}
+				
+				if (Input.IsActionJustPressed("ui_cancel")) 
+				{
+					SairModoSelecaoCampo();
+				}
+			}
+			return true;
+		}
+
+		private void EntrarModoSelecaoCampo()
+		{
+			_selecionandoLocal = true;
+			_indiceCampoSelecionado = 0; // Começa no primeiro slot
+			
+			CameraHand.Current = false;
+			CameraField.Current = true;
+
+			if (_instanciaSeletor != null)
+			{
+				_instanciaSeletor.Visible = true;
+				AtualizarPosicaoSeletor3D();
+			}
+		}
+
+		private void ControlarSelecaoDeCampo()
+		{
+			int anterior = _indiceCampoSelecionado;
 
 			if (Input.IsActionJustPressed("ui_right"))
+				_indiceCampoSelecionado = Mathf.Min(_indiceCampoSelecionado + 1, SlotsCampo.Count - 1);
+			
+			if (Input.IsActionJustPressed("ui_left"))
+				_indiceCampoSelecionado = Mathf.Max(_indiceCampoSelecionado - 1, 0);
+
+			if (anterior != _indiceCampoSelecionado)
 			{
-				_indiceSelecionado = Mathf.Min(_indiceSelecionado + 1, _cartasNaMao.Count - 1);
-				GD.Print($"right pressed: {_indiceSelecionado}");
+				AtualizarPosicaoSeletor3D();
 			}
-			else if (Input.IsActionJustPressed("ui_left"))
-			{
-				GD.Print($"left pressed: {_indiceSelecionado}");
-				_indiceSelecionado = Mathf.Max(_indiceSelecionado - 1, 0);
-			}
+		}
 
-			if (anterior != _indiceSelecionado)
-			{
-				AtualizarPosicaoIndicador();
-			}
+		private void AtualizarPosicaoSeletor3D()
+		{
+			if (_instanciaSeletor == null || SlotsCampo.Count == 0) return;
 
-			if (Input.IsActionJustPressed("ui_accept")) 
-			{
-				if (Carta3d == null)
-				{
-					GD.PrintErr("ERRO: A cena Carta3d não foi atribuída no Inspetor da MaoJogador!");
-					return false;
-				}
-				var cartaSelecionada = _cartasNaMao[_indiceSelecionado];
-				GD.Print($"{cartaSelecionada.CurrentID.ToString()} Invocando: " + cartaSelecionada._nome.Text);				
+			var slotDestino = SlotsCampo[_indiceCampoSelecionado];
+			
+			// Usamos Tween para um movimento suave como no PS1
+			Tween tween = GetTree().CreateTween();
+			tween.TweenProperty(_instanciaSeletor, "global_position", slotDestino.GlobalPosition + new Vector3(0, 0.05f, 0), 0.05f);
+			_instanciaSeletor.GlobalRotation = slotDestino.GlobalRotation;
+		}
 
-				// 1. Instanciar a versão 3D da carta
-				// Certifique-se de que Carta3d no seu Export seja o PackedScene da "Carta3d.tscn"
-				Node3D novaCarta3d = Carta3d.Instantiate<Node3D>();
+		private void ConfirmarInvocacaoNoCampo()
+		{
+			var slotDestino = SlotsCampo[_indiceCampoSelecionado];
+			var cartaSelecionada = _cartasNaMao[_indiceSelecionado];                
 
-				// 2. Adicionar ao mundo 3D
-				// Se este script estiver em uma árvore misturada, use GetTree().Root ou um nó de cena global
-				GetTree().CurrentScene.AddChild(novaCarta3d);
+			Node3D novaCarta3d = Carta3d.Instantiate<Node3D>();
+			GetTree().CurrentScene.AddChild(novaCarta3d);
 
-				// 3. Posicionar no Marker3D (Carta1)
-				if (Carta1 != null)
-				{
-					novaCarta3d.GlobalPosition = Carta1.GlobalPosition;
-					novaCarta3d.GlobalRotation = Carta1.GlobalRotation;
-				}
+			novaCarta3d.GlobalPosition = slotDestino.GlobalPosition;
+			novaCarta3d.GlobalRotation = slotDestino.GlobalRotation;
 
-				// 4. Passar o ID para carregar a arte correta no Sprite3D
-				// Assumindo que você guardou o ID na classe CartasBase ou pode extraí-lo
-				// Aqui vamos buscar o ID que você usou no DisplayCard
-				if (novaCarta3d.HasMethod("Setup")) 
-				{
-					GD.Print("Called setup");
-					// Precisamos garantir que a sua CartasBase armazene o ID que recebeu
-					novaCarta3d.Call("Setup", cartaSelecionada.CurrentID); 
-				}
+			if (novaCarta3d.HasMethod("Setup")) 
+				novaCarta3d.Call("Setup", cartaSelecionada.CurrentID);
 
-				// 5. Remover da mão 2D
-				//RemoverCartaDaMao(_indiceSelecionado);
-				EmitSignal(SignalName.CartaSelecionada, cartaSelecionada.CurrentID);
-				return true;
-			}
-			return false;
+			// Finaliza a seleção
+			SairModoSelecaoCampo();
+			
+			// Remove a carta da mão aqui...
+			EmitSignal(SignalName.CartaSelecionada, cartaSelecionada.CurrentID);
+			_cartasNaMao.Remove(cartaSelecionada);
+			AtualizarMao(_cartasNaMao.Select(x => x.CurrentID).ToList());
+		}
+
+		private void SairModoSelecaoCampo()
+		{
+			_selecionandoLocal = false;
+			//CameraField.Current = false;
+			//CameraHand.Current = true;
+			if (_instanciaSeletor != null) _instanciaSeletor.Visible = false;
 		}
 
 		public void AtualizarMao(List<int> idsCartasNoDeck)

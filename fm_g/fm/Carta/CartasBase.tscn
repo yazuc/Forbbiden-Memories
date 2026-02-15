@@ -5066,8 +5066,15 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="CartasBase" type="Node2D" unique_id=242195520]
+[node name="CartasBase" type="Node2D" unique_id=242195520 node_paths=PackedStringArray("_currentFrameNode", "_arteSprite", "_frameAnchor", "_nome", "_atk", "_def")]
 script = ExtResource("1_jsbh3")
+CurrentID = 1
+_currentFrameNode = NodePath("FrameAnchor/Monstro")
+_arteSprite = NodePath("ArteRecortada")
+_frameAnchor = NodePath("FrameAnchor")
+_nome = NodePath("Nome")
+_atk = NodePath("Ataque")
+_def = NodePath("Defesa")
 
 [node name="FrameAnchor" type="Marker2D" parent="." unique_id=1026939207]
 
@@ -5096,7 +5103,6 @@ offset_left = 3.0
 offset_top = 57.0
 offset_right = 47.0
 offset_bottom = 80.0
-text = "ATK 3000"
 label_settings = ExtResource("3_28wyl")
 
 [node name="Defesa" type="Label" parent="." unique_id=1873903686]
@@ -5104,5 +5110,4 @@ offset_left = 3.0
 offset_top = 69.0
 offset_right = 49.0
 offset_bottom = 92.0
-text = "DEF 2500"
 label_settings = ExtResource("3_28wyl")
