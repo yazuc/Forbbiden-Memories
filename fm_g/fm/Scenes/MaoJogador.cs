@@ -84,6 +84,8 @@ namespace fm{
 				
 				if (Input.IsActionJustPressed("ui_cancel")) 
 				{
+					CameraHand.Current = true;
+					CameraField.Current = false;
 					SairModoSelecaoCampo();
 				}
 			}
@@ -308,6 +310,8 @@ namespace fm{
 				// Cancelamento Manual (Tecla de Voltar)
 				if (Input.IsActionJustPressed("ui_cancel"))
 				{
+					CameraHand.Current = true;
+					CameraField.Current = false;
 					_tcsCampo.TrySetResult(-1);
 				}
 

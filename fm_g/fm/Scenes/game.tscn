@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://dj7s3t4ux6vfw"]
 
-[ext_resource type="PackedScene" uid="uid://bxpv0pc6dc3e1" path="res://Untitled.glb" id="1_80nbo"]
 [ext_resource type="Script" uid="uid://daj0t8aw721wf" path="res://Scripts/native_c#/Main.cs" id="1_e2o6t"]
 [ext_resource type="Script" uid="uid://srumahse3qk" path="res://Scenes/MaoJogador.cs" id="3_3dryh"]
 [ext_resource type="PackedScene" uid="uid://uys23mmogslm" path="res://Carta/CartasBase.tscn" id="4_wowpa"]
 [ext_resource type="PackedScene" uid="uid://dpjrxybf4pcvc" path="res://HUD/IndicadorTriangulo.tscn" id="5_wowpa"]
 [ext_resource type="PackedScene" uid="uid://c3fy4s3sps4kh" path="res://Carta/Carta3D.tscn" id="6_i6g32"]
 [ext_resource type="PackedScene" uid="uid://b2f4acrh1ecd2" path="res://HUD/seletor.tscn" id="7_1l0tm"]
+[ext_resource type="PackedScene" uid="uid://dcgpwjgiljbd7" path="res://Assets/campo.glb" id="8_v158k"]
 
 [node name="Game" type="Node3D" unique_id=705124670 node_paths=PackedStringArray("MaoVisual", "CameraHand", "CameraField", "CameraInimigo")]
 script = ExtResource("1_e2o6t")
@@ -15,8 +15,8 @@ CameraHand = NodePath("CameraHand")
 CameraField = NodePath("CameraField")
 CameraInimigo = NodePath("CameraInimigo")
 
-[node name="Board" parent="." unique_id=1286735471 instance=ExtResource("1_80nbo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.023628235, 0.19993877, -0.19530249)
+[node name="Board" parent="." unique_id=1698784219 instance=ExtResource("8_v158k")]
+transform = Transform3D(-6.802757e-08, 0.47996116, -1.5335242, -3.0355742e-09, 1.315467, 0.55952144, 1.5578378, 2.3522208e-08, -6.5875554e-08, -0.065074444, 1.0585952, 0.22310543)
 
 [node name="CameraHand" type="Camera3D" parent="." unique_id=700016231]
 transform = Transform3D(0.025038114, -0.37086505, 0.9283492, 0.016187904, 0.928669, 0.3705562, -0.99955547, 0.00575, 0.029255647, 9.531659, 4.5710425, 0.11641765)
@@ -55,61 +55,61 @@ transform = Transform3D(0.0052026417, -0.99971455, 0.023318915, 0.004783277, 0.0
 [node name="Carta3d" parent="." unique_id=557434675 instance=ExtResource("6_i6g32")]
 
 [node name="Carta1" type="Marker3D" parent="." unique_id=1859481463]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 1.435, 1.369, 3.905)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2.597, 1.369, 3.711)
 
 [node name="Carta2" type="Marker3D" parent="." unique_id=1159102727]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 1.435, 1.369, 1.864)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2.597, 1.369, 1.98)
 
 [node name="Carta3" type="Marker3D" parent="." unique_id=1750837157]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 1.435, 1.369, -0.079)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2.5966737, 1.369, 0.2493279)
 
 [node name="Carta4" type="Marker3D" parent="." unique_id=689030238]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 1.435, 1.369, -2.148)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2.597, 1.369, -1.482)
 
 [node name="Carta5" type="Marker3D" parent="." unique_id=638832938]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 1.435, 1.369, -4.203)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2.597, 1.369, -3.213)
 
 [node name="Carta6" type="Marker3D" parent="." unique_id=960543589]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.370664, 1.369, 3.905)
 
 [node name="Carta7" type="Marker3D" parent="." unique_id=689594235]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.370664, 1.369, 1.8704555)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.370664, 1.369, 1.9749238)
 
 [node name="Carta8" type="Marker3D" parent="." unique_id=1263474460]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.370664, 1.369, -0.12868237)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.370664, 1.369, 0.14262891)
 
 [node name="Carta9" type="Marker3D" parent="." unique_id=1508247149]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.370664, 1.369, -2.1632478)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.370664, 1.369, -1.683058)
 
 [node name="Carta10" type="Marker3D" parent="." unique_id=1240761787]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.370664, 1.369, -4.2508955)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.370664, 1.369, -3.478675)
 
 [node name="Carta11Ini" type="Marker3D" parent="." unique_id=986045306]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1.5340846, 1.369, 3.905)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.4671369, 1.369, 4.653846)
 
 [node name="Carta12Ini" type="Marker3D" parent="." unique_id=1918354445]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1.551271, 1.369, 1.8743079)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.4843235, 1.369, 2.0566227)
 
 [node name="Carta13Ini" type="Marker3D" parent="." unique_id=1676939068]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1.5340846, 1.369, -0.09969783)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.4671369, 1.369, 0.16338897)
 
 [node name="Carta14Ini" type="Marker3D" parent="." unique_id=983436190]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1.5340846, 1.369, -2.175988)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.4671369, 1.369, -1.6697261)
 
 [node name="Carta15Ini" type="Marker3D" parent="." unique_id=434961320]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1.5340846, 1.369, -4.2249174)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.4671369, 1.369, -3.4760718)
 
 [node name="Carta16Ini" type="Marker3D" parent="." unique_id=939572990]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.3514967, 1.369, 3.905)
 
 [node name="Carta17Ini" type="Marker3D" parent="." unique_id=23597922]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.355207, 1.369, 1.8748558)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.355207, 1.369, 2.0622222)
 
 [node name="Carta18Ini" type="Marker3D" parent="." unique_id=672846142]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.3514967, 1.369, -0.106497526)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.3514967, 1.369, 0.15248895)
 
 [node name="Carta19Ini" type="Marker3D" parent="." unique_id=867145139]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.3514967, 1.369, -2.2025125)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.3514967, 1.369, -1.6604104)
 
 [node name="Carta20Ini" type="Marker3D" parent="." unique_id=659163300]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.3514967, 1.369, -4.2373114)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.3514967, 1.369, -3.4739966)
