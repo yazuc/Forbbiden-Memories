@@ -13,6 +13,8 @@ namespace fm
 		[Export] public Node3D CameraPivot;
 		[Export] public Godot.Collections.Array<Marker3D> SlotsCampo;
 		[Export] public Godot.Collections.Array<Marker3D> SlotsCampoIni;
+		[Export] public Godot.Collections.Array<Marker3D> SlotsCampoST;
+		[Export] public Godot.Collections.Array<Marker3D> SlotsCampoSTIni;
 		private GameLoop gL;
 		
 		public override async void _Ready()
@@ -52,8 +54,8 @@ namespace fm
 			{
 				GD.Print(SlotsCampo.Count().ToString());
 				gL = new GameLoop(
-					new Player("Alice", deck.Cards, SlotsCampo, 8000), 
-					new Player("Bob", deckIni.Cards, SlotsCampoIni, 8000),
+					new Player("Alice", deck.Cards, SlotsCampo, SlotsCampoST, 8000), 
+					new Player("Bob", deckIni.Cards, SlotsCampoIni, SlotsCampoSTIni, 8000),
 					MaoVisual,
 					CameraHand,
 					CameraField,

@@ -42,11 +42,14 @@ namespace fm
 			CurrentPhase = TurnPhase.Draw;
 			Status = GameStatus.InProgress;
 			Winner = null;
-			MaoDoJogador.ConfigurarSlots(CurrentPlayer.SlotsCampo, OpponentPlayer.SlotsCampo);
+			MaoDoJogador.ConfigurarSlots(CurrentPlayer.SlotsCampo, OpponentPlayer.SlotsCampo, CurrentPlayer.SlotsCampoST, OpponentPlayer.SlotsCampoST);
 		}
 
 		public void SwitchPlayer()
 		{
+			if (MaoDoJogador != null) {
+				MaoDoJogador.CancelarSelecaoNoCampo(); 
+			}
 			// Troca de jogadores
 			var temp = CurrentPlayer;
 			CurrentPlayer = OpponentPlayer;
@@ -59,9 +62,13 @@ namespace fm
 			// para que o novo CurrentPlayer possa atacar, e o OpponentPlayer 
 			// tenha seus monstros resetados para o próximo turno dele.
 			GD.Print(CurrentPlayer.Name);
-			MaoDoJogador.ConfigurarSlots(CurrentPlayer.SlotsCampo, OpponentPlayer.SlotsCampo);
+			MaoDoJogador.ConfigurarSlots(CurrentPlayer.SlotsCampo, OpponentPlayer.SlotsCampo, CurrentPlayer.SlotsCampoST, OpponentPlayer.SlotsCampoST);
+			MaoDoJogador.InvertInput = !MaoDoJogador.InvertInput;
+			MaoDoJogador._indiceSelecionado = 0;
+			MaoDoJogador._indiceCampoSelecionado = 0;
 			ResetFieldFlags(Player1);
 			ResetFieldFlags(Player2);
+			Input.FlushBufferedEvents();
 		}
 
 		private void ResetFieldFlags(Player player)

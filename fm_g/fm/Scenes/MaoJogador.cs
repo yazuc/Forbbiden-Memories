@@ -7,22 +7,27 @@ namespace fm{
 		[Export] public PackedScene CartaCena;
 		[Export] public Node2D IndicadorTriangulo;
 		[Export] public Marker3D Carta1;		
+		
 		public Godot.Collections.Array<Marker3D> SlotsCampo = new();
-		[Export] public Godot.Collections.Array<Marker3D> SlotsCampoST;
+		public Godot.Collections.Array<Marker3D> SlotsCampoST = new ();
 		public Godot.Collections.Array<Marker3D> SlotsCampoIni = new ();
-		[Export] public Godot.Collections.Array<Marker3D> SlotsCampoSTIni;
+		public Godot.Collections.Array<Marker3D> SlotsCampoSTIni = new ();
+		
 		[Export] public PackedScene Carta3d;
 		[Export] public Camera3D CameraHand;
 		[Export] public Camera3D CameraField;
 		[Export] public PackedScene Seletor;
+		[Export] public bool InvertInput = false;
+		
+		[Signal] public delegate void SlotConfirmadoEventHandler(int index);
 		[Signal] public delegate void CartaSelecionadaEventHandler(int id);
 		[Signal] public delegate void AlvoSelecionadoEventHandler(int index);
 		
 		private TaskCompletionSource<int> _tcsCampo = null;
 		private bool _bloquearNavegaçãoManual = false;
 		private Node3D _instanciaSeletor = null;
-		private int _indiceSelecionado = 0;	
-		private int _indiceCampoSelecionado = 0;		
+		public int _indiceSelecionado = 0;	
+		public int _indiceCampoSelecionado = 0;		
 		private bool _selecionandoLocal = false; // Estado para saber se estamos escolhendo onde colocar a carta
 		private List<CartasBase> _cartasNaMao = new List<CartasBase>();
 		private List<CartasBase> _cartasSelecionadasParaFusao = new List<CartasBase>();
@@ -40,16 +45,17 @@ namespace fm{
 
 		// Called every frame. 'delta' is the elapsed time since the previous frame.
 		public override void _Process(double delta)
-		{
-			HandleNavigation();
+		{			
+			HandleNavigation();				
 		}
-		private bool HandleNavigation()
+		private async Task<bool> HandleNavigation()
 		{
 			if (_bloquearNavegaçãoManual) return false;
 			if (_cartasNaMao.Count == 0) return false;
 
 			if (!_selecionandoLocal) 
 			{
+				
 				// SELEÇÃO NA MÃO (2D)
 				int anterior = _indiceSelecionado;
 				if (Input.IsActionJustPressed("ui_right")) _indiceSelecionado = Mathf.Min(_indiceSelecionado + 1, _cartasNaMao.Count - 1);
@@ -65,6 +71,7 @@ namespace fm{
 
 				if (Input.IsActionJustPressed("ui_accept")) 
 				{
+					await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 					if (_cartasSelecionadasParaFusao.Count == 0)
 					{
 						_cartasSelecionadasParaFusao.Add(_cartasNaMao[_indiceSelecionado]);
@@ -79,6 +86,7 @@ namespace fm{
 
 				if (Input.IsActionJustPressed("ui_accept")) 
 				{
+					await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 					ConfirmarInvocacaoNoCampo();
 				}
 				
@@ -141,12 +149,12 @@ namespace fm{
 		private void ControlarSelecaoDeCampo()
 		{
 			int anterior = _indiceCampoSelecionado;
-
+			int direcao = InvertInput ? -1 : 1;
 			if (Input.IsActionJustPressed("ui_right"))
-				_indiceCampoSelecionado = Mathf.Min(_indiceCampoSelecionado + 1, SlotsCampo.Count - 1);
+				_indiceCampoSelecionado = Mathf.Min(_indiceCampoSelecionado + direcao, SlotsCampo.Count - 1);
 			
 			if (Input.IsActionJustPressed("ui_left"))
-				_indiceCampoSelecionado = Mathf.Max(_indiceCampoSelecionado - 1, 0);
+				_indiceCampoSelecionado = Mathf.Max(_indiceCampoSelecionado - direcao, 0);
 
 			if (anterior != _indiceCampoSelecionado)
 			{
@@ -211,7 +219,7 @@ namespace fm{
 			}
 		}
 
-		private void SairModoSelecaoCampo()
+		public void SairModoSelecaoCampo()
 		{
 			_selecionandoLocal = false;
 			//CameraField.Current = false;
@@ -275,61 +283,85 @@ namespace fm{
 		}
 		
 // Método genérico para selecionar um slot no campo (Aliado ou Inimigo)
-		public async Task<int> SelecionarSlotNoCampo(Godot.Collections.Array<Marker3D> slots)
-		{
-			// Inicializa a Task
+		public async Task<int> SelecionarSlotNoCampo(Godot.Collections.Array<Marker3D> slots, bool PrimeiroTurno = false)
+		{			
+			_bloquearNavegaçãoManual = true; // TRAVA O SELETOR 2D IMEDIATAMENTE
+			_selecionandoLocal = true;
+			if (!IsInsideTree()) 
+			{
+				GD.PrintErr("[MaoJogador] ERRO: Tentativa de selecionar slot enquanto MaoJogador está fora da SceneTree!");
+				return -1;
+			}
+
+			if (_tcsCampo != null && !_tcsCampo.Task.IsCompleted) 
+			{
+				GD.Print("[MaoJogador] Resetando Task anterior não finalizada.");
+				_tcsCampo.TrySetResult(-1);
+			}
+			
 			_tcsCampo = new TaskCompletionSource<int>();
 			
-			if (slots == null || slots.Count == 0) return -1;
+			if (slots == null || slots.Count == 0) 
+			{
+				GD.PrintErr("[MaoJogador] ERRO: Lista de slots vazia ou nula.");
+				return -1;
+			}
+			
+			_indiceCampoSelecionado = 0; 
+			_instanciaSeletor.Visible = true;
+			
+			// FORÇAR ATUALIZAÇÃO IMEDIATA SEM TWEEN (para não ter delay no primeiro frame)
+			var slotInicial = slots[_indiceCampoSelecionado];
+			_instanciaSeletor.GlobalPosition = slotInicial.GlobalPosition + new Vector3(0, 0.05f, 0);
+			_instanciaSeletor.GlobalRotation = slotInicial.GlobalRotation;
 
-			// Pequeno delay para garantir que inputs do frame anterior não interfiram
 			await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 			
-			_bloquearNavegaçãoManual = true; // Trava o HandleNavigation do _Process
+			_bloquearNavegaçãoManual = true; 
 			_selecionandoLocal = true;
 			_indiceCampoSelecionado = 0;
-			_instanciaSeletor.Visible = true;
+			_instanciaSeletor.Visible = true;		
 
-			AtualizarPosicaoSeletorParaSlots(slots);
-
-			// LOOP PRINCIPAL: Roda enquanto a Task não for completada (interna ou externamente)
 			while (!_tcsCampo.Task.IsCompleted)
 			{
+				if (!IsInsideTree()) 
+				{
+					GD.PrintErr("[MaoJogador] MaoJogador saiu da árvore durante a seleção!");
+					break;
+				}
+				
+				int direcao = InvertInput ? -1 : 1;
+				
 				int anterior = _indiceCampoSelecionado;
-
 				if (Input.IsActionJustPressed("ui_right")) 
-					_indiceCampoSelecionado = Mathf.Min(_indiceCampoSelecionado + 1, slots.Count - 1);
+					_indiceCampoSelecionado = Mathf.Min(_indiceCampoSelecionado + 1 * direcao, slots.Count - 1);
 				if (Input.IsActionJustPressed("ui_left")) 
-					_indiceCampoSelecionado = Mathf.Max(_indiceCampoSelecionado - 1, 0);
+					_indiceCampoSelecionado = Mathf.Max(_indiceCampoSelecionado - 1 * direcao, 0);
 
 				if (anterior != _indiceCampoSelecionado)
+				{					
 					AtualizarPosicaoSeletorParaSlots(slots);
-
-				// Confirmação Manual
-				if (Input.IsActionJustPressed("ui_accept"))
-				{
-					_tcsCampo.TrySetResult(_indiceCampoSelecionado);
 				}
 
-				// Cancelamento Manual (Tecla de Voltar)
+				if (Input.IsActionJustPressed("ui_accept"))
+				{				
+					if(!PrimeiroTurno)
+						_tcsCampo.TrySetResult(_indiceCampoSelecionado);
+				}
+
 				if (Input.IsActionJustPressed("ui_cancel"))
-				{
-					CameraHand.Current = true;
-					CameraField.Current = false;
+				{				
 					_tcsCampo.TrySetResult(-1);
 				}
 
-				// Aguarda o próximo frame
 				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 			}
 
-			// --- LIMPEZA PÓS-SELEÇÃO ---
-			// Recuperamos o resultado (seja o index, seja -1 do cancelamento ou do sinal 'V')
-			int resultado = await _tcsCampo.Task;
+			int resultado = await _tcsCampo.Task;			
 
 			_instanciaSeletor.Visible = false;
 			_selecionandoLocal = false;
-			_bloquearNavegaçãoManual = false; // LIBERA a navegação para o próximo player/fase
+			_bloquearNavegaçãoManual = false;
 
 			return resultado;
 		}
@@ -345,10 +377,14 @@ namespace fm{
 		
 		public void ConfigurarSlots(
 			Godot.Collections.Array<Marker3D> monstrosAliados, 
-			Godot.Collections.Array<Marker3D> monstrosInimigos)
+			Godot.Collections.Array<Marker3D> monstrosInimigos,
+			Godot.Collections.Array<Marker3D> magiasAliados,
+			Godot.Collections.Array<Marker3D> magiasInimigos)
 		{
 			this.SlotsCampo = monstrosAliados;
 			this.SlotsCampoIni = monstrosInimigos;			
+			this.SlotsCampoST = magiasAliados;
+			this.SlotsCampoSTIni = magiasInimigos;			
 			
 			GD.Print("MaoJogador: Slots redefinidos com sucesso via GameLoop.");
 		}

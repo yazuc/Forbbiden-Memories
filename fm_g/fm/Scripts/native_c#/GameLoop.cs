@@ -132,8 +132,13 @@ namespace fm
 			int idEscolhido = await EsperarEscolhaDoJogador(); 		
 			var cardData = CardDatabase.Instance.GetCardById(idEscolhido);	
 			_gameState.CurrentPlayer.Field.placeCard(cardData);
+			_gameState.CurrentPlayer.DiscardCard(cardData.Id);
 			_gameState.CurrentPlayer.Field.DrawFieldState();
 			
+			foreach(var card in _gameState.CurrentPlayer.Hand)
+			{
+				GD.Print($"- {_gameState.CurrentPlayer.Name} has {card.Name} in hand.");
+			}       
 			CameraHand.Current = false;
 			CameraField.Current = true;  
 					
@@ -142,70 +147,103 @@ namespace fm
 
 		private async Task ExecuteBattlePhase()
 		{
-			_gameState.CurrentPhase = TurnPhase.Battle; // Ou AdvancePhase()
+			_gameState.CurrentPhase = TurnPhase.Battle;
 			GD.Print($"--- Battle Phase ---");
 			_isBattlePhaseActive = true;
 
-			while (_isBattlePhaseActive)
+			try 
 			{
-				CameraHand.Current = false;
-				CameraField.Current = true;
-				CameraInimigo.Current = false;
-				// 1. Criamos o sinal para o fim da fase
-				_battlePhaseEndSignal = new TaskCompletionSource<bool>();
-
-				GD.Print("Aguardando ataque ou fim de fase...");
-				
-				foreach(var item in MaoDoJogador.SlotsCampoST){
-					MaoDoJogador.SlotsCampo.Add(item);
-				}
-								
-				// 2. Criamos a tarefa de seleção de monstro
-				Task<int> tarefaSelecao = MaoDoJogador.SelecionarSlotNoCampo(MaoDoJogador.SlotsCampo);
-
-				// 3. A mágica: Esperamos o PRIMEIRO que terminar: 
-				// Ou o jogador seleciona um monstro, ou ele aperta V.
-				Task tarefaTerminada = await Task.WhenAny(tarefaSelecao, _battlePhaseEndSignal.Task);
-
-				// Se o sinal de fechar a fase (V) ganhou a corrida
-				if (!_isBattlePhaseActive) 
+				while (_isBattlePhaseActive)
 				{
-					MaoDoJogador.CancelarSelecaoNoCampo();
-					break; 
-				}
-
-				// Se a seleção ganhou a corrida, processamos o ataque
-				int indexAtacante = await tarefaSelecao; 
-
-				if (indexAtacante != -1)
-				{
+					// 1. Reset visual e de câmeras para o início do loop de ataque
 					CameraHand.Current = false;
-					CameraField.Current = false;
-					CameraInimigo.Current = true;
-					// Lógica de seleção de alvo inimigo (mesmo padrão)
-					GD.Print("Selecione o alvo inimigo...");
-					Task<int> tarefaAlvo = MaoDoJogador.SelecionarSlotNoCampo(MaoDoJogador.SlotsCampoIni);
+					CameraField.Current = true;
+					CameraInimigo.Current = false;
 					
-					// Também permitimos cancelar o alvo apertando V
-					await Task.WhenAny(tarefaAlvo, _battlePhaseEndSignal.Task);
-					
+					_battlePhaseEndSignal = new TaskCompletionSource<bool>();
+
+					GD.Print("Aguardando ataque ou fim de fase (V)...");
+
+					// 2. Preparação de Slots (Monstros + Magias se necessário)
+					// Nota: Cuidado ao adicionar itens repetidamente em um loop while
+					var slotsAtacantes = new Godot.Collections.Array<Marker3D>(MaoDoJogador.SlotsCampo);
+					foreach(var item in MaoDoJogador.SlotsCampoST) {
+						if (!slotsAtacantes.Contains(item)) slotsAtacantes.Add(item);
+					}
+
+					// 3. Inicia a seleção do monstro atacante
+					Task<int> tarefaSelecao = MaoDoJogador.SelecionarSlotNoCampo(slotsAtacantes, _gameState.CurrentTurn == 1);
+
+					// 4. Espera o primeiro evento: Seleção OU Pressão de 'V'
+					await Task.WhenAny(tarefaSelecao, _battlePhaseEndSignal.Task);
+
+					// Se o sinal de fechar a fase (V) foi disparado
 					if (!_isBattlePhaseActive) break;
 
-					int indexAlvo = await tarefaAlvo;
-					if (indexAlvo != -1)
+					int indexAtacante = await tarefaSelecao; 
+
+					if (indexAtacante != -1)
 					{
-						ResolverBatalha(indexAtacante, indexAlvo);
-						await Task.Delay(500);
+						// 5. Transição para o campo inimigo
+						CameraField.Current = false;
+						CameraInimigo.Current = true;
+
+						GD.Print("Selecione o alvo inimigo...");
+						Task<int> tarefaAlvo = MaoDoJogador.SelecionarSlotNoCampo(MaoDoJogador.SlotsCampoIni, _gameState.CurrentTurn == 1);
+						
+						await Task.WhenAny(tarefaAlvo, _battlePhaseEndSignal.Task);
+						
+						if (!_isBattlePhaseActive) break;
+
+						int indexAlvo = await tarefaAlvo;
+						if (indexAlvo != -1)
+						{
+							// 6. Resolução da batalha
+							ResolverBatalha(indexAtacante, indexAlvo);
+							
+							// Delay para o jogador ver o resultado antes de resetar a câmera
+							await Task.Delay(800); 
+						}
 					}
+					
+					// Limpa inputs para evitar que um 'Enter' confirme o próximo ataque sem querer
+					Input.FlushBufferedEvents();
 				}
 			}
-			GD.Print("--- Battle Phase Ended ---");
+			catch (Exception e)
+			{
+				GD.PrintErr($"Erro crítico na Battle Phase: {e.Message}");
+			}
+			finally 
+			{
+				// 7. LIMPEZA TOTAL: Garante que o jogo não trave mesmo em caso de erro
+				_isBattlePhaseActive = false;
+				MaoDoJogador.SairModoSelecaoCampo(); // Esconde o seletor 3D
+				MaoDoJogador.CancelarSelecaoNoCampo(); // Resolve qualquer Task pendente
+				
+				CameraHand.Current = true;
+				CameraField.Current = false;
+				CameraInimigo.Current = false;
+
+				GD.Print("--- Battle Phase Ended & State Reset ---");
+			}
 		}
+		
 
 		private void ResolverBatalha(int atacanteIdx, int alvoIdx)
 		{
-			GD.Print($"Batalha: Meu monstro no slot {atacanteIdx} vs Inimigo no slot {alvoIdx}");
-			// Aqui tu chamas o BattleSystem para comparar ATK/DEF e subtrair LifePoints
+			var meuMonstro = _gameState.CurrentPlayer.Field.GetMonsterInZone(atacanteIdx);
+			var monstroInimigo = _gameState.OpponentPlayer.Field.GetMonsterInZone(alvoIdx);
+
+			// Validação de segurança antes de acessar propriedades
+			if (meuMonstro?.Card == null || monstroInimigo?.Card == null)
+			{
+				GD.PrintErr("[GameLoop] Batalha abortada: Um dos slots está vazio.");
+				return;
+			}
+
+			GD.Print($"Batalha: {meuMonstro.Card.Name} vs {monstroInimigo.Card.Name}");
+			// Chame sua lógica de cálculo de dano aqui
 		}
 		
 		public void HandleInput(InputEvent @event)
@@ -282,9 +320,23 @@ namespace fm
 			MaoDoJogador.Connect(MaoJogador.SignalName.CartaSelecionada, Callable.From<int>((id) => {
 				tcs.TrySetResult(id);
 			}), (uint)GodotObject.ConnectFlags.OneShot); 
-			GD.Print("retornou");
 			return tcs.Task;
 		}
+		
+		// GameLoop.cs
+		//private async Task<int> EsperarSlotDaUI()
+		//{
+			//var tcs = new TaskCompletionSource<int>();
+			//
+			//// Conecta o sinal da UI e resolve a Task quando ele disparar
+			//MaoDoJogador.Connect(MaoJogador.SignalName.SlotConfirmado, 
+				//Callable.From<int>((idx) => tcs.TrySetResult(idx)), 
+				//(uint)GodotObject.ConnectFlags.OneShot);
+//
+			//// Se o jogador apertar V, precisamos cancelar essa espera
+			//// Você pode usar o mesmo padrão de Task.WhenAny que já usa
+			//return await tcs.Task;
+		//}
 		
 		public void RotateCameraPivot180()
 		{
