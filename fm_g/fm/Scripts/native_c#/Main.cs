@@ -16,6 +16,8 @@ namespace fm
 		
 		public override async void _Ready()
 		{
+
+			
 			GD.Print("Iniciando Banco de Dados e Jogo...");
 			CameraHand.Current = true;
 			CameraField.Current = false;
@@ -33,18 +35,25 @@ namespace fm
 			//db.MapAtlasCoordinates();
 			// 2. Carregar Deck e Cartas
 			var deck = new Deck();
+			var deckIni = new Deck();
 			// Certifique-se que o caminho do arquivo está acessível pelo Godot
-			var deckList = Funcoes.LoadUserDeck("/mnt/Nvme/fm/starter_deck.txt");
+			//FmStarterDeckGenerator generator = new FmStarterDeckGenerator();
+			//List<QuickType.Cards> starterDeck = generator.GenerateStarterDeck(db.GetAllCards());          
+			//Funcoes.WriteCardsToFile(starterDeck, "starter_deck_ini.txt");
+			
+			var deckList = Funcoes.LoadUserDeck("/mnt/Nvme/fm/fm_g/fm/Scripts/native_c#/starter_deck.txt");
 			deck.LoadDeck(deckList);
 			GD.Print(deckList.Count());
-
+			
+			var deckListIni = Funcoes.LoadUserDeck("/mnt/Nvme/fm/fm_g/fm/Scripts/native_c#/starter_deck_ini.txt");
+			deckIni.LoadDeck(deckListIni);
 			// 3. Inicializar o GameLoop
 			// Passando Alice e Bob como os duelistas
 			if (MaoVisual != null)
 			{
 				gL = new GameLoop(
 					new Player("Alice", deck.Cards, 8000), 
-					new Player("Bob", deck.Cards, 8000),
+					new Player("Bob", deckIni.Cards, 8000),
 					MaoVisual,
 					CameraHand,
 					CameraField,

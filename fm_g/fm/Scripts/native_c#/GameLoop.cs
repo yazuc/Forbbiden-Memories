@@ -48,7 +48,8 @@ namespace fm
 					DrawCard(_gameState.Player2);
 			}
 			
-			GD.Print($"Game started! {_gameState.Player1.Name} goes first.");
+			GD.Print($"Game started! {_gameState.Player1.Name} goes first, {_gameState.Player1.Deck.Count()}.");
+			GD.Print($"Game started! {_gameState.Player2.Name} goes first, {_gameState.Player2.Deck.Count()}.");
 			foreach (var card in _gameState.Player1.Hand)
 			{
 				GD.Print($"- {_gameState.Player1.Name} has {card.Name} in hand.");

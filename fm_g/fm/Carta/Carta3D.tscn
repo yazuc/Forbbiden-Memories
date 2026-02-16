@@ -9,6 +9,7 @@ viewport_path = NodePath("SubViewport")
 [sub_resource type="BoxShape3D" id="BoxShape3D_gjbah"]
 
 [node name="Carta3d" type="Node3D" unique_id=557434675 node_paths=PackedStringArray("Visual")]
+transform = Transform3D(0.9121746, 0, 0, 0, 1, 0, 0, 0, 0.80412024, 0, 0, 0)
 script = ExtResource("1_2tffa")
 Visual = NodePath("SubViewport/CartasBase")
 
