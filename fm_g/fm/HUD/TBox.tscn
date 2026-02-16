@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://b67lws32k16qv"]
+
+[ext_resource type="Texture2D" uid="uid://vr75oym7kyp2" path="res://Assets/dialog_box.png" id="1_joe07"]
+[ext_resource type="Texture2D" uid="uid://d2lfmtd5kj5jb" path="res://Assets/PlayStation - Yu-Gi-Oh! Forbidden Memories - Miscellaneous - Name Input Screen & Font.png" id="2_rh6wi"]
+[ext_resource type="Texture2D" uid="uid://drra2vess6t22" path="res://Assets/button_mash.png" id="3_rh6wi"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5xeue"]
+atlas = ExtResource("3_rh6wi")
+region = Rect2(12, 15, 21, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_teyo8"]
+atlas = ExtResource("3_rh6wi")
+region = Rect2(33, 15, 21, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jx8nl"]
+atlas = ExtResource("3_rh6wi")
+region = Rect2(54, 15, 21, 26)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5xeue"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5xeue")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_teyo8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jx8nl")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="TBox" type="Node2D" unique_id=711438253]
+
+[node name="DialogBox" type="Sprite2D" parent="." unique_id=828533694]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_joe07")
+
+[node name="PlayStationYuGiOh!ForbiddenMemoriesMiscellaneousNameInputScreen&Font" type="Sprite2D" parent="." unique_id=667807073]
+position = Vector2(0.99999034, 3.5000007)
+scale = Vector2(1.9881657, 1.173077)
+texture = ExtResource("2_rh6wi")
+region_enabled = true
+region_rect = Rect2(359.9828, 200.34744, 169.5116, 52.15741)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=362303357]
+position = Vector2(159, 21)
+sprite_frames = SubResource("SpriteFrames_5xeue")
+frame_progress = 0.41460472
