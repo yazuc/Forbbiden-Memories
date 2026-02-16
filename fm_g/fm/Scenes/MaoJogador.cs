@@ -6,10 +6,10 @@ namespace fm{
 	{
 		[Export] public PackedScene CartaCena;
 		[Export] public Node2D IndicadorTriangulo;
-		[Export] public Marker3D Carta1;
-		[Export] public Godot.Collections.Array<Marker3D> SlotsCampo;
+		[Export] public Marker3D Carta1;		
+		public Godot.Collections.Array<Marker3D> SlotsCampo = new();
 		[Export] public Godot.Collections.Array<Marker3D> SlotsCampoST;
-		[Export] public Godot.Collections.Array<Marker3D> SlotsCampoIni;
+		public Godot.Collections.Array<Marker3D> SlotsCampoIni = new ();
 		[Export] public Godot.Collections.Array<Marker3D> SlotsCampoSTIni;
 		[Export] public PackedScene Carta3d;
 		[Export] public Camera3D CameraHand;
@@ -156,7 +156,11 @@ namespace fm{
 
 		private void AtualizarPosicaoSeletor3D()
 		{
-			if (_instanciaSeletor == null || SlotsCampo.Count == 0) return;
+			if (_instanciaSeletor == null || SlotsCampo == null || SlotsCampo.Count == 0)
+			{
+				GD.PrintErr("MaoJogador: Tentativa de atualizar seletor sem SlotsCampo configurados!");
+				return;
+			}
 
 			var slotDestino = SlotsCampo[_indiceCampoSelecionado];
 			
@@ -337,6 +341,16 @@ namespace fm{
 			Tween tween = GetTree().CreateTween();
 			tween.TweenProperty(_instanciaSeletor, "global_position", slotDestino.GlobalPosition + new Vector3(0, 0.05f, 0), 0.05f);
 			_instanciaSeletor.GlobalRotation = slotDestino.GlobalRotation;
+		}
+		
+		public void ConfigurarSlots(
+			Godot.Collections.Array<Marker3D> monstrosAliados, 
+			Godot.Collections.Array<Marker3D> monstrosInimigos)
+		{
+			this.SlotsCampo = monstrosAliados;
+			this.SlotsCampoIni = monstrosInimigos;			
+			
+			GD.Print("MaoJogador: Slots redefinidos com sucesso via GameLoop.");
 		}
 	}
 }

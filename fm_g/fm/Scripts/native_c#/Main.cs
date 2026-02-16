@@ -11,13 +11,12 @@ namespace fm
 		[Export] public Camera3D CameraField;
 		[Export] public Camera3D CameraInimigo;
 		[Export] public Node3D CameraPivot;
-		
+		[Export] public Godot.Collections.Array<Marker3D> SlotsCampo;
+		[Export] public Godot.Collections.Array<Marker3D> SlotsCampoIni;
 		private GameLoop gL;
 		
 		public override async void _Ready()
-		{
-
-			
+		{		
 			GD.Print("Iniciando Banco de Dados e Jogo...");
 			CameraHand.Current = true;
 			CameraField.Current = false;
@@ -51,9 +50,10 @@ namespace fm
 			// Passando Alice e Bob como os duelistas
 			if (MaoVisual != null)
 			{
+				GD.Print(SlotsCampo.Count().ToString());
 				gL = new GameLoop(
-					new Player("Alice", deck.Cards, 8000), 
-					new Player("Bob", deckIni.Cards, 8000),
+					new Player("Alice", deck.Cards, SlotsCampo, 8000), 
+					new Player("Bob", deckIni.Cards, SlotsCampoIni, 8000),
 					MaoVisual,
 					CameraHand,
 					CameraField,

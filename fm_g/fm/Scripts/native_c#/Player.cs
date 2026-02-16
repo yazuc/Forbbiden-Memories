@@ -10,17 +10,18 @@ namespace fm
 		public List<Cards> Hand { get; set; }
 		public List<Cards> Graveyard { get; set; }
 		public List<Cards> Deck { get; set; }
-		
+		public Godot.Collections.Array<Marker3D> SlotsCampo {get;set;}
 		// Field Zones - will be managed by FieldZones class
 		public FieldZones Field { get; set; }
 
-		public Player(string name, List<Cards> deck, int startingLP = 8000)
+		public Player(string name, List<Cards> deck, Godot.Collections.Array<Marker3D> SlotsCampo, int startingLP = 8000)
 		{
 			Name = name;
 			LifePoints = startingLP;
 			Hand = new List<Cards>();
 			Graveyard = new List<Cards>();
 			Deck = deck;
+			this.SlotsCampo = SlotsCampo;
 			Field = new FieldZones();
 		}
 

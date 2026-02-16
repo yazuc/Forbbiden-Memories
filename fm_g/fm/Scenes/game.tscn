@@ -8,13 +8,15 @@
 [ext_resource type="PackedScene" uid="uid://b2f4acrh1ecd2" path="res://HUD/seletor.tscn" id="7_1l0tm"]
 [ext_resource type="PackedScene" uid="uid://dcgpwjgiljbd7" path="res://Assets/campo.glb" id="8_v158k"]
 
-[node name="Game" type="Node3D" unique_id=705124670 node_paths=PackedStringArray("MaoVisual", "CameraHand", "CameraField", "CameraInimigo", "CameraPivot")]
+[node name="Game" type="Node3D" unique_id=705124670 node_paths=PackedStringArray("MaoVisual", "CameraHand", "CameraField", "CameraInimigo", "CameraPivot", "SlotsCampo", "SlotsCampoIni")]
 script = ExtResource("1_e2o6t")
 MaoVisual = NodePath("MaoJogador")
 CameraHand = NodePath("CameraPivot/CameraHand")
 CameraField = NodePath("CameraPivot/CameraField")
 CameraInimigo = NodePath("CameraPivot/CameraInimigo")
 CameraPivot = NodePath("CameraPivot")
+SlotsCampo = [NodePath("Carta1"), NodePath("Carta2"), NodePath("Carta3"), NodePath("Carta4"), NodePath("Carta5")]
+SlotsCampoIni = [NodePath("Carta15Ini"), NodePath("Carta14Ini"), NodePath("Carta13Ini"), NodePath("Carta12Ini"), NodePath("Carta11Ini")]
 
 [node name="Board" parent="." unique_id=1698784219 instance=ExtResource("8_v158k")]
 transform = Transform3D(-6.802757e-08, 0.47996116, -1.5335242, -3.0355742e-09, 1.315467, 0.55952144, 1.5578378, 2.3522208e-08, -6.5875554e-08, -0.065074444, 1.0585952, 0.22310543)
@@ -38,16 +40,14 @@ transform = Transform3D(-0.0025830397, -0.99966085, 0.0259151, -3.5205373e-11, 0
 [node name="CameraField" type="Camera3D" parent="CameraPivot" unique_id=573948242]
 transform = Transform3D(0.0052026417, -0.99971455, 0.023318915, 0.004783277, 0.02334384, 0.9997161, -0.999975, -0.005089624, 0.0049033617, 2.9831161, 5.465997, -0.1062417)
 
-[node name="MaoJogador" type="Node2D" parent="." unique_id=222280098 node_paths=PackedStringArray("IndicadorTriangulo", "Carta1", "SlotsCampo", "SlotsCampoST", "SlotsCampoIni", "SlotsCampoSTIni", "CameraHand", "CameraField")]
+[node name="MaoJogador" type="Node2D" parent="." unique_id=222280098 node_paths=PackedStringArray("IndicadorTriangulo", "Carta1", "SlotsCampoST", "SlotsCampoSTIni", "CameraHand", "CameraField")]
 process_mode = 3
 position = Vector2(69, 19)
 script = ExtResource("3_3dryh")
 CartaCena = ExtResource("4_wowpa")
 IndicadorTriangulo = NodePath("../IndicadorTriangulo")
 Carta1 = NodePath("../Carta1")
-SlotsCampo = [NodePath("../Carta1"), NodePath("../Carta2"), NodePath("../Carta3"), NodePath("../Carta4"), NodePath("../Carta5")]
 SlotsCampoST = [NodePath("../Carta6"), NodePath("../Carta7"), NodePath("../Carta8"), NodePath("../Carta9"), NodePath("../Carta10")]
-SlotsCampoIni = [NodePath("../Carta11Ini"), NodePath("../Carta12Ini"), NodePath("../Carta13Ini"), NodePath("../Carta14Ini"), NodePath("../Carta15Ini")]
 SlotsCampoSTIni = [NodePath("../Carta16Ini"), NodePath("../Carta17Ini"), NodePath("../Carta18Ini"), NodePath("../Carta19Ini"), NodePath("../Carta20Ini")]
 Carta3d = ExtResource("6_i6g32")
 CameraHand = NodePath("../CameraPivot/CameraHand")

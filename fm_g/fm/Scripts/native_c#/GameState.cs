@@ -28,17 +28,21 @@ namespace fm
 		public TurnPhase CurrentPhase { get; set; }
 		public GameStatus Status { get; set; }
 		public Player? Winner { get; set; }
+		public MaoJogador MaoDoJogador;
 
-		public GameState(Player player1, Player player2)
+
+		public GameState(Player player1, Player player2, MaoJogador MaoDoJogador)
 		{
 			Player1 = player1;
 			Player2 = player2;
 			CurrentTurn = 1;
+			this.MaoDoJogador = MaoDoJogador;
 			CurrentPlayer = Player1;
 			OpponentPlayer = Player2;
 			CurrentPhase = TurnPhase.Draw;
 			Status = GameStatus.InProgress;
 			Winner = null;
+			MaoDoJogador.ConfigurarSlots(CurrentPlayer.SlotsCampo, OpponentPlayer.SlotsCampo);
 		}
 
 		public void SwitchPlayer()
@@ -54,6 +58,8 @@ namespace fm
 			// Resetamos o status de ataque de TODOS os monstros no campo
 			// para que o novo CurrentPlayer possa atacar, e o OpponentPlayer 
 			// tenha seus monstros resetados para o próximo turno dele.
+			GD.Print(CurrentPlayer.Name);
+			MaoDoJogador.ConfigurarSlots(CurrentPlayer.SlotsCampo, OpponentPlayer.SlotsCampo);
 			ResetFieldFlags(Player1);
 			ResetFieldFlags(Player2);
 		}
