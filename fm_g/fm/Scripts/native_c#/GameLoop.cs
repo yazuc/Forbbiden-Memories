@@ -3,7 +3,7 @@ using Godot;
 
 namespace fm
 {
-	public class GameLoop
+	public partial class GameLoop : Node
 	{
 		public MaoJogador MaoDoJogador;
 		public Camera3D CameraHand;
@@ -88,7 +88,8 @@ namespace fm
 				// Switch player
 				_gameState.SwitchPlayer();				
 				MaoDoJogador.AtualizarMao(_gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList());
-				CameraPivot.RotateY(Mathf.DegToRad(180));
+				//CameraPivot.RotateY(Mathf.DegToRad(180));
+				RotateCameraPivot180();
 			}
 		}
 
@@ -282,6 +283,20 @@ namespace fm
 			}), (uint)GodotObject.ConnectFlags.OneShot); 
 			GD.Print("retornou");
 			return tcs.Task;
+		}
+		
+		public void RotateCameraPivot180()
+		{
+			var tween = CameraPivot.CreateTween();
+			tween.SetEase(Tween.EaseType.InOut);
+			tween.SetTrans(Tween.TransitionType.Sine);
+
+			tween.TweenProperty(
+				CameraPivot,
+				"rotation",
+				CameraPivot.Rotation + new Vector3(0, Mathf.DegToRad(180), 0),
+				0.8f
+			);
 		}
 		
 		public void DisplayGameState()
