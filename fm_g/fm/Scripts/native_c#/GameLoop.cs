@@ -9,6 +9,7 @@ namespace fm
 		public Camera3D CameraHand;
 		public Camera3D CameraField;
 		public Camera3D CameraInimigo;
+		public Node3D CameraPivot;
 		private GameState _gameState;
 		private CardEffectManager _effectManager;
 		private const int HAND_SIZE = 5;
@@ -16,7 +17,7 @@ namespace fm
 		private bool _isBattlePhaseActive = false;
 		private TaskCompletionSource<bool> _battlePhaseEndSignal;
 
-		public GameLoop(Player player1, Player player2, MaoJogador maoUI, Camera3D CameraHand, Camera3D CameraField, Camera3D CameraInimigo)
+		public GameLoop(Player player1, Player player2, MaoJogador maoUI, Camera3D CameraHand, Camera3D CameraField, Camera3D CameraInimigo, Node3D CameraPivot)
 		{
 			_gameState = new GameState(player1, player2);
 			_effectManager = new CardEffectManager();
@@ -24,6 +25,7 @@ namespace fm
 			this.CameraHand = CameraHand;
 			this.CameraField = CameraField;
 			this.CameraInimigo = CameraInimigo;
+			this.CameraPivot = CameraPivot;
 		}
 
 		public void Initialize()
@@ -86,6 +88,7 @@ namespace fm
 				// Switch player
 				_gameState.SwitchPlayer();				
 				MaoDoJogador.AtualizarMao(_gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList());
+				CameraPivot.RotateY(Mathf.DegToRad(180));
 			}
 		}
 
@@ -150,7 +153,11 @@ namespace fm
 				_battlePhaseEndSignal = new TaskCompletionSource<bool>();
 
 				GD.Print("Aguardando ataque ou fim de fase...");
-
+				
+				foreach(var item in MaoDoJogador.SlotsCampoST){
+					MaoDoJogador.SlotsCampo.Add(item);
+				}
+								
 				// 2. Criamos a tarefa de seleção de monstro
 				Task<int> tarefaSelecao = MaoDoJogador.SelecionarSlotNoCampo(MaoDoJogador.SlotsCampo);
 

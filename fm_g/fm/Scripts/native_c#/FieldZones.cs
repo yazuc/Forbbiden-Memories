@@ -114,7 +114,7 @@ namespace fm
 
 	public class FieldMonster
 	{
-		public Cards Card { get; set; }
+		public Cards? Card { get; set; }
 		public bool IsAttackMode { get; set; }
 		public bool IsFaceDown { get; set; }
 		public int TurnsOnField { get; set; }
@@ -123,7 +123,7 @@ namespace fm
 
 	public class FieldSpellTrap
 	{
-		public Cards Card { get; set; }
+		public Cards? Card { get; set; }
 		public bool IsFaceDown { get; set; }
 	}
 }

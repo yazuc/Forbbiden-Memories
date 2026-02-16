@@ -6,10 +6,11 @@ namespace fm
 {
 	public partial class Main : Node
 	{
-		[Export] public MaoJogador MaoVisual;
+		[Export] public MaoJogador? MaoVisual;
 		[Export] public Camera3D CameraHand;
 		[Export] public Camera3D CameraField;
 		[Export] public Camera3D CameraInimigo;
+		[Export] public Node3D CameraPivot;
 		
 		private GameLoop gL;
 		
@@ -47,7 +48,8 @@ namespace fm
 					MaoVisual,
 					CameraHand,
 					CameraField,
-					CameraInimigo
+					CameraInimigo,
+					CameraPivot
 				);
 				gL.Initialize();
 			}
