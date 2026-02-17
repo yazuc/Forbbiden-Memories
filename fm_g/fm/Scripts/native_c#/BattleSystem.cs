@@ -11,8 +11,15 @@ namespace fm
 			public bool DefenderDestroyed { get; set; }
 			public string? Description { get; set; }
 		}
+		
+		public void TypeResults(BattleResult br){
+			GD.Print($"Damage Dealt:{br.DamageDealt.ToString()}");
+			GD.Print($"AttackerDestroyed:{br.AttackerDestroyed.ToString()}");
+			GD.Print($"DefenderDestroyed:{br.DefenderDestroyed.ToString()}");
+			GD.Print($"Description:{br.Description}");
+		}
 
-		public static BattleResult ResolveBattle(
+		public BattleResult ResolveBattle(
 			FieldMonster attackingMonster,
 			FieldMonster? defendingMonster,
 			Player defender)
@@ -25,6 +32,7 @@ namespace fm
 				result.DamageDealt = (int)attackingMonster.Card.Attack;
 				result.Description = $"Direct attack! {attackingMonster.Card.Name} deals {result.DamageDealt} damage.";
 				defender.LifePoints -= result.DamageDealt;
+				//TypeResults(result);
 				return result;
 			}
 
@@ -63,17 +71,8 @@ namespace fm
 				// Draw
 				result.Description = $"Battle is a draw! Both monsters remain.";
 			}
-
+			//TypeResults(result);
 			return result;
-		}
-
-		public static bool CanAttack(FieldMonster monster, int turnNumber)
-		{
-			// Monster can't attack on turn it was summoned (unless it's turn 1 with 1st player)
-			if (monster.TurnsOnField == 0 && turnNumber > 1)
-				return false;
-
-			return !monster.HasAttackedThisTurn;
 		}
 
 		public static void ResetBattleStates(Player player)

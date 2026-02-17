@@ -12,6 +12,7 @@ namespace fm
 		public Node3D CameraPivot;
 		private GameState _gameState;
 		private CardEffectManager _effectManager;
+		private BattleSystem _battleSystem;
 		private const int HAND_SIZE = 5;
 		private const int STARTING_HAND = 5;
 		private bool _isBattlePhaseActive = false;
@@ -21,6 +22,7 @@ namespace fm
 		{
 			_gameState = new GameState(player1, player2, maoUI);
 			_effectManager = new CardEffectManager();
+			_battleSystem = new BattleSystem();
 			this.MaoDoJogador = maoUI;
 			this.CameraHand = CameraHand;
 			this.CameraField = CameraField;
@@ -59,7 +61,7 @@ namespace fm
 
 		public async Task RunTurn()
 		{
-			while(true){
+			while(!_gameState.IsGameOver()){
 				CameraHand.Current = true;
 				CameraField.Current = false;
 				CameraInimigo.Current = false;
@@ -73,24 +75,32 @@ namespace fm
 
 				// Draw Phase
 				ExecuteDrawPhase();
-				if (_gameState.IsGameOver()) return;
+				if (_gameState.IsGameOver()) break;
 
 				// Main Phase 1
-				await ExecuteMainPhase();
-				if (_gameState.IsGameOver()) return;
+				await ExecuteMainPhase();				
+				if (_gameState.IsGameOver()) break;
 
 				// Battle Phase
 				await ExecuteBattlePhase();
-				if (_gameState.IsGameOver()) return;
+				if (_gameState.IsGameOver()) break;
 
 				// End Phase
 				ExecuteEndPhase();
+				if (_gameState.IsGameOver()) break;
 
 				// Switch player
 				_gameState.SwitchPlayer();				
 				MaoDoJogador.AtualizarMao(_gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList());
 				//CameraPivot.RotateY(Mathf.DegToRad(180));
 				RotateCameraPivot180();
+			}
+			
+			if (_gameState.IsGameOver())
+			{
+				GD.Print("Game is already over after while loop!");
+				RotateCameraPivot180Slow();
+				//return;
 			}
 		}
 
@@ -103,17 +113,18 @@ namespace fm
 			{
 				return;
 			}
-
-			if (_gameState.CurrentPlayer.HasCards() && _gameState.CurrentPlayer.Hand.Count < HAND_SIZE)
-			{
-				DrawCard(_gameState.CurrentPlayer);
-				MaoDoJogador.AtualizarMao(_gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList());
+			while(_gameState.CurrentPlayer.Hand.Count < HAND_SIZE){
+				if (_gameState.CurrentPlayer.HasCards() && _gameState.CurrentPlayer.Hand.Count < HAND_SIZE)
+				{
+					DrawCard(_gameState.CurrentPlayer);
+					MaoDoJogador.AtualizarMao(_gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList());
+				}
+				else
+				{
+					GD.Print($"{_gameState.CurrentPlayer.Name} has no cards to draw! Deck out!");
+					_gameState.EndGame(_gameState.OpponentPlayer);
+				}											
 			}
-			else
-			{
-				GD.Print($"{_gameState.CurrentPlayer.Name} has no cards to draw! Deck out!");
-				_gameState.EndGame(_gameState.OpponentPlayer);
-			}							
 		}
 
 		private async Task ExecuteMainPhase()
@@ -129,11 +140,13 @@ namespace fm
  			MaoDoJogador.AtualizarMao(handIds);   
 			
 			GD.Print("Aguardando jogador selecionar uma carta...");
-			int idEscolhido = await EsperarEscolhaDoJogador(); 		
-			var cardData = CardDatabase.Instance.GetCardById(idEscolhido);	
-			_gameState.CurrentPlayer.Field.placeCard(cardData);
-			_gameState.CurrentPlayer.DiscardCard(cardData.Id);
-			_gameState.CurrentPlayer.Field.DrawFieldState();
+			Godot.Collections.Array<int> idEscolhido = await EsperarEscolhaDoJogadorArray(); 
+			foreach(var item in idEscolhido){
+				var cardData = CardDatabase.Instance.GetCardById((int)item);	
+				_gameState.CurrentPlayer.Field.placeCard(cardData);
+				_gameState.CurrentPlayer.DiscardCard(cardData.Id);
+				_gameState.CurrentPlayer.Field.DrawFieldState();				
+			}		
 			
 			foreach(var card in _gameState.CurrentPlayer.Hand)
 			{
@@ -199,10 +212,8 @@ namespace fm
 						if (indexAlvo != -1)
 						{
 							// 6. Resolução da batalha
-							ResolverBatalha(indexAtacante, indexAlvo);
-							
-							// Delay para o jogador ver o resultado antes de resetar a câmera
-							await Task.Delay(800); 
+							GD.Print("index alvo" +indexAlvo.ToString());
+							ResolverBatalha(indexAtacante, indexAlvo);							
 						}
 					}
 					
@@ -217,6 +228,7 @@ namespace fm
 			finally 
 			{
 				// 7. LIMPEZA TOTAL: Garante que o jogo não trave mesmo em caso de erro
+				GD.Print("saimos da bp");
 				_isBattlePhaseActive = false;
 				MaoDoJogador.SairModoSelecaoCampo(); // Esconde o seletor 3D
 				MaoDoJogador.CancelarSelecaoNoCampo(); // Resolve qualquer Task pendente
@@ -224,13 +236,15 @@ namespace fm
 				CameraHand.Current = true;
 				CameraField.Current = false;
 				CameraInimigo.Current = false;
-
 				GD.Print("--- Battle Phase Ended & State Reset ---");
+				_gameState.AdvancePhase();
+				GD.Print($"--- {_gameState.CurrentPlayer.Name}'s {_gameState.CurrentPhase} ---");
 			}
+			return;
 		}
 		
 
-		private void ResolverBatalha(int atacanteIdx, int alvoIdx)
+		private bool ResolverBatalha(int atacanteIdx, int alvoIdx)
 		{
 			var meuMonstro = _gameState.CurrentPlayer.Field.GetMonsterInZone(atacanteIdx);
 			var monstroInimigo = _gameState.OpponentPlayer.Field.GetMonsterInZone(alvoIdx);
@@ -239,11 +253,36 @@ namespace fm
 			if (meuMonstro?.Card == null)
 			{
 				GD.PrintErr("[GameLoop] Batalha abortada: Um dos slots está vazio.");
-				return;
+				return false;
 			}
-
-			GD.Print($"Batalha: {meuMonstro.Card.Name} vs {monstroInimigo.Card?.Name}");
-			// Chame sua lógica de cálculo de dano aqui
+			//_gameState.CurrentPlayer.Field.DrawFieldState();
+			//_gameState.OpponentPlayer.Field.DrawFieldState();
+			var battleResult = _battleSystem.ResolveBattle(meuMonstro, monstroInimigo, _gameState.OpponentPlayer);
+			
+			if(monstroInimigo != null){
+				if(battleResult.DefenderDestroyed){
+					MaoDoJogador.FinalizaNodoByCard(monstroInimigo.Card.Id);
+					_gameState.OpponentPlayer.Field.RemoveMonster(alvoIdx);		
+					_gameState.OpponentPlayer.TakeDamage(battleResult.DamageDealt);				
+				}
+				if(battleResult.AttackerDestroyed){
+					MaoDoJogador.FinalizaNodoByCard(meuMonstro.Card.Id);
+					_gameState.CurrentPlayer.Field.RemoveMonster(atacanteIdx);							
+					_gameState.CurrentPlayer.TakeDamage(battleResult.DamageDealt);
+				}
+			}
+			if(_gameState.OpponentPlayer.LifePoints <= 0){
+				GD.Print("fim de jogo");
+				_isBattlePhaseActive = false;
+				_gameState.EndGame(_gameState.CurrentPlayer);
+				_gameState.AdvancePhase();
+				return true;
+			}
+			
+			return false;
+			//_gameState.CurrentPlayer.Field.DrawFieldState();
+			//_gameState.OpponentPlayer.Field.DrawFieldState();
+			//GD.Print(battleResult.Description);
 		}
 		
 		public void HandleInput(InputEvent @event)
@@ -312,6 +351,17 @@ namespace fm
 			}
 		}
 		
+		private Task<Godot.Collections.Array<int>> EsperarEscolhaDoJogadorArray()
+		{
+			var tcs = new TaskCompletionSource<Godot.Collections.Array<int>>();
+
+			// Use Godot.ConnectFlags para resolver o erro CS0103
+			MaoDoJogador.Connect(MaoJogador.SignalName.CartaSelecionada, Callable.From<Godot.Collections.Array<int>>((id) => {
+				tcs.TrySetResult(id);
+			}), (uint)GodotObject.ConnectFlags.OneShot); 
+			return tcs.Task;
+		}
+		
 		private Task<int> EsperarEscolhaDoJogador()
 		{
 			var tcs = new TaskCompletionSource<int>();
@@ -323,20 +373,7 @@ namespace fm
 			return tcs.Task;
 		}
 		
-		// GameLoop.cs
-		//private async Task<int> EsperarSlotDaUI()
-		//{
-			//var tcs = new TaskCompletionSource<int>();
-			//
-			//// Conecta o sinal da UI e resolve a Task quando ele disparar
-			//MaoDoJogador.Connect(MaoJogador.SignalName.SlotConfirmado, 
-				//Callable.From<int>((idx) => tcs.TrySetResult(idx)), 
-				//(uint)GodotObject.ConnectFlags.OneShot);
-//
-			//// Se o jogador apertar V, precisamos cancelar essa espera
-			//// Você pode usar o mesmo padrão de Task.WhenAny que já usa
-			//return await tcs.Task;
-		//}
+
 		
 		public void RotateCameraPivot180()
 		{
@@ -350,6 +387,22 @@ namespace fm
 				CameraPivot.Rotation + new Vector3(0, Mathf.DegToRad(180), 0),
 				0.8f
 			);
+		}
+		
+		public void RotateCameraPivot180Slow()
+		{
+			var tween = CameraPivot.CreateTween();
+			tween.SetLoops();
+			
+			//tween.SetEase(Tween.EaseType.Linear);
+			tween.SetTrans(Tween.TransitionType.Linear);
+			
+			tween.TweenProperty(
+				CameraPivot,
+				"rotation",
+				CameraPivot.Rotation + new Vector3(0, Mathf.DegToRad(360), 0),
+				30.0f
+			).AsRelative();
 		}
 		
 		public void DisplayGameState()

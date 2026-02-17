@@ -186,13 +186,23 @@ namespace fm{
 			var idResultado = await Function.Fusion(idsString); 
 			//precisa retornar os ids dos que foram descartados
 			var resultadoFusao = await Function.Fusion(idsString);
-
+			Godot.Collections.Array<int> retorno = new Godot.Collections.Array<int>();
+			//retorno.AddRange(_cartasSelecionadasParaFusao.Select(x => x.CurrentID.ToString()));
+			
+			GD.Print("----------------Cartas que vao pra fusao----------------");
+			foreach(var item in _cartasSelecionadasParaFusao){
+				retorno.Add(item.CurrentID);
+				GD.Print($"{retorno[0]}");				
+			}
+			GD.Print("----------------fim fusao----------------");
+			
 			if (resultadoFusao != null)
 			{
 				var slotDestino = SlotsCampo[_indiceCampoSelecionado];
 
 				// 3. Instancia a carta 3D do resultado final
 				Node3D novaCarta3d = Carta3d.Instantiate<Node3D>();
+				novaCarta3d.AddToGroup("cartas");
 				GetTree().CurrentScene.AddChild(novaCarta3d);
 
 				novaCarta3d.GlobalPosition = slotDestino.GlobalPosition;
@@ -213,8 +223,7 @@ namespace fm{
 				AtualizarMao(_cartasNaMao.Select(x => x.CurrentID).ToList());
 				SairModoSelecaoCampo();
 				_bloquearNavegaçãoManual = false;
-				
-				EmitSignal(SignalName.CartaSelecionada, (int)resultadoFusao.Id);
+				EmitSignal(SignalName.CartaSelecionada, retorno);
 			}
 		}
 
@@ -333,9 +342,9 @@ namespace fm{
 				
 				int anterior = _indiceCampoSelecionado;
 				if (Input.IsActionJustPressed("ui_right")) 
-					_indiceCampoSelecionado = Mathf.Min(_indiceCampoSelecionado + 1 * direcao, slots.Count - 1);
+					_indiceCampoSelecionado = Mathf.Min(_indiceCampoSelecionado + 1, slots.Count - 1);
 				if (Input.IsActionJustPressed("ui_left")) 
-					_indiceCampoSelecionado = Mathf.Max(_indiceCampoSelecionado - 1 * direcao, 0);
+					_indiceCampoSelecionado = Mathf.Max(_indiceCampoSelecionado - 1 , 0);
 
 				if (anterior != _indiceCampoSelecionado)
 				{					
@@ -373,6 +382,25 @@ namespace fm{
 				Tween tween = GetTree().CreateTween();
 				tween.TweenProperty(_instanciaSeletor, "global_position", slotDestino.GlobalPosition + new Vector3(0, 0.05f, 0), 0.05f);
 				_instanciaSeletor.GlobalRotation = slotDestino.GlobalRotation;				
+			}
+		}
+		
+		public void FinalizaNodoByCard(int CardID){
+			var nodes = GetTree().GetNodesInGroup("cartas");
+			foreach(var item in nodes){
+				if(item is Carta3d meuNode){
+					if(CardID == meuNode.carta){
+						meuNode.QueueFree();										
+					}
+				}
+			}
+		}
+		
+		public void PrintTodosNodos3D(){
+			var nodes = GetTree().GetNodesInGroup("cartas");
+			foreach(var item in nodes){
+				if(item is Carta3d meuNode)
+					GD.Print($"Aqui temos o nodo {meuNode.carta}");
 			}
 		}
 		
