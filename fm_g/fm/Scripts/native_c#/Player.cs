@@ -42,7 +42,7 @@ namespace fm
 				LifePoints = 0;
 			}
 			GD.Print($"{Name} tomou {dmg} de dano, e está com {LifePoints}.");
-			return LifePoints < 0;
+			return LifePoints <= 0;
 		}
 
 		public void DiscardCard(int card)
