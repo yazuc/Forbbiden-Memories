@@ -58,6 +58,12 @@ namespace fm{
 				
 				// SELEÇÃO NA MÃO (2D)
 				int anterior = _indiceSelecionado;
+				if(_indiceSelecionado > 4){
+					_indiceSelecionado = 0;
+				}
+				if(_indiceSelecionado < 0){
+					_indiceSelecionado = 4;
+				}
 				if (Input.IsActionJustPressed("ui_right")) _indiceSelecionado = Mathf.Min(_indiceSelecionado + 1, _cartasNaMao.Count - 1);
 				else if (Input.IsActionJustPressed("ui_left")) _indiceSelecionado = Mathf.Max(_indiceSelecionado - 1, 0);
 

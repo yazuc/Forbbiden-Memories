@@ -145,6 +145,7 @@ namespace fm
 				var cardData = CardDatabase.Instance.GetCardById((int)item);	
 				_gameState.CurrentPlayer.Field.placeCard(cardData);
 				_gameState.CurrentPlayer.DiscardCard(cardData.Id);
+				GD.Print("PLAYER DO TURNO ATUAL: " + _gameState.CurrentPlayer.Name);
 				_gameState.CurrentPlayer.Field.DrawFieldState();				
 			}		
 			
@@ -211,12 +212,9 @@ namespace fm
 						int indexAlvo = await tarefaAlvo;
 						if (indexAlvo != -1)
 						{
-							// 6. Resolução da batalha
-							GD.Print("index alvo" +indexAlvo.ToString());
 							ResolverBatalha(indexAtacante, indexAlvo);							
 						}
-					}
-					
+					}					
 					// Limpa inputs para evitar que um 'Enter' confirme o próximo ataque sem querer
 					Input.FlushBufferedEvents();
 				}
@@ -260,6 +258,13 @@ namespace fm
 			var battleResult = _battleSystem.ResolveBattle(meuMonstro, monstroInimigo, _gameState.OpponentPlayer);
 			
 			if(monstroInimigo != null){
+				if(battleResult.AttackerDestroyed && battleResult.DefenderDestroyed)
+				{
+					MaoDoJogador.FinalizaNodoByCard(monstroInimigo.Card.Id);
+					_gameState.OpponentPlayer.Field.RemoveMonster(alvoIdx);	
+					MaoDoJogador.FinalizaNodoByCard(meuMonstro.Card.Id);
+					_gameState.CurrentPlayer.Field.RemoveMonster(atacanteIdx);			
+				}
 				if(battleResult.DefenderDestroyed){
 					MaoDoJogador.FinalizaNodoByCard(monstroInimigo.Card.Id);
 					_gameState.OpponentPlayer.Field.RemoveMonster(alvoIdx);		

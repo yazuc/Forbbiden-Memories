@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://b2f4acrh1ecd2" path="res://HUD/seletor.tscn" id="7_1l0tm"]
 [ext_resource type="PackedScene" uid="uid://dcgpwjgiljbd7" path="res://Assets/campo.glb" id="8_v158k"]
 
-[node name="Game" type="Node3D" unique_id=705124670 node_paths=PackedStringArray("MaoVisual", "CameraHand", "CameraField", "CameraInimigo", "CameraPivot", "SlotsCampo", "SlotsCampoIni", "SlotsCampoST", "SlotsCampoSTIni")]
+[node name="Game" type="Node3D" unique_id=705124670 node_paths=PackedStringArray("MaoVisual", "CameraHand", "CameraField", "CameraInimigo", "CameraPivot", "SlotsCampo", "SlotsCampoIni", "SlotsCampoST", "SlotsCampoSTIni", "LP_You", "LP_Com")]
 script = ExtResource("1_e2o6t")
 MaoVisual = NodePath("MaoJogador")
 CameraHand = NodePath("CameraPivot/CameraHand")
@@ -19,6 +19,8 @@ SlotsCampo = [NodePath("Carta1"), NodePath("Carta2"), NodePath("Carta3"), NodePa
 SlotsCampoIni = [NodePath("Carta15Ini"), NodePath("Carta14Ini"), NodePath("Carta13Ini"), NodePath("Carta12Ini"), NodePath("Carta11Ini")]
 SlotsCampoST = []
 SlotsCampoSTIni = []
+LP_You = NodePath("CameraPivot/YOU/LP")
+LP_Com = NodePath("CameraPivot/COM/LP")
 
 [node name="MaoJogador" type="Node2D" parent="." unique_id=222280098 node_paths=PackedStringArray("IndicadorTriangulo", "Carta1", "CameraHand", "CameraField")]
 process_mode = 3
@@ -37,7 +39,8 @@ metadata/_edit_use_anchors_ = true
 transform = Transform3D(-6.802757e-08, 0.47996116, -1.5335242, -3.0355742e-09, 1.315467, 0.55952144, 1.5578378, 2.3522208e-08, -6.5875554e-08, -0.065074444, 1.0585952, 0.22310543)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=188368505]
-transform = Transform3D(-0.0012591501, 0.9976855, -0.06798625, 0.01847398, 0.0679979, 0.9975144, 0.9998286, 4.3895945e-08, -0.01851684, -0.29138947, 13.080857, 0.27553463)
+transform = Transform3D(-0.000853264, 0.9989379, -0.04606975, 0.018497184, 0.046077646, 0.99876666, 0.9998286, 5.105711e-08, -0.018516853, 0.0482471, 8.921741, 0.27553463)
+shadow_enabled = true
 
 [node name="IndicadorTriangulo" parent="." unique_id=360567357 instance=ExtResource("5_wowpa")]
 top_level = true

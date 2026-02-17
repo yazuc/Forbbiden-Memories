@@ -15,6 +15,8 @@ namespace fm
 		[Export] public Godot.Collections.Array<Marker3D> SlotsCampoIni;
 		[Export] public Godot.Collections.Array<Marker3D> SlotsCampoST;
 		[Export] public Godot.Collections.Array<Marker3D> SlotsCampoSTIni;
+		[Export] public Label LP_You;
+		[Export] public Label LP_Com;
 		private GameLoop gL;
 		
 		public override async void _Ready()
@@ -54,8 +56,8 @@ namespace fm
 			{
 				GD.Print(SlotsCampo.Count().ToString());
 				gL = new GameLoop(
-					new Player("Alice", deck.Cards, SlotsCampo, SlotsCampoST, 8000), 
-					new Player("Bob", deckIni.Cards, SlotsCampoIni, SlotsCampoSTIni, 8000),
+					new Player("Alice", deck.Cards, SlotsCampo, SlotsCampoST, LP_You, 8000), 
+					new Player("Bob", deckIni.Cards, SlotsCampoIni, SlotsCampoSTIni, LP_Com, 8000),
 					MaoVisual,
 					CameraHand,
 					CameraField,

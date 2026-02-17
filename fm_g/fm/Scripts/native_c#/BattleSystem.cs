@@ -31,8 +31,8 @@ namespace fm
 			{
 				result.DamageDealt = (int)attackingMonster.Card.Attack;
 				result.Description = $"Direct attack! {attackingMonster.Card.Name} deals {result.DamageDealt} damage.";
-				defender.LifePoints -= result.DamageDealt;
-				//TypeResults(result);
+				defender.TakeDamage(result.DamageDealt);
+				TypeResults(result);
 				return result;
 			}
 
@@ -63,6 +63,8 @@ namespace fm
 				}
 				else
 				{
+					result.AttackerDestroyed = true;
+					result.DefenderDestroyed = true;
 					result.Description = $"{attackingMonster.Card.Name} fails to destroy {defendingMonster.Card.Name}!";
 				}
 			}
@@ -71,7 +73,7 @@ namespace fm
 				// Draw
 				result.Description = $"Battle is a draw! Both monsters remain.";
 			}
-			//TypeResults(result);
+			TypeResults(result);
 			return result;
 		}
 
