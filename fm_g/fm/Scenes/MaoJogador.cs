@@ -182,10 +182,9 @@ namespace fm{
 		{			
 			// Aqui você enviaria a LISTA de IDs para o seu sistema de fusão
 			string idsString = string.Join(",", _cartasSelecionadasParaFusao.Select(c => c.CurrentID));			
-			
-			// Lógica fictícia: Sua lógica de jogo decide qual carta resulta da fusão
+						
 			var idResultado = await Function.Fusion(idsString); 
-
+			//precisa retornar os ids dos que foram descartados
 			var resultadoFusao = await Function.Fusion(idsString);
 
 			if (resultadoFusao != null)
