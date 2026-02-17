@@ -236,13 +236,13 @@ namespace fm
 			var monstroInimigo = _gameState.OpponentPlayer.Field.GetMonsterInZone(alvoIdx);
 
 			// Validação de segurança antes de acessar propriedades
-			if (meuMonstro?.Card == null || monstroInimigo?.Card == null)
+			if (meuMonstro?.Card == null)
 			{
 				GD.PrintErr("[GameLoop] Batalha abortada: Um dos slots está vazio.");
 				return;
 			}
 
-			GD.Print($"Batalha: {meuMonstro.Card.Name} vs {monstroInimigo.Card.Name}");
+			GD.Print($"Batalha: {meuMonstro.Card.Name} vs {monstroInimigo.Card?.Name}");
 			// Chame sua lógica de cálculo de dano aqui
 		}
 		

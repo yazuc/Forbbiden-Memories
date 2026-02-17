@@ -369,10 +369,12 @@ namespace fm{
 		// Método auxiliar para mover o seletor entre diferentes arrays de markers
 		private void AtualizarPosicaoSeletorParaSlots(Godot.Collections.Array<Marker3D> slots)
 		{
-			var slotDestino = slots[_indiceCampoSelecionado];
-			Tween tween = GetTree().CreateTween();
-			tween.TweenProperty(_instanciaSeletor, "global_position", slotDestino.GlobalPosition + new Vector3(0, 0.05f, 0), 0.05f);
-			_instanciaSeletor.GlobalRotation = slotDestino.GlobalRotation;
+			if (slots.Count > 0 && _indiceCampoSelecionado >= 0 && _indiceCampoSelecionado < slots.Count){
+				var slotDestino = slots[_indiceCampoSelecionado];
+				Tween tween = GetTree().CreateTween();
+				tween.TweenProperty(_instanciaSeletor, "global_position", slotDestino.GlobalPosition + new Vector3(0, 0.05f, 0), 0.05f);
+				_instanciaSeletor.GlobalRotation = slotDestino.GlobalRotation;				
+			}
 		}
 		
 		public void ConfigurarSlots(
