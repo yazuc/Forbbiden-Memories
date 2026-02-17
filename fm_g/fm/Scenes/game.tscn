@@ -22,7 +22,7 @@ SlotsCampoSTIni = []
 LP_You = NodePath("CameraPivot/YOU/LP")
 LP_Com = NodePath("CameraPivot/COM/LP")
 
-[node name="MaoJogador" type="Node2D" parent="." unique_id=222280098 node_paths=PackedStringArray("IndicadorTriangulo", "Carta1", "CameraHand", "CameraField")]
+[node name="MaoJogador" type="Node2D" parent="." unique_id=222280098 node_paths=PackedStringArray("IndicadorTriangulo", "Carta1", "CameraHand", "CameraField", "CameraInimigo")]
 process_mode = 3
 position = Vector2(69, 19)
 script = ExtResource("3_3dryh")
@@ -32,6 +32,7 @@ Carta1 = NodePath("../Carta1")
 Carta3d = ExtResource("6_i6g32")
 CameraHand = NodePath("../CameraPivot/CameraHand")
 CameraField = NodePath("../CameraPivot/CameraField")
+CameraInimigo = NodePath("../CameraPivot/CameraInimigo")
 Seletor = ExtResource("7_1l0tm")
 metadata/_edit_use_anchors_ = true
 

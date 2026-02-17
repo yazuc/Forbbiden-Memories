@@ -61,10 +61,8 @@ namespace fm
 
 		public async Task RunTurn()
 		{
-			while(!_gameState.IsGameOver()){
-				CameraHand.Current = true;
-				CameraField.Current = false;
-				CameraInimigo.Current = false;
+			while(!_gameState.IsGameOver()){				
+				MaoDoJogador.TransitionTo(CameraHand, 0.5f);
 				if (_gameState.IsGameOver())
 				{
 					GD.Print("Game is already over!");
@@ -152,9 +150,8 @@ namespace fm
 			foreach(var card in _gameState.CurrentPlayer.Hand)
 			{
 				GD.Print($"- {_gameState.CurrentPlayer.Name} has {card.Name} in hand.");
-			}       
-			CameraHand.Current = false;
-			CameraField.Current = true;  
+			}       			
+			MaoDoJogador.TransitionTo(CameraField, 0.5f);
 					
 			_gameState.AdvancePhase();
 		}
@@ -168,12 +165,7 @@ namespace fm
 			try 
 			{
 				while (_isBattlePhaseActive)
-				{
-					// 1. Reset visual e de câmeras para o início do loop de ataque
-					CameraHand.Current = false;
-					CameraField.Current = true;
-					CameraInimigo.Current = false;
-					
+				{												
 					_battlePhaseEndSignal = new TaskCompletionSource<bool>();
 
 					GD.Print("Aguardando ataque ou fim de fase (V)...");
@@ -199,8 +191,7 @@ namespace fm
 					if (indexAtacante != -1)
 					{
 						// 5. Transição para o campo inimigo
-						CameraField.Current = false;
-						CameraInimigo.Current = true;
+						MaoDoJogador.TransitionTo(CameraInimigo, 0.3f);						
 
 						GD.Print("Selecione o alvo inimigo...");
 						Task<int> tarefaAlvo = MaoDoJogador.SelecionarSlotNoCampo(MaoDoJogador.SlotsCampoIni, _gameState.CurrentTurn == 1);
@@ -231,9 +222,7 @@ namespace fm
 				MaoDoJogador.SairModoSelecaoCampo(); // Esconde o seletor 3D
 				MaoDoJogador.CancelarSelecaoNoCampo(); // Resolve qualquer Task pendente
 				
-				CameraHand.Current = true;
-				CameraField.Current = false;
-				CameraInimigo.Current = false;
+				MaoDoJogador.TransitionTo(CameraHand, 0.5f);				
 				GD.Print("--- Battle Phase Ended & State Reset ---");
 				_gameState.AdvancePhase();
 				GD.Print($"--- {_gameState.CurrentPlayer.Name}'s {_gameState.CurrentPhase} ---");
@@ -363,7 +352,7 @@ namespace fm
 			// Use Godot.ConnectFlags para resolver o erro CS0103
 			MaoDoJogador.Connect(MaoJogador.SignalName.CartaSelecionada, Callable.From<Godot.Collections.Array<int>>((id) => {
 				tcs.TrySetResult(id);
-			}), (uint)GodotObject.ConnectFlags.OneShot); 
+			}), (uint)GodotObject.ConnectFlags.OneShot); 		
 			return tcs.Task;
 		}
 		
@@ -378,7 +367,6 @@ namespace fm
 			return tcs.Task;
 		}
 		
-
 		
 		public void RotateCameraPivot180()
 		{

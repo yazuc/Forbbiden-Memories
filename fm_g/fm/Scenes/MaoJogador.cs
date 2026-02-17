@@ -7,17 +7,19 @@ namespace fm{
 		[Export] public PackedScene CartaCena;
 		[Export] public Node2D IndicadorTriangulo;
 		[Export] public Marker3D Carta1;		
+		[Export] public PackedScene Carta3d;
+		[Export] public Camera3D CameraHand;
+		[Export] public Camera3D CameraField;
+		[Export] public Camera3D CameraInimigo;
+		[Export] public PackedScene Seletor;
+		[Export] public bool InvertInput = false;
 		
+		private Camera3D _transitionCam;
 		public Godot.Collections.Array<Marker3D> SlotsCampo = new();
 		public Godot.Collections.Array<Marker3D> SlotsCampoST = new ();
 		public Godot.Collections.Array<Marker3D> SlotsCampoIni = new ();
 		public Godot.Collections.Array<Marker3D> SlotsCampoSTIni = new ();
 		
-		[Export] public PackedScene Carta3d;
-		[Export] public Camera3D CameraHand;
-		[Export] public Camera3D CameraField;
-		[Export] public PackedScene Seletor;
-		[Export] public bool InvertInput = false;
 		
 		[Signal] public delegate void SlotConfirmadoEventHandler(int index);
 		[Signal] public delegate void CartaSelecionadaEventHandler(int id);
@@ -34,6 +36,8 @@ namespace fm{
 		// Called when the node enters the scene tree for the first time.
 		public override void _Ready()
 		{
+			_transitionCam = new Camera3D();
+			AddChild(_transitionCam);
 			if (Seletor != null)
 			{
 				_instanciaSeletor = Seletor.Instantiate<Node3D>();
@@ -97,9 +101,8 @@ namespace fm{
 				}
 				
 				if (Input.IsActionJustPressed("ui_cancel")) 
-				{
-					CameraHand.Current = true;
-					CameraField.Current = false;
+				{					
+					TransitionTo(CameraHand, 0.5f);
 					SairModoSelecaoCampo();
 				}
 			}
@@ -131,9 +134,8 @@ namespace fm{
 			{
 				_selecionandoLocal = true;
 				_indiceCampoSelecionado = 0; // Começa no primeiro slot
-				
-				CameraHand.Current = false;
-				CameraField.Current = true;
+								
+				TransitionTo(CameraField, 0.5f);
 
 				if (_instanciaSeletor != null)
 				{
@@ -235,9 +237,7 @@ namespace fm{
 
 		public void SairModoSelecaoCampo()
 		{
-			_selecionandoLocal = false;
-			//CameraField.Current = false;
-			//CameraHand.Current = true;
+			_selecionandoLocal = false;			
 			if (_instanciaSeletor != null) _instanciaSeletor.Visible = false;
 		}
 
@@ -376,7 +376,9 @@ namespace fm{
 			_instanciaSeletor.Visible = false;
 			_selecionandoLocal = false;
 			_bloquearNavegaçãoManual = false;
-
+			if(resultado > -1){				
+				TransitionTo(CameraField, 0.5f);				
+			}
 			return resultado;
 		}
 
@@ -422,6 +424,41 @@ namespace fm{
 			this.SlotsCampoSTIni = magiasInimigos;			
 			
 			GD.Print("MaoJogador: Slots redefinidos com sucesso via GameLoop.");
+		}
+		
+		public void TransitionTo(Camera3D targetCam, double duration)
+		{
+			// 1. Identifica a câmera que está ativa no momento
+			Viewport viewport = GetViewport();
+			Camera3D currentCam = viewport.GetCamera3D();
+
+			if (currentCam == null || currentCam == targetCam) return;
+
+			// 2. Prepara a câmera de transição na posição exata da origem
+			_transitionCam.GlobalTransform = currentCam.GlobalTransform;
+			_transitionCam.Fov = currentCam.Fov;
+			_transitionCam.MakeCurrent();
+
+			// 3. Cria o Tween
+			Tween tween = GetTree().CreateTween();
+			tween.SetParallel(true);
+			tween.SetTrans(Tween.TransitionType.Cubic);
+			tween.SetEase(Tween.EaseType.InOut);
+
+			// Move a transição para o destino (posição e rotação)
+			tween.TweenProperty(_transitionCam, "global_transform", 
+				targetCam.GlobalTransform, duration);
+			
+			// Ajusta o FOV caso as câmeras tenham lentes diferentes
+			tween.TweenProperty(_transitionCam, "fov", 
+				targetCam.Fov, duration);
+
+			// 4. Finalização: Entrega o controle para a câmera alvo real
+			tween.Chain().TweenCallback(Callable.From(() => 
+			{
+				targetCam.MakeCurrent();
+				GD.Print("Troca de câmera concluída.");
+			}));
 		}
 	}
 }
