@@ -1,6 +1,7 @@
 /obj
 /logica
 /bin
+**/bin/Debug
 obj
 logica
 bin
