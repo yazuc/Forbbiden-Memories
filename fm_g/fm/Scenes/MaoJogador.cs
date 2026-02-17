@@ -22,7 +22,7 @@ namespace fm{
 		
 		
 		[Signal] public delegate void SlotConfirmadoEventHandler(int index);
-		[Signal] public delegate void CartaSelecionadaEventHandler(int id);
+		[Signal] public delegate void CartaSelecionadaEventHandler(Godot.Collections.Array<int> ids);
 		[Signal] public delegate void AlvoSelecionadoEventHandler(int index);
 		
 		private TaskCompletionSource<int> _tcsCampo = null;
@@ -189,23 +189,15 @@ namespace fm{
 		private async void ConfirmarInvocacaoNoCampo()
 		{			
 			// Aqui você enviaria a LISTA de IDs para o seu sistema de fusão
-			string idsString = string.Join(",", _cartasSelecionadasParaFusao.Select(c => c.CurrentID));			
-						
-			var idResultado = await Function.Fusion(idsString); 
+			string idsString = string.Join(",", _cartasSelecionadasParaFusao.Select(c => c.CurrentID));									
 			//precisa retornar os ids dos que foram descartados
-			var resultadoFusao = await Function.Fusion(idsString);
-			Godot.Collections.Array<int> retorno = new Godot.Collections.Array<int>();
-			//retorno.AddRange(_cartasSelecionadasParaFusao.Select(x => x.CurrentID.ToString()));
-			
-			GD.Print("----------------Cartas que vao pra fusao----------------");
-			foreach(var item in _cartasSelecionadasParaFusao){
-				retorno.Add(item.CurrentID);
-				GD.Print($"{retorno[0]}");				
-			}
-			GD.Print("----------------fim fusao----------------");
-			
+			var resultadoFusao = await Function.Fusion(idsString);			
 			if (resultadoFusao != null)
 			{
+				var resultid = resultadoFusao.Id;
+				var idsMateriais = _cartasSelecionadasParaFusao.Select(c => c.CurrentID);
+				var retorno = new Godot.Collections.Array<int>(idsMateriais);
+				retorno.Add(resultid);
 				var slotDestino = SlotsCampo[_indiceCampoSelecionado];
 
 				// 3. Instancia a carta 3D do resultado final
@@ -216,8 +208,9 @@ namespace fm{
 				novaCarta3d.GlobalPosition = slotDestino.GlobalPosition;
 				novaCarta3d.GlobalRotation = slotDestino.GlobalRotation;
 
-				if (novaCarta3d.HasMethod("Setup")) 
+				if (novaCarta3d.HasMethod("Setup")){
 					novaCarta3d.Call("Setup", (int)resultadoFusao.Id);
+				} 
 
 				// 4. Remove todas as cartas usadas da mão
 				foreach (var carta in _cartasSelecionadasParaFusao)
@@ -231,6 +224,7 @@ namespace fm{
 				AtualizarMao(_cartasNaMao.Select(x => x.CurrentID).ToList());
 				SairModoSelecaoCampo();
 				_bloquearNavegaçãoManual = false;
+				//retorno.Add(resultid);
 				EmitSignal(SignalName.CartaSelecionada, retorno);
 			}
 		}
@@ -426,14 +420,19 @@ namespace fm{
 			GD.Print("MaoJogador: Slots redefinidos com sucesso via GameLoop.");
 		}
 		
-		public void TransitionTo(Camera3D targetCam, double duration)
+		public void TransitionTo(Camera3D targetCam, double duration, bool MainPhase = false)
 		{
 			// 1. Identifica a câmera que está ativa no momento
 			Viewport viewport = GetViewport();
 			Camera3D currentCam = viewport.GetCamera3D();
 
 			if (currentCam == null || currentCam == targetCam) return;
-
+			GD.Print(targetCam.Name);
+			
+			//if(targetCam.Name == "CameraField" && MainPhase){
+				//this.Visible = false;
+			//}
+			
 			// 2. Prepara a câmera de transição na posição exata da origem
 			_transitionCam.GlobalTransform = currentCam.GlobalTransform;
 			_transitionCam.Fov = currentCam.Fov;

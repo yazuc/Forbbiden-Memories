@@ -62,7 +62,7 @@ namespace fm
 		public async Task RunTurn()
 		{
 			while(!_gameState.IsGameOver()){				
-				MaoDoJogador.TransitionTo(CameraHand, 0.5f);
+				MaoDoJogador.TransitionTo(CameraHand, 0.5f, true);
 				if (_gameState.IsGameOver())
 				{
 					GD.Print("Game is already over!");
@@ -139,12 +139,16 @@ namespace fm
 			
 			GD.Print("Aguardando jogador selecionar uma carta...");
 			Godot.Collections.Array<int> idEscolhido = await EsperarEscolhaDoJogadorArray(); 
+			int i = 1;
 			foreach(var item in idEscolhido){
 				var cardData = CardDatabase.Instance.GetCardById((int)item);	
-				_gameState.CurrentPlayer.Field.placeCard(cardData);
+				if(i == idEscolhido.Count()){
+					_gameState.CurrentPlayer.Field.placeCard(cardData);					
+				}
 				_gameState.CurrentPlayer.DiscardCard(cardData.Id);
 				GD.Print("PLAYER DO TURNO ATUAL: " + _gameState.CurrentPlayer.Name);
 				_gameState.CurrentPlayer.Field.DrawFieldState();				
+				i++;
 			}		
 			
 			foreach(var card in _gameState.CurrentPlayer.Hand)
