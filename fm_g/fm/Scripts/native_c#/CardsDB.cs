@@ -15,10 +15,7 @@ namespace fm
 			// Defina o caminho do banco. 
 			// No Linux (/mnt/Nvme/fm), garanta que você tem permissão de escrita.
 			string dbPath = Path.Combine("/mnt/Nvme/fm/cards.db");
-
-			// ESTA LINHA É A QUE FALTA:
-			_database = new SQLiteConnection(dbPath);
-			
+			_database = new SQLiteConnection(dbPath);			
 			_database.CreateTable<Cards>();
 		}
 

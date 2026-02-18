@@ -143,7 +143,7 @@ namespace fm
 			foreach(var item in idEscolhido){
 				var cardData = CardDatabase.Instance.GetCardById((int)item);	
 				if(i == idEscolhido.Count()){
-					_gameState.CurrentPlayer.Field.placeCard(cardData);					
+					_gameState.CurrentPlayer.Field.placeCard(MaoDoJogador.PegaSlot(cardData.Id), cardData);					
 				}
 				_gameState.CurrentPlayer.DiscardCard(cardData.Id);
 				GD.Print("PLAYER DO TURNO ATUAL: " + _gameState.CurrentPlayer.Name);

@@ -209,7 +209,7 @@ namespace fm{
 				novaCarta3d.GlobalRotation = slotDestino.GlobalRotation;
 
 				if (novaCarta3d.HasMethod("Setup")){
-					novaCarta3d.Call("Setup", (int)resultadoFusao.Id);
+					novaCarta3d.Call("Setup", (int)resultadoFusao.Id, (int)_indiceCampoSelecionado);
 				} 
 
 				// 4. Remove todas as cartas usadas da mão
@@ -396,6 +396,19 @@ namespace fm{
 					}
 				}
 			}
+		}
+		
+		public int PegaSlot(int CardID){
+			var nodes = GetTree().GetNodesInGroup("cartas");
+			foreach(var item in nodes){
+				if(item is Carta3d meuNode){
+					if(CardID == meuNode.carta){
+						return meuNode.slotPlaced;
+					}
+				}
+			}
+			//nao achou
+			return -1;
 		}
 		
 		public void PrintTodosNodos3D(){
