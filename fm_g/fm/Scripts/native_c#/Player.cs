@@ -10,6 +10,7 @@ namespace fm
 		public List<Cards> Hand { get; set; }
 		public List<Cards> Graveyard { get; set; }
 		public List<Cards> Deck { get; set; }
+		public bool IsEnemy {get; set;}
 		public Godot.Collections.Array<Marker3D> SlotsCampo {get;set;}
 		public Godot.Collections.Array<Marker3D> SlotsCampoST {get;set;}
 		// Field Zones - will be managed by FieldZones class

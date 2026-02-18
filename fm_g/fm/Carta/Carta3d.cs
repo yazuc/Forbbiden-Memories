@@ -9,8 +9,9 @@ namespace fm{
 		public int carta = -1;
 		public string instance = "";
 		public int slotPlaced = -1;
+		public bool IsEnemy = false;
 
-		public void Setup(int cardId, int slot)
+		public void Setup(int cardId, int slot, bool IsEnemy)
 		{
 			if (Visual != null)
 			{
@@ -18,6 +19,9 @@ namespace fm{
 				Visual.DisplayCard(cardId);
 				this.carta = cardId;
 				this.slotPlaced = slot;
+				this.IsEnemy = IsEnemy;
+				if(IsEnemy)
+					GD.Print("o inimigo invocou uma cartinha tehee");
 			}
 		}
 	}

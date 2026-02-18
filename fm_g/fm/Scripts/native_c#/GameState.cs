@@ -41,8 +41,9 @@ namespace fm
 			OpponentPlayer = Player2;
 			CurrentPhase = TurnPhase.Draw;
 			Status = GameStatus.InProgress;
-			Winner = null;
+			Winner = null;			
 			MaoDoJogador.ConfigurarSlots(CurrentPlayer.SlotsCampo, OpponentPlayer.SlotsCampo, CurrentPlayer.SlotsCampoST, OpponentPlayer.SlotsCampoST);
+			Player2.IsEnemy = true;
 		}
 
 		public void SwitchPlayer()

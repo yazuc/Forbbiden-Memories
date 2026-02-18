@@ -199,7 +199,6 @@ namespace fm{
 				var retorno = new Godot.Collections.Array<int>(idsMateriais);
 				retorno.Add(resultid);
 				var slotDestino = SlotsCampo[_indiceCampoSelecionado];
-
 				// 3. Instancia a carta 3D do resultado final
 				Node3D novaCarta3d = Carta3d.Instantiate<Node3D>();
 				novaCarta3d.AddToGroup("cartas");
@@ -207,9 +206,15 @@ namespace fm{
 
 				novaCarta3d.GlobalPosition = slotDestino.GlobalPosition;
 				novaCarta3d.GlobalRotation = slotDestino.GlobalRotation;
+				bool IsEnemy = slotDestino.Name.ToString().Contains("Ini");
+				if(IsEnemy){
+					GD.Print(slotDestino.GlobalRotation.ToString());
+					Vector3 rota = new Vector3(-0, 1.5707964f, 0);
+					novaCarta3d.GlobalRotation += slotDestino.GlobalRotation + rota;
+				}
 
 				if (novaCarta3d.HasMethod("Setup")){
-					novaCarta3d.Call("Setup", (int)resultadoFusao.Id, (int)_indiceCampoSelecionado);
+					novaCarta3d.Call("Setup", (int)resultadoFusao.Id, (int)_indiceCampoSelecionado, IsEnemy);
 				} 
 
 				// 4. Remove todas as cartas usadas da mão
@@ -387,14 +392,18 @@ namespace fm{
 			}
 		}
 		
-		public void FinalizaNodoByCard(int CardID){
-			var nodes = GetTree().GetNodesInGroup("cartas");
-			foreach(var item in nodes){
-				if(item is Carta3d meuNode){
-					if(CardID == meuNode.carta){
-						meuNode.QueueFree();										
-					}
-				}
+		public void FinalizaNodoByCard(int CardID, bool IsEnemy = false){
+			var nodes = GetTree().GetNodesInGroup("cartas").Cast<Carta3d>().ToArray();		
+							
+			if(IsEnemy){
+				nodes = nodes.Where(x => x.IsEnemy == IsEnemy).ToArray();
+				GD.Print("temos nodos:" + nodes.Count());
+			}
+				
+			foreach(var item in nodes){				
+				if(CardID == item.carta){
+					item.QueueFree();										
+				}				
 			}
 		}
 		

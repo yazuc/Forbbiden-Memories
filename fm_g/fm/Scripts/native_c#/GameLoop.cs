@@ -40,22 +40,16 @@ namespace fm
 			// Draw starting hands
 			for (int i = 0; i < STARTING_HAND; i++)
 			{
-				GD.Print("started drawing");
+				//GD.Print("started drawing");
 				if (_gameState.Player1.HasCards())
 				{
-					GD.Print("drawd");
+					//GD.Print("drawd");
 					DrawCard(_gameState.Player1);                    
 				}                
 				if (_gameState.Player2.HasCards())
 					DrawCard(_gameState.Player2);
 			}
-			
-			GD.Print($"Game started! {_gameState.Player1.Name} goes first, {_gameState.Player1.Deck.Count()}.");
-			GD.Print($"Game started! {_gameState.Player2.Name} goes first, {_gameState.Player2.Deck.Count()}.");
-			foreach (var card in _gameState.Player1.Hand)
-			{
-				GD.Print($"- {_gameState.Player1.Name} has {card.Name} in hand.");
-			}
+								
 			_ = RunTurn();
 		}
 
@@ -105,7 +99,6 @@ namespace fm
 		private void ExecuteDrawPhase()
 		{
 			_gameState.CurrentPhase = TurnPhase.Draw;
-			GD.Print($"{_gameState.CurrentPlayer.Name} draws a card.");
 			
 			if(_gameState.CurrentPlayer.Hand.Count() == HAND_SIZE)
 			{
@@ -119,7 +112,6 @@ namespace fm
 				}
 				else
 				{
-					GD.Print($"{_gameState.CurrentPlayer.Name} has no cards to draw! Deck out!");
 					_gameState.EndGame(_gameState.OpponentPlayer);
 				}											
 			}
@@ -129,10 +121,6 @@ namespace fm
 		{
 			GD.Print($"--- {_gameState.CurrentPlayer.Name}'s {_gameState.CurrentPhase} ---");
 			
-			foreach(var card in _gameState.CurrentPlayer.Hand)
-			{
-				GD.Print($"- {_gameState.CurrentPlayer.Name} has {card.Name} in hand.");
-			}       
 			
 			var handIds = _gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList();
  			MaoDoJogador.AtualizarMao(handIds);   
@@ -147,16 +135,10 @@ namespace fm
 				}
 				_gameState.CurrentPlayer.DiscardCard(cardData.Id);
 				GD.Print("PLAYER DO TURNO ATUAL: " + _gameState.CurrentPlayer.Name);
-				_gameState.CurrentPlayer.Field.DrawFieldState();				
 				i++;
 			}		
-			
-			foreach(var card in _gameState.CurrentPlayer.Hand)
-			{
-				GD.Print($"- {_gameState.CurrentPlayer.Name} has {card.Name} in hand.");
-			}       			
-			MaoDoJogador.TransitionTo(CameraField, 0.5f);
-					
+			  			
+			MaoDoJogador.TransitionTo(CameraField, 0.5f);				
 			_gameState.AdvancePhase();
 		}
 
@@ -171,7 +153,6 @@ namespace fm
 				while (_isBattlePhaseActive)
 				{												
 					_battlePhaseEndSignal = new TaskCompletionSource<bool>();
-
 					GD.Print("Aguardando ataque ou fim de fase (V)...");
 
 					// 2. Preparação de Slots (Monstros + Magias se necessário)
@@ -199,12 +180,15 @@ namespace fm
 
 						GD.Print("Selecione o alvo inimigo...");
 						Task<int> tarefaAlvo = MaoDoJogador.SelecionarSlotNoCampo(MaoDoJogador.SlotsCampoIni, _gameState.CurrentTurn == 1);
-						
 						await Task.WhenAny(tarefaAlvo, _battlePhaseEndSignal.Task);
 						
 						if (!_isBattlePhaseActive) break;
 
 						int indexAlvo = await tarefaAlvo;
+						if(indexAlvo == -1){
+							MaoDoJogador.TransitionTo(CameraField, 0.5f);
+						}
+						
 						if (indexAlvo != -1)
 						{
 							ResolverBatalha(indexAtacante, indexAlvo);							
@@ -255,7 +239,7 @@ namespace fm
 				{
 					MaoDoJogador.FinalizaNodoByCard(monstroInimigo.Card.Id);
 					_gameState.OpponentPlayer.Field.RemoveMonster(alvoIdx);	
-					MaoDoJogador.FinalizaNodoByCard(meuMonstro.Card.Id);
+					MaoDoJogador.FinalizaNodoByCard(meuMonstro.Card.Id, _gameState.CurrentPlayer.IsEnemy);
 					_gameState.CurrentPlayer.Field.RemoveMonster(atacanteIdx);			
 				}
 				if(battleResult.DefenderDestroyed){
@@ -264,7 +248,7 @@ namespace fm
 					_gameState.OpponentPlayer.TakeDamage(battleResult.DamageDealt);				
 				}
 				if(battleResult.AttackerDestroyed){
-					MaoDoJogador.FinalizaNodoByCard(meuMonstro.Card.Id);
+					MaoDoJogador.FinalizaNodoByCard(meuMonstro.Card.Id, _gameState.CurrentPlayer.IsEnemy);
 					_gameState.CurrentPlayer.Field.RemoveMonster(atacanteIdx);							
 					_gameState.CurrentPlayer.TakeDamage(battleResult.DamageDealt);
 				}
@@ -277,10 +261,9 @@ namespace fm
 				return true;
 			}
 			
-			return false;
-			//_gameState.CurrentPlayer.Field.DrawFieldState();
-			//_gameState.OpponentPlayer.Field.DrawFieldState();
-			//GD.Print(battleResult.Description);
+			_gameState.CurrentPlayer.Field.DrawFieldState();
+			_gameState.OpponentPlayer.Field.DrawFieldState();
+			return false;			
 		}
 		
 		public void HandleInput(InputEvent @event)
@@ -290,7 +273,7 @@ namespace fm
 
 			if (@event is InputEventKey keyEvent && keyEvent.Pressed && keyEvent.Keycode == Key.V)
 			{
-				GD.Print("'V' pressed: Ending Battle Phase.");
+				//GD.Print("'V' pressed: Ending Battle Phase.");
 				_isBattlePhaseActive = false;
 				
 				// 1. Interrompe qualquer loop de seleção visual que esteja rodando na UI

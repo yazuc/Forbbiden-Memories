@@ -73,6 +73,12 @@ namespace fm
 				// Draw
 				result.Description = $"Battle is a draw! Both monsters remain.";
 			}
+			
+			if(attackPower == defensePower){
+				result.AttackerDestroyed = true;
+				result.DefenderDestroyed = true;
+			}
+			
 			TypeResults(result);
 			return result;
 		}
