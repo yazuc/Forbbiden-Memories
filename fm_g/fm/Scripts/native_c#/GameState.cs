@@ -59,12 +59,7 @@ namespace fm
 			CurrentTurn++;
 			CurrentPhase = TurnPhase.Draw;
 
-			// Resetamos o status de ataque de TODOS os monstros no campo
-			// para que o novo CurrentPlayer possa atacar, e o OpponentPlayer 
-			// tenha seus monstros resetados para o próximo turno dele.
-			GD.Print(CurrentPlayer.Name);
 			MaoDoJogador.ConfigurarSlots(CurrentPlayer.SlotsCampo, OpponentPlayer.SlotsCampo, CurrentPlayer.SlotsCampoST, OpponentPlayer.SlotsCampoST);
-			MaoDoJogador.InvertInput = !MaoDoJogador.InvertInput;
 			MaoDoJogador._indiceSelecionado = 0;
 			MaoDoJogador._indiceCampoSelecionado = 0;
 			ResetFieldFlags(Player1);

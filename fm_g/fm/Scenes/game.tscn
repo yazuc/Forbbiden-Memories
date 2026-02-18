@@ -24,7 +24,7 @@ LP_Com = NodePath("CameraPivot/COM/LP")
 
 [node name="MaoJogador" type="Node2D" parent="." unique_id=222280098 node_paths=PackedStringArray("IndicadorTriangulo", "Carta1", "CameraHand", "CameraField", "CameraInimigo")]
 process_mode = 3
-position = Vector2(69, 19)
+position = Vector2(438, 414)
 script = ExtResource("3_3dryh")
 CartaCena = ExtResource("4_wowpa")
 IndicadorTriangulo = NodePath("../IndicadorTriangulo")
@@ -45,7 +45,7 @@ shadow_enabled = true
 
 [node name="IndicadorTriangulo" parent="." unique_id=360567357 instance=ExtResource("5_wowpa")]
 top_level = true
-position = Vector2(76, 55)
+position = Vector2(380, 352)
 
 [node name="CameraPivot" type="Node3D" parent="." unique_id=1777681859]
 
@@ -60,10 +60,10 @@ transform = Transform3D(-0.0025830397, -0.99966085, 0.0259151, -3.5205373e-11, 0
 transform = Transform3D(0.0052026417, -0.99971455, 0.023318915, 0.004783277, 0.02334384, 0.9997161, -0.999975, -0.005089624, 0.0049033617, 2.9831161, 5.465997, -0.1062417)
 
 [node name="YOU" type="Label" parent="CameraPivot" unique_id=2037219627]
-offset_left = 1044.0
-offset_top = 4.0
-offset_right = 1124.0
-offset_bottom = 28.0
+offset_left = 1739.0
+offset_top = 19.0
+offset_right = 1819.0
+offset_bottom = 43.0
 text = "YOU: "
 
 [node name="LP" type="Label" parent="CameraPivot/YOU" unique_id=1494126795]
@@ -75,10 +75,10 @@ offset_bottom = 22.0
 text = "8000"
 
 [node name="COM" type="Label" parent="CameraPivot" unique_id=1462741771]
-offset_left = 1044.0
-offset_top = 33.0
-offset_right = 1128.0
-offset_bottom = 56.0
+offset_left = 1739.0
+offset_top = 48.0
+offset_right = 1823.0
+offset_bottom = 71.0
 text = "COM: "
 
 [node name="LP" type="Label" parent="CameraPivot/COM" unique_id=1861115219]

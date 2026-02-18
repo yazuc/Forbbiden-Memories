@@ -12,7 +12,6 @@ namespace fm{
 		[Export] public Camera3D CameraField;
 		[Export] public Camera3D CameraInimigo;
 		[Export] public PackedScene Seletor;
-		[Export] public bool InvertInput = false;
 		
 		private Camera3D _transitionCam;
 		public Godot.Collections.Array<Marker3D> SlotsCampo = new();
@@ -157,12 +156,11 @@ namespace fm{
 		private void ControlarSelecaoDeCampo()
 		{
 			int anterior = _indiceCampoSelecionado;
-			int direcao = InvertInput ? -1 : 1;
 			if (Input.IsActionJustPressed("ui_right"))
-				_indiceCampoSelecionado = Mathf.Min(_indiceCampoSelecionado + direcao, SlotsCampo.Count - 1);
+				_indiceCampoSelecionado = Mathf.Min(_indiceCampoSelecionado + 1, SlotsCampo.Count - 1);
 			
 			if (Input.IsActionJustPressed("ui_left"))
-				_indiceCampoSelecionado = Mathf.Max(_indiceCampoSelecionado - direcao, 0);
+				_indiceCampoSelecionado = Mathf.Max(_indiceCampoSelecionado - 1, 0);
 
 			if (anterior != _indiceCampoSelecionado)
 			{
@@ -284,8 +282,8 @@ namespace fm{
 			if (_cartasNaMao.Count > 0 && IndicadorTriangulo != null)
 			{
 				// Position above the card
-				Vector2 cardPos = _cartasNaMao[_indiceSelecionado].Position;
-				Vector2 targetPos = cardPos + new Vector2(0, 70);
+				Vector2 cardPos = _cartasNaMao[_indiceSelecionado].GlobalPosition;
+				Vector2 targetPos = cardPos + new Vector2(-90, 50);
 				IndicadorTriangulo.ZIndex = 10;
 				// Add a smooth Tween so it "slides" to the card
 				Tween tween = GetTree().CreateTween();
@@ -342,9 +340,7 @@ namespace fm{
 					GD.PrintErr("[MaoJogador] MaoJogador saiu da árvore durante a seleção!");
 					break;
 				}
-				
-				int direcao = InvertInput ? -1 : 1;
-				
+								
 				int anterior = _indiceCampoSelecionado;
 				if (Input.IsActionJustPressed("ui_right")) 
 					_indiceCampoSelecionado = Mathf.Min(_indiceCampoSelecionado + 1, slots.Count - 1);

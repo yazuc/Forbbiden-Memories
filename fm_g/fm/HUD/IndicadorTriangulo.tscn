@@ -1,8 +1,10 @@
 [gd_scene format=3 uid="uid://dpjrxybf4pcvc"]
 
+[ext_resource type="Texture2D" uid="uid://dam0iw00bpmqb" path="res://Assets/equilatero.png" id="1_dsucw"]
+
 [node name="IndicadorTriangulo" type="Node2D" unique_id=360567357]
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=2089513133]
-offset_right = 42.0
-offset_bottom = 40.0
-color = Color(0.95698434, 0, 0.17371264, 1)
+[node name="Equilatero" type="Sprite2D" parent="." unique_id=1460562223]
+position = Vector2(14.250034, 20.50003)
+scale = Vector2(0.05826819, 0.06542963)
+texture = ExtResource("1_dsucw")

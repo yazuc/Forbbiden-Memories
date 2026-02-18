@@ -186,7 +186,7 @@ namespace fm
 
 						int indexAlvo = await tarefaAlvo;
 						if(indexAlvo == -1){
-							MaoDoJogador.TransitionTo(CameraField, 0.5f);
+							MaoDoJogador.TransitionTo(CameraField, 0.2f);
 						}
 						
 						if (indexAlvo != -1)
