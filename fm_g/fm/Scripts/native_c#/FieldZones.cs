@@ -69,7 +69,7 @@ namespace fm
 		{
 			GD.Print(idField.ToString());
 			GD.Print(card.Type.ToString());
-			if (card.Type != CardTypeEnum.Trap && card.Type != CardTypeEnum.Spell && card.Type != CardTypeEnum.Equipment && card.Type != CardTypeEnum.Rituals)
+			if (card.Type != CardTypeEnum.Trap && card.Type != CardTypeEnum.Spell && card.Type != CardTypeEnum.Equipment && card.Type != CardTypeEnum.Ritual)
 				return PlaceMonster(idField, card, isAttackMode, isFaceDown);
 			else if (card.Type == CardTypeEnum.Spell || card.Type == CardTypeEnum.Trap ||
 			 card.Type == CardTypeEnum.Equipment || card.Type == CardTypeEnum.Ritual)

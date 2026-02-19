@@ -15,6 +15,11 @@ font_size = 30
 [sub_resource type="LabelSettings" id="LabelSettings_o5yvi"]
 font_size = 30
 
+[sub_resource type="Environment" id="Environment_v158k"]
+background_mode = 2
+
+[sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_h4fw4"]
+
 [node name="Game" type="Node3D" unique_id=705124670 node_paths=PackedStringArray("MaoVisual", "CameraHand", "CameraField", "CameraInimigo", "CameraPivot", "LP_You", "LP_Com")]
 script = ExtResource("1_e2o6t")
 MaoVisual = NodePath("MaoJogador")
@@ -159,3 +164,7 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.3
 
 [node name="Carta16Ini" type="Marker3D" parent="." unique_id=659163300 groups=["enemy_spell_slot"]]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.3514967, 1.369, -3.4739966)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1668532810]
+environment = SubResource("Environment_v158k")
+camera_attributes = SubResource("CameraAttributesPhysical_h4fw4")

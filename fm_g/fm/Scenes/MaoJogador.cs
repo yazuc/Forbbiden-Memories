@@ -64,8 +64,7 @@ namespace fm{
 			if (_cartasNaMao.Count == 0) return;
 
 			if (!_selecionandoLocal) 
-			{
-				
+			{				
 				// SELEÇÃO NA MÃO (2D)
 				int anterior = _indiceSelecionado;
 				if(_indiceSelecionado > 4){
@@ -95,15 +94,13 @@ namespace fm{
 							_cartasSelecionadasParaFusao.Add(_cartasNaMao[_indiceSelecionado]);
 						}				
 						
-						await EntrarModoSelecaoCampo();
+						EntrarModoSelecaoCampo();
 					}
 				}
 			}
 			else 
-			{
-				// SELEÇÃO NO CAMPO (3D)
+			{				
 				ControlarSelecaoDeCampo();
-
 				if(!STOP){
 					if (Input.IsActionJustPressed("ui_accept")) 
 					{
@@ -142,21 +139,18 @@ namespace fm{
 			}
 		}
 
-			private async Task EntrarModoSelecaoCampo()
+		private async Task EntrarModoSelecaoCampo()
+		{
+			_selecionandoLocal = true;
+			_indiceCampoSelecionado = 0; // Começa no primeiro slot								
+			if (_instanciaSeletor != null)
 			{
-				_selecionandoLocal = true;
-				_indiceCampoSelecionado = 0; // Começa no primeiro slot
-								
-
-				if (_instanciaSeletor != null)
-				{
-					//>>>>>>>>>>>>passar tipo da carta<<<<<<<<<<<<<<<<<<<<<<<<<<
-					//caso seja Spell/Trap precisa passar o campo que vai ser mexido
-					AtualizarPosicaoSeletor3D(SlotsCampo, _cartasSelecionadasParaFusao.FirstOrDefault().CurrentID);
-					_instanciaSeletor.Visible = true;
-					await TransitionTo(CameraField, 0.5f);
-				}
+				AtualizarPosicaoSeletor3D(SlotsCampo, _cartasSelecionadasParaFusao.FirstOrDefault().CurrentID);
+				_instanciaSeletor.Visible = true;
+				await TransitionTo(CameraField, 0.5f);
 			}
+		}
+		
 		public void CancelarSelecaoNoCampo()
 		{
 			if (_tcsCampo != null && !_tcsCampo.Task.IsCompleted)
@@ -165,7 +159,7 @@ namespace fm{
 				_cartasSelecionadasParaFusao = new List<CartasBase>();
 				_tcsCampo.TrySetResult(-1); 
 			}
-			_cartasSelecionadasParaFusao = new List<CartasBase>();
+			_cartasSelecionadasParaFusao.Clear();
 			// Desative aqui os highlights ou colisores que você ativou para a seleção
 			GD.Print("Seleção de campo cancelada manualmente.");
 		}
@@ -197,63 +191,58 @@ namespace fm{
 			if(_cartasSelecionadasParaFusao.Count() == 1){
 				slots = DefineSlotagem(PegaTipoPorId(Id));				
 			}
-
-			var slotDestino = slots[_indiceCampoSelecionado];
-			
-			// Usamos Tween para um movimento suave como no PS1
+			var slotDestino = slots[_indiceCampoSelecionado];			
 			Tween tween = GetTree().CreateTween();
 			tween.TweenProperty(_instanciaSeletor, "global_position", slotDestino.GlobalPosition + new Vector3(0, 0.05f, 0), 0.05f);
 			_instanciaSeletor.GlobalRotation = slotDestino.GlobalRotation;
 		}
-
+		
 		private async void ConfirmarInvocacaoNoCampo()
 		{			
-			// Aqui você enviaria a LISTA de IDs para o seu sistema de fusão
 			string idsString = string.Join(",", _cartasSelecionadasParaFusao.Select(c => c.CurrentID));									
 			//precisa retornar os ids dos que foram descartados
 			var resultadoFusao = await Function.Fusion(idsString);			
 			if (resultadoFusao != null)
-			{
-				var resultid = resultadoFusao.Id;
+			{				
 				var idsMateriais = _cartasSelecionadasParaFusao.Select(c => c.CurrentID);
 				var retorno = new Godot.Collections.Array<int>(idsMateriais);
-				retorno.Add(resultid);
+				retorno.Add(resultadoFusao.Id);
 				var slotDestino = SlotsCampo[_indiceCampoSelecionado];
 				if(_cartasSelecionadasParaFusao.Count() == 1){
 					slotDestino = DefineSlotagem(PegaTipoPorId(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID))[_indiceCampoSelecionado];				
 				}
 				// 3. Instancia a carta 3D do resultado final
-				Node3D novaCarta3d = Carta3d.Instantiate<Node3D>();
-				novaCarta3d.AddToGroup("cartas");
-				GetTree().CurrentScene.AddChild(novaCarta3d);
-
-				novaCarta3d.GlobalPosition = slotDestino.GlobalPosition;
-				novaCarta3d.GlobalRotation = slotDestino.GlobalRotation;
-				bool IsEnemy = slotDestino.Name.ToString().Contains("Ini");
-				if(IsEnemy){
-					GD.Print(slotDestino.GlobalRotation.ToString());
-					Vector3 rota = new Vector3(-0, 1.5707964f, 0);
-					novaCarta3d.GlobalRotation += slotDestino.GlobalRotation + rota;
-				}
-
-				if (novaCarta3d.HasMethod("Setup")){
-					novaCarta3d.Call("Setup", (int)resultadoFusao.Id, (int)_indiceCampoSelecionado, IsEnemy);
-				} 
-
-				// 4. Remove todas as cartas usadas da mão
-				foreach (var carta in _cartasSelecionadasParaFusao)
-				{
-					_cartasNaMao.Remove(carta);
-					carta.QueueFree();
-				}
+				Instancia3D(slotDestino, (int)resultadoFusao.Id);			
 
 				// 5. Limpa a lista de seleção e atualiza a interface
 				_cartasSelecionadasParaFusao.Clear();
 				AtualizarMao(_cartasNaMao.Select(x => x.CurrentID).ToList());
 				SairModoSelecaoCampo();
 				_bloquearNavegaçãoManual = false;
-				//retorno.Add(resultid);
 				_tcsCarta?.TrySetResult(retorno);
+			}
+		}
+		
+		public void Instancia3D(Marker3D slotDestino, int fusao){
+			Node3D novaCarta3d = Carta3d.Instantiate<Node3D>();
+			novaCarta3d.AddToGroup("cartas");
+			GetTree().CurrentScene.AddChild(novaCarta3d);
+			novaCarta3d.GlobalPosition = slotDestino.GlobalPosition;
+			novaCarta3d.GlobalRotation = slotDestino.GlobalRotation;
+			bool IsEnemy = slotDestino.Name.ToString().Contains("Ini");
+			if(IsEnemy){
+				GD.Print(slotDestino.GlobalRotation.ToString());
+				Vector3 rota = new Vector3(-0, 1.5707964f, 0);
+				novaCarta3d.GlobalRotation += slotDestino.GlobalRotation + rota;
+			}
+
+			if (novaCarta3d.HasMethod("Setup")){
+				novaCarta3d.Call("Setup", fusao, (int)_indiceCampoSelecionado, IsEnemy);
+			} 
+			foreach (var carta in _cartasSelecionadasParaFusao)
+			{
+				_cartasNaMao.Remove(carta);
+				carta.QueueFree();
 			}
 		}
 
@@ -298,7 +287,6 @@ namespace fm{
 
 				// 3. Animação de entrada
 				Tween tween = GetTree().CreateTween();
-				// Adicionamos um pequeno atraso (delay) baseado no índice para as cartas entrarem uma por uma
 				float delay = i * 0.1f; 
 				
 				tween.TweenProperty(novaCarta, "position", posicaoFinal, 0.5f)
@@ -372,16 +360,15 @@ namespace fm{
 									
 					if (Input.IsActionJustPressed("ui_cancel"))
 					{
-						CancelarSelecaoNoCampo();
+						CancelarSelecaoNoCampo();						
+						_tcsSlot.TrySetResult(-1);
 					}
 					
 					if (Input.IsActionJustPressed("ui_end_phase")) // Mapeie a tecla 'V' no Input Map como "ui_end_phase"
 					{
 						_tcsSlot.TrySetResult(-2); // Usamos -2 para indicar "Sair da Fase"					
+					}				
 				}
-				
-				}
-
 				// Aguarda o próximo frame para o Godot não travar
 				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 			}
