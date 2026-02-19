@@ -11,9 +11,9 @@ namespace fm
 		}
 		public int CurrentID;
 		private Node? _currentFrameNode;
-		private AnimatedSprite2D _arteSprite;
-		private Node2D _frameAnchor;
-		public Label _nome, _atk, _def;
+		private AnimatedSprite2D? _arteSprite;
+		private Node2D? _frameAnchor;
+		public Label? _nome, _atk, _def;
 
 		// Caminhos para as suas cenas de frame
 		private readonly Dictionary<string, string> _framePaths = new()

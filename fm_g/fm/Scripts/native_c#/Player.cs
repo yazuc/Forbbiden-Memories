@@ -40,6 +40,7 @@ namespace fm
 		}
 		
 		public bool TakeDamage(int dmg){
+			var LifeWas = LifePoints;
 			LifePoints = LifePoints - dmg;
 			if(LifePoints < 0){
 				LifePoints = 0;
@@ -49,7 +50,7 @@ namespace fm
 			}else{
 				GD.Print("LP está null");
 			}
-			GD.Print($"{Name} tomou {dmg} de dano, e está com {LifePoints}.");
+			GD.Print($"{Name} tomou {dmg} de dano, e está com {LifePoints} - {LifeWas}.");
 			return LifePoints <= 0;
 		}
 

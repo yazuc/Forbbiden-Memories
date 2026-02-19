@@ -49,7 +49,6 @@ namespace fm
 				result.DamageDealt = attackPower - defensePower;
 				result.Description = $"{attackingMonster.Card.Name} destroys {defendingMonster.Card.Name}! " +
 									$"Damage dealt: {result.DamageDealt}";
-				defender.LifePoints -= result.DamageDealt;
 			}
 			else if (attackPower < defensePower)
 			{

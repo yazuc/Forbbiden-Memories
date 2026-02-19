@@ -21,8 +21,7 @@ namespace fm{
 		
 		
 		[Signal] public delegate void SlotConfirmadoEventHandler(int index);
-		[Signal] public delegate void CartaSelecionadaEventHandler(Godot.Collections.Array<int> ids);
-		[Signal] public delegate void AlvoSelecionadoEventHandler(int index);
+		[Signal] public delegate void CartaSelecionadaEventHandler(Godot.Collections.Array<int> ids);	
 		
 		private TaskCompletionSource<int> _tcsCampo = null;
 		private bool _bloquearNavegaçãoManual = false;
@@ -47,9 +46,9 @@ namespace fm{
 		}
 
 		// Called every frame. 'delta' is the elapsed time since the previous frame.
-		public override void _Process(double delta)
+		public  override void _Process(double delta)
 		{			
-			HandleNavigation();				
+			 HandleNavigation();				
 		}
 		private async Task<bool> HandleNavigation()
 		{

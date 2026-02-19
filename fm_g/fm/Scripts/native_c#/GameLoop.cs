@@ -227,13 +227,11 @@ namespace fm
 			// Validação de segurança antes de acessar propriedades
 			if (meuMonstro?.Card == null)
 			{
-				GD.PrintErr("[GameLoop] Batalha abortada: Um dos slots está vazio.");
+				GD.PrintErr("[GameLoop] Batalha abortada: SlotAtacante vazio.");
 				return false;
 			}
-			//_gameState.CurrentPlayer.Field.DrawFieldState();
-			//_gameState.OpponentPlayer.Field.DrawFieldState();
-			var battleResult = _battleSystem.ResolveBattle(meuMonstro, monstroInimigo, _gameState.OpponentPlayer);
 			
+			var battleResult = _battleSystem.ResolveBattle(meuMonstro, monstroInimigo, _gameState.OpponentPlayer);		
 			if(monstroInimigo != null){
 				if(battleResult.AttackerDestroyed && battleResult.DefenderDestroyed)
 				{
