@@ -23,6 +23,7 @@ public enum CardTypeEnum
 	Spell,
 	Trap,
 	Ritual,
-	Equipment
+	Equipment,
+	Indefinido
 
 }

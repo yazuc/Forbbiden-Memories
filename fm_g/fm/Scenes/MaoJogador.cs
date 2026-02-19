@@ -98,7 +98,6 @@ namespace fm{
 						await EntrarModoSelecaoCampo();
 					}
 				}
-
 			}
 			else 
 			{
@@ -151,7 +150,9 @@ namespace fm{
 
 				if (_instanciaSeletor != null)
 				{
-					AtualizarPosicaoSeletor3D();
+					//>>>>>>>>>>>>passar tipo da carta<<<<<<<<<<<<<<<<<<<<<<<<<<
+					//caso seja Spell/Trap precisa passar o campo que vai ser mexido
+					AtualizarPosicaoSeletor3D(SlotsCampo, _cartasSelecionadasParaFusao.FirstOrDefault().CurrentID);
 					_instanciaSeletor.Visible = true;
 					await TransitionTo(CameraField, 0.5f);
 				}
@@ -161,9 +162,10 @@ namespace fm{
 			if (_tcsCampo != null && !_tcsCampo.Task.IsCompleted)
 			{
 				// Resolvemos com -1 para indicar que a seleção foi abortada visualmente
+				_cartasSelecionadasParaFusao = new List<CartasBase>();
 				_tcsCampo.TrySetResult(-1); 
 			}
-			
+			_cartasSelecionadasParaFusao = new List<CartasBase>();
 			// Desative aqui os highlights ou colisores que você ativou para a seleção
 			GD.Print("Seleção de campo cancelada manualmente.");
 		}
@@ -180,19 +182,23 @@ namespace fm{
 
 			if (anterior != _indiceCampoSelecionado)
 			{
-				AtualizarPosicaoSeletor3D();
+				AtualizarPosicaoSeletor3D(SlotsCampo, _cartasSelecionadasParaFusao.FirstOrDefault().CurrentID);
 			}
 		}
 
-		private void AtualizarPosicaoSeletor3D()
+		private void AtualizarPosicaoSeletor3D(Godot.Collections.Array<Marker3D> slots, int Id)
 		{
-			if (_instanciaSeletor == null || SlotsCampo == null || SlotsCampo.Count == 0)
+			if (_instanciaSeletor == null || slots == null || slots.Count == 0)
 			{
 				GD.PrintErr("MaoJogador: Tentativa de atualizar seletor sem SlotsCampo configurados!");
 				return;
 			}
+				
+			if(_cartasSelecionadasParaFusao.Count() == 1){
+				slots = DefineSlotagem(PegaTipoPorId(Id));				
+			}
 
-			var slotDestino = SlotsCampo[_indiceCampoSelecionado];
+			var slotDestino = slots[_indiceCampoSelecionado];
 			
 			// Usamos Tween para um movimento suave como no PS1
 			Tween tween = GetTree().CreateTween();
@@ -213,6 +219,9 @@ namespace fm{
 				var retorno = new Godot.Collections.Array<int>(idsMateriais);
 				retorno.Add(resultid);
 				var slotDestino = SlotsCampo[_indiceCampoSelecionado];
+				if(_cartasSelecionadasParaFusao.Count() == 1){
+					slotDestino = DefineSlotagem(PegaTipoPorId(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID))[_indiceCampoSelecionado];				
+				}
 				// 3. Instancia a carta 3D do resultado final
 				Node3D novaCarta3d = Carta3d.Instantiate<Node3D>();
 				novaCarta3d.AddToGroup("cartas");
@@ -251,6 +260,7 @@ namespace fm{
 		public void SairModoSelecaoCampo()
 		{
 			_selecionandoLocal = false;			
+			CancelarSelecaoNoCampo();
 			if (_instanciaSeletor != null) _instanciaSeletor.Visible = false;
 		}
 
@@ -333,7 +343,6 @@ namespace fm{
 			}
 		}
 		
-		// Em MaoJogador.cs
 		public async Task<int> SelecionarSlotAsync(Godot.Collections.Array<Marker3D> slots, bool PrimeiroTurno = false, bool camIni = false)
 		{
 			_tcsSlot = new TaskCompletionSource<int>();
@@ -363,8 +372,7 @@ namespace fm{
 									
 					if (Input.IsActionJustPressed("ui_cancel"))
 					{
-						GD.Print("Seleção cancelada.");
-						_tcsSlot.TrySetResult(-1);
+						CancelarSelecaoNoCampo();
 					}
 					
 					if (Input.IsActionJustPressed("ui_end_phase")) // Mapeie a tecla 'V' no Input Map como "ui_end_phase"
@@ -421,6 +429,26 @@ namespace fm{
 			}
 			//nao achou
 			return -1;
+		}
+		
+		public CardTypeEnum PegaTipoPorId(int id)
+		{
+			var db = CardDatabase.Instance;
+			var card = db.GetCardById(id);
+			if(card != null)
+				return card.Type;
+				
+			return CardTypeEnum.Indefinido;
+		}
+		
+		public Godot.Collections.Array<Marker3D> DefineSlotagem(CardTypeEnum tipo)
+		{
+			if(tipo == CardTypeEnum.Equipment || tipo == CardTypeEnum.Spell || 
+			tipo == CardTypeEnum.Trap || tipo == CardTypeEnum.Ritual){
+				return SlotsCampoST;
+			}
+			
+			return SlotsCampo;
 		}
 		
 		public void PrintTodosNodos3D(){

@@ -74,7 +74,9 @@ namespace fm
 			var array = new Godot.Collections.Array<Marker3D>();
 						
 			var sorted = nodes.Cast<Marker3D>().OrderBy(n => n.Name.ToString());
-			
+			foreach(var item in sorted){
+				GD.Print(item.Name);
+			}
 			foreach (var n in sorted) array.Add(n);
 			return array;
 		}
