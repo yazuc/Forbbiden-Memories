@@ -12,9 +12,8 @@ namespace fm
 
 		private CardDatabase() 
 		{
-			// Defina o caminho do banco. 
-			// No Linux (/mnt/Nvme/fm), garanta que você tem permissão de escrita.
-			string dbPath = Path.Combine("/mnt/Nvme/fm/cards.db");
+			string godotPath = "res://Scripts/native_c#/cards.db";
+			string dbPath = ProjectSettings.GlobalizePath(godotPath);
 			_database = new SQLiteConnection(dbPath);			
 			_database.CreateTable<Cards>();
 		}

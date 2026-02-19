@@ -294,7 +294,7 @@ namespace fm{
 		}
 		
 // Método genérico para selecionar um slot no campo (Aliado ou Inimigo)
-		public async Task<int> SelecionarSlotNoCampo(Godot.Collections.Array<Marker3D> slots, bool PrimeiroTurno = false)
+		public async Task<int> SelecionarSlotNoCampo(Godot.Collections.Array<Marker3D> slots, bool PrimeiroTurno = false, bool camIni = false)
 		{			
 			_bloquearNavegaçãoManual = true; // TRAVA O SELETOR 2D IMEDIATAMENTE
 			_selecionandoLocal = true;
@@ -341,11 +341,12 @@ namespace fm{
 					break;
 				}
 								
-				int anterior = _indiceCampoSelecionado;
-				if (Input.IsActionJustPressed("ui_right")) 
-					_indiceCampoSelecionado = Mathf.Min(_indiceCampoSelecionado + 1, slots.Count - 1);
-				if (Input.IsActionJustPressed("ui_left")) 
-					_indiceCampoSelecionado = Mathf.Max(_indiceCampoSelecionado - 1 , 0);
+				int anterior = _indiceCampoSelecionado;		
+				int dir = camIni ? -1 : 1;										
+				if (Input.IsActionJustPressed("ui_right"))
+					_indiceCampoSelecionado = Mathf.Min(_indiceCampoSelecionado + 1 * dir, slots.Count - 1);											
+				if (Input.IsActionJustPressed("ui_left"))
+					_indiceCampoSelecionado = Mathf.Max(_indiceCampoSelecionado - 1 * dir , 0);																			
 
 				if (anterior != _indiceCampoSelecionado)
 				{					
@@ -444,12 +445,7 @@ namespace fm{
 			Viewport viewport = GetViewport();
 			Camera3D currentCam = viewport.GetCamera3D();
 
-			if (currentCam == null || currentCam == targetCam) return;
-			GD.Print(targetCam.Name);
-			
-			//if(targetCam.Name == "CameraField" && MainPhase){
-				//this.Visible = false;
-			//}
+			if (currentCam == null || currentCam == targetCam) return;		
 			
 			// 2. Prepara a câmera de transição na posição exata da origem
 			_transitionCam.GlobalTransform = currentCam.GlobalTransform;

@@ -74,12 +74,9 @@ namespace fm
 			// string result = await fm.Function.Fusion("177,296,211");
 			// GD.Print($"Resultado da Fusão: {result}");
 		}
-		// Inside your Main Node script (e.g., Main.cs)
 		public override void _Input(InputEvent @event)
 		{
-			// Forward the input to your game loop logic
 			gL.HandleInput(@event);
 		}
-
 	}
 }

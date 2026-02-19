@@ -179,7 +179,7 @@ namespace fm
 						MaoDoJogador.TransitionTo(CameraInimigo, 0.3f);						
 
 						GD.Print("Selecione o alvo inimigo...");
-						Task<int> tarefaAlvo = MaoDoJogador.SelecionarSlotNoCampo(MaoDoJogador.SlotsCampoIni, _gameState.CurrentTurn == 1);
+						Task<int> tarefaAlvo = MaoDoJogador.SelecionarSlotNoCampo(MaoDoJogador.SlotsCampoIni, _gameState.CurrentTurn == 1, true);
 						await Task.WhenAny(tarefaAlvo, _battlePhaseEndSignal.Task);
 						
 						if (!_isBattlePhaseActive) break;
