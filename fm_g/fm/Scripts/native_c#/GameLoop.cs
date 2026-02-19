@@ -130,10 +130,11 @@ namespace fm
 					_gameState.CurrentPlayer.Field.placeCard(MaoDoJogador.PegaSlot(cardData.Id), cardData);					
 				}
 				_gameState.CurrentPlayer.DiscardCard(cardData.Id);
-				GD.Print("PLAYER DO TURNO ATUAL: " + _gameState.CurrentPlayer.Name);
 				i++;
 			}					
-			await MaoDoJogador.TransitionTo(CameraField, 0.5f);				
+			await MaoDoJogador.TransitionTo(CameraField, 0.5f);			
+			_gameState.Player1.Field.DrawFieldState();
+			_gameState.Player2.Field.DrawFieldState();	
 			_gameState.AdvancePhase();
 		}
 		

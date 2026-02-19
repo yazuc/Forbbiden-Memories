@@ -25,6 +25,9 @@ namespace fm
 			Player defender)
 		{
 			var result = new BattleResult();
+			
+			if(defender.Field.HasMonster() && defendingMonster == null)
+				return result;
 
 			// If no defending monster, direct attack
 			if (defendingMonster == null)

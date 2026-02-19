@@ -26,6 +26,13 @@ window/size/borderless=true
 
 project/assembly_name="fm"
 
+[global_group]
+
+player_monster_slots="slot de monstros do player"
+enemy_monster_slots="grupo de monstros do inimigo"
+enemy_spell_slot=""
+player_spell_slot=""
+
 [input]
 
 ui_accept={

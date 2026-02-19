@@ -24,6 +24,14 @@ namespace fm
 			SpellTrapZones = new FieldSpellTrap[SPELL_TRAP_ZONES];
 			FieldSpell = null;
 		}
+		
+		public bool HasMonster(){
+			foreach(var item in MonsterZones){
+				if(item != null)
+					return item != null;
+			}
+			return false;
+		}
 
 		public void DrawFieldState()
 		{

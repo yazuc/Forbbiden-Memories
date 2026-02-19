@@ -11,10 +11,10 @@ namespace fm
 		[Export] public Camera3D CameraField;
 		[Export] public Camera3D CameraInimigo;
 		[Export] public Node3D CameraPivot;
-		[Export] public Godot.Collections.Array<Marker3D> SlotsCampo;
-		[Export] public Godot.Collections.Array<Marker3D> SlotsCampoIni;
-		[Export] public Godot.Collections.Array<Marker3D> SlotsCampoST;
-		[Export] public Godot.Collections.Array<Marker3D> SlotsCampoSTIni;
+		public Godot.Collections.Array<Marker3D> SlotsCampo = new();
+		public Godot.Collections.Array<Marker3D> SlotsCampoIni = new();
+		public Godot.Collections.Array<Marker3D> SlotsCampoST = new();
+		public Godot.Collections.Array<Marker3D> SlotsCampoSTIni = new();
 		[Export] public Label LP_You;
 		[Export] public Label LP_Com;
 		private GameLoop gL;
@@ -24,13 +24,10 @@ namespace fm
 			GD.Print("Iniciando Banco de Dados e Jogo...");
 			CameraHand.Current = true;
 			CameraField.Current = false;
-			
-
-			if (MaoVisual == null)
-			{
-				var root = GetTree().CurrentScene;
-				MaoVisual = root.FindChild("MaoJogador", true, false) as MaoJogador;
-			}
+			SlotsCampo = GetSlotsFromGroup("player_monster_slots");
+			SlotsCampoIni = GetSlotsFromGroup("enemy_monster_slots");
+			SlotsCampoST = GetSlotsFromGroup("player_spell_slot");
+			SlotsCampoSTIni = GetSlotsFromGroup("enemy_spell_slot");
 			
 			// 1. Instanciar Database
 			var db = CardDatabase.Instance;
@@ -65,14 +62,21 @@ namespace fm
 					CameraPivot
 				);
 				gL.Initialize();
-			}
-			else
-			{
-				GD.PrintErr("CRÍTICO: O nó MaoVisual não foi encontrado na cena!");
-			}						
+			}							
 			// Teste de Fusão (se quiser testar agora)
 			// string result = await fm.Function.Fusion("177,296,211");
 			// GD.Print($"Resultado da Fusão: {result}");
+		}
+		
+		private Godot.Collections.Array<Marker3D> GetSlotsFromGroup(string groupName)
+		{
+			var nodes = GetTree().GetNodesInGroup(groupName);
+			var array = new Godot.Collections.Array<Marker3D>();
+						
+			var sorted = nodes.Cast<Marker3D>().OrderBy(n => n.Name.ToString());
+			
+			foreach (var n in sorted) array.Add(n);
+			return array;
 		}
 	}
 }
