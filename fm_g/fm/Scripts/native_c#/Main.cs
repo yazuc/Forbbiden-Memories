@@ -74,9 +74,5 @@ namespace fm
 			// string result = await fm.Function.Fusion("177,296,211");
 			// GD.Print($"Resultado da Fusão: {result}");
 		}
-		public override void _Input(InputEvent @event)
-		{
-			gL.HandleInput(@event);
-		}
 	}
 }

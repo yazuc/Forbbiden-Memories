@@ -17,12 +17,10 @@ namespace fm{
 		public Godot.Collections.Array<Marker3D> SlotsCampo = new();
 		public Godot.Collections.Array<Marker3D> SlotsCampoST = new ();
 		public Godot.Collections.Array<Marker3D> SlotsCampoIni = new ();
-		public Godot.Collections.Array<Marker3D> SlotsCampoSTIni = new ();
+		public Godot.Collections.Array<Marker3D> SlotsCampoSTIni = new ();	
 		
-		
-		[Signal] public delegate void SlotConfirmadoEventHandler(int index);
-		[Signal] public delegate void CartaSelecionadaEventHandler(Godot.Collections.Array<int> ids);	
-		
+		private TaskCompletionSource<Godot.Collections.Array<int>> _tcsCarta;
+		private TaskCompletionSource<int> _tcsSlot;
 		private TaskCompletionSource<int> _tcsCampo = null;
 		private bool _bloquearNavegaçãoManual = false;
 		private Node3D _instanciaSeletor = null;
@@ -227,7 +225,7 @@ namespace fm{
 				SairModoSelecaoCampo();
 				_bloquearNavegaçãoManual = false;
 				//retorno.Add(resultid);
-				EmitSignal(SignalName.CartaSelecionada, retorno);
+				_tcsCarta?.TrySetResult(retorno);
 			}
 		}
 
@@ -292,7 +290,60 @@ namespace fm{
 			}
 		}
 		
-// Método genérico para selecionar um slot no campo (Aliado ou Inimigo)
+		// Em MaoJogador.cs
+		public async Task<int> SelecionarSlotAsync(Godot.Collections.Array<Marker3D> slots, bool PrimeiroTurno = false, bool camIni = false)
+		{
+			_tcsSlot = new TaskCompletionSource<int>();
+			_indiceCampoSelecionado = 0;
+			_instanciaSeletor.Visible = true;
+			_bloquearNavegaçãoManual = true; // Impede que o seletor 2D da mão se mova junto
+
+			// Primeiro posicionamento sem delay
+			AtualizarPosicaoSeletorParaSlots(slots);
+
+			while (!_tcsSlot.Task.IsCompleted)
+			{
+				int anterior = _indiceCampoSelecionado;
+				
+				// 1. Processa a Navegação (Seta esquerda/direita)
+				ProcessarNavegacao3D(slots, camIni);
+
+				if (anterior != _indiceCampoSelecionado)
+				{
+					AtualizarPosicaoSeletorParaSlots(slots);
+				}
+				
+				// 2. ESCUTA A CONFIRMAÇÃO (O que faz o await "andar")
+				if (Input.IsActionJustPressed("ui_accept") && !PrimeiroTurno)
+				{
+					GD.Print("Slot confirmado: " + _indiceCampoSelecionado);
+					_tcsSlot.TrySetResult(_indiceCampoSelecionado);
+				}
+				
+				// 3. ESCUTA O CANCELAMENTO/VOLTAR
+				if (Input.IsActionJustPressed("ui_cancel"))
+				{
+					GD.Print("Seleção cancelada.");
+					_tcsSlot.TrySetResult(-1);
+				}
+
+				// 4. ESCUTA O FIM DA FASE (Caso queira passar o turno com 'V')
+				if (Input.IsActionJustPressed("ui_end_phase")) // Mapeie a tecla 'V' no Input Map como "ui_end_phase"
+				{
+					_tcsSlot.TrySetResult(-2); // Usamos -2 para indicar "Sair da Fase"
+				}
+
+				// Aguarda o próximo frame para o Godot não travar
+				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+			}
+
+			_instanciaSeletor.Visible = false;
+			_bloquearNavegaçãoManual = false;
+			
+			return await _tcsSlot.Task;
+		}
+		
+		// Método genérico para selecionar um slot no campo (Aliado ou Inimigo)
 		public async Task<int> SelecionarSlotNoCampo(Godot.Collections.Array<Marker3D> slots, bool PrimeiroTurno = false, bool camIni = false)
 		{			
 			_bloquearNavegaçãoManual = true; // TRAVA O SELETOR 2D IMEDIATAMENTE
@@ -341,12 +392,7 @@ namespace fm{
 				}
 								
 				int anterior = _indiceCampoSelecionado;		
-				int dir = camIni ? -1 : 1;										
-				if (Input.IsActionJustPressed("ui_right"))
-					_indiceCampoSelecionado = Mathf.Min(_indiceCampoSelecionado + 1 * dir, slots.Count - 1);											
-				if (Input.IsActionJustPressed("ui_left"))
-					_indiceCampoSelecionado = Mathf.Max(_indiceCampoSelecionado - 1 * dir , 0);																			
-
+				ProcessarNavegacao3D(slots, camIni);																	
 				if (anterior != _indiceCampoSelecionado)
 				{					
 					AtualizarPosicaoSeletorParaSlots(slots);
@@ -424,6 +470,14 @@ namespace fm{
 			}
 		}
 		
+		public void ProcessarNavegacao3D(Godot.Collections.Array<Marker3D> slots, bool camIni){
+			int dir = camIni ? -1 : 1;										
+				if (Input.IsActionJustPressed("ui_right"))
+					_indiceCampoSelecionado = Mathf.Min(_indiceCampoSelecionado + 1 * dir, slots.Count - 1);											
+				if (Input.IsActionJustPressed("ui_left"))
+					_indiceCampoSelecionado = Mathf.Max(_indiceCampoSelecionado - 1 * dir , 0);	
+		}
+		
 		public void ConfigurarSlots(
 			Godot.Collections.Array<Marker3D> monstrosAliados, 
 			Godot.Collections.Array<Marker3D> monstrosInimigos,
@@ -436,6 +490,15 @@ namespace fm{
 			this.SlotsCampoSTIni = magiasInimigos;			
 			
 			GD.Print("MaoJogador: Slots redefinidos com sucesso via GameLoop.");
+		}
+		
+		public async Task<Godot.Collections.Array<int>> AguardarConfirmacaoJogadaAsync()
+		{
+			_tcsCarta = new TaskCompletionSource<Godot.Collections.Array<int>>();
+			
+			// O código aqui fica "parado" até que ConfirmarInvocacaoNoCampo() seja chamado
+			var resultado = await _tcsCarta.Task;
+			return resultado;
 		}
 		
 		public void TransitionTo(Camera3D targetCam, double duration, bool MainPhase = false)
@@ -474,4 +537,3 @@ namespace fm{
 		}
 	}
 }
-	
