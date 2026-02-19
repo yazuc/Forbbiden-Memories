@@ -302,11 +302,8 @@ namespace fm{
 			}
 			_indiceSelecionado = 0;
 			if (IndicadorTriangulo != null)
-			{
-				GD.Print("Indicador ta vivo");
-				// Make sure it's actually visible!
-				IndicadorTriangulo.Visible = true;
-				// Force the first position update
+			{			
+				IndicadorTriangulo.Visible = true;				
 				AtualizarPosicaoIndicador(); 
 			}
 		}

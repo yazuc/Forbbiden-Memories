@@ -40,10 +40,8 @@ namespace fm
 			// Draw starting hands
 			for (int i = 0; i < STARTING_HAND; i++)
 			{
-				//GD.Print("started drawing");
 				if (_gameState.Player1.HasCards())
-				{
-					//GD.Print("drawd");
+				{			
 					DrawCard(_gameState.Player1);                    
 				}                
 				if (_gameState.Player2.HasCards())
@@ -83,8 +81,6 @@ namespace fm
 
 				// Switch player
 				_gameState.SwitchPlayer();				
-				MaoDoJogador.AtualizarMao(_gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList());
-				//CameraPivot.RotateY(Mathf.DegToRad(180));
 				RotateCameraPivot180();
 			}
 			
