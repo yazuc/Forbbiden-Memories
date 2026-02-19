@@ -18,6 +18,7 @@ namespace fm{
 		public Godot.Collections.Array<Marker3D> SlotsCampoST = new ();
 		public Godot.Collections.Array<Marker3D> SlotsCampoIni = new ();
 		public Godot.Collections.Array<Marker3D> SlotsCampoSTIni = new ();	
+		public bool STOP {get;set;}
 		
 		private TaskCompletionSource<Godot.Collections.Array<int>> _tcsCarta;
 		private TaskCompletionSource<int> _tcsSlot;
@@ -73,43 +74,49 @@ namespace fm{
 				if(_indiceSelecionado < 0){
 					_indiceSelecionado = 4;
 				}
-				if (Input.IsActionJustPressed("ui_right")) _indiceSelecionado = Mathf.Min(_indiceSelecionado + 1, _cartasNaMao.Count - 1);
-				else if (Input.IsActionJustPressed("ui_left")) _indiceSelecionado = Mathf.Max(_indiceSelecionado - 1, 0);
+				if(!STOP){
+					if (Input.IsActionJustPressed("ui_right")) _indiceSelecionado = Mathf.Min(_indiceSelecionado + 1, _cartasNaMao.Count - 1);
+					else if (Input.IsActionJustPressed("ui_left")) _indiceSelecionado = Mathf.Max(_indiceSelecionado - 1, 0);					
+				}
 
 				if (anterior != _indiceSelecionado) AtualizarPosicaoIndicador();
 				
 				// MECÂNICA DE FUSÃO (Cima/Baixo)
-				if (Input.IsActionJustPressed("ui_up")) 
-				{
-					AlternarSelecaoFusao(_cartasNaMao[_indiceSelecionado]);
+				if(!STOP){
+					if (Input.IsActionJustPressed("ui_up")) 
+					{
+						AlternarSelecaoFusao(_cartasNaMao[_indiceSelecionado]);
+					}					
+					if (Input.IsActionJustPressed("ui_accept")) 
+					{
+						await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+						if (_cartasSelecionadasParaFusao.Count == 0)
+						{
+							_cartasSelecionadasParaFusao.Add(_cartasNaMao[_indiceSelecionado]);
+						}				
+						
+						await EntrarModoSelecaoCampo();
+					}
 				}
 
-				if (Input.IsActionJustPressed("ui_accept")) 
-				{
-					await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-					if (_cartasSelecionadasParaFusao.Count == 0)
-					{
-						_cartasSelecionadasParaFusao.Add(_cartasNaMao[_indiceSelecionado]);
-					}				
-					
-					await EntrarModoSelecaoCampo();
-				}
 			}
 			else 
 			{
 				// SELEÇÃO NO CAMPO (3D)
 				ControlarSelecaoDeCampo();
 
-				if (Input.IsActionJustPressed("ui_accept")) 
-				{
-					await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-					ConfirmarInvocacaoNoCampo();
-				}
-				
-				if (Input.IsActionJustPressed("ui_cancel")) 
-				{					
-					await TransitionTo(CameraHand, 0.5f);
-					SairModoSelecaoCampo();
+				if(!STOP){
+					if (Input.IsActionJustPressed("ui_accept")) 
+					{
+						await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+						ConfirmarInvocacaoNoCampo();
+					}
+					
+					if (Input.IsActionJustPressed("ui_cancel")) 
+					{					
+						await TransitionTo(CameraHand, 0.5f);
+						SairModoSelecaoCampo();
+					}					
 				}
 			}
 			return;
@@ -163,11 +170,13 @@ namespace fm{
 		private void ControlarSelecaoDeCampo()
 		{
 			int anterior = _indiceCampoSelecionado;
-			if (Input.IsActionJustPressed("ui_right"))
-				_indiceCampoSelecionado = Mathf.Min(_indiceCampoSelecionado + 1, SlotsCampo.Count - 1);
-			
-			if (Input.IsActionJustPressed("ui_left"))
-				_indiceCampoSelecionado = Mathf.Max(_indiceCampoSelecionado - 1, 0);
+			if(!STOP){			
+				if (Input.IsActionJustPressed("ui_right"))
+					_indiceCampoSelecionado = Mathf.Min(_indiceCampoSelecionado + 1, SlotsCampo.Count - 1);
+				
+				if (Input.IsActionJustPressed("ui_left"))
+					_indiceCampoSelecionado = Mathf.Max(_indiceCampoSelecionado - 1, 0);
+			}
 
 			if (anterior != _indiceCampoSelecionado)
 			{
@@ -345,21 +354,24 @@ namespace fm{
 					AtualizarPosicaoSeletorParaSlots(slots);
 				}
 				
-				if (Input.IsActionJustPressed("ui_accept") && !PrimeiroTurno)
-				{
-					GD.Print("Slot confirmado: " + _indiceCampoSelecionado);
-					_tcsSlot.TrySetResult(_indiceCampoSelecionado);
-				}
-								
-				if (Input.IsActionJustPressed("ui_cancel"))
-				{
-					GD.Print("Seleção cancelada.");
-					_tcsSlot.TrySetResult(-1);
+				if(!STOP){
+					if (Input.IsActionJustPressed("ui_accept") && !PrimeiroTurno)
+					{
+						GD.Print("Slot confirmado: " + _indiceCampoSelecionado);
+						_tcsSlot.TrySetResult(_indiceCampoSelecionado);
+					}
+									
+					if (Input.IsActionJustPressed("ui_cancel"))
+					{
+						GD.Print("Seleção cancelada.");
+						_tcsSlot.TrySetResult(-1);
+					}
+					
+					if (Input.IsActionJustPressed("ui_end_phase")) // Mapeie a tecla 'V' no Input Map como "ui_end_phase"
+					{
+						_tcsSlot.TrySetResult(-2); // Usamos -2 para indicar "Sair da Fase"					
 				}
 				
-				if (Input.IsActionJustPressed("ui_end_phase")) // Mapeie a tecla 'V' no Input Map como "ui_end_phase"
-				{
-					_tcsSlot.TrySetResult(-2); // Usamos -2 para indicar "Sair da Fase"
 				}
 
 				// Aguarda o próximo frame para o Godot não travar
@@ -420,11 +432,13 @@ namespace fm{
 		}		
 		
 		public void ProcessarNavegacao3D(Godot.Collections.Array<Marker3D> slots, bool camIni){
-			int dir = camIni ? -1 : 1;										
+			int dir = camIni ? -1 : 1;		
+			if(!STOP){
 				if (Input.IsActionJustPressed("ui_right"))
 					_indiceCampoSelecionado = Mathf.Min(_indiceCampoSelecionado + 1 * dir, slots.Count - 1);											
 				if (Input.IsActionJustPressed("ui_left"))
-					_indiceCampoSelecionado = Mathf.Max(_indiceCampoSelecionado - 1 * dir , 0);	
+					_indiceCampoSelecionado = Mathf.Max(_indiceCampoSelecionado - 1 * dir , 0);					
+			}								
 		}
 		
 		public void ConfigurarSlots(
@@ -455,7 +469,7 @@ namespace fm{
 			Viewport viewport = GetViewport();
 			Camera3D currentCam = viewport.GetCamera3D();			
 			if (currentCam == null || currentCam == targetCam) return;        
-			
+			STOP = true;
 			_transitionCam.GlobalTransform = currentCam.GlobalTransform;
 			_transitionCam.Fov = currentCam.Fov;
 			_transitionCam.MakeCurrent();
@@ -471,6 +485,7 @@ namespace fm{
 
 			targetCam.MakeCurrent();
 			GD.Print($"Câmera {targetCam.Name} assumiu o controle.");
+			STOP = false;
 		}
 	}
 }
