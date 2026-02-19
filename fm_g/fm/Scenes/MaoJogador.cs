@@ -29,7 +29,7 @@ namespace fm{
 		private bool _selecionandoLocal = false; // Estado para saber se estamos escolhendo onde colocar a carta
 		private List<CartasBase> _cartasNaMao = new List<CartasBase>();
 		private List<CartasBase> _cartasSelecionadasParaFusao = new List<CartasBase>();
-		// Called when the node enters the scene tree for the first time.
+		private bool _processandoInput = false;
 		public override void _Ready()
 		{
 			_transitionCam = new Camera3D();
@@ -37,21 +37,30 @@ namespace fm{
 			if (Seletor != null)
 			{
 				_instanciaSeletor = Seletor.Instantiate<Node3D>();
-				// Adicionamos à cena principal para ele não herdar transformações do Node2D
 				GetTree().CurrentScene.CallDeferred("add_child", _instanciaSeletor);
 				_instanciaSeletor.Visible = false;
 			}
 		}
 
-		// Called every frame. 'delta' is the elapsed time since the previous frame.
-		public  override void _Process(double delta)
+		public async override void _Process(double delta)
 		{			
-			 HandleNavigation();				
+			 if (!_processandoInput)
+			{
+				ExecutarNavegacao();
+			}			
 		}
-		private async Task<bool> HandleNavigation()
+		
+		private async void ExecutarNavegacao()
 		{
-			if (_bloquearNavegaçãoManual) return false;
-			if (_cartasNaMao.Count == 0) return false;
+			_processandoInput = true;
+			await HandleNavigation();
+			_processandoInput = false;
+		}
+		
+		private async Task HandleNavigation()
+		{
+			if (_bloquearNavegaçãoManual) return;
+			if (_cartasNaMao.Count == 0) return;
 
 			if (!_selecionandoLocal) 
 			{
@@ -81,8 +90,9 @@ namespace fm{
 					if (_cartasSelecionadasParaFusao.Count == 0)
 					{
 						_cartasSelecionadasParaFusao.Add(_cartasNaMao[_indiceSelecionado]);
-					}
-					EntrarModoSelecaoCampo();
+					}				
+					
+					await EntrarModoSelecaoCampo();
 				}
 			}
 			else 
@@ -98,11 +108,11 @@ namespace fm{
 				
 				if (Input.IsActionJustPressed("ui_cancel")) 
 				{					
-					TransitionTo(CameraHand, 0.5f);
+					await TransitionTo(CameraHand, 0.5f);
 					SairModoSelecaoCampo();
 				}
 			}
-			return true;
+			return;
 		}
 		
 		private void AlternarSelecaoFusao(CartasBase carta)
@@ -126,17 +136,17 @@ namespace fm{
 			}
 		}
 
-			private void EntrarModoSelecaoCampo()
+			private async Task EntrarModoSelecaoCampo()
 			{
 				_selecionandoLocal = true;
 				_indiceCampoSelecionado = 0; // Começa no primeiro slot
 								
-				TransitionTo(CameraField, 0.5f);
 
 				if (_instanciaSeletor != null)
 				{
-					_instanciaSeletor.Visible = true;
 					AtualizarPosicaoSeletor3D();
+					_instanciaSeletor.Visible = true;
+					await TransitionTo(CameraField, 0.5f);
 				}
 			}
 		public void CancelarSelecaoNoCampo()
@@ -249,7 +259,9 @@ namespace fm{
 
 			float espacamentoHorizontal = 150.0f; // Ajuste para as cartas ficarem lado a lado
 			Vector2 posicaoInicial = new Vector2(200, 500); // Posição da primeira carta na tela
-
+			float larguraTela = GetViewportRect().Size.X;
+			Vector2 posicaoOffScreen = new Vector2(larguraTela + 200, 500);
+			
 			for (int i = 0; i < idsCartasNoDeck.Count; i++)
 			{
 				int id = idsCartasNoDeck[i];				
@@ -258,10 +270,35 @@ namespace fm{
 
 				// Define a posição manualmente (i * espaçamento faz o alinhamento)
 				// Isso não interfere no código interno da sua carta (DisplayCard)
-				novaCarta.Position = posicaoInicial + new Vector2(i * espacamentoHorizontal, 0);
-
+				novaCarta.Position = posicaoOffScreen;// + new Vector2(i * espacamentoHorizontal, 0);
 				novaCarta.DisplayCard(id);
 				_cartasNaMao.Add(novaCarta);
+				
+				// 2. Calcula a posição final dela na mão
+				Vector2 posicaoFinal = posicaoInicial + new Vector2(i * espacamentoHorizontal, 0);
+
+				// 3. Animação de entrada
+				Tween tween = GetTree().CreateTween();
+				// Adicionamos um pequeno atraso (delay) baseado no índice para as cartas entrarem uma por uma
+				float delay = i * 0.1f; 
+				
+				tween.TweenProperty(novaCarta, "position", posicaoFinal, 0.5f)
+					 .SetTrans(Tween.TransitionType.Cubic) 
+					 .SetEase(Tween.EaseType.Out)
+					 .SetDelay(delay);
+					if (i == 0 && IndicadorTriangulo != null)
+					{
+						IndicadorTriangulo.Visible = false;
+						tween.Finished += () => 
+						{
+							if (GodotObject.IsInstanceValid(IndicadorTriangulo))
+							{
+								IndicadorTriangulo.Visible = true;
+								AtualizarPosicaoIndicador();
+								GD.Print("Primeira carta chegou, indicador posicionado.");
+							}
+						};
+					}
 			}
 			_indiceSelecionado = 0;
 			if (IndicadorTriangulo != null)
@@ -303,9 +340,7 @@ namespace fm{
 
 			while (!_tcsSlot.Task.IsCompleted)
 			{
-				int anterior = _indiceCampoSelecionado;
-				
-				// 1. Processa a Navegação (Seta esquerda/direita)
+				int anterior = _indiceCampoSelecionado;			
 				ProcessarNavegacao3D(slots, camIni);
 
 				if (anterior != _indiceCampoSelecionado)
@@ -313,21 +348,18 @@ namespace fm{
 					AtualizarPosicaoSeletorParaSlots(slots);
 				}
 				
-				// 2. ESCUTA A CONFIRMAÇÃO (O que faz o await "andar")
 				if (Input.IsActionJustPressed("ui_accept") && !PrimeiroTurno)
 				{
 					GD.Print("Slot confirmado: " + _indiceCampoSelecionado);
 					_tcsSlot.TrySetResult(_indiceCampoSelecionado);
 				}
-				
-				// 3. ESCUTA O CANCELAMENTO/VOLTAR
+								
 				if (Input.IsActionJustPressed("ui_cancel"))
 				{
 					GD.Print("Seleção cancelada.");
 					_tcsSlot.TrySetResult(-1);
 				}
-
-				// 4. ESCUTA O FIM DA FASE (Caso queira passar o turno com 'V')
+				
 				if (Input.IsActionJustPressed("ui_end_phase")) // Mapeie a tecla 'V' no Input Map como "ui_end_phase"
 				{
 					_tcsSlot.TrySetResult(-2); // Usamos -2 para indicar "Sair da Fase"
@@ -342,87 +374,7 @@ namespace fm{
 			
 			return await _tcsSlot.Task;
 		}
-		
-		// Método genérico para selecionar um slot no campo (Aliado ou Inimigo)
-		public async Task<int> SelecionarSlotNoCampo(Godot.Collections.Array<Marker3D> slots, bool PrimeiroTurno = false, bool camIni = false)
-		{			
-			_bloquearNavegaçãoManual = true; // TRAVA O SELETOR 2D IMEDIATAMENTE
-			_selecionandoLocal = true;
-			if (!IsInsideTree()) 
-			{
-				GD.PrintErr("[MaoJogador] ERRO: Tentativa de selecionar slot enquanto MaoJogador está fora da SceneTree!");
-				return -1;
-			}
-
-			if (_tcsCampo != null && !_tcsCampo.Task.IsCompleted) 
-			{
-				GD.Print("[MaoJogador] Resetando Task anterior não finalizada.");
-				_tcsCampo.TrySetResult(-1);
-			}
-			
-			_tcsCampo = new TaskCompletionSource<int>();
-			
-			if (slots == null || slots.Count == 0) 
-			{
-				GD.PrintErr("[MaoJogador] ERRO: Lista de slots vazia ou nula.");
-				return -1;
-			}
-			
-			_indiceCampoSelecionado = 0; 
-			_instanciaSeletor.Visible = true;
-			
-			// FORÇAR ATUALIZAÇÃO IMEDIATA SEM TWEEN (para não ter delay no primeiro frame)
-			var slotInicial = slots[_indiceCampoSelecionado];
-			_instanciaSeletor.GlobalPosition = slotInicial.GlobalPosition + new Vector3(0, 0.05f, 0);
-			_instanciaSeletor.GlobalRotation = slotInicial.GlobalRotation;
-
-			await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-			
-			_bloquearNavegaçãoManual = true; 
-			_selecionandoLocal = true;
-			_indiceCampoSelecionado = 0;
-			_instanciaSeletor.Visible = true;		
-
-			while (!_tcsCampo.Task.IsCompleted)
-			{
-				if (!IsInsideTree()) 
-				{
-					GD.PrintErr("[MaoJogador] MaoJogador saiu da árvore durante a seleção!");
-					break;
-				}
-								
-				int anterior = _indiceCampoSelecionado;		
-				ProcessarNavegacao3D(slots, camIni);																	
-				if (anterior != _indiceCampoSelecionado)
-				{					
-					AtualizarPosicaoSeletorParaSlots(slots);
-				}
-
-				if (Input.IsActionJustPressed("ui_accept"))
-				{				
-					if(!PrimeiroTurno)
-						_tcsCampo.TrySetResult(_indiceCampoSelecionado);
-				}
-
-				if (Input.IsActionJustPressed("ui_cancel"))
-				{				
-					_tcsCampo.TrySetResult(-1);
-				}
-
-				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-			}
-
-			int resultado = await _tcsCampo.Task;			
-
-			_instanciaSeletor.Visible = false;
-			_selecionandoLocal = false;
-			_bloquearNavegaçãoManual = false;
-			if(resultado > -1){				
-				TransitionTo(CameraField, 0.5f);				
-			}
-			return resultado;
-		}
-
+						
 		// Método auxiliar para mover o seletor entre diferentes arrays de markers
 		private void AtualizarPosicaoSeletorParaSlots(Godot.Collections.Array<Marker3D> slots)
 		{
@@ -468,7 +420,7 @@ namespace fm{
 				if(item is Carta3d meuNode)
 					GD.Print($"Aqui temos o nodo {meuNode.carta}");
 			}
-		}
+		}		
 		
 		public void ProcessarNavegacao3D(Godot.Collections.Array<Marker3D> slots, bool camIni){
 			int dir = camIni ? -1 : 1;										
@@ -501,39 +453,27 @@ namespace fm{
 			return resultado;
 		}
 		
-		public void TransitionTo(Camera3D targetCam, double duration, bool MainPhase = false)
-		{
-			// 1. Identifica a câmera que está ativa no momento
+		public async Task TransitionTo(Camera3D targetCam, double duration, bool MainPhase = false)
+		{			
 			Viewport viewport = GetViewport();
-			Camera3D currentCam = viewport.GetCamera3D();
-
-			if (currentCam == null || currentCam == targetCam) return;		
+			Camera3D currentCam = viewport.GetCamera3D();			
+			if (currentCam == null || currentCam == targetCam) return;        
 			
-			// 2. Prepara a câmera de transição na posição exata da origem
 			_transitionCam.GlobalTransform = currentCam.GlobalTransform;
 			_transitionCam.Fov = currentCam.Fov;
 			_transitionCam.MakeCurrent();
-
-			// 3. Cria o Tween
+			
 			Tween tween = GetTree().CreateTween();
 			tween.SetParallel(true);
 			tween.SetTrans(Tween.TransitionType.Cubic);
 			tween.SetEase(Tween.EaseType.InOut);
 
-			// Move a transição para o destino (posição e rotação)
-			tween.TweenProperty(_transitionCam, "global_transform", 
-				targetCam.GlobalTransform, duration);
-			
-			// Ajusta o FOV caso as câmeras tenham lentes diferentes
-			tween.TweenProperty(_transitionCam, "fov", 
-				targetCam.Fov, duration);
+			tween.TweenProperty(_transitionCam, "global_transform", targetCam.GlobalTransform, duration);
+			tween.TweenProperty(_transitionCam, "fov", targetCam.Fov, duration);
+			await ToSignal(tween, Tween.SignalName.Finished);
 
-			// 4. Finalização: Entrega o controle para a câmera alvo real
-			tween.Chain().TweenCallback(Callable.From(() => 
-			{
-				targetCam.MakeCurrent();
-				GD.Print("Troca de câmera concluída.");
-			}));
+			targetCam.MakeCurrent();
+			GD.Print($"Câmera {targetCam.Name} assumiu o controle.");
 		}
 	}
 }

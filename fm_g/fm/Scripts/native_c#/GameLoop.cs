@@ -56,7 +56,7 @@ namespace fm
 		public async Task RunTurn()
 		{
 			while(!_gameState.IsGameOver()){				
-				MaoDoJogador.TransitionTo(CameraHand, 0.5f, true);
+				await MaoDoJogador.TransitionTo(CameraHand, 0.5f, true);
 				if (_gameState.IsGameOver())
 				{
 					GD.Print("Game is already over!");
@@ -91,6 +91,7 @@ namespace fm
 			if (_gameState.IsGameOver())
 			{
 				GD.Print("Game is already over after while loop!");
+				await MaoDoJogador.TransitionTo(CameraHand, 0.5);
 				RotateCameraPivot180Slow();
 				//return;
 			}
@@ -136,7 +137,7 @@ namespace fm
 				GD.Print("PLAYER DO TURNO ATUAL: " + _gameState.CurrentPlayer.Name);
 				i++;
 			}					
-			MaoDoJogador.TransitionTo(CameraField, 0.5f);				
+			await MaoDoJogador.TransitionTo(CameraField, 0.5f);				
 			_gameState.AdvancePhase();
 		}
 		
@@ -148,6 +149,14 @@ namespace fm
 			bool BP_Ativa = true;
 			while (BP_Ativa)
 			{
+				if(_gameState.OpponentPlayer.LifePoints <= 0){
+					GD.Print("fim de jogo");
+					BP_Ativa = false;
+					_gameState.EndGame(_gameState.CurrentPlayer);
+					_gameState.AdvancePhase();
+					break;
+				}
+				
 				GD.Print("Escolha um atacante...");
 				// O código PARA aqui e fica rodando o loop de input da MaoJogador				
 				int slotAtacante = await MaoDoJogador.SelecionarSlotAsync(MaoDoJogador.SlotsCampo, _gameState.CurrentTurn == 1);
@@ -159,7 +168,7 @@ namespace fm
 				}
 
 				// Se escolheu um slot válido:
-				MaoDoJogador.TransitionTo(CameraInimigo, 0.4f);
+				await MaoDoJogador.TransitionTo(CameraInimigo, 0.4f);
 				
 				GD.Print("Escolha o alvo...");
 				int slotAlvo = await MaoDoJogador.SelecionarSlotAsync(MaoDoJogador.SlotsCampoIni, _gameState.CurrentTurn == 1, true);
@@ -169,7 +178,7 @@ namespace fm
 					ResolverBatalha(slotAtacante, slotAlvo);
 				}
 
-				MaoDoJogador.TransitionTo(CameraField, 0.4f);
+				await MaoDoJogador.TransitionTo(CameraField, 0.4f);
 				// O loop volta para o início, esperando o próximo atacante
 			}
 
