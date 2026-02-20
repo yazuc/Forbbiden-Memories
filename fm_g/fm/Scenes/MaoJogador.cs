@@ -23,6 +23,8 @@ namespace fm{
 		private TaskCompletionSource<Godot.Collections.Array<int>> _tcsCarta;
 		private TaskCompletionSource<int> _tcsSlot;
 		private TaskCompletionSource<int> _tcsCampo = null;
+		private TaskCompletionSource<bool> _tcsFaceDown;
+		bool IsFaceDown = false;
 		private bool _bloquearNavegaçãoManual = false;
 		private Node3D _instanciaSeletor = null;
 		public int _indiceSelecionado = 0;	
@@ -47,7 +49,7 @@ namespace fm{
 
 		public async override void _Process(double delta)
 		{			
-			 if (!_processandoInput)
+			 if (!_processandoInput && !STOP)
 			{
 				ExecutarNavegacao();
 			}			
@@ -94,9 +96,15 @@ namespace fm{
 						if (_cartasSelecionadasParaFusao.Count == 0)
 						{
 							_cartasSelecionadasParaFusao.Add(_cartasNaMao[_indiceSelecionado]);
-						}				
-						
-						EntrarModoSelecaoCampo();
+						}
+						IsFaceDown = await MoveCartaParaCentro(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID);				
+						GD.Print("------------------------facedown?" + IsFaceDown.ToString());
+						if(_tcsFaceDown.Task.IsCompleted){							
+							EntrarModoSelecaoCampo();							
+						}else{
+							if(_cartasSelecionadasParaFusao.Count() > 0)
+								DevolveCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID);
+						}
 					}
 				}
 			}
@@ -147,7 +155,6 @@ namespace fm{
 			_indiceCampoSelecionado = 0; // Começa no primeiro slot								
 			if (_instanciaSeletor != null)
 			{				
-				MoveCartaParaCentro(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID);
 				AtualizarPosicaoSeletor3D(SlotsCampo, _cartasSelecionadasParaFusao.FirstOrDefault().CurrentID);
 				_instanciaSeletor.Visible = true;
 				await TransitionTo(CameraField, 0.5f);
@@ -162,8 +169,7 @@ namespace fm{
 				_cartasSelecionadasParaFusao = new List<CartasBase>();
 				_tcsCampo.TrySetResult(-1); 
 			}
-			if(_cartasSelecionadasParaFusao.Count() > 0)
-				DevolveCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID);
+			
 			_cartasSelecionadasParaFusao.Clear();
 			// Desative aqui os highlights ou colisores que você ativou para a seleção
 			GD.Print("Seleção de campo cancelada manualmente.");
@@ -185,19 +191,46 @@ namespace fm{
 			}
 		}
 		
-		private void MoveCartaParaCentro(int ID)
+		private async Task<bool> MoveCartaParaCentro(int ID)
 		{
-			var viewport = GetViewport();
+			bool IsFaceDown = true;
+			_tcsFaceDown = new TaskCompletionSource<bool>();
+			
+			var viewport = GetViewport();			
 			Vector2 screenCenter = viewport.GetVisibleRect().Size / 2f;
 			var nodoAlvo = _cartasNaMao.Where(x => x.CurrentID == ID).FirstOrDefault();
+			nodoAlvo.DisplayCard(nodoAlvo.CurrentID, IsFaceDown);
 			lastPos = nodoAlvo.GlobalPosition;
 			nodoAlvo.GlobalPosition = screenCenter;
+			while(!_tcsFaceDown.Task.IsCompleted) 
+			{
+				await ToSignal(GetTree(), "process_frame");
+				if(Input.IsActionJustPressed("ui_left")){
+					IsFaceDown = !IsFaceDown;
+					nodoAlvo.DisplayCard(nodoAlvo.CurrentID, IsFaceDown);
+				}
+				if(Input.IsActionJustPressed("ui_right")){
+					IsFaceDown = !IsFaceDown;
+					nodoAlvo.DisplayCard(nodoAlvo.CurrentID, IsFaceDown);
+				}
+				if(Input.IsActionJustPressed("ui_accept")){									
+					_tcsFaceDown?.TrySetResult(IsFaceDown);				
+				}
+				if(Input.IsActionJustPressed("ui_cancel")){
+					_tcsFaceDown?.TrySetResult(false);		
+				}
+			}
+			
+			return await _tcsFaceDown.Task;
 		}
 		
 		private void DevolveCartaParaMao(int ID)
 		{			
 			var nodoAlvo = _cartasNaMao.Where(x => x.CurrentID == ID).FirstOrDefault();
+			nodoAlvo.DisplayCard(nodoAlvo.CurrentID, false);
 			nodoAlvo.GlobalPosition = lastPos;
+			_cartasSelecionadasParaFusao.Clear();
+			lastPos = Vector2.Zero;
 		}
 
 		private void AtualizarPosicaoSeletor3D(Godot.Collections.Array<Marker3D> slots, int Id)
@@ -243,7 +276,7 @@ namespace fm{
 			}
 		}
 		
-		public void Instancia3D(Marker3D slotDestino, int fusao){
+		public async Task Instancia3D(Marker3D slotDestino, int fusao){
 			bool IsEnemy = slotDestino.Name.ToString().Contains("Ini");
 			Node3D novaCarta3d = PegaNodo(slotDestino, IsEnemy);			
 			if(IsEnemy){
@@ -253,7 +286,7 @@ namespace fm{
 			}
 
 			if (novaCarta3d.HasMethod("Setup")){
-				novaCarta3d.Call("Setup", fusao, (int)_indiceCampoSelecionado, IsEnemy, false);
+				novaCarta3d.Call("Setup", fusao, (int)_indiceCampoSelecionado, IsEnemy, IsFaceDown);
 			} 
 			foreach (var carta in _cartasSelecionadasParaFusao)
 			{

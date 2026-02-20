@@ -62,6 +62,10 @@ namespace fm
 					_atk.Text = "ATK " + cardData.Attack.ToString();
 					_def.Text = "DEF " + cardData.Defense.ToString();				
 				}
+			}else{
+				_nome.Text = "";			
+				_atk.Text = "";
+				_def.Text = "";				
 			}
 			_arteSprite.Visible = !Facedown;
 
