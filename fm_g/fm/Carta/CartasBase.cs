@@ -47,7 +47,7 @@ namespace fm
 			
 			CurrentID = id;
 
-			// Atualiza o frame da moldura (Monster, Spell, Trap)
+			// Atualiza o frame da moldura (Monster, Spell, Trap, Equip, Ritual)
 			UpdateFrame(FixType(cardData.Type));
 
 			// Como o ID 1 é o frame 0 no AnimatedSprite2D:

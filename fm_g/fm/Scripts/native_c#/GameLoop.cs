@@ -137,6 +137,7 @@ namespace fm
 			await MaoDoJogador.TransitionTo(CameraField, 0.5f);			
 			_gameState.Player1.Field.DrawFieldState();
 			_gameState.Player2.Field.DrawFieldState();	
+			MaoDoJogador.PrintTodasInstancias();
 			_gameState.AdvancePhase();
 		}
 		

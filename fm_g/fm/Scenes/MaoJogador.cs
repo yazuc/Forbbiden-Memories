@@ -30,6 +30,7 @@ namespace fm{
 		private bool _selecionandoLocal = false; // Estado para saber se estamos escolhendo onde colocar a carta
 		private List<CartasBase> _cartasNaMao = new List<CartasBase>();
 		private List<CartasBase> _cartasSelecionadasParaFusao = new List<CartasBase>();
+		private List<Node3D> _cartasInstanciadas = new List<Node3D>();
 		private bool _processandoInput = false;
 		public override void _Ready()
 		{
@@ -239,7 +240,7 @@ namespace fm{
 			{
 				_cartasNaMao.Remove(carta);
 				carta.QueueFree();
-			}
+			}		
 		}
 
 		public void SairModoSelecaoCampo()
@@ -429,6 +430,11 @@ namespace fm{
 			GetTree().CurrentScene.AddChild(novaCarta3d);
 			novaCarta3d.GlobalPosition = slotDestino.GlobalPosition;
 			novaCarta3d.GlobalRotation = slotDestino.GlobalRotation;
+			_cartasInstanciadas.Add(novaCarta3d);
+			
+			foreach(var item in _cartasInstanciadas)
+				PrintInstancia(item);
+			
 			return novaCarta3d;
 		}
 		
@@ -468,6 +474,23 @@ namespace fm{
 				if (Input.IsActionJustPressed("ui_left"))
 					_indiceCampoSelecionado = Mathf.Max(_indiceCampoSelecionado - 1 * dir , 0);					
 			}								
+		}
+		
+		public void PrintTodasInstancias(){
+			foreach(var item in _cartasInstanciadas)
+				PrintInstancia(item);
+		}
+		
+		public void PrintInstancia(Node3D instancia)
+		{
+			if(instancia is Carta3d cartaInstanciada)
+			{
+				GD.Print("carta:" + cartaInstanciada.carta.ToString());
+				GD.Print("instance:" + cartaInstanciada.instance.ToString());
+				GD.Print("slotPlaced:" + cartaInstanciada.slotPlaced.ToString());
+				GD.Print("IsEnemy:" + cartaInstanciada.IsEnemy.ToString());
+				GD.Print("IsFaceDown:" + cartaInstanciada.IsFaceDown.ToString());
+			}
 		}
 		
 		public void ConfigurarSlots(
