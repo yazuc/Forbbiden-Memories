@@ -25,6 +25,10 @@ namespace fm
 			FieldSpell = null;
 		}
 		
+		public int HasMonsterOnZone(int Idx){
+			return MonsterZones[Idx].Card.Id;
+		}
+		
 		public bool HasMonster(){
 			foreach(var item in MonsterZones){
 				if(item != null)

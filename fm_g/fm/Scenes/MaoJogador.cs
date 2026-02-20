@@ -224,12 +224,8 @@ namespace fm{
 		}
 		
 		public void Instancia3D(Marker3D slotDestino, int fusao){
-			Node3D novaCarta3d = Carta3d.Instantiate<Node3D>();
-			novaCarta3d.AddToGroup("cartas");
-			GetTree().CurrentScene.AddChild(novaCarta3d);
-			novaCarta3d.GlobalPosition = slotDestino.GlobalPosition;
-			novaCarta3d.GlobalRotation = slotDestino.GlobalRotation;
 			bool IsEnemy = slotDestino.Name.ToString().Contains("Ini");
+			Node3D novaCarta3d = PegaNodo(slotDestino, IsEnemy);			
 			if(IsEnemy){
 				GD.Print(slotDestino.GlobalRotation.ToString());
 				Vector3 rota = new Vector3(-0, 1.5707964f, 0);
@@ -237,7 +233,6 @@ namespace fm{
 			}
 
 			if (novaCarta3d.HasMethod("Setup")){
-				//callback da facedown finalizado, falta inserir a lógica de seleção se facedown ou nao
 				novaCarta3d.Call("Setup", fusao, (int)_indiceCampoSelecionado, IsEnemy, false);
 			} 
 			foreach (var carta in _cartasSelecionadasParaFusao)
@@ -417,6 +412,24 @@ namespace fm{
 			}
 			//nao achou
 			return -1;
+		}
+		
+		public Node3D PegaNodo(Marker3D slotDestino, bool IsEnemy){
+			var nodes = GetTree().GetNodesInGroup("cartas");
+			foreach(var item in nodes){
+				if(item is Carta3d meuNode){
+					if(_indiceCampoSelecionado == meuNode.slotPlaced && meuNode.IsEnemy == IsEnemy){
+						return meuNode;
+					}
+				}
+			}
+			//nao achou
+			var novaCarta3d = Carta3d.Instantiate<Node3D>();
+			novaCarta3d.AddToGroup("cartas");
+			GetTree().CurrentScene.AddChild(novaCarta3d);
+			novaCarta3d.GlobalPosition = slotDestino.GlobalPosition;
+			novaCarta3d.GlobalRotation = slotDestino.GlobalRotation;
+			return novaCarta3d;
 		}
 		
 		public CardTypeEnum PegaTipoPorId(int id)

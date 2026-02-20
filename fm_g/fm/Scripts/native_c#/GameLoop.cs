@@ -127,6 +127,8 @@ namespace fm
 			foreach(var item in idEscolhido){
 				var cardData = CardDatabase.Instance.GetCardById((int)item);	
 				if(i == idEscolhido.Count()){
+					//arrumar quando colocar um nodo por cima de outro, deletar o anterior sempre
+					//MaoDoJogador.FinalizaNodoByCard(_gameState.CurrentPlayer.Field.HasMonsterOnZone(MaoDoJogador.PegaSlot(cardData.Id)));
 					_gameState.CurrentPlayer.Field.placeCard(MaoDoJogador.PegaSlot(cardData.Id), cardData);					
 				}
 				_gameState.CurrentPlayer.DiscardCard(cardData.Id);
