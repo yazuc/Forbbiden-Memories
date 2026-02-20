@@ -40,12 +40,16 @@ namespace fm
 			//FmStarterDeckGenerator generator = new FmStarterDeckGenerator();
 			//List<QuickType.Cards> starterDeck = generator.GenerateStarterDeck(db.GetAllCards());          
 			//Funcoes.WriteCardsToFile(starterDeck, "starter_deck_ini.txt");
-			
-			var deckList = Funcoes.LoadUserDeck("/mnt/Nvme/fm/fm_g/fm/Scripts/native_c#/starter_deck.txt");
+			string srcGodot = "res://Scripts/native_c#/starter_deck.txt";
+			string srcGodot2 = "res://Scripts/native_c#/starter_deck_ini.txt";
+			string srcPath = ProjectSettings.GlobalizePath(srcGodot);
+			string srcPath2 = ProjectSettings.GlobalizePath(srcGodot2);
+						
+			var deckList = Funcoes.LoadUserDeck(srcPath);
 			deck.LoadDeck(deckList);
 			GD.Print(deckList.Count());
 			
-			var deckListIni = Funcoes.LoadUserDeck("/mnt/Nvme/fm/fm_g/fm/Scripts/native_c#/starter_deck_ini.txt");
+			var deckListIni = Funcoes.LoadUserDeck(srcPath2);
 			deckIni.LoadDeck(deckListIni);
 			// 3. Inicializar o GameLoop
 			// Passando Alice e Bob como os duelistas

@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://dxcxkqdf8i43x"]
+
+[ext_resource type="Texture2D" uid="uid://shrn8g5tlnxi" path="res://Assets/button.jpg" id="1_swd6r"]
+[ext_resource type="Texture2D" uid="uid://dv346hi38jkhn" path="res://Assets/button_hovered.jpg" id="2_tma8a"]
+
+[node name="MainMenu" type="Node2D" unique_id=1474129373]
+
+[node name="Control" type="CanvasLayer" parent="." unique_id=237660509]
+
+[node name="Control" type="Control" parent="Control" unique_id=340944967]
+layout_mode = 3
+anchor_left = 0.42700002
+anchor_top = 0.109000005
+anchor_right = 0.62200004
+anchor_bottom = 0.864
+offset_left = -819.84
+offset_top = -117.72001
+offset_right = 727.7599
+offset_bottom = 141.88
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/Control" unique_id=1984966333]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.307
+anchor_top = 0.097
+anchor_right = 0.68500006
+anchor_bottom = 1.0090001
+offset_left = -88.054016
+offset_top = 4.7249985
+offset_right = 209.42993
+offset_bottom = -11.675049
+
+[node name="TextureButton" type="TextureButton" parent="Control/Control/VBoxContainer" unique_id=1854463164]
+layout_mode = 2
+texture_normal = ExtResource("1_swd6r")
+texture_focused = ExtResource("2_tma8a")
+ignore_texture_size = true
+stretch_mode = 3
