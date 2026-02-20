@@ -15,13 +15,15 @@ namespace fm
 		private Node2D? _frameAnchor;
 		public Label? _nome, _atk, _def;
 		public CardTypeEnum Type;
+		public bool Facedown;
 
 		// Caminhos para as suas cenas de frame
 		private readonly Dictionary<string, string> _framePaths = new()
 		{
 			{ "Monstro", "res://Carta/Monstro.tscn" },
 			{ "Spell",  "res://Carta/Spell.tscn" },
-			{ "Trap",  "res://Carta/Trap.tscn" }
+			{ "Trap",  "res://Carta/Trap.tscn" },
+			{"Facedown", "res://Carta/Fundo.tscn"}
 		};
 
 		public override void _Ready()
@@ -37,8 +39,9 @@ namespace fm
 			//DisplayCard(1);
 		}
 
-		public void DisplayCard(int id)
+		public void DisplayCard(int id, bool isFaceDown = false)
 		{
+			Facedown = isFaceDown;
 			var cardData = CardDatabase.Instance.GetCardById(id);
 			if (cardData == null) return;
 			
@@ -53,12 +56,14 @@ namespace fm
 			// Define a animação (geralmente "default") e o frame correto
 			_arteSprite.Animation = "default";
 			_arteSprite.Frame = frameIndex;
-			
-			_nome.Text = cardData.Name;
-			if(FixType(cardData.Type) == "Monstro"){
-				_atk.Text = "ATK " + cardData.Attack.ToString();
-				_def.Text = "DEF " + cardData.Defense.ToString();				
+			if(!Facedown){
+				_nome.Text = cardData.Name;
+				if(FixType(cardData.Type) == "Monstro"){
+					_atk.Text = "ATK " + cardData.Attack.ToString();
+					_def.Text = "DEF " + cardData.Defense.ToString();				
+				}
 			}
+			_arteSprite.Visible = !Facedown;
 
 			// Mantém seus ajustes de Transform que você validou anteriormente
 			_arteSprite.Position = new Vector2(1.0f, -0.5f);
@@ -66,6 +71,7 @@ namespace fm
 		}
 		
 		private string FixType(CardTypeEnum type){
+			if(Facedown) return "Facedown";
 			switch (type)
 			{	
 				case CardTypeEnum.Equipment:

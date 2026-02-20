@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://jlimqnocalmf"]
+
+[ext_resource type="Texture2D" uid="uid://b72wrskajswiv" path="res://Assets/PlayStation - Yu-Gi-Oh! Forbidden Memories - Cards - Cards Frames.png" id="1_ftedm"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_csnav"]
+diffuse_texture = ExtResource("1_ftedm")
+
+[node name="Fundo" type="Node2D" unique_id=1155821341]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1199126692]
+texture = SubResource("CanvasTexture_csnav")
+region_enabled = true
+region_rect = Rect2(7, 35.846, 147.04, 209.044)

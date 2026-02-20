@@ -10,13 +10,15 @@ namespace fm{
 		public string instance = "";
 		public int slotPlaced = -1;
 		public bool IsEnemy = false;
+		public bool IsFaceDown = false;
 
-		public void Setup(int cardId, int slot, bool IsEnemy)
+		public void Setup(int cardId, int slot, bool IsEnemy, bool Facedown = false)
 		{
 			if (Visual != null)
 			{
+				IsFaceDown = Facedown;
 				// Chama o seu método existente que carrega do CardDatabase
-				Visual.DisplayCard(cardId);
+				Visual.DisplayCard(cardId, IsFaceDown);
 				this.carta = cardId;
 				this.slotPlaced = slot;
 				this.IsEnemy = IsEnemy;

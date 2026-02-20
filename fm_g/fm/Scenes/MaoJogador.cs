@@ -237,7 +237,8 @@ namespace fm{
 			}
 
 			if (novaCarta3d.HasMethod("Setup")){
-				novaCarta3d.Call("Setup", fusao, (int)_indiceCampoSelecionado, IsEnemy);
+				//callback da facedown finalizado, falta inserir a lógica de seleção se facedown ou nao
+				novaCarta3d.Call("Setup", fusao, (int)_indiceCampoSelecionado, IsEnemy, false);
 			} 
 			foreach (var carta in _cartasSelecionadasParaFusao)
 			{

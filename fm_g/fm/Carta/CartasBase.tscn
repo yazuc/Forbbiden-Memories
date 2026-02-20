@@ -5093,7 +5093,6 @@ offset_left = -55.0
 offset_top = -87.0
 offset_right = 68.0
 offset_bottom = -70.0
-text = "Blue-eyes White Dragon"
 label_settings = ExtResource("3_28wyl")
 
 [node name="Ataque" type="Label" parent="." unique_id=1475170378]
@@ -5101,7 +5100,6 @@ offset_left = 3.0
 offset_top = 57.0
 offset_right = 47.0
 offset_bottom = 80.0
-text = "ATK 3000"
 label_settings = ExtResource("3_28wyl")
 
 [node name="Defesa" type="Label" parent="." unique_id=1873903686]
@@ -5109,7 +5107,6 @@ offset_left = 3.0
 offset_top = 69.0
 offset_right = 49.0
 offset_bottom = 92.0
-text = "DEF 2500"
 label_settings = ExtResource("3_28wyl")
 
 [node name="FusionUp" type="Sprite2D" parent="." unique_id=485222596]
