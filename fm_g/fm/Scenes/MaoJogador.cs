@@ -32,6 +32,7 @@ namespace fm{
 		private List<CartasBase> _cartasSelecionadasParaFusao = new List<CartasBase>();
 		private List<Node3D> _cartasInstanciadas = new List<Node3D>();
 		private bool _processandoInput = false;
+		private Vector2 lastPos = Vector2.Zero;
 		public override void _Ready()
 		{
 			_transitionCam = new Camera3D();
@@ -145,7 +146,8 @@ namespace fm{
 			_selecionandoLocal = true;
 			_indiceCampoSelecionado = 0; // Começa no primeiro slot								
 			if (_instanciaSeletor != null)
-			{
+			{				
+				MoveCartaParaCentro(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID);
 				AtualizarPosicaoSeletor3D(SlotsCampo, _cartasSelecionadasParaFusao.FirstOrDefault().CurrentID);
 				_instanciaSeletor.Visible = true;
 				await TransitionTo(CameraField, 0.5f);
@@ -160,6 +162,8 @@ namespace fm{
 				_cartasSelecionadasParaFusao = new List<CartasBase>();
 				_tcsCampo.TrySetResult(-1); 
 			}
+			if(_cartasSelecionadasParaFusao.Count() > 0)
+				DevolveCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID);
 			_cartasSelecionadasParaFusao.Clear();
 			// Desative aqui os highlights ou colisores que você ativou para a seleção
 			GD.Print("Seleção de campo cancelada manualmente.");
@@ -179,6 +183,21 @@ namespace fm{
 			{
 				AtualizarPosicaoSeletor3D(SlotsCampo, _cartasSelecionadasParaFusao.FirstOrDefault().CurrentID);
 			}
+		}
+		
+		private void MoveCartaParaCentro(int ID)
+		{
+			var viewport = GetViewport();
+			Vector2 screenCenter = viewport.GetVisibleRect().Size / 2f;
+			var nodoAlvo = _cartasNaMao.Where(x => x.CurrentID == ID).FirstOrDefault();
+			lastPos = nodoAlvo.GlobalPosition;
+			nodoAlvo.GlobalPosition = screenCenter;
+		}
+		
+		private void DevolveCartaParaMao(int ID)
+		{			
+			var nodoAlvo = _cartasNaMao.Where(x => x.CurrentID == ID).FirstOrDefault();
+			nodoAlvo.GlobalPosition = lastPos;
 		}
 
 		private void AtualizarPosicaoSeletor3D(Godot.Collections.Array<Marker3D> slots, int Id)
@@ -413,6 +432,11 @@ namespace fm{
 			}
 			//nao achou
 			return -1;
+		}
+		
+		public Node3D PegaNodo(int ID)
+		{
+			return _cartasInstanciadas.Cast<Carta3d>().Where(x => x.carta == ID).FirstOrDefault();
 		}
 		
 		public Node3D PegaNodo(Marker3D slotDestino, bool IsEnemy){
