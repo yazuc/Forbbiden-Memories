@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://by74ydn30efkb"]
+
+[ext_resource type="Script" uid="uid://cl4m7ldi5pac3" path="res://HUD/IndicadorSeta.cs" id="1_2rssi"]
+[ext_resource type="Texture2D" uid="uid://bh8pnyeij42ts" path="res://Assets/arrow.png" id="1_r0ojs"]
+
+[node name="IndicadorSeta" type="Node2D" unique_id=985170695]
+script = ExtResource("1_2rssi")
+
+[node name="ColorRect2" type="ColorRect" parent="." unique_id=337374605]
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.043137256, 0.29803923, 0.023529412, 1)
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=697615530]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 38.0
+offset_bottom = 38.0
+color = Color(0.019607844, 0.16470589, 0, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="." unique_id=470520252]
+clip_contents = true
+offset_left = 9.0
+offset_top = 17.5
+offset_right = 29.0
+offset_bottom = 20.0
+color = Color(0.9607843, 0.9647059, 0.02745098, 1)
+
+[node name="Arrow" type="Sprite2D" parent="." unique_id=6121714]
+position = Vector2(29.000004, 19)
+scale = Vector2(0.21250002, 0.175)
+texture = ExtResource("1_r0ojs")

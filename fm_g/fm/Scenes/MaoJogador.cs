@@ -6,6 +6,7 @@ namespace fm{
 	{
 		[Export] public PackedScene CartaCena;
 		[Export] public Node2D IndicadorTriangulo;
+		public Node2D IndicadorSeta;
 		[Export] public Marker3D Carta1;		
 		[Export] public PackedScene Carta3d;
 		[Export] public Camera3D CameraHand;
@@ -97,13 +98,22 @@ namespace fm{
 						{
 							_cartasSelecionadasParaFusao.Add(_cartasNaMao[_indiceSelecionado]);
 						}
-						IsFaceDown = await MoveCartaParaCentro(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID);				
-						GD.Print("------------------------facedown?" + IsFaceDown.ToString());
-						if(_tcsFaceDown.Task.IsCompleted){							
-							EntrarModoSelecaoCampo();							
-						}else{
-							if(_cartasSelecionadasParaFusao.Count() > 0)
+						try 
+						{
+							// O await vai "explodir" aqui se TrySetCanceled for chamado
+							IsFaceDown = await MoveCartaParaCentro(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID);
+							
+							GD.Print("Facedown confirmado: " + IsFaceDown);
+							EntrarModoSelecaoCampo();
+						}
+						catch (OperationCanceledException) 
+						{
+							// O código cai aqui IMEDIATAMENTE quando aperta ui_cancel
+							GD.Print("Ação cancelada pelo usuário.");
+							
+							if (_cartasSelecionadasParaFusao.Any()) {
 								DevolveCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID);
+							}
 						}
 					}
 				}
@@ -169,7 +179,10 @@ namespace fm{
 				_cartasSelecionadasParaFusao = new List<CartasBase>();
 				_tcsCampo.TrySetResult(-1); 
 			}
-			
+						
+			if (_cartasSelecionadasParaFusao.Any()) {
+				DevolveCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID);
+			}
 			_cartasSelecionadasParaFusao.Clear();
 			// Desative aqui os highlights ou colisores que você ativou para a seleção
 			GD.Print("Seleção de campo cancelada manualmente.");
@@ -193,11 +206,15 @@ namespace fm{
 		
 		private async Task<bool> MoveCartaParaCentro(int ID)
 		{
+			if(_cartasSelecionadasParaFusao.Count() > 1) return false;
 			bool IsFaceDown = true;
 			_tcsFaceDown = new TaskCompletionSource<bool>();
 			
 			var viewport = GetViewport();			
 			Vector2 screenCenter = viewport.GetVisibleRect().Size / 2f;
+			var instancia = CriarSetaPersonalizada(screenCenter + new Vector2(90,-20));
+			var instancia2 = CriarSetaPersonalizada(screenCenter + new Vector2(-90,-20));
+			
 			var nodoAlvo = _cartasNaMao.Where(x => x.CurrentID == ID).FirstOrDefault();
 			nodoAlvo.DisplayCard(nodoAlvo.CurrentID, IsFaceDown);
 			lastPos = nodoAlvo.GlobalPosition;
@@ -214,13 +231,18 @@ namespace fm{
 					nodoAlvo.DisplayCard(nodoAlvo.CurrentID, IsFaceDown);
 				}
 				if(Input.IsActionJustPressed("ui_accept")){									
-					_tcsFaceDown?.TrySetResult(IsFaceDown);				
+					_tcsFaceDown?.TrySetResult(IsFaceDown);
+					instancia.Visible = false;
+					instancia2.Visible = false;				
 				}
 				if(Input.IsActionJustPressed("ui_cancel")){
-					_tcsFaceDown?.TrySetResult(false);		
+					instancia.Visible = false;
+					instancia2.Visible = false;
+					_tcsFaceDown?.TrySetCanceled();		
 				}
-			}
-			
+			}			
+			instancia.Visible = false;
+			instancia2.Visible = false;
 			return await _tcsFaceDown.Task;
 		}
 		
@@ -548,6 +570,20 @@ namespace fm{
 				GD.Print("IsEnemy:" + cartaInstanciada.IsEnemy.ToString());
 				GD.Print("IsFaceDown:" + cartaInstanciada.IsFaceDown.ToString());
 			}
+		}
+		
+		public IndicadorSeta CriarSetaPersonalizada(Vector2 alvo)
+		{
+			var cenaSeta = GD.Load<PackedScene>("res://HUD/IndicadorSeta.tscn");
+			var instancia = cenaSeta.Instantiate<IndicadorSeta>();
+
+			// AQUI você passa os dados ANTES do AddChild
+			instancia.PosicaoDesejada = alvo;
+			instancia.OlharParaDireita = (alvo.X > GetViewportRect().Size.X / 2f); 
+
+			// Agora sim, adiciona na cena
+			AddChild(instancia);
+			return instancia;
 		}
 		
 		public void ConfigurarSlots(
