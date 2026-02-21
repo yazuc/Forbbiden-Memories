@@ -34,7 +34,8 @@ namespace fm{
 		private List<CartasBase> _cartasNaMao = new List<CartasBase>();
 		private List<CartasBase> _cartasSelecionadasParaFusao = new List<CartasBase>();
 		private List<Node3D> _cartasInstanciadas = new List<Node3D>();
-		private bool _processandoInput = false;
+		private bool _processandoInput = false;		
+		private List<int> IDFusao = new List<int>();
 		private Vector2 lastPos = Vector2.Zero;
 		public override void _Ready()
 		{
@@ -180,9 +181,12 @@ namespace fm{
 				_tcsCampo.TrySetResult(-1); 
 			}
 						
-			if (_cartasSelecionadasParaFusao.Any()) {
+			if (_cartasSelecionadasParaFusao.Any() && _cartasSelecionadasParaFusao.Count() == 1) {
 				DevolveCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID);
-			}
+			}			
+			foreach(var item in _cartasSelecionadasParaFusao)
+				item.EscondeLabel();
+				
 			_cartasSelecionadasParaFusao.Clear();
 			// Desative aqui os highlights ou colisores que você ativou para a seleção
 			GD.Print("Seleção de campo cancelada manualmente.");
@@ -227,9 +231,136 @@ namespace fm{
 			}				
 		}
 		
+		private async Task AnimaFusao2()
+		{
+			if (_cartasSelecionadasParaFusao.Count < 2) return;
+
+			var viewport = GetViewport();
+			Vector2 screenCenter = viewport.GetVisibleRect().Size / 2f;
+	
+			var selecionadasOrdenadas = _cartasSelecionadasParaFusao
+				.OrderBy(x => int.Parse(x.label.Text)) 
+				.ToList();
+
+			var idsOrdenados = selecionadasOrdenadas.Select(x => x.CurrentID).ToList();
+			IDFusao = idsOrdenados;
+			var list3d = idsOrdenados
+				.Select(id => _cartasNaMao.First(c => c.CurrentID == id))
+				.ToList();
+
+			// A primeira da fila (segundo o usuário) será a base
+			var cartaPrincipal = list3d[0];
+			float sideOffset = 250f; 
+			float stackOffset = 30f;  
+
+			// 2. POSICIONAMENTO INICIAL (PREPARAÇÃO)
+			var taskPrincipal = MoverParaPosicao(cartaPrincipal, screenCenter + new Vector2(-sideOffset, 0), 0f);
+			List<Task> tarefasIniciais = new List<Task> { taskPrincipal };
+			
+			// Organiza o resto na pilha à direita na ordem correta
+			list3d.FirstOrDefault().EscondeLabel();
+			for (int i = 1; i < list3d.Count; i++)
+			{
+				// Quanto maior o índice, mais no topo da pilha visual a carta fica
+				Vector2 posPilha = screenCenter + new Vector2(sideOffset + (i * stackOffset), i * (stackOffset / 2));
+				tarefasIniciais.Add(MoverParaPosicao(list3d[i], posPilha, 0f));
+				list3d[i].EscondeLabel();
+			}
+
+			await Task.WhenAll(tarefasIniciais);
+			await Task.Delay(600); 
+
+			// 3. LOOP DE FUSÃO (SEGUINDO A FILA)
+			for (int i = 1; i < list3d.Count; i++)
+			{
+				var cartaSacrificio = list3d[i];
+
+				// Traz a próxima carta da fila para o duelo
+				await MoverParaPosicao(cartaSacrificio, screenCenter + new Vector2(sideOffset, 0), 0f);
+				await Task.Delay(200);
+
+				// 4. PIVOT E GIRO (Mantendo as cartas de pé)
+				Node2D pivot = new Node2D();
+				AddChild(pivot);
+				pivot.GlobalPosition = screenCenter;
+
+				Reparentar(cartaPrincipal, pivot);
+				Reparentar(cartaSacrificio, pivot);
+
+				cartaPrincipal.RotationDegrees = 0;
+				cartaSacrificio.RotationDegrees = 0;
+				cartaPrincipal.Position = new Vector2(-sideOffset, 0);
+				cartaSacrificio.Position = new Vector2(sideOffset, 0);
+
+				Tween spiralTween = CreateTween().SetParallel(true);
+				float duration = 1.2f;
+				float voltas = 1080f; 
+
+				spiralTween.TweenProperty(pivot, "rotation_degrees", voltas, duration)
+					.SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);
+								
+				// Compensação para ficarem de pé
+				spiralTween.TweenProperty(cartaPrincipal, "rotation_degrees", -voltas, duration)
+					.SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);
+
+				spiralTween.TweenProperty(cartaSacrificio, "rotation_degrees", -voltas, duration)
+					.SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);
+
+				spiralTween.TweenProperty(cartaPrincipal, "position", Vector2.Zero, duration);
+				spiralTween.TweenProperty(cartaSacrificio, "position", Vector2.Zero, duration);
+				await ToSignal(spiralTween, "finished");
+				
+				cartaSacrificio.Visible = false;
+				
+				Tween impact = CreateTween();
+				impact.TweenProperty(cartaPrincipal, "scale", new Vector2(1.5f, 1.5f), 0.1f);
+				impact.TweenProperty(cartaPrincipal, "scale", new Vector2(1.0f, 1.0f), 0.1f);
+				string idsString = $"{cartaPrincipal.CurrentID},{cartaSacrificio.CurrentID}";							
+				//precisa retornar os ids dos que foram descartados
+				GD.Print(idsString);
+				var resultadoFusao = await Function.Fusion(idsString);						
+				cartaPrincipal.DisplayCard(resultadoFusao.Id);
+				
+				Vector2 globalPos = cartaPrincipal.GlobalPosition;
+				Reparentar(cartaPrincipal, this);
+				cartaPrincipal.GlobalPosition = globalPos;
+				cartaPrincipal.RotationDegrees = 0; 
+				
+				pivot.QueueFree();
+
+				// Se ainda houver sobreviventes na pilha da direita, volta para a esquerda
+				if (i < list3d.Count - 1)
+				{
+					await MoverParaPosicao(cartaPrincipal, screenCenter + new Vector2(-sideOffset, 0), 0f);
+					await Task.Delay(200);
+				}
+			}
+
+			// FINALIZAÇÃO: A carta resultante vai para o centro
+			await MoverParaPosicao(cartaPrincipal, screenCenter, 0f);
+		}
+
+		// Método auxiliar atualizado para aceitar rotação
+		private async Task MoverParaPosicao(Node2D node, Vector2 targetPos, float targetRotation = 0f)
+		{
+			Tween t = CreateTween().SetParallel(true);
+			t.TweenProperty(node, "global_position", targetPos, 0.5f)
+			 .SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.Out);
+			t.TweenProperty(node, "rotation_degrees", targetRotation, 0.5f)
+			 .SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.Out);
+			await ToSignal(t, "finished");
+		}
+
+		private void Reparentar(Node2D node, Node novoPai)
+		{
+			if (node.GetParent() != null) 
+				node.GetParent().RemoveChild(node);
+			novoPai.AddChild(node);
+		}
+		
 		private async Task<bool> MoveCartaParaCentro(int ID)
 		{
-			await AnimaFusao();
+			await AnimaFusao2();
 			if(_cartasSelecionadasParaFusao.Count() > 1) return false;
 			bool IsFaceDown = true;
 			_tcsFaceDown = new TaskCompletionSource<bool>();
@@ -307,12 +438,11 @@ namespace fm{
 		
 		private async void ConfirmarInvocacaoNoCampo()
 		{			
-			string idsString = string.Join(",", _cartasSelecionadasParaFusao.Select(c => c.CurrentID));									
-			//precisa retornar os ids dos que foram descartados
+			string idsString = string.Join(",", IDFusao);									
 			var resultadoFusao = await Function.Fusion(idsString);			
 			if (resultadoFusao != null)
 			{				
-				var idsMateriais = _cartasSelecionadasParaFusao.Select(c => c.CurrentID);
+				var idsMateriais = IDFusao;
 				var retorno = new Godot.Collections.Array<int>(idsMateriais);
 				retorno.Add(resultadoFusao.Id);
 				var slotDestino = SlotsCampo[_indiceCampoSelecionado];
@@ -324,7 +454,6 @@ namespace fm{
 
 				// 5. Limpa a lista de seleção e atualiza a interface
 				_cartasSelecionadasParaFusao.Clear();
-				AtualizarMao(_cartasNaMao.Select(x => x.CurrentID).ToList());
 				SairModoSelecaoCampo();
 				_bloquearNavegaçãoManual = false;
 				_tcsCarta?.TrySetResult(retorno);

@@ -117,8 +117,7 @@ namespace fm
 		private async Task ExecuteMainPhase()
 		{
 			GD.Print($"--- {_gameState.CurrentPlayer.Name}'s {_gameState.CurrentPhase} ---");					
-			var handIds = _gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList();
- 			MaoDoJogador.AtualizarMao(handIds);   
+ 			MaoDoJogador.AtualizarMao(_gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList());   
 			
 			GD.Print("Aguardando jogador selecionar uma carta...");
 			Godot.Collections.Array<int> idEscolhido = await MaoDoJogador.AguardarConfirmacaoJogadaAsync(); 
@@ -133,6 +132,7 @@ namespace fm
 				_gameState.CurrentPlayer.DiscardCard(cardData.Id);
 				i++;
 			}					
+			MaoDoJogador.AtualizarMao(_gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList());  
 			await MaoDoJogador.TransitionTo(CameraField, 0.5f);			
 			_gameState.Player1.Field.DrawFieldState();
 			_gameState.Player2.Field.DrawFieldState();	

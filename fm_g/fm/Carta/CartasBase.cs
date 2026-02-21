@@ -13,8 +13,9 @@ namespace fm
 		private Node? _currentFrameNode;
 		private AnimatedSprite2D? _arteSprite;
 		private Node2D? _frameAnchor;
-		public Label? _nome, _atk, _def;
+		public Label? _nome, _atk, _def, label;
 		public CardTypeEnum Type;
+		public Sprite2D FusionUp;
 		public bool Facedown;
 
 		// Caminhos para as suas cenas de frame
@@ -116,11 +117,17 @@ namespace fm
 		
 		public void SetNumeroFusao(int numero) 
 		{
-			var label = GetNode<Label>("LabelNumero"); 
-			var FusionUp = GetNode<Sprite2D>("FusionUp");
+			label = GetNode<Label>("LabelNumero"); 
+			FusionUp = GetNode<Sprite2D>("FusionUp");
 			label.Text = numero > 0 ? numero.ToString() : "";
 			label.Visible = numero > 0;			
 			FusionUp.Visible = label.Visible;	
+		}
+		
+		public void EscondeLabel()
+		{
+			label.Visible = false;
+			FusionUp.Visible = false;
 		}
 		
 		private void UpdateFrame(string tipo)
