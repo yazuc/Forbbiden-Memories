@@ -377,7 +377,6 @@ namespace fm{
 			tween.TweenProperty(nodoAlvo, "global_position", lastPos, 0.2f)
 				 .SetTrans(Tween.TransitionType.Sine)
 				 .SetEase(Tween.EaseType.Out);
-			//nodoAlvo.GlobalPosition = lastPos;
 			_cartasSelecionadasParaFusao.Clear();
 			lastPos = Vector2.Zero;
 		}
@@ -537,7 +536,6 @@ namespace fm{
 
 			// Primeiro posicionamento sem delay
 			AtualizarPosicaoSeletorParaSlots(slots);
-
 			while (!_tcsSlot.Task.IsCompleted)
 			{
 				int anterior = _indiceCampoSelecionado;			
@@ -546,6 +544,29 @@ namespace fm{
 				if (anterior != _indiceCampoSelecionado)
 				{
 					AtualizarPosicaoSeletorParaSlots(slots);
+				}
+				if(Input.IsActionJustPressed("ui_lb") || Input.IsActionJustPressed("ui_rb"))
+				{
+					var slotDestino = slots[_indiceCampoSelecionado];									
+					var isEnemy = slotDestino.Name.ToString().Contains("Ini");
+					var pegou = PegaNodo(slotDestino, isEnemy, false);
+					if(pegou != null)
+					{						
+						var rotacao = pegou.Rotation;					
+						if(!isEnemy){
+							if(rotacao == new Vector3(0,0,0)){
+								pegou.Rotation = new Vector3(-0, 1.5707964f, 0);
+							}else{
+								pegou.Rotation = new Vector3(-0, 0.0f,0);						
+							}						
+						}else{
+							if(rotacao == new Vector3(-0,0,0)){
+								pegou.Rotation = new Vector3(-0, -1.5707964f, 0);
+							}else{							
+								pegou.Rotation = new Vector3(0,3.14f,0);						
+							}	
+						}						
+					}
 				}
 				
 				if(!STOP){
@@ -648,7 +669,7 @@ namespace fm{
 			return false;
 		}
 		
-		public Node3D PegaNodo(Marker3D slotDestino, bool IsEnemy){
+		public Node3D PegaNodo(Marker3D slotDestino, bool IsEnemy, bool criarNovo = true){
 			var nodes = GetTree().GetNodesInGroup("cartas");
 			foreach(var item in nodes){
 				if(item is Carta3d meuNode){
@@ -657,6 +678,10 @@ namespace fm{
 					}
 				}
 			}
+			
+			if(!criarNovo)
+				return null;
+			
 			//nao achou
 			var novaCarta3d = Carta3d.Instantiate<Node3D>();
 			novaCarta3d.AddToGroup("cartas");
