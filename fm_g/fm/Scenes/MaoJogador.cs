@@ -401,6 +401,8 @@ namespace fm{
 		
 		private async void ConfirmarInvocacaoNoCampo()
 		{			
+			if(_cartasSelecionadasParaFusao.Count() > 1)
+				await AnimaFusao();
 			string idsString = string.Join(",", IDFusao);									
 			var resultadoFusao = await Function.Fusion(idsString);			
 			if (resultadoFusao != null)
@@ -414,8 +416,6 @@ namespace fm{
 				}				
 				Instancia3D(slotDestino, (int)resultadoFusao.Id);			
 				
-				if(_cartasSelecionadasParaFusao.Count() > 1)
-					await AnimaFusao();
 				
 				_cartasSelecionadasParaFusao.Clear();
 				SairModoSelecaoCampo();
