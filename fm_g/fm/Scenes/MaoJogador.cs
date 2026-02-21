@@ -126,7 +126,7 @@ namespace fm{
 					if (Input.IsActionJustPressed("ui_accept")) 
 					{
 						await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-						ConfirmarInvocacaoNoCampo();
+						ConfirmarInvocacaoNoCampo();						
 					}
 					
 					if (Input.IsActionJustPressed("ui_cancel")) 
@@ -206,32 +206,9 @@ namespace fm{
 			{
 				AtualizarPosicaoSeletor3D(SlotsCampo, _cartasSelecionadasParaFusao.FirstOrDefault().CurrentID);
 			}
-		}
-		private async Task AnimaFusao()
-		{
-			if(_cartasSelecionadasParaFusao.Count > 1)
-			{
-				var viewport = GetViewport();			
-				Vector2 screenCenter = viewport.GetVisibleRect().Size / 2f;
-				
-				var Ids = _cartasSelecionadasParaFusao.Select(x => x.CurrentID).ToList();
-				var list3d = _cartasNaMao.Where(x => Ids.Contains(x.CurrentID)).ToList();				
-				int i = 0;
-				int initialOffSet = -120;
-				foreach(var item in list3d){
-					if(i == 0)
-						item.GlobalPosition = screenCenter - new Vector2(180,0);
-					
-					if(i > 0){
-						item.GlobalPosition = screenCenter - new Vector2(initialOffSet,0);						
-						initialOffSet -= 50; 
-					}
-					i++;
-				}									
-			}				
-		}
+		}		
 		
-		private async Task AnimaFusao2()
+		private async Task AnimaFusao()
 		{
 			if (_cartasSelecionadasParaFusao.Count < 2) return;
 
@@ -248,21 +225,17 @@ namespace fm{
 				.Select(id => _cartasNaMao.First(c => c.CurrentID == id))
 				.ToList();
 
-			// A primeira da fila (segundo o usuário) será a base
 			var cartaPrincipal = list3d[0];
 			float sideOffset = 250f; 
 			float stackOffset = 30f;  
 
-			// 2. POSICIONAMENTO INICIAL (PREPARAÇÃO)
 			var taskPrincipal = MoverParaPosicao(cartaPrincipal, screenCenter + new Vector2(-sideOffset, 0), 0f);
 			List<Task> tarefasIniciais = new List<Task> { taskPrincipal };
 			
-			// Organiza o resto na pilha à direita na ordem correta
 			list3d.FirstOrDefault().EscondeLabel();
 			for (int i = 1; i < list3d.Count; i++)
-			{
-				// Quanto maior o índice, mais no topo da pilha visual a carta fica
-				Vector2 posPilha = screenCenter + new Vector2(sideOffset + (i * stackOffset), i * (stackOffset / 2));
+			{				
+				Vector2 posPilha = screenCenter + new Vector2(sideOffset + (i * stackOffset), 0);
 				tarefasIniciais.Add(MoverParaPosicao(list3d[i], posPilha, 0f));
 				list3d[i].EscondeLabel();
 			}
@@ -270,16 +243,13 @@ namespace fm{
 			await Task.WhenAll(tarefasIniciais);
 			await Task.Delay(600); 
 
-			// 3. LOOP DE FUSÃO (SEGUINDO A FILA)
 			for (int i = 1; i < list3d.Count; i++)
 			{
 				var cartaSacrificio = list3d[i];
 
-				// Traz a próxima carta da fila para o duelo
 				await MoverParaPosicao(cartaSacrificio, screenCenter + new Vector2(sideOffset, 0), 0f);
 				await Task.Delay(200);
 
-				// 4. PIVOT E GIRO (Mantendo as cartas de pé)
 				Node2D pivot = new Node2D();
 				AddChild(pivot);
 				pivot.GlobalPosition = screenCenter;
@@ -299,7 +269,6 @@ namespace fm{
 				spiralTween.TweenProperty(pivot, "rotation_degrees", voltas, duration)
 					.SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);
 								
-				// Compensação para ficarem de pé
 				spiralTween.TweenProperty(cartaPrincipal, "rotation_degrees", -voltas, duration)
 					.SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);
 
@@ -316,8 +285,6 @@ namespace fm{
 				impact.TweenProperty(cartaPrincipal, "scale", new Vector2(1.5f, 1.5f), 0.1f);
 				impact.TweenProperty(cartaPrincipal, "scale", new Vector2(1.0f, 1.0f), 0.1f);
 				string idsString = $"{cartaPrincipal.CurrentID},{cartaSacrificio.CurrentID}";							
-				//precisa retornar os ids dos que foram descartados
-				GD.Print(idsString);
 				var resultadoFusao = await Function.Fusion(idsString);						
 				cartaPrincipal.DisplayCard(resultadoFusao.Id);
 				
@@ -328,7 +295,6 @@ namespace fm{
 				
 				pivot.QueueFree();
 
-				// Se ainda houver sobreviventes na pilha da direita, volta para a esquerda
 				if (i < list3d.Count - 1)
 				{
 					await MoverParaPosicao(cartaPrincipal, screenCenter + new Vector2(-sideOffset, 0), 0f);
@@ -336,7 +302,6 @@ namespace fm{
 				}
 			}
 
-			// FINALIZAÇÃO: A carta resultante vai para o centro
 			await MoverParaPosicao(cartaPrincipal, screenCenter, 0f);
 		}
 
@@ -360,7 +325,7 @@ namespace fm{
 		
 		private async Task<bool> MoveCartaParaCentro(int ID)
 		{
-			await AnimaFusao2();
+			//await AnimaFusao();
 			if(_cartasSelecionadasParaFusao.Count() > 1) return false;
 			bool IsFaceDown = true;
 			_tcsFaceDown = new TaskCompletionSource<bool>();
@@ -376,9 +341,6 @@ namespace fm{
 				 .SetTrans(Tween.TransitionType.Sine)
 				 .SetEase(Tween.EaseType.Out);
 			nodoAlvo.FlipCard(IsFaceDown);
-			//nodoAlvo.DisplayCard(nodoAlvo.CurrentID, IsFaceDown);
-			
-			//nodoAlvo.GlobalPosition = screenCenter;
 			
 			var instancia = CriarSetaPersonalizada(screenCenter + new Vector2(90,-20));
 			var instancia2 = CriarSetaPersonalizada(screenCenter + new Vector2(-90,-20));
@@ -390,7 +352,8 @@ namespace fm{
 					IsFaceDown = !IsFaceDown;
 					nodoAlvo.FlipCard(IsFaceDown);
 				}
-				if(Input.IsActionJustPressed("ui_accept")){									
+				if(Input.IsActionJustPressed("ui_accept")){			
+					IDFusao = _cartasSelecionadasParaFusao.Select(x => x.CurrentID).ToList();												
 					_tcsFaceDown?.TrySetResult(IsFaceDown);
 					instancia.Visible = false;
 					instancia2.Visible = false;				
@@ -448,11 +411,12 @@ namespace fm{
 				var slotDestino = SlotsCampo[_indiceCampoSelecionado];
 				if(_cartasSelecionadasParaFusao.Count() == 1){
 					slotDestino = DefineSlotagem(PegaTipoPorId(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID))[_indiceCampoSelecionado];				
-				}
-				// 3. Instancia a carta 3D do resultado final
+				}				
 				Instancia3D(slotDestino, (int)resultadoFusao.Id);			
-
-				// 5. Limpa a lista de seleção e atualiza a interface
+				
+				if(_cartasSelecionadasParaFusao.Count() > 1)
+					await AnimaFusao();
+				
 				_cartasSelecionadasParaFusao.Clear();
 				SairModoSelecaoCampo();
 				_bloquearNavegaçãoManual = false;
