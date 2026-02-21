@@ -212,13 +212,21 @@ namespace fm{
 			
 			var viewport = GetViewport();			
 			Vector2 screenCenter = viewport.GetVisibleRect().Size / 2f;
+			
+			var nodoAlvo = _cartasNaMao.Where(x => x.CurrentID == ID).FirstOrDefault();
+			lastPos = nodoAlvo.GlobalPosition;
+			
+			Tween tween = GetTree().CreateTween();
+			tween.TweenProperty(nodoAlvo, "global_position", screenCenter, 0.2f)
+				 .SetTrans(Tween.TransitionType.Sine)
+				 .SetEase(Tween.EaseType.Out);
+			nodoAlvo.DisplayCard(nodoAlvo.CurrentID, IsFaceDown);
+			
+			//nodoAlvo.GlobalPosition = screenCenter;
+			
 			var instancia = CriarSetaPersonalizada(screenCenter + new Vector2(90,-20));
 			var instancia2 = CriarSetaPersonalizada(screenCenter + new Vector2(-90,-20));
 			
-			var nodoAlvo = _cartasNaMao.Where(x => x.CurrentID == ID).FirstOrDefault();
-			nodoAlvo.DisplayCard(nodoAlvo.CurrentID, IsFaceDown);
-			lastPos = nodoAlvo.GlobalPosition;
-			nodoAlvo.GlobalPosition = screenCenter;
 			while(!_tcsFaceDown.Task.IsCompleted) 
 			{
 				await ToSignal(GetTree(), "process_frame");
@@ -250,7 +258,11 @@ namespace fm{
 		{			
 			var nodoAlvo = _cartasNaMao.Where(x => x.CurrentID == ID).FirstOrDefault();
 			nodoAlvo.DisplayCard(nodoAlvo.CurrentID, false);
-			nodoAlvo.GlobalPosition = lastPos;
+			Tween tween = GetTree().CreateTween();
+			tween.TweenProperty(nodoAlvo, "global_position", lastPos, 0.2f)
+				 .SetTrans(Tween.TransitionType.Sine)
+				 .SetEase(Tween.EaseType.Out);
+			//nodoAlvo.GlobalPosition = lastPos;
 			_cartasSelecionadasParaFusao.Clear();
 			lastPos = Vector2.Zero;
 		}
