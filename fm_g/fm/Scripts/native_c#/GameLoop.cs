@@ -171,7 +171,7 @@ namespace fm
 				
 				GD.Print("Escolha o alvo...");
 				int slotAlvo = await MaoDoJogador.SelecionarSlotAsync(MaoDoJogador.SlotsCampoIni, _gameState.CurrentTurn == 1, true);
-
+				
 				if (slotAlvo != -1 && slotAlvo != -2)
 				{
 					ResolverBatalha(slotAtacante, slotAlvo);
@@ -189,6 +189,7 @@ namespace fm
 		{
 			var meuMonstro = _gameState.CurrentPlayer.Field.GetMonsterInZone(atacanteIdx);
 			var monstroInimigo = _gameState.OpponentPlayer.Field.GetMonsterInZone(alvoIdx);
+			MaoDoJogador.Flipa(meuMonstro.Card.Id);
 
 			// Validação de segurança antes de acessar propriedades
 			if (meuMonstro?.Card == null)
@@ -199,6 +200,7 @@ namespace fm
 			
 			var battleResult = _battleSystem.ResolveBattle(meuMonstro, monstroInimigo, _gameState.OpponentPlayer);		
 			if(monstroInimigo != null){
+				MaoDoJogador.Flipa(monstroInimigo.Card.Id);
 				if(battleResult.AttackerDestroyed && battleResult.DefenderDestroyed)
 				{
 					MaoDoJogador.FinalizaNodoByCard(monstroInimigo.Card.Id);

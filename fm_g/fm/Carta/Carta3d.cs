@@ -26,5 +26,14 @@ namespace fm{
 					GD.Print("o inimigo invocou uma cartinha tehee");
 			}
 		}
+		public void SetFaceDown(bool faceDown)
+		{
+			IsFaceDown = faceDown;
+			if (Visual != null)
+			{
+				// Apenas atualiza a parte visual sem mexer no restante dos dados
+				Visual.DisplayCard(this.carta, IsFaceDown);
+			}
+		}
 	}
 }

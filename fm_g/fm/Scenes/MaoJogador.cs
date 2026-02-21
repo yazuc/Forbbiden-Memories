@@ -489,6 +489,19 @@ namespace fm{
 			return -1;
 		}
 		
+		public void Flipa(int ID)
+		{
+			var cartaInstanciada = PegaNodoCarta3d(ID);
+			if(cartaInstanciada.IsFaceDown){
+				cartaInstanciada.SetFaceDown(!cartaInstanciada.IsFaceDown);				
+			}
+		}
+		
+		public Carta3d PegaNodoCarta3d(int ID)
+		{
+			return _cartasInstanciadas.OfType<Carta3d>().FirstOrDefault(x => x.carta == ID);
+		}
+		
 		public Node3D PegaNodo(int ID)
 		{
 			return _cartasInstanciadas.Cast<Carta3d>().Where(x => x.carta == ID).FirstOrDefault();
