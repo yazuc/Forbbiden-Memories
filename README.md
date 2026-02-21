@@ -8,3 +8,5 @@ GProject State:
 19/02
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/67e8d41e-a4cd-4d79-bb4e-4c2c0f72d55d" />
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/256a3e9c-2793-4d30-809c-dc8d5996b356" />
+20/02
+<img width="1600" height="900" alt="image" src="https://github.com/user-attachments/assets/8888e2a0-562e-4e27-86c7-1d4f3ccb64ca" />
