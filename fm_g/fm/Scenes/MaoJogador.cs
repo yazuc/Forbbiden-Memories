@@ -241,13 +241,15 @@ namespace fm{
 			}
 
 			await Task.WhenAll(tarefasIniciais);
-			await Task.Delay(600); 
+			await Task.Delay(100); 
 
 			for (int i = 1; i < list3d.Count; i++)
 			{
 				var cartaSacrificio = list3d[i];
 
 				await MoverParaPosicao(cartaSacrificio, screenCenter + new Vector2(sideOffset, 0), 0f);
+				string idsString = $"{cartaPrincipal.CurrentID},{cartaSacrificio.CurrentID}";							
+				var resultadoFusao = Function.Fusion(idsString);						
 				await Task.Delay(200);
 
 				Node2D pivot = new Node2D();
@@ -262,31 +264,49 @@ namespace fm{
 				cartaPrincipal.Position = new Vector2(-sideOffset, 0);
 				cartaSacrificio.Position = new Vector2(sideOffset, 0);
 
-				Tween spiralTween = CreateTween().SetParallel(true);
-				float duration = 1.2f;
-				float voltas = 1080f; 
+				if(cartaSacrificio.CurrentID != resultadoFusao.Id)
+				{
+					Tween spiralTween = CreateTween().SetParallel(true);
+					float duration = 1.2f;
+					float voltas = 1080f; 
 
-				spiralTween.TweenProperty(pivot, "rotation_degrees", voltas, duration)
-					.SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);
-								
-				spiralTween.TweenProperty(cartaPrincipal, "rotation_degrees", -voltas, duration)
-					.SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);
-
-				spiralTween.TweenProperty(cartaSacrificio, "rotation_degrees", -voltas, duration)
-					.SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);
-
-				spiralTween.TweenProperty(cartaPrincipal, "position", Vector2.Zero, duration);
-				spiralTween.TweenProperty(cartaSacrificio, "position", Vector2.Zero, duration);
-				await ToSignal(spiralTween, "finished");
-				
-				cartaSacrificio.Visible = false;
-				
-				Tween impact = CreateTween();
-				impact.TweenProperty(cartaPrincipal, "scale", new Vector2(1.5f, 1.5f), 0.1f);
-				impact.TweenProperty(cartaPrincipal, "scale", new Vector2(1.0f, 1.0f), 0.1f);
-				string idsString = $"{cartaPrincipal.CurrentID},{cartaSacrificio.CurrentID}";							
-				var resultadoFusao = await Function.Fusion(idsString);						
-				cartaPrincipal.DisplayCard(resultadoFusao.Id);
+					spiralTween.TweenProperty(pivot, "rotation_degrees", voltas, duration)
+						.SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);								
+					spiralTween.TweenProperty(cartaPrincipal, "rotation_degrees", -voltas, duration)
+						.SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);
+					spiralTween.TweenProperty(cartaSacrificio, "rotation_degrees", -voltas, duration)
+						.SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);
+					spiralTween.TweenProperty(cartaPrincipal, "position", Vector2.Zero, duration);
+					spiralTween.TweenProperty(cartaSacrificio, "position", Vector2.Zero, duration);
+					
+					await ToSignal(spiralTween, "finished");				
+					cartaSacrificio.Visible = false;
+									
+					Tween impact = CreateTween();
+					impact.TweenProperty(cartaPrincipal, "scale", new Vector2(1.5f, 1.5f), 0.1f);
+					impact.TweenProperty(cartaPrincipal, "scale", new Vector2(1.0f, 1.0f), 0.1f);				
+					cartaPrincipal.DisplayCard(resultadoFusao.Id);					
+				}else
+				{
+					float durationSaida = 0.5f;
+					Vector2 foraDaTela = new Vector2(-500, 500); 					
+					Tween yeetTween = CreateTween().SetParallel(true);
+					
+					yeetTween.TweenProperty(cartaPrincipal, "position", foraDaTela, durationSaida)
+						.SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);
+					
+					yeetTween.TweenProperty(cartaSacrificio, "position", Vector2.Zero, durationSaida)
+						.SetTrans(Tween.TransitionType.Quad);
+					
+					await ToSignal(yeetTween, "finished");
+					
+					// Cleanup
+					cartaPrincipal.Position = Vector2.Zero; // Reseta pro futuro
+					cartaPrincipal.Modulate = new Color(1, 1, 1, 1);
+					
+					// Agora a carta de sacrifício assume o posto de principal visualmente
+					cartaPrincipal.DisplayCard(resultadoFusao.Id);
+				}
 				
 				Vector2 globalPos = cartaPrincipal.GlobalPosition;
 				Reparentar(cartaPrincipal, this);
@@ -403,7 +423,7 @@ namespace fm{
 			if(_cartasSelecionadasParaFusao.Count() > 1)
 				await AnimaFusao();
 			string idsString = string.Join(",", IDFusao);									
-			var resultadoFusao = await Function.Fusion(idsString);			
+			var resultadoFusao = Function.Fusion(idsString);			
 			if (resultadoFusao != null)
 			{				
 				var idsMateriais = IDFusao;
@@ -514,14 +534,12 @@ namespace fm{
 		private void AtualizarPosicaoIndicador()
 		{
 			if (_cartasNaMao.Count > 0 && IndicadorTriangulo != null)
-			{
-				// Position above the card
+			{				
 				Vector2 cardPos = _cartasNaMao[_indiceSelecionado].GlobalPosition;
 				Vector2 targetPos = cardPos + new Vector2(-90, 50);
-				IndicadorTriangulo.ZIndex = 10;
-				// Add a smooth Tween so it "slides" to the card
+				IndicadorTriangulo.ZIndex = 10;			
 				Tween tween = GetTree().CreateTween();
-				tween.TweenProperty(IndicadorTriangulo, "position", targetPos, 0.1f)
+				tween.TweenProperty(IndicadorTriangulo, "position", targetPos, 0.01f)
 					 .SetTrans(Tween.TransitionType.Quad)
 					 .SetEase(Tween.EaseType.Out);
 			}

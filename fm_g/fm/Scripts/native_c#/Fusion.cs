@@ -11,7 +11,7 @@ namespace fm
 {
 	public class Function
 	{
-		public static async Task<Cards> Fusion(string args)
+		public static Cards Fusion(string args)
 		{
 			CardDatabase.Instance.GetAllCards();
 			var cards = CardDatabase.Instance.GetAllCards();
