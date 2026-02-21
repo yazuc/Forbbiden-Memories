@@ -74,6 +74,30 @@ namespace fm
 			_arteSprite.Scale = new Vector2(1.02f, 1.054f);
 		}
 		
+		public void FlipCard(bool targetFaceDown, float duration = 0.3f)
+		{
+			// 1. Criamos o Tween
+			Tween tween = GetTree().CreateTween();
+
+			// Dividimos a duração por 2 (metade para fechar, metade para abrir)
+			float halfDuration = duration / 2.0f;
+
+			// 2. Primeiro Passo: "Fecha" a carta (achata no eixo X)
+			tween.TweenProperty(this, "scale:x", 0.0f, halfDuration)
+				 .SetTrans(Tween.TransitionType.Quad)
+				 .SetEase(Tween.EaseType.In);
+
+			// 3. O Callback: Troca os dados e a moldura quando a carta está invisível
+			tween.TweenCallback(Callable.From(() => {
+				DisplayCard(CurrentID, targetFaceDown);
+			}));
+
+			// 4. Segundo Passo: "Abre" a carta (volta ao scale normal)
+			tween.TweenProperty(this, "scale:x", 1.0f, halfDuration)
+				 .SetTrans(Tween.TransitionType.Quad)
+				 .SetEase(Tween.EaseType.Out);
+		}
+		
 		private string FixType(CardTypeEnum type){
 			if(Facedown) return "Facedown";
 			switch (type)

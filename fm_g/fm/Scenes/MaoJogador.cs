@@ -203,9 +203,33 @@ namespace fm{
 				AtualizarPosicaoSeletor3D(SlotsCampo, _cartasSelecionadasParaFusao.FirstOrDefault().CurrentID);
 			}
 		}
+		private async Task AnimaFusao()
+		{
+			if(_cartasSelecionadasParaFusao.Count > 1)
+			{
+				var viewport = GetViewport();			
+				Vector2 screenCenter = viewport.GetVisibleRect().Size / 2f;
+				
+				var Ids = _cartasSelecionadasParaFusao.Select(x => x.CurrentID).ToList();
+				var list3d = _cartasNaMao.Where(x => Ids.Contains(x.CurrentID)).ToList();				
+				int i = 0;
+				int initialOffSet = -120;
+				foreach(var item in list3d){
+					if(i == 0)
+						item.GlobalPosition = screenCenter - new Vector2(180,0);
+					
+					if(i > 0){
+						item.GlobalPosition = screenCenter - new Vector2(initialOffSet,0);						
+						initialOffSet -= 50; 
+					}
+					i++;
+				}									
+			}				
+		}
 		
 		private async Task<bool> MoveCartaParaCentro(int ID)
 		{
+			await AnimaFusao();
 			if(_cartasSelecionadasParaFusao.Count() > 1) return false;
 			bool IsFaceDown = true;
 			_tcsFaceDown = new TaskCompletionSource<bool>();
@@ -220,7 +244,8 @@ namespace fm{
 			tween.TweenProperty(nodoAlvo, "global_position", screenCenter, 0.2f)
 				 .SetTrans(Tween.TransitionType.Sine)
 				 .SetEase(Tween.EaseType.Out);
-			nodoAlvo.DisplayCard(nodoAlvo.CurrentID, IsFaceDown);
+			nodoAlvo.FlipCard(IsFaceDown);
+			//nodoAlvo.DisplayCard(nodoAlvo.CurrentID, IsFaceDown);
 			
 			//nodoAlvo.GlobalPosition = screenCenter;
 			
@@ -230,13 +255,9 @@ namespace fm{
 			while(!_tcsFaceDown.Task.IsCompleted) 
 			{
 				await ToSignal(GetTree(), "process_frame");
-				if(Input.IsActionJustPressed("ui_left")){
+				if(Input.IsActionJustPressed("ui_left")  || Input.IsActionJustPressed("ui_right")){
 					IsFaceDown = !IsFaceDown;
-					nodoAlvo.DisplayCard(nodoAlvo.CurrentID, IsFaceDown);
-				}
-				if(Input.IsActionJustPressed("ui_right")){
-					IsFaceDown = !IsFaceDown;
-					nodoAlvo.DisplayCard(nodoAlvo.CurrentID, IsFaceDown);
+					nodoAlvo.FlipCard(IsFaceDown);
 				}
 				if(Input.IsActionJustPressed("ui_accept")){									
 					_tcsFaceDown?.TrySetResult(IsFaceDown);
@@ -257,7 +278,7 @@ namespace fm{
 		private void DevolveCartaParaMao(int ID)
 		{			
 			var nodoAlvo = _cartasNaMao.Where(x => x.CurrentID == ID).FirstOrDefault();
-			nodoAlvo.DisplayCard(nodoAlvo.CurrentID, false);
+			nodoAlvo.FlipCard(false);
 			Tween tween = GetTree().CreateTween();
 			tween.TweenProperty(nodoAlvo, "global_position", lastPos, 0.2f)
 				 .SetTrans(Tween.TransitionType.Sine)
@@ -438,7 +459,10 @@ namespace fm{
 					if (Input.IsActionJustPressed("ui_accept") && !PrimeiroTurno)
 					{
 						GD.Print("Slot confirmado: " + _indiceCampoSelecionado);
-						_tcsSlot.TrySetResult(_indiceCampoSelecionado);
+						var slotDestino = SlotsCampo[_indiceCampoSelecionado];
+						//if(PegaNodoNoSlot(slotDestino, 	slotDestino.Name.ToString().Contains("Ini"))){
+						//}
+						_tcsSlot.TrySetResult(_indiceCampoSelecionado);							
 					}
 									
 					if (Input.IsActionJustPressed("ui_cancel"))
@@ -517,6 +541,18 @@ namespace fm{
 		public Node3D PegaNodo(int ID)
 		{
 			return _cartasInstanciadas.Cast<Carta3d>().Where(x => x.carta == ID).FirstOrDefault();
+		}
+		
+		public bool PegaNodoNoSlot(Marker3D slotDestino, bool IsEnemy){
+			var nodes = GetTree().GetNodesInGroup("cartas");
+			foreach(var item in nodes){
+				if(item is Carta3d meuNode){
+					if(_indiceCampoSelecionado == meuNode.slotPlaced && meuNode.IsEnemy == IsEnemy){
+						return true;
+					}
+				}
+			}			
+			return false;
 		}
 		
 		public Node3D PegaNodo(Marker3D slotDestino, bool IsEnemy){

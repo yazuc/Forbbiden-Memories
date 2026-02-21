@@ -8,12 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://b2f4acrh1ecd2" path="res://HUD/seletor.tscn" id="7_1l0tm"]
 [ext_resource type="Texture2D" uid="uid://cbc7dm2v8t55w" path="res://Assets/interface.png" id="8_h4fw4"]
 [ext_resource type="PackedScene" uid="uid://dcgpwjgiljbd7" path="res://Assets/campo.glb" id="8_v158k"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_ldgsr"]
-font_size = 30
-
-[sub_resource type="LabelSettings" id="LabelSettings_o5yvi"]
-font_size = 30
+[ext_resource type="LabelSettings" uid="uid://crt0cwlxu1bjj" path="res://Assets/new_label_settings.tres" id="9_h4fw4"]
 
 [sub_resource type="Environment" id="Environment_v158k"]
 background_mode = 2
@@ -68,39 +63,44 @@ transform = Transform3D(-0.0025830397, -0.99966085, 0.0259151, -3.5205373e-11, 0
 transform = Transform3D(0.0052026417, -0.99971455, 0.023318915, 0.004783277, 0.02334384, 0.9997161, -0.999975, -0.005089624, 0.0049033617, 2.9831161, 5.465997, -0.1062417)
 
 [node name="Interface" type="Sprite2D" parent="CameraPivot" unique_id=1057327622]
-position = Vector2(1770, 104)
+position = Vector2(1754, 109.00001)
+scale = Vector2(0.6066504, 0.745)
 texture = ExtResource("8_h4fw4")
 
 [node name="YOU" type="Label" parent="CameraPivot" unique_id=2037219627]
-offset_left = 1718.0
-offset_top = 51.0
-offset_right = 1798.0
-offset_bottom = 75.0
+offset_left = 1779.9999
+offset_top = 101.0
+offset_right = 1812.9999
+offset_bottom = 138.0
+text = "40"
+label_settings = ExtResource("9_h4fw4")
 
 [node name="LP" type="Label" parent="CameraPivot/YOU" unique_id=1494126795]
 layout_mode = 0
-offset_left = 61.0
-offset_top = 63.0
-offset_right = 130.0
-offset_bottom = 105.0
+offset_left = -44.0
+offset_top = 20.0
+offset_right = 25.0
+offset_bottom = 62.0
 text = "8000"
-label_settings = SubResource("LabelSettings_ldgsr")
+label_settings = ExtResource("9_h4fw4")
 horizontal_alignment = 2
 
 [node name="COM" type="Label" parent="CameraPivot" unique_id=1462741771]
-offset_left = 1718.0
-offset_top = 80.0
-offset_right = 1802.0
-offset_bottom = 103.0
+offset_left = 1779.9999
+offset_top = 78.0
+offset_right = 1814.9999
+offset_bottom = 115.0
+text = "40"
+label_settings = ExtResource("9_h4fw4")
 
 [node name="LP" type="Label" parent="CameraPivot/COM" unique_id=1861115219]
 layout_mode = 0
-offset_left = 62.0
-offset_top = -24.0
-offset_right = 131.0
-offset_bottom = 18.0
+offset_left = -41.0
+offset_top = -19.0
+offset_right = 25.0
+offset_bottom = 23.0
 text = "8000"
-label_settings = SubResource("LabelSettings_o5yvi")
+label_settings = ExtResource("9_h4fw4")
 horizontal_alignment = 2
 
 [node name="Carta3d" parent="." unique_id=557434675 instance=ExtResource("6_i6g32")]
