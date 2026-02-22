@@ -81,7 +81,7 @@ namespace fm
 
 				// Switch player
 				_gameState.SwitchPlayer();				
-				RotateCameraPivot180();
+				await RotateCameraPivot180();
 			}
 			
 			if (_gameState.IsGameOver())
@@ -256,18 +256,20 @@ namespace fm
 
 		public GameState GetGameState() => _gameState;					
 		
-		public void RotateCameraPivot180()
-		{
+		public async Task RotateCameraPivot180()
+		{			
+			MaoDoJogador.DefineVisibilidade(false);
+			await MaoDoJogador.TransitionTo(CameraHand, 0.5f);
 			var tween = CameraPivot.CreateTween();
-			tween.SetEase(Tween.EaseType.InOut);
-			tween.SetTrans(Tween.TransitionType.Sine);
-
+			
 			tween.TweenProperty(
 				CameraPivot,
 				"rotation",
 				CameraPivot.Rotation + new Vector3(0, Mathf.DegToRad(180), 0),
-				0.8f
+				1.5f
 			);
+			await ToSignal(tween, Tween.SignalName.Finished);
+			MaoDoJogador.DefineVisibilidade(true);
 		}
 		
 		public void RotateCameraPivot180Slow()

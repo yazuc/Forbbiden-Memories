@@ -113,7 +113,7 @@ namespace fm{
 							GD.Print("Ação cancelada pelo usuário.");
 							
 							if (_cartasSelecionadasParaFusao.Any()) {
-								DevolveCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID);
+								DevolveCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID, true);
 							}
 						}
 					}
@@ -162,6 +162,8 @@ namespace fm{
 
 		private async Task EntrarModoSelecaoCampo()
 		{
+			if(_cartasSelecionadasParaFusao.Count() == 1)
+				DevolveCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID);
 			_selecionandoLocal = true;
 			_indiceCampoSelecionado = 0; // Começa no primeiro slot								
 			if (_instanciaSeletor != null)
@@ -390,15 +392,17 @@ namespace fm{
 			return await _tcsFaceDown.Task;
 		}
 		
-		private void DevolveCartaParaMao(int ID)
+		private void DevolveCartaParaMao(int ID, bool cancel = false)
 		{			
 			var nodoAlvo = _cartasNaMao.Where(x => x.CurrentID == ID).FirstOrDefault();
-			nodoAlvo.FlipCard(false);
+			if(cancel)
+				nodoAlvo.FlipCard(false);
 			Tween tween = GetTree().CreateTween();
 			tween.TweenProperty(nodoAlvo, "global_position", lastPos, 0.2f)
 				 .SetTrans(Tween.TransitionType.Sine)
 				 .SetEase(Tween.EaseType.Out);
-			_cartasSelecionadasParaFusao.Clear();
+			if(cancel)
+				_cartasSelecionadasParaFusao.Clear();
 			lastPos = Vector2.Zero;
 		}
 
@@ -593,7 +597,7 @@ namespace fm{
 					{
 						GD.Print("Slot confirmado: " + _indiceCampoSelecionado);
 						var slotDestino = SlotsCampo[_indiceCampoSelecionado];
-						//if(PegaNodoNoSlot(slotDestino, 	slotDestino.Name.ToString().Contains("Ini"))){
+						//if(PegaNodoNoSlot(slotDestino, 	camIni)){
 						//}
 						_tcsSlot.TrySetResult(_indiceCampoSelecionado);							
 					}
@@ -782,6 +786,12 @@ namespace fm{
 			// Agora sim, adiciona na cena
 			AddChild(instancia);
 			return instancia;
+		}
+		
+		public void DefineVisibilidade(bool sinal)
+		{
+			Visible = sinal;
+			IndicadorTriangulo.Visible = sinal;
 		}
 		
 		public void ConfigurarSlots(
