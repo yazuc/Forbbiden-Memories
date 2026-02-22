@@ -242,7 +242,7 @@ namespace fm{
 
 			await Task.WhenAll(tarefasIniciais);
 			await Task.Delay(100); 
-
+						
 			for (int i = 1; i < list3d.Count; i++)
 			{
 				var cartaSacrificio = list3d[i];
@@ -301,8 +301,7 @@ namespace fm{
 					await ToSignal(yeetTween, "finished");
 					
 					// Cleanup
-					cartaPrincipal.Position = Vector2.Zero; // Reseta pro futuro
-					cartaPrincipal.Modulate = new Color(1, 1, 1, 1);
+					cartaPrincipal.Position = Vector2.Zero; // Reseta pro futuro					
 					
 					// Agora a carta de sacrifício assume o posto de principal visualmente
 					cartaPrincipal.DisplayCard(resultadoFusao.Id);
@@ -368,20 +367,22 @@ namespace fm{
 			while(!_tcsFaceDown.Task.IsCompleted) 
 			{
 				await ToSignal(GetTree(), "process_frame");
-				if(Input.IsActionJustPressed("ui_left")  || Input.IsActionJustPressed("ui_right")){
-					IsFaceDown = !IsFaceDown;
-					nodoAlvo.FlipCard(IsFaceDown);
-				}
-				if(Input.IsActionJustPressed("ui_accept")){			
-					IDFusao = _cartasSelecionadasParaFusao.Select(x => x.CurrentID).ToList();												
-					_tcsFaceDown?.TrySetResult(IsFaceDown);
-					instancia.Visible = false;
-					instancia2.Visible = false;				
-				}
-				if(Input.IsActionJustPressed("ui_cancel")){
-					instancia.Visible = false;
-					instancia2.Visible = false;
-					_tcsFaceDown?.TrySetCanceled();		
+				if(!STOP){	
+					if(Input.IsActionJustPressed("ui_left")  || Input.IsActionJustPressed("ui_right")){
+						IsFaceDown = !IsFaceDown;
+						nodoAlvo.FlipCard(IsFaceDown);
+					}
+					if(Input.IsActionJustPressed("ui_accept")){			
+						IDFusao = _cartasSelecionadasParaFusao.Select(x => x.CurrentID).ToList();												
+						_tcsFaceDown?.TrySetResult(IsFaceDown);
+						instancia.Visible = false;
+						instancia2.Visible = false;				
+					}
+					if(Input.IsActionJustPressed("ui_cancel")){
+						instancia.Visible = false;
+						instancia2.Visible = false;
+						_tcsFaceDown?.TrySetCanceled();		
+					}
 				}
 			}			
 			instancia.Visible = false;
