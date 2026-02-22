@@ -7,12 +7,13 @@ namespace fm{
 		[Export] public CartasBase Visual; 
 		public bool SouCarta = true;
 		public int carta = -1;
+		public string markerName = "";
 		public string instance = "";
 		public int slotPlaced = -1;
 		public bool IsEnemy = false;
 		public bool IsFaceDown = false;
 
-		public void Setup(int cardId, int slot, bool IsEnemy, bool Facedown = false)
+		public void Setup(int cardId, int slot, bool IsEnemy, bool Facedown, string markerName)
 		{
 			if (Visual != null)
 			{
@@ -22,6 +23,7 @@ namespace fm{
 				this.carta = cardId;
 				this.slotPlaced = slot;
 				this.IsEnemy = IsEnemy;
+				this.markerName = markerName;
 				if(IsEnemy)
 					GD.Print("o inimigo invocou uma cartinha tehee");
 			}

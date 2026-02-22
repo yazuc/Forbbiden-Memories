@@ -435,6 +435,7 @@ namespace fm{
 				var retorno = new Godot.Collections.Array<int>(idsMateriais);
 				retorno.Add(resultadoFusao.Id);
 				var slotDestino = SlotsCampo[_indiceCampoSelecionado];
+				GD.Print("cartas selecionadas para fusao" + _cartasSelecionadasParaFusao.Count());
 				if(_cartasSelecionadasParaFusao.Count() == 1){
 					slotDestino = DefineSlotagem(PegaTipoPorId(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID))[_indiceCampoSelecionado];				
 				}				
@@ -458,7 +459,7 @@ namespace fm{
 			}
 
 			if (novaCarta3d.HasMethod("Setup")){
-				novaCarta3d.Call("Setup", fusao, (int)_indiceCampoSelecionado, IsEnemy, IsFaceDown);
+				novaCarta3d.Call("Setup", fusao, (int)_indiceCampoSelecionado, IsEnemy, IsFaceDown, slotDestino.Name);
 			} 
 			foreach (var carta in _cartasSelecionadasParaFusao)
 			{
@@ -771,6 +772,7 @@ namespace fm{
 				GD.Print("slotPlaced:" + cartaInstanciada.slotPlaced.ToString());
 				GD.Print("IsEnemy:" + cartaInstanciada.IsEnemy.ToString());
 				GD.Print("IsFaceDown:" + cartaInstanciada.IsFaceDown.ToString());
+				GD.Print("markerName:" + cartaInstanciada.markerName.ToString());
 			}
 		}
 		

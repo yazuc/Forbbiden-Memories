@@ -144,7 +144,7 @@ namespace fm
 		{
 			_gameState.CurrentPhase = TurnPhase.Battle;
 			GD.Print("--- Battle Phase Iniciada ---");
-			
+			MaoDoJogador.DefineVisibilidade(false);
 			bool BP_Ativa = true;
 			while (BP_Ativa)
 			{
