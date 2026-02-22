@@ -697,7 +697,7 @@ namespace fm{
 			var nodes = GetTree().GetNodesInGroup("cartas");
 			foreach(var item in nodes){
 				if(item is Carta3d meuNode){
-					if(_indiceCampoSelecionado == meuNode.slotPlaced && meuNode.IsEnemy == IsEnemy){
+					if(slotDestino.Name == meuNode.markerName && meuNode.IsEnemy == IsEnemy){
 						return meuNode;
 					}
 				}
