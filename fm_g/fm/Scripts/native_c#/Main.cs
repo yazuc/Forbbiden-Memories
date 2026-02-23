@@ -38,8 +38,8 @@ namespace fm
 			//FmStarterDeckGenerator generator = new FmStarterDeckGenerator();
 			//List<QuickType.Cards> starterDeck = generator.GenerateStarterDeck(db.GetAllCards());          
 			//Funcoes.WriteCardsToFile(starterDeck, "starter_deck_ini.txt");
-			string srcGodot = "res://Scripts/native_c#/starter_deck.txt";
-			string srcGodot2 = "res://Scripts/native_c#/starter_deck_ini.txt";
+			string srcGodot = "res://starter_deck.txt";
+			string srcGodot2 = "res://starter_deck_ini.txt";
 			string srcPath = ProjectSettings.GlobalizePath(srcGodot);
 			string srcPath2 = ProjectSettings.GlobalizePath(srcGodot2);
 						

@@ -12,7 +12,7 @@ namespace fm
 
 		private CardDatabase() 
 		{
-			string godotPath = "res://Scripts/native_c#/cards.db";
+			string godotPath = "res://cards.db";
 			string dbPath = ProjectSettings.GlobalizePath(godotPath);
 			_database = new SQLiteConnection(dbPath);			
 			_database.CreateTable<Cards>();
