@@ -1,6 +1,7 @@
 /obj
 /logica
 /bin
+/exports
 **/bin/Debug
 obj
 logica
