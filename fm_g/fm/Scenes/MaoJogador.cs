@@ -596,11 +596,15 @@ namespace fm{
 				if(!STOP){
 					if (Input.IsActionJustPressed("ui_accept") && !PrimeiroTurno)
 					{
-						GD.Print("Slot confirmado: " + _indiceCampoSelecionado);
-						var slotDestino = SlotsCampo[_indiceCampoSelecionado];
-						//if(PegaNodoNoSlot(slotDestino, 	camIni)){
-						//}
-						_tcsSlot.TrySetResult(_indiceCampoSelecionado);							
+						var slotDestino = camIni ? SlotsCampoIni[_indiceCampoSelecionado] : SlotsCampo[_indiceCampoSelecionado];
+						GD.Print($"{slotDestino.Name} Slot confirmado: " + _indiceCampoSelecionado);
+						if(PegaNodoNoSlot(slotDestino, false))
+						{
+							_tcsSlot.TrySetResult(_indiceCampoSelecionado);
+						}else if(PodeBate())
+						{
+							_tcsSlot.TrySetResult(_indiceCampoSelecionado);
+						}
 					}
 									
 					if (Input.IsActionJustPressed("ui_cancel"))
@@ -681,11 +685,25 @@ namespace fm{
 			return _cartasInstanciadas.Cast<Carta3d>().Where(x => x.carta == ID).FirstOrDefault();
 		}
 		
+		public bool PodeBate(){
+			var nodes = GetTree().GetNodesInGroup("cartas");
+			foreach(var item in nodes){
+				if(item is Carta3d meuNode){
+					foreach(var inimigo in SlotsCampoIni){
+						if(inimigo.Name == meuNode.markerName){
+							return false;
+						}						
+					}
+				}
+			}			
+			return true;
+		}
+		
 		public bool PegaNodoNoSlot(Marker3D slotDestino, bool IsEnemy){
 			var nodes = GetTree().GetNodesInGroup("cartas");
 			foreach(var item in nodes){
 				if(item is Carta3d meuNode){
-					if(_indiceCampoSelecionado == meuNode.slotPlaced && meuNode.IsEnemy == IsEnemy){
+					if(slotDestino.Name == meuNode.markerName){
 						return true;
 					}
 				}
