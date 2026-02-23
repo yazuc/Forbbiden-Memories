@@ -1,51 +1,104 @@
+
 name: Release Game
 
 on:
-    push:
-      tags:
-        - "v*"
+  push:
+    tags:
+      - "v*"
 
 permissions:
-    contents: write
+  contents: write
 
 jobs:
   release:
     runs-on: ubuntu-latest
 
+    env:
+      GODOT_VERSION: 4.2.2
+      GODOT_DIR: godot
+      EXPORT_DIR: exports
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Garante que as pastas existem
-      - name: Ensure export folders exist
+      # -------------------------
+      # Download Godot Mono
+      # -------------------------
+      - name: Download Godot Mono
         run: |
-          mkdir -p exports/linux
-          mkdir -p exports/windows
+          mkdir -p $GODOT_DIR
+          wget https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_mono_linux_x86_64.zip
+          unzip Godot_v${GODOT_VERSION}-stable_mono_linux_x86_64.zip -d $GODOT_DIR
+          chmod +x $GODOT_DIR/Godot_v${GODOT_VERSION}-stable_mono_linux_x86_64
 
-      - name: Copy required files to Linux export
+      # -------------------------
+      # Download Export Templates
+      # -------------------------
+      - name: Install export templates
+        run: |
+          mkdir -p ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+          wget https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_export_templates.tpz
+          unzip Godot_v${GODOT_VERSION}-stable_export_templates.tpz
+          mv templates/* ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable/
+
+      # -------------------------
+      # Restore & build C#
+      # -------------------------
+      - name: Restore C# project
+        run: |
+          dotnet restore fm_g/fm/*.csproj
+
+      # -------------------------
+      # Linux export
+      # -------------------------
+      - name: Export Linux
+        run: |
+          mkdir -p $EXPORT_DIR/linux
+          $GODOT_DIR/Godot_v${GODOT_VERSION}-stable_mono_linux_x86_64 \
+            --headless \
+            --path fm_g \
+            --export-release "Linux" \
+            ../$EXPORT_DIR/linux/game.x86_64
+
+      # -------------------------
+      # Windows export
+      # -------------------------
+      - name: Export Windows
+        run: |
+          mkdir -p $EXPORT_DIR/windows
+          $GODOT_DIR/Godot_v${GODOT_VERSION}-stable_mono_linux_x86_64 \
+            --headless \
+            --path fm_g \
+            --export-release "Windows Desktop" \
+            ../$EXPORT_DIR/windows/game.exe
+
+      # -------------------------
+      # Copy extra files
+      # -------------------------
+      - name: Copy required files
         run: |
           cp fm_g/fm/starter_deck.txt \
              fm_g/fm/starter_deck_ini.txt \
              fm_g/fm/cards.db \
-             exports/linux/
-
-      - name: Copy required files to Windows export
-        run: |
+             $EXPORT_DIR/linux/
           cp fm_g/fm/starter_deck.txt \
              fm_g/fm/starter_deck_ini.txt \
              fm_g/fm/cards.db \
-             exports/windows/
+             $EXPORT_DIR/windows/
 
-      - name: Create Linux archive
+      # -------------------------
+      # Zip
+      # -------------------------
+      - name: Create archives
         run: |
-          cd exports
+          cd $EXPORT_DIR
           zip -r linux.zip linux
-
-      - name: Create Windows archive
-        run: |
-          cd exports
           zip -r windows.zip windows
 
+      # -------------------------
+      # GitHub Release
+      # -------------------------
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
