@@ -1,0 +1,54 @@
+name: Release Game
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Garante que as pastas existem
+      - name: Ensure export folders exist
+        run: |
+          mkdir -p exports/linux
+          mkdir -p exports/windows
+
+      - name: Copy required files to Linux export
+        run: |
+          cp fm_g/fm/starter_deck.txt \
+             fm_g/fm/starter_deck_ini.txt \
+             fm_g/fm/cards.db \
+             exports/linux/
+
+      - name: Copy required files to Windows export
+        run: |
+          cp fm_g/fm/starter_deck.txt \
+             fm_g/fm/starter_deck_ini.txt \
+             fm_g/fm/cards.db \
+             exports/windows/
+
+      - name: Create Linux archive
+        run: |
+          cd exports
+          zip -r linux.zip linux
+
+      - name: Create Windows archive
+        run: |
+          cd exports
+          zip -r windows.zip windows
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            exports/linux.zip
+            exports/windows.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
