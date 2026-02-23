@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      GODOT_VERSION: 4.2.2
+      GODOT_VERSION: 4.6.1
       GODOT_DIR: godot
       EXPORT_DIR: exports
 
@@ -29,8 +29,8 @@ jobs:
       - name: Download Godot Mono
         run: |
           mkdir -p $GODOT_DIR
-          wget https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_mono_linux_x86_64.zip
-          unzip Godot_v${GODOT_VERSION}-stable_mono_linux_x86_64.zip -d $GODOT_DIR
+          wget https://github.com/godotengine/godot/releases/download/4.6.1-stable/Godot_v4.6.1-stable_linux.x86_64.zip
+          unzip Godot_v4.6.1-stable_mono_linux_x86_64.zip -d $GODOT_DIR
           chmod +x $GODOT_DIR/Godot_v${GODOT_VERSION}-stable_mono_linux_x86_64
 
 
@@ -41,7 +41,7 @@ jobs:
       - name: Install export templates
         run: |
           mkdir -p ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
-          wget https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_export_templates.tpz
+          wget https://github.com/godotengine/godot/releases/download/4.6.1-stable/Godot_v4.6.1-stable_export_templates.tpz
           unzip Godot_v${GODOT_VERSION}-stable_export_templates.tpz
           mv templates/* ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable/
 
@@ -108,4 +108,4 @@ jobs:
             exports/windows.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+          
