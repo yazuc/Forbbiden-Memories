@@ -1,6 +1,8 @@
 name: Release Game
 
 on:
+  permissions:
+    contents: write
   push:
     tags:
       - "v*"
