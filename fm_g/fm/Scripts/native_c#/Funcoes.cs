@@ -57,10 +57,15 @@ namespace fm
 				}
 					
 				string content = File.ReadAllText(filePath);
-				var cardIds = content.Split(',').Where(s => !string.IsNullOrWhiteSpace(s)).Select(int.Parse).ToList();
+				
+				var cardIds = content.Split(',').Where(s => !string.IsNullOrWhiteSpace(s)).Select(int.Parse).ToList();				
 				var cards = CardDatabase.Instance.GetAllCards();
-				var userDeck = cards.Where(c => cardIds.Contains(c.Id)).ToList();
-
+				var userDeck = new List<Cards>(); 
+				
+				foreach(var item in cardIds){
+					userDeck.Add(cards.Where(x => x.Id == item).FirstOrDefault());
+				}
+								
 				return userDeck;                
 			}
 			catch (Exception ex)

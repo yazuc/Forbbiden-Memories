@@ -17,13 +17,12 @@ namespace fm
 		public Godot.Collections.Array<Marker3D> SlotsCampoSTIni = new();
 		[Export] public Label LP_You;
 		[Export] public Label LP_Com;
+		[Export] public Label You;
+		[Export] public Label Com;
 		private GameLoop gL;
 		
 		public override async void _Ready()
-		{		
-			GD.Print("Iniciando Banco de Dados e Jogo...");
-			CameraHand.Current = true;
-			CameraField.Current = false;
+		{						
 			SlotsCampo = GetSlotsFromGroup("player_monster_slots");
 			SlotsCampoIni = GetSlotsFromGroup("enemy_monster_slots");
 			SlotsCampoST = GetSlotsFromGroup("player_spell_slot");
@@ -32,7 +31,6 @@ namespace fm
 			// 1. Instanciar Database
 			var db = CardDatabase.Instance;
 			//db.SyncJsonToDatabase("cards.json"); // Load cards from JSON into the database if not already loaded
-			//db.MapAtlasCoordinates();
 			// 2. Carregar Deck e Cartas
 			var deck = new Deck();
 			var deckIni = new Deck();
@@ -47,18 +45,16 @@ namespace fm
 						
 			var deckList = Funcoes.LoadUserDeck(srcPath);
 			deck.LoadDeck(deckList);
-			GD.Print(deckList.Count());
 			
 			var deckListIni = Funcoes.LoadUserDeck(srcPath2);
 			deckIni.LoadDeck(deckListIni);
 			// 3. Inicializar o GameLoop
 			// Passando Alice e Bob como os duelistas
 			if (MaoVisual != null)
-			{
-				GD.Print(SlotsCampo.Count().ToString());
+			{				
 				gL = new GameLoop(
-					new Player("Alice", deck.Cards, SlotsCampo, SlotsCampoST, LP_You, 8000), 
-					new Player("Bob", deckIni.Cards, SlotsCampoIni, SlotsCampoSTIni, LP_Com, 8000),
+					new Player("Alice", deck.Cards, SlotsCampo, SlotsCampoST, LP_You, You, 8000), 
+					new Player("Bob", deckIni.Cards, SlotsCampoIni, SlotsCampoSTIni, LP_Com, Com, 8000),
 					MaoVisual,
 					CameraHand,
 					CameraField,
@@ -67,9 +63,6 @@ namespace fm
 				);
 				gL.Initialize();
 			}							
-			// Teste de Fusão (se quiser testar agora)
-			// string result = await fm.Function.Fusion("177,296,211");
-			// GD.Print($"Resultado da Fusão: {result}");
 		}
 		
 		private Godot.Collections.Array<Marker3D> GetSlotsFromGroup(string groupName)
@@ -78,9 +71,9 @@ namespace fm
 			var array = new Godot.Collections.Array<Marker3D>();
 						
 			var sorted = nodes.Cast<Marker3D>().OrderBy(n => n.Name.ToString());
-			foreach(var item in sorted){
-				GD.Print(item.Name);
-			}
+			//foreach(var item in sorted){
+				//GD.Print(item.Name);
+			//}
 			foreach (var n in sorted) array.Add(n);
 			return array;
 		}

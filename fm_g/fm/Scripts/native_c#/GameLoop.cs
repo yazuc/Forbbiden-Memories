@@ -36,18 +36,7 @@ namespace fm
 			if (MaoDoJogador == null) {
 				GD.PrintErr("ERRO: MaoDoJogador é nula no Initialize! Verifique a atribuição no construtor.");
 				return;
-			}
-			// Draw starting hands
-			for (int i = 0; i < STARTING_HAND; i++)
-			{
-				if (_gameState.Player1.HasCards())
-				{			
-					DrawCard(_gameState.Player1);                    
-				}                
-				if (_gameState.Player2.HasCards())
-					DrawCard(_gameState.Player2);
-			}
-								
+			}			
 			_ = RunTurn();
 		}
 
@@ -120,8 +109,7 @@ namespace fm
  			MaoDoJogador.AtualizarMao(_gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList());   
 			
 			GD.Print("Aguardando jogador selecionar uma carta...");
-			Godot.Collections.Array<int> idEscolhido = await MaoDoJogador.AguardarConfirmacaoJogadaAsync(); 
-			GD.Print("saiu da escolha");
+			Godot.Collections.Array<int> idEscolhido = await MaoDoJogador.AguardarConfirmacaoJogadaAsync(); 			
 			int i = 1;
 			foreach(var item in idEscolhido){
 				var cardData = CardDatabase.Instance.GetCardById((int)item);	
@@ -157,7 +145,6 @@ namespace fm
 				}
 				
 				GD.Print("Escolha um atacante...");
-				// O código PARA aqui e fica rodando o loop de input da MaoJogador				
 				int slotAtacante = await MaoDoJogador.SelecionarSlotAsync(MaoDoJogador.SlotsCampo, _gameState.CurrentTurn == 1);
 
 				if (slotAtacante == -2 || slotAtacante == -1) 
@@ -235,10 +222,7 @@ namespace fm
 		private void ExecuteEndPhase()
 		{
 			_gameState.AdvancePhase();
-			GD.Print($"--- End Phase ---");
-			// TODO: Implement end phase effects
-			// - Card effects that trigger at end of turn
-			// - Hand size check (max 6 cards)
+			GD.Print($"--- End Phase ---");			
 		}
 
 		private void DrawCard(Player player)
@@ -248,7 +232,7 @@ namespace fm
 				var card = player.Deck.First();
 				player.Hand.Add(card);
 				player.Deck.RemoveAt(0);
-				GD.Print($"{player.Name} drew: {card.Name}");
+				player.DeckNro.Text = player.Deck.Count().ToString();				
 			}
 		}
 

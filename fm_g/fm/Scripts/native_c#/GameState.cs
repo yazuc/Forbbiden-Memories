@@ -47,8 +47,7 @@ namespace fm
 		}
 
 		public void SwitchPlayer()
-		{
-			GD.Print("caimos no switch");
+		{			
 			if (MaoDoJogador != null) {
 				MaoDoJogador.CancelarSelecaoNoCampo(); 
 			}
@@ -98,7 +97,7 @@ namespace fm
 				TurnPhase.End => TurnPhase.Draw,
 				_ => TurnPhase.Draw
 			};
-			GD.Print("Current phase:" + CurrentPhase.ToString());
+			//GD.Print("Current phase:" + CurrentPhase.ToString());
 		}
 
 		public void EndGame(Player winner)

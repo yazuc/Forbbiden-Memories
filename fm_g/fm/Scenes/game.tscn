@@ -15,7 +15,7 @@ background_mode = 2
 
 [sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_h4fw4"]
 
-[node name="Game" type="Node3D" unique_id=705124670 node_paths=PackedStringArray("MaoVisual", "CameraHand", "CameraField", "CameraInimigo", "CameraPivot", "LP_You", "LP_Com")]
+[node name="Game" type="Node3D" unique_id=705124670 node_paths=PackedStringArray("MaoVisual", "CameraHand", "CameraField", "CameraInimigo", "CameraPivot", "LP_You", "LP_Com", "You", "Com")]
 script = ExtResource("1_e2o6t")
 MaoVisual = NodePath("MaoJogador")
 CameraHand = NodePath("CameraPivot/CameraHand")
@@ -24,6 +24,8 @@ CameraInimigo = NodePath("CameraPivot/CameraInimigo")
 CameraPivot = NodePath("CameraPivot")
 LP_You = NodePath("CameraPivot/YOU/LP")
 LP_Com = NodePath("CameraPivot/COM/LP")
+You = NodePath("CameraPivot/YOU")
+Com = NodePath("CameraPivot/COM")
 
 [node name="MaoJogador" type="Node2D" parent="." unique_id=222280098 node_paths=PackedStringArray("IndicadorTriangulo", "Carta1", "CameraHand", "CameraField", "CameraInimigo")]
 process_mode = 3

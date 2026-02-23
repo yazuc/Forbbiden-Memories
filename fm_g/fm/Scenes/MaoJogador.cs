@@ -191,7 +191,7 @@ namespace fm{
 				
 			_cartasSelecionadasParaFusao.Clear();
 			// Desative aqui os highlights ou colisores que você ativou para a seleção
-			GD.Print("Seleção de campo cancelada manualmente.");
+			//GD.Print("Seleção de campo cancelada manualmente.");
 		}
 		private void ControlarSelecaoDeCampo()
 		{
@@ -523,8 +523,7 @@ namespace fm{
 							if (GodotObject.IsInstanceValid(IndicadorTriangulo))
 							{
 								IndicadorTriangulo.Visible = true;
-								AtualizarPosicaoIndicador();
-								GD.Print("Primeira carta chegou, indicador posicionado.");
+								AtualizarPosicaoIndicador();								
 							}
 						};
 					}

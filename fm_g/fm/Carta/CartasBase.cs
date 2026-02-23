@@ -70,7 +70,6 @@ namespace fm
 			}
 			_arteSprite.Visible = !Facedown;
 
-			// Mantém seus ajustes de Transform que você validou anteriormente
 			_arteSprite.Position = new Vector2(1.0f, -0.5f);
 			_arteSprite.Scale = new Vector2(1.02f, 1.054f);
 		}

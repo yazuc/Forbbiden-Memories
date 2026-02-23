@@ -15,13 +15,15 @@ namespace fm
 		public Godot.Collections.Array<Marker3D> SlotsCampoST {get;set;}
 		// Field Zones - will be managed by FieldZones class
 		public FieldZones Field { get; set; }
-		public Label LP {get;set;}
+		public Label LP { get; set; }
+		public Label DeckNro { get; set; }
 
-		public Player(string name, List<Cards> deck, Godot.Collections.Array<Marker3D>  SlotsCampo, Godot.Collections.Array<Marker3D> SlotsCampoST, Label LP, int startingLP = 8000)
+		public Player(string name, List<Cards> deck, Godot.Collections.Array<Marker3D>  SlotsCampo, Godot.Collections.Array<Marker3D> SlotsCampoST, Label LP, Label You, int startingLP = 8000)
 		{
 			Name = name;
 			LifePoints = startingLP;	
 			this.LP = LP;		
+			this.DeckNro = You;
 			Hand = new List<Cards>();
 			Graveyard = new List<Cards>();
 			Deck = deck;
@@ -36,6 +38,7 @@ namespace fm
 			{
 				Hand.Add(card);
 				Deck.Remove(card);
+				DeckNro.Text = Deck.Count().ToString();
 			}
 		}
 		
