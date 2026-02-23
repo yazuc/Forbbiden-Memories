@@ -31,7 +31,8 @@ jobs:
           mkdir -p $GODOT_DIR
           wget https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_mono_linux_x86_64.zip
           unzip Godot_v${GODOT_VERSION}-stable_mono_linux_x86_64.zip -d $GODOT_DIR
-          chmod +x $GODOT_DIR/Godot_v${GODOT_VERSION}-stable_mono_linux_x86_64/Godot_v${GODOT_VERSION}-stable_mono_linux_x86_64
+          chmod +x $GODOT_DIR/Godot_v${GODOT_VERSION}-stable_mono_linux_x86_64
+
 
 
       # -------------------------
