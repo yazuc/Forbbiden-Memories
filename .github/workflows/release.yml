@@ -15,7 +15,7 @@ jobs:
 
     env:
       GODOT_VERSION: 4.6.1
-      GODOT_DIR: godot
+      GODOT_DIR: ~/godot
       EXPORT_DIR: exports
 
     steps:
