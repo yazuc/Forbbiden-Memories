@@ -124,6 +124,7 @@ namespace fm
 			await MaoDoJogador.TransitionTo(CameraField, 0.5f);			
 			_gameState.Player1.Field.DrawFieldState();
 			_gameState.Player2.Field.DrawFieldState();	
+			SincronizaField();
 			MaoDoJogador.PrintTodasInstancias();
 			_gameState.AdvancePhase();
 		}
@@ -145,13 +146,13 @@ namespace fm
 				}
 				
 				GD.Print("Escolha um atacante...");
-				int slotAtacante = await MaoDoJogador.SelecionarSlotAsync(MaoDoJogador.SlotsCampo, _gameState.CurrentTurn == 1);
-
+				int slotAtacante = await MaoDoJogador.SelecionarSlotAsync(MaoDoJogador.SlotsCampo, _gameState.CurrentTurn == 1);				
+				SincronizaField();
 				if (slotAtacante == -2 || slotAtacante == -1) 
 				{
 					BP_Ativa = false; // Sai do loop se apertar V ou Cancelar na seleção de ataque
 					continue;
-				}
+				}				
 
 				// Se escolheu um slot válido:
 				await MaoDoJogador.TransitionTo(CameraInimigo, 0.4f);
@@ -165,7 +166,8 @@ namespace fm
 				}
 
 				await MaoDoJogador.TransitionTo(CameraField, 0.4f);
-				// O loop volta para o início, esperando o próximo atacante
+				//aqui sincronizar o campo lógico e visual
+				SincronizaField();
 			}
 
 			GD.Print("--- Battle Phase Encerrada ---");
@@ -254,6 +256,11 @@ namespace fm
 			);
 			await ToSignal(tween, Tween.SignalName.Finished);
 			MaoDoJogador.DefineVisibilidade(true);
+		}
+		
+		public void SincronizaField()
+		{
+			MaoDoJogador.PrintTodasInstancias();
 		}
 		
 		public void RotateCameraPivot180Slow()

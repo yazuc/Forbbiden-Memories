@@ -97,7 +97,6 @@ namespace fm
 				TurnPhase.End => TurnPhase.Draw,
 				_ => TurnPhase.Draw
 			};
-			//GD.Print("Current phase:" + CurrentPhase.ToString());
 		}
 
 		public void EndGame(Player winner)

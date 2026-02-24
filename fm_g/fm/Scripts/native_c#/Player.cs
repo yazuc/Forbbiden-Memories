@@ -30,7 +30,7 @@ namespace fm
 			this.SlotsCampo = SlotsCampo;
 			this.SlotsCampoST = SlotsCampoST;
 			Field = new FieldZones();
-		}
+		}			
 
 		public void DrawCard(Cards card)
 		{

@@ -184,11 +184,9 @@ namespace fm{
 			}
 						
 			if (_cartasSelecionadasParaFusao.Any() && _cartasSelecionadasParaFusao.Count() == 1) {
-				DevolveCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID);
+				DevolveCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID, true);
 			}			
-			foreach(var item in _cartasSelecionadasParaFusao)
-				item.EscondeLabel();
-				
+						
 			_cartasSelecionadasParaFusao.Clear();
 			// Desative aqui os highlights ou colisores que você ativou para a seleção
 			//GD.Print("Seleção de campo cancelada manualmente.");
@@ -403,7 +401,7 @@ namespace fm{
 				 .SetEase(Tween.EaseType.Out);
 			if(cancel)
 				_cartasSelecionadasParaFusao.Clear();
-			lastPos = Vector2.Zero;
+			//lastPos = Vector2.Zero;
 		}
 
 		private void AtualizarPosicaoSeletor3D(Godot.Collections.Array<Marker3D> slots, int Id)
@@ -575,7 +573,12 @@ namespace fm{
 					var pegou = PegaNodo(slotDestino, isEnemy, false);
 					if(pegou != null)
 					{						
-						var rotacao = pegou.Rotation;					
+						var rotacao = pegou.Rotation;			
+						if(pegou is Carta3d nodo)
+						{
+							nodo.Defesa = !nodo.Defesa;
+							GD.Print($"defesa: {nodo.Defesa}");
+						}		
 						if(!isEnemy){
 							if(rotacao == new Vector3(0,0,0)){
 								pegou.Rotation = new Vector3(-0, 1.5707964f, 0);
@@ -583,12 +586,13 @@ namespace fm{
 								pegou.Rotation = new Vector3(-0, 0.0f,0);						
 							}						
 						}else{
-							if(rotacao == new Vector3(-0,0,0)){
+							if(rotacao == new Vector3(0,3.14f,0)){
 								pegou.Rotation = new Vector3(-0, -1.5707964f, 0);
 							}else{							
 								pegou.Rotation = new Vector3(0,3.14f,0);						
 							}	
 						}						
+						
 					}
 				}
 				
@@ -598,9 +602,10 @@ namespace fm{
 						var slotDestino = camIni ? SlotsCampoIni[_indiceCampoSelecionado] : SlotsCampo[_indiceCampoSelecionado];
 						GD.Print($"{slotDestino.Name} Slot confirmado: " + _indiceCampoSelecionado);
 						if(PegaNodoNoSlot(slotDestino, false))
-						{
+						{							
 							_tcsSlot.TrySetResult(_indiceCampoSelecionado);
-						}else if(PodeBate())
+						}
+						else if(PodeBate())
 						{
 							_tcsSlot.TrySetResult(_indiceCampoSelecionado);
 						}
@@ -773,7 +778,7 @@ namespace fm{
 				if (Input.IsActionJustPressed("ui_left"))
 					_indiceCampoSelecionado = Mathf.Max(_indiceCampoSelecionado - 1 * dir , 0);					
 			}								
-		}
+		}		
 		
 		public void PrintTodasInstancias(){
 			foreach(var item in _cartasInstanciadas)
@@ -784,12 +789,13 @@ namespace fm{
 		{
 			if(instancia is Carta3d cartaInstanciada)
 			{
-				GD.Print("carta:" + cartaInstanciada.carta.ToString());
-				GD.Print("instance:" + cartaInstanciada.instance.ToString());
-				GD.Print("slotPlaced:" + cartaInstanciada.slotPlaced.ToString());
-				GD.Print("IsEnemy:" + cartaInstanciada.IsEnemy.ToString());
-				GD.Print("IsFaceDown:" + cartaInstanciada.IsFaceDown.ToString());
-				GD.Print("markerName:" + cartaInstanciada.markerName.ToString());
+				GD.Print($"carta {cartaInstanciada.carta.ToString()} - fieldzone {cartaInstanciada.markerName.ToString()} - posicao {cartaInstanciada.Defesa.ToString()}");
+				//GD.Print("instance:" + cartaInstanciada.instance.ToString());
+				//GD.Print("slotPlaced:" + cartaInstanciada.slotPlaced.ToString());
+				//GD.Print("IsEnemy:" + cartaInstanciada.IsEnemy.ToString());
+				//GD.Print("IsFaceDown:" + cartaInstanciada.IsFaceDown.ToString());
+				//GD.Print("markerName:" + cartaInstanciada.markerName.ToString());
+				//GD.Print("defesa:" + cartaInstanciada.Defesa.ToString());
 			}
 		}
 		

@@ -8,6 +8,7 @@ namespace fm{
 		public bool SouCarta = true;
 		public int carta = -1;
 		public string markerName = "";
+		public bool Defesa = false;
 		public string instance = "";
 		public int slotPlaced = -1;
 		public bool IsEnemy = false;

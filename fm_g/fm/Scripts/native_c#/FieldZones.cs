@@ -20,7 +20,7 @@ namespace fm
 
 		public FieldZones()
 		{
-			MonsterZones = new FieldMonster[MONSTER_ZONES];
+			MonsterZones = new FieldMonster[MONSTER_ZONES];			
 			SpellTrapZones = new FieldSpellTrap[SPELL_TRAP_ZONES];
 			FieldSpell = null;
 		}
@@ -46,7 +46,7 @@ namespace fm
 				var monster = MonsterZones[i];
 				if (monster != null)
 				{
-					GD.Print($"- Zone {i + 1}: {monster.Card.Name} - Status ATK:{monster.Card.Attack} DEF:{monster.Card.Defense} ({(monster.IsAttackMode ? "ATK" : "DEF")}, Turns: {monster.TurnsOnField})");
+					GD.Print($"- Zone {i + 1}: zn: {monster.zoneName} - {monster.Card.Name} - Status ATK:{monster.Card.Attack} DEF:{monster.Card.Defense} ({(monster.IsAttackMode ? "ATK" : "DEF")}, Turns: {monster.TurnsOnField})");
 				}
 				else
 				{
@@ -71,8 +71,6 @@ namespace fm
 		
 		public bool placeCard(int idField, Cards card, bool isAttackMode = true, bool isFaceDown = false)
 		{
-			GD.Print(idField.ToString());
-			GD.Print(card.Type.ToString());
 			if (card.Type != CardTypeEnum.Trap && card.Type != CardTypeEnum.Spell && card.Type != CardTypeEnum.Equipment && card.Type != CardTypeEnum.Ritual)
 				return PlaceMonster(idField, card, isAttackMode, isFaceDown);
 			else if (card.Type == CardTypeEnum.Spell || card.Type == CardTypeEnum.Trap ||
@@ -130,6 +128,7 @@ namespace fm
 
 	public class FieldMonster
 	{
+		public string zoneName {get;set;}
 		public Cards? Card { get; set; }
 		public bool IsAttackMode { get; set; }
 		public bool IsFaceDown { get; set; }
@@ -139,6 +138,7 @@ namespace fm
 
 	public class FieldSpellTrap
 	{
+		public string zoneName {get;set;}
 		public Cards? Card { get; set; }
 		public bool IsFaceDown { get; set; }
 	}
