@@ -166,7 +166,6 @@ namespace fm
 					continue;
 				}				
 
-				// Se escolheu um slot válido:
 				await MaoDoJogador.TransitionTo(CameraInimigo, 0.4f);
 				
 				GD.Print("Escolha o alvo...");

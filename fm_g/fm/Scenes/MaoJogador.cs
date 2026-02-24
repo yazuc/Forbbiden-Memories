@@ -437,6 +437,9 @@ namespace fm{
 				if(_cartasSelecionadasParaFusao.Count() == 1){
 					slotDestino = DefineSlotagem(PegaTipoPorId(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID))[_indiceCampoSelecionado];				
 				}				
+				if(_cartasSelecionadasParaFusao.Count() > 1)
+					slotDestino = DefineSlotagem(PegaTipoPorId(_cartasSelecionadasParaFusao.LastOrDefault().CurrentID))[_indiceCampoSelecionado];				
+					
 				Instancia3D(slotDestino, (int)resultadoFusao.Id);			
 				
 				
@@ -852,11 +855,9 @@ namespace fm{
 			var cenaSeta = GD.Load<PackedScene>("res://HUD/IndicadorSeta.tscn");
 			var instancia = cenaSeta.Instantiate<IndicadorSeta>();
 
-			// AQUI você passa os dados ANTES do AddChild
 			instancia.PosicaoDesejada = alvo;
 			instancia.OlharParaDireita = (alvo.X > GetViewportRect().Size.X / 2f); 
 
-			// Agora sim, adiciona na cena
 			AddChild(instancia);
 			return instancia;
 		}
