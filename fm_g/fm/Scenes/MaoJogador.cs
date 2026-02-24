@@ -7,7 +7,6 @@ namespace fm{
 		[Export] public PackedScene CartaCena;
 		[Export] public Node2D IndicadorTriangulo;
 		public Node2D IndicadorSeta;
-		[Export] public Marker3D Carta1;		
 		[Export] public PackedScene Carta3d;
 		[Export] public Camera3D CameraHand;
 		[Export] public Camera3D CameraField;
