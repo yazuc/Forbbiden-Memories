@@ -154,7 +154,7 @@ namespace fm
 				}
 				
 				GD.Print("Escolha um atacante...");
-				int slotAtacante = await MaoDoJogador.SelecionarSlotAsync(MaoDoJogador.FiltraSlot(_gameState.CurrentPlayer.IsEnemy), _gameState.CurrentTurn == 1);								
+				int slotAtacante = await MaoDoJogador.SelecionarSlotAsync(MaoDoJogador.FiltraSlot(_gameState.CurrentPlayer.IsEnemy, true), _gameState.CurrentTurn == 1);								
 				var meuMonstro = _gameState.CurrentPlayer.Field.GetMonsterInZone(slotAtacante);
 				if(meuMonstro != null && meuMonstro.HasAttackedThisTurn)
 				{

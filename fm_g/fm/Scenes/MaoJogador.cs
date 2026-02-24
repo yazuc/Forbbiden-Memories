@@ -425,23 +425,30 @@ namespace fm{
 		{			
 			if(_cartasSelecionadasParaFusao.Count() > 1)
 				await AnimaFusao();
+			
 			string idsString = string.Join(",", IDFusao);									
-			var resultadoFusao = Function.Fusion(idsString);			
+			var resultadoFusao = Function.Fusion(idsString);		
+			bool summon = true;	
+			
 			if (resultadoFusao != null)
 			{				
 				var idsMateriais = IDFusao;
 				var retorno = new Godot.Collections.Array<int>(idsMateriais);
 				retorno.Add(resultadoFusao.Id);
+				
 				var slotDestino = SlotsCampo[_indiceCampoSelecionado];
-				GD.Print("cartas selecionadas para fusao" + _cartasSelecionadasParaFusao.Count());
 				if(_cartasSelecionadasParaFusao.Count() == 1){
 					slotDestino = DefineSlotagem(PegaTipoPorId(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID))[_indiceCampoSelecionado];				
 				}				
 				if(_cartasSelecionadasParaFusao.Count() > 1)
-					slotDestino = DefineSlotagem(PegaTipoPorId(_cartasSelecionadasParaFusao.LastOrDefault().CurrentID))[_indiceCampoSelecionado];				
-					
-				Instancia3D(slotDestino, (int)resultadoFusao.Id);			
+				{
+					var tipo = PegaTipoPorId(_cartasSelecionadasParaFusao.LastOrDefault().CurrentID);
+					slotDestino = DefineSlotagem(tipo)[_indiceCampoSelecionado];				
+					summon = tipo != CardTypeEnum.Spell && tipo != CardTypeEnum.Trap && tipo != CardTypeEnum.Equipment;
+				}
 				
+				if(summon)
+					Instancia3D(slotDestino, (int)resultadoFusao.Id);			
 				
 				_cartasSelecionadasParaFusao.Clear();
 				SairModoSelecaoCampo();
@@ -452,7 +459,7 @@ namespace fm{
 		
 		public async Task Instancia3D(Marker3D slotDestino, int fusao){
 			bool IsEnemy = slotDestino.Name.ToString().Contains("Ini");
-			Node3D novaCarta3d = PegaNodo(slotDestino, IsEnemy);			
+			Node3D novaCarta3d = PegaNodo(slotDestino);			
 			if(IsEnemy){
 				GD.Print(slotDestino.GlobalRotation.ToString());
 				Vector3 rota = new Vector3(-0, 1.5707964f, 0);
@@ -573,7 +580,7 @@ namespace fm{
 				{
 					var slotDestino = slots[_indiceCampoSelecionado];									
 					var isEnemy = slotDestino.Name.ToString().Contains("Ini");
-					var pegou = PegaNodo(slotDestino, isEnemy, false);
+					var pegou = PegaNodo(slotDestino, false);
 					if(pegou != null)
 					{						
 						var rotacao = pegou.Rotation;			
@@ -713,11 +720,11 @@ namespace fm{
 			return false;
 		}
 		
-		public Node3D PegaNodo(Marker3D slotDestino, bool IsEnemy, bool criarNovo = true){
+		public Node3D PegaNodo(Marker3D slotDestino, bool criarNovo = true){
 			var nodes = GetTree().GetNodesInGroup("cartas");
 			foreach(var item in nodes){
 				if(item is Carta3d meuNode){
-					if(slotDestino.Name == meuNode.markerName && meuNode.IsEnemy == IsEnemy){
+					if(slotDestino.Name == meuNode.markerName){
 						return meuNode;
 					}
 				}
@@ -733,9 +740,6 @@ namespace fm{
 			novaCarta3d.GlobalPosition = slotDestino.GlobalPosition;
 			novaCarta3d.GlobalRotation = slotDestino.GlobalRotation;
 			_cartasInstanciadas.Add(novaCarta3d);
-			
-			foreach(var item in _cartasInstanciadas)
-				PrintInstancia(item);
 			
 			return novaCarta3d;
 		}
@@ -764,14 +768,12 @@ namespace fm{
 		{
 			var markers = new List<Marker3D>();
 			if(inimigo)	
-			{
-				GD.Print("aqui");
-				markers.AddRange(Slots.Where(x => x.Name.ToString().Contains("Ini")).ToList());
-				GD.Print(markers.Count());
+			{				
+				markers.AddRange(Slots.Where(x => x.Name.ToString().Contains("Ini")).ToList());				
 			}			
 			if(inimigoM)
 				markers.AddRange(Slots.Where(x => x.Name.ToString().Contains("Ini") && x.Name.ToString().Contains("M")).ToList());			
-			if(!inimigo)				
+			if(aliado)				
 				markers.AddRange(Slots.Where(x => !x.Name.ToString().Contains("Ini")).ToList());
 			if(aliadoM)
 				markers.AddRange(Slots.Where(x => !x.Name.ToString().Contains("Ini") && x.Name.ToString().Contains("M")).ToList());
