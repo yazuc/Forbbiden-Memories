@@ -15,7 +15,7 @@ jobs:
 
     env:
       GODOT_VERSION: 4.6.1
-      GODOT_DIR: ~/godot
+      GODOT_DIR: godot
       EXPORT_DIR: exports
 
     steps:
@@ -30,7 +30,7 @@ jobs:
         run: |
           mkdir -p $GODOT_DIR
           wget https://github.com/godotengine/godot/releases/download/4.6.1-stable/Godot_v4.6.1-stable_mono_linux_x86_64.zip
-          unzip Godot_v4.6.1-stable_mono_linux_x86_64 -d $GODOT_DIR
+          unzip Godot_v4.6.1-stable_mono_linux_x86_64.zip -d $GODOT_DIR
           chmod +x $GODOT_DIR/Godot_v4.6.1-stable_mono_linux_x86_64/Godot_v4.6.1-stable_mono_linux.x86_64
 
 
@@ -43,6 +43,7 @@ jobs:
           mkdir -p ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
           wget https://github.com/godotengine/godot/releases/download/4.6.1-stable/Godot_v4.6.1-stable_mono_export_templates.tpz
           unzip Godot_v4.6.1-stable_mono_export_templates.tpz
+          mv templates/* ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable/
 
       # -------------------------
       # Restore & build C#
@@ -59,7 +60,7 @@ jobs:
           mkdir -p $EXPORT_DIR/linux
           $GODOT_DIR/Godot_v4.6.1-stable_mono_linux_x86_64/Godot_v4.6.1-stable_mono_linux.x86_64 \
             --headless \
-            --path fm_g \
+            --path fm_g/fm \
             --export-release "Linux" 
 
       # -------------------------
@@ -70,7 +71,7 @@ jobs:
           mkdir -p $EXPORT_DIR/windows
           $GODOT_DIR/Godot_v4.6.1-stable_mono_linux_x86_64/Godot_v4.6.1-stable_mono_linux.x86_64 \
             --headless \
-            --path fm_g \
+            --path fm_g/fm \
             --export-release "Windows Desktop" 
 
       # -------------------------
