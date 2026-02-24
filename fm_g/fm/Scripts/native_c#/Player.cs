@@ -28,8 +28,8 @@ namespace fm
 			Graveyard = new List<Cards>();
 			Deck = deck;
 			this.SlotsCampo = SlotsCampo;
-			this.SlotsCampoST = SlotsCampoST;
-			Field = new FieldZones();
+			this.SlotsCampoST = SlotsCampoST;			
+			Field = new FieldZones(SlotsCampo.Select(x => x.Name.ToString()).ToList());
 		}			
 
 		public void DrawCard(Cards card)

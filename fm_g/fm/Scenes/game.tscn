@@ -33,7 +33,7 @@ position = Vector2(438, 414)
 script = ExtResource("3_3dryh")
 CartaCena = ExtResource("4_wowpa")
 IndicadorTriangulo = NodePath("../IndicadorTriangulo")
-Carta1 = NodePath("../Carta1")
+Carta1 = NodePath("../Carta1M")
 Carta3d = ExtResource("6_i6g32")
 CameraHand = NodePath("../CameraPivot/CameraHand")
 CameraField = NodePath("../CameraPivot/CameraField")
@@ -107,64 +107,64 @@ horizontal_alignment = 2
 
 [node name="Carta3d" parent="." unique_id=557434675 instance=ExtResource("6_i6g32")]
 
-[node name="Carta1" type="Marker3D" parent="." unique_id=1859481463 groups=["player_monster_slots"]]
+[node name="Carta1M" type="Marker3D" parent="." unique_id=1859481463 groups=["player_monster_slots"]]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2.597, 1.369, 3.711)
 
-[node name="Carta2" type="Marker3D" parent="." unique_id=1159102727 groups=["player_monster_slots"]]
+[node name="Carta2M" type="Marker3D" parent="." unique_id=1159102727 groups=["player_monster_slots"]]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2.597, 1.369, 1.98)
 
-[node name="Carta3" type="Marker3D" parent="." unique_id=1750837157 groups=["player_monster_slots"]]
+[node name="Carta3M" type="Marker3D" parent="." unique_id=1750837157 groups=["player_monster_slots"]]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2.5966737, 1.369, 0.2493279)
 
-[node name="Carta4" type="Marker3D" parent="." unique_id=689030238 groups=["player_monster_slots"]]
+[node name="Carta4M" type="Marker3D" parent="." unique_id=689030238 groups=["player_monster_slots"]]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2.597, 1.369, -1.482)
 
-[node name="Carta5" type="Marker3D" parent="." unique_id=638832938 groups=["player_monster_slots"]]
+[node name="Carta5M" type="Marker3D" parent="." unique_id=638832938 groups=["player_monster_slots"]]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2.597, 1.369, -3.213)
 
-[node name="Carta06" type="Marker3D" parent="." unique_id=960543589 groups=["player_spell_slot"]]
+[node name="Carta1S" type="Marker3D" parent="." unique_id=960543589 groups=["player_spell_slot"]]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.231, 1.369, 3.705)
 
-[node name="Carta07" type="Marker3D" parent="." unique_id=689594235 groups=["player_spell_slot"]]
+[node name="Carta2S" type="Marker3D" parent="." unique_id=689594235 groups=["player_spell_slot"]]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.231, 1.369, 1.9749238)
 
-[node name="Carta08" type="Marker3D" parent="." unique_id=1263474460 groups=["player_spell_slot"]]
+[node name="Carta3S" type="Marker3D" parent="." unique_id=1263474460 groups=["player_spell_slot"]]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.231, 1.369, 0.24457759)
 
-[node name="Carta09" type="Marker3D" parent="." unique_id=1508247149 groups=["player_spell_slot"]]
+[node name="Carta4S" type="Marker3D" parent="." unique_id=1508247149 groups=["player_spell_slot"]]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.231, 1.369, -1.485)
 
-[node name="Carta10" type="Marker3D" parent="." unique_id=1240761787 groups=["player_spell_slot"]]
+[node name="Carta5S" type="Marker3D" parent="." unique_id=1240761787 groups=["player_spell_slot"]]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.231, 1.369, -3.215)
 
-[node name="Carta15Ini" type="Marker3D" parent="." unique_id=986045306 groups=["enemy_monster_slots"]]
+[node name="Carta5IniM" type="Marker3D" parent="." unique_id=986045306 groups=["enemy_monster_slots"]]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.62, 1.369, 3.72)
 
-[node name="Carta14Ini" type="Marker3D" parent="." unique_id=1918354445 groups=["enemy_monster_slots"]]
+[node name="Carta4IniM" type="Marker3D" parent="." unique_id=1918354445 groups=["enemy_monster_slots"]]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.62, 1.369, 2.009)
 
-[node name="Carta13Ini" type="Marker3D" parent="." unique_id=1676939068 groups=["enemy_monster_slots"]]
+[node name="Carta3IniM" type="Marker3D" parent="." unique_id=1676939068 groups=["enemy_monster_slots"]]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.62, 1.369, 0.249)
 
-[node name="Carta12Ini" type="Marker3D" parent="." unique_id=983436190 groups=["enemy_monster_slots"]]
+[node name="Carta2IniM" type="Marker3D" parent="." unique_id=983436190 groups=["enemy_monster_slots"]]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.62, 1.369, -1.511)
 
-[node name="Carta11Ini" type="Marker3D" parent="." unique_id=434961320 groups=["enemy_monster_slots"]]
+[node name="Carta1IniM" type="Marker3D" parent="." unique_id=434961320 groups=["enemy_monster_slots"]]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.62, 1.369, -3.2)
 
-[node name="Carta20Ini" type="Marker3D" parent="." unique_id=939572990 groups=["enemy_spell_slot"]]
+[node name="Carta1IniS" type="Marker3D" parent="." unique_id=939572990 groups=["enemy_spell_slot"]]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.3514967, 1.369, 3.905)
 
-[node name="Carta19Ini" type="Marker3D" parent="." unique_id=23597922 groups=["enemy_spell_slot"]]
+[node name="Carta2IniS" type="Marker3D" parent="." unique_id=23597922 groups=["enemy_spell_slot"]]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.355207, 1.369, 2.0622222)
 
-[node name="Carta18Ini" type="Marker3D" parent="." unique_id=672846142 groups=["enemy_spell_slot"]]
+[node name="Carta3IniS" type="Marker3D" parent="." unique_id=672846142 groups=["enemy_spell_slot"]]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.3514967, 1.369, 0.15248895)
 
-[node name="Carta17Ini" type="Marker3D" parent="." unique_id=867145139 groups=["enemy_spell_slot"]]
+[node name="Carta4IniS" type="Marker3D" parent="." unique_id=867145139 groups=["enemy_spell_slot"]]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.3514967, 1.369, -1.6604104)
 
-[node name="Carta16Ini" type="Marker3D" parent="." unique_id=659163300 groups=["enemy_spell_slot"]]
+[node name="Carta5IniS" type="Marker3D" parent="." unique_id=659163300 groups=["enemy_spell_slot"]]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.3514967, 1.369, -3.4739966)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1668532810]

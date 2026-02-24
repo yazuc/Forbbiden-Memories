@@ -8,7 +8,7 @@ namespace fm
 	{
 		public const int MONSTER_ZONES = 5;
 		public const int SPELL_TRAP_ZONES = 5;
-
+		public List<string> camposName = new List<string>();
 		// Monster Zones: [Index 0-4]
 		public FieldMonster[] MonsterZones { get; set; }
 		
@@ -18,9 +18,10 @@ namespace fm
 		// Field Spell Zone: Only 1
 		public Cards? FieldSpell { get; set; }
 
-		public FieldZones()
+		public FieldZones(List<string> nomesCampos)
 		{
-			MonsterZones = new FieldMonster[MONSTER_ZONES];			
+			MonsterZones = new FieldMonster[MONSTER_ZONES];		
+			this.camposName = nomesCampos;	
 			SpellTrapZones = new FieldSpellTrap[SPELL_TRAP_ZONES];
 			FieldSpell = null;
 		}
@@ -69,17 +70,30 @@ namespace fm
 			}
 		}
 		
-		public bool placeCard(int idField, Cards card, bool isAttackMode = true, bool isFaceDown = false)
+		public bool placeCard(int idField, Cards card, bool isAttackMode = true, bool isFaceDown = false, bool ini = false)
 		{
 			if (card.Type != CardTypeEnum.Trap && card.Type != CardTypeEnum.Spell && card.Type != CardTypeEnum.Equipment && card.Type != CardTypeEnum.Ritual)
-				return PlaceMonster(idField, card, isAttackMode, isFaceDown);
+				return PlaceMonster(idField, card, isAttackMode, isFaceDown, ini);
 			else if (card.Type == CardTypeEnum.Spell || card.Type == CardTypeEnum.Trap ||
 			 card.Type == CardTypeEnum.Equipment || card.Type == CardTypeEnum.Ritual)
 				return PlaceSpellTrap(idField, card, isFaceDown); // For simplicity, we place all spells/traps in the first zone
 			return false;
 		}
 		
-		public bool PlaceMonster(int idField, Cards card, bool isAttackMode = true, bool isFaceDown = false)
+		public void BotaDeLadinho(string ID, bool DeLadinho)
+		{
+			foreach(var monstro in MonsterZones)
+			{
+				if(monstro != null && monstro.zoneName == ID)
+				{
+					monstro.IsAttackMode = !DeLadinho;
+					break;	
+				}
+				
+			}
+		}
+		
+		public bool PlaceMonster(int idField, Cards card, bool isAttackMode = true, bool isFaceDown = false, bool ini = false)
 		{
 			int zoneIndex = idField;
 			if (zoneIndex < 0 || zoneIndex >= MONSTER_ZONES)
@@ -87,6 +101,7 @@ namespace fm
 
 			MonsterZones[zoneIndex] = new FieldMonster 
 			{ 
+				zoneName = ini ?  $"Carta{zoneIndex + 1}IniM" : $"Carta{zoneIndex + 1}M",
 				Card = card, 
 				IsAttackMode = isAttackMode,
 				IsFaceDown = isFaceDown,
@@ -125,15 +140,17 @@ namespace fm
 
 		public bool HasAvailableMonsterZone() => MonsterZones.Any(z => z == null);
 	}
+		
 
 	public class FieldMonster
 	{
-		public string zoneName {get;set;}
+		public string zoneName {get; set;}
 		public Cards? Card { get; set; }
 		public bool IsAttackMode { get; set; }
 		public bool IsFaceDown { get; set; }
 		public int TurnsOnField { get; set; }
 		public bool HasAttackedThisTurn { get; set; }
+		
 	}
 
 	public class FieldSpellTrap

@@ -601,7 +601,7 @@ namespace fm{
 					{
 						var slotDestino = camIni ? SlotsCampoIni[_indiceCampoSelecionado] : SlotsCampo[_indiceCampoSelecionado];
 						GD.Print($"{slotDestino.Name} Slot confirmado: " + _indiceCampoSelecionado);
-						if(PegaNodoNoSlot(slotDestino, false))
+						if(PegaNodoNoSlot(slotDestino))
 						{							
 							_tcsSlot.TrySetResult(_indiceCampoSelecionado);
 						}
@@ -643,7 +643,7 @@ namespace fm{
 			}
 		}
 		
-		public void FinalizaNodoByCard(int CardID, bool IsEnemy = false){
+		public void FinalizaNodoByCard(string CardID, bool IsEnemy = false){
 			var nodes = GetTree().GetNodesInGroup("cartas").Cast<Carta3d>().ToArray();		
 							
 			if(IsEnemy){
@@ -652,7 +652,7 @@ namespace fm{
 			}
 				
 			foreach(var item in nodes){				
-				if(CardID == item.carta){
+				if(CardID == item.markerName){
 					item.QueueFree();										
 				}				
 			}
@@ -671,7 +671,7 @@ namespace fm{
 			return -1;
 		}
 		
-		public void Flipa(int ID)
+		public void Flipa(string ID)
 		{
 			var cartaInstanciada = PegaNodoCarta3d(ID);
 			if(cartaInstanciada.IsFaceDown){
@@ -679,15 +679,10 @@ namespace fm{
 			}
 		}
 		
-		public Carta3d PegaNodoCarta3d(int ID)
+		public Carta3d PegaNodoCarta3d(string ID)
 		{
-			return _cartasInstanciadas.OfType<Carta3d>().FirstOrDefault(x => x.carta == ID);
-		}
-		
-		public Node3D PegaNodo(int ID)
-		{
-			return _cartasInstanciadas.Cast<Carta3d>().Where(x => x.carta == ID).FirstOrDefault();
-		}
+			return _cartasInstanciadas.OfType<Carta3d>().FirstOrDefault(x => x.markerName == ID);
+		}	
 		
 		public bool PodeBate(){
 			var nodes = GetTree().GetNodesInGroup("cartas");
@@ -703,7 +698,7 @@ namespace fm{
 			return true;
 		}
 		
-		public bool PegaNodoNoSlot(Marker3D slotDestino, bool IsEnemy){
+		public bool PegaNodoNoSlot(Marker3D slotDestino){
 			var nodes = GetTree().GetNodesInGroup("cartas");
 			foreach(var item in nodes){
 				if(item is Carta3d meuNode){
@@ -778,7 +773,19 @@ namespace fm{
 				if (Input.IsActionJustPressed("ui_left"))
 					_indiceCampoSelecionado = Mathf.Max(_indiceCampoSelecionado - 1 * dir , 0);					
 			}								
-		}		
+		}	
+		
+		public List<(string, bool)> DevolvePosicoes()
+		{
+			var tuple = new List<(string carta,bool defesa)>();	
+			foreach(var item in _cartasInstanciadas)
+			{
+				if(item is Carta3d nodo)	
+					tuple.Add((nodo.markerName, nodo.Defesa));
+			}
+			
+			return tuple;
+		}	
 		
 		public void PrintTodasInstancias(){
 			foreach(var item in _cartasInstanciadas)
@@ -790,12 +797,6 @@ namespace fm{
 			if(instancia is Carta3d cartaInstanciada)
 			{
 				GD.Print($"carta {cartaInstanciada.carta.ToString()} - fieldzone {cartaInstanciada.markerName.ToString()} - posicao {cartaInstanciada.Defesa.ToString()}");
-				//GD.Print("instance:" + cartaInstanciada.instance.ToString());
-				//GD.Print("slotPlaced:" + cartaInstanciada.slotPlaced.ToString());
-				//GD.Print("IsEnemy:" + cartaInstanciada.IsEnemy.ToString());
-				//GD.Print("IsFaceDown:" + cartaInstanciada.IsFaceDown.ToString());
-				//GD.Print("markerName:" + cartaInstanciada.markerName.ToString());
-				//GD.Print("defesa:" + cartaInstanciada.Defesa.ToString());
 			}
 		}
 		
@@ -862,7 +863,7 @@ namespace fm{
 			await ToSignal(tween, Tween.SignalName.Finished);
 
 			targetCam.MakeCurrent();
-			GD.Print($"Câmera {targetCam.Name} assumiu o controle.");
+			//GD.Print($"Câmera {targetCam.Name} assumiu o controle.");
 			STOP = false;
 		}
 	}

@@ -105,7 +105,7 @@ namespace fm
 
 		private async Task ExecuteMainPhase()
 		{
-			GD.Print($"--- {_gameState.CurrentPlayer.Name}'s {_gameState.CurrentPhase} ---");					
+			GD.Print($"--- {_gameState.CurrentPlayer.Name}'s {_gameState.CurrentPhase} Enemy? {_gameState.CurrentPlayer.IsEnemy}---");					
  			MaoDoJogador.AtualizarMao(_gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList());   
 			
 			GD.Print("Aguardando jogador selecionar uma carta...");
@@ -115,7 +115,7 @@ namespace fm
 				var cardData = CardDatabase.Instance.GetCardById((int)item);	
 				if(i == idEscolhido.Count()){
 					//arrumar quando colocar um nodo por cima de outro, deletar o anterior sempre
-					_gameState.CurrentPlayer.Field.placeCard(MaoDoJogador.PegaSlot(cardData.Id), cardData);					
+					_gameState.CurrentPlayer.Field.placeCard(MaoDoJogador.PegaSlot(cardData.Id), cardData, true, false, _gameState.CurrentPlayer.IsEnemy);					
 				}
 				_gameState.CurrentPlayer.DiscardCard(cardData.Id);
 				i++;
@@ -178,9 +178,8 @@ namespace fm
 		{
 			var meuMonstro = _gameState.CurrentPlayer.Field.GetMonsterInZone(atacanteIdx);
 			var monstroInimigo = _gameState.OpponentPlayer.Field.GetMonsterInZone(alvoIdx);
-			MaoDoJogador.Flipa(meuMonstro.Card.Id);
+			MaoDoJogador.Flipa(meuMonstro.zoneName);
 
-			// Validação de segurança antes de acessar propriedades
 			if (meuMonstro?.Card == null)
 			{
 				GD.PrintErr("[GameLoop] Batalha abortada: SlotAtacante vazio.");
@@ -189,21 +188,25 @@ namespace fm
 			
 			var battleResult = _battleSystem.ResolveBattle(meuMonstro, monstroInimigo, _gameState.OpponentPlayer);		
 			if(monstroInimigo != null){
-				MaoDoJogador.Flipa(monstroInimigo.Card.Id);
+				MaoDoJogador.Flipa(monstroInimigo.zoneName);
+				if(!battleResult.AttackerDestroyed && !battleResult.DefenderDestroyed)
+				{
+					_gameState.CurrentPlayer.TakeDamage(battleResult.DamageDealt);		
+				}
 				if(battleResult.AttackerDestroyed && battleResult.DefenderDestroyed)
 				{
-					MaoDoJogador.FinalizaNodoByCard(monstroInimigo.Card.Id);
+					MaoDoJogador.FinalizaNodoByCard(monstroInimigo.zoneName);
 					_gameState.OpponentPlayer.Field.RemoveMonster(alvoIdx);	
-					MaoDoJogador.FinalizaNodoByCard(meuMonstro.Card.Id, _gameState.CurrentPlayer.IsEnemy);
+					MaoDoJogador.FinalizaNodoByCard(meuMonstro.zoneName, _gameState.CurrentPlayer.IsEnemy);
 					_gameState.CurrentPlayer.Field.RemoveMonster(atacanteIdx);			
 				}
 				if(battleResult.DefenderDestroyed){
-					MaoDoJogador.FinalizaNodoByCard(monstroInimigo.Card.Id);
+					MaoDoJogador.FinalizaNodoByCard(monstroInimigo.zoneName);
 					_gameState.OpponentPlayer.Field.RemoveMonster(alvoIdx);		
 					_gameState.OpponentPlayer.TakeDamage(battleResult.DamageDealt);				
 				}
 				if(battleResult.AttackerDestroyed){
-					MaoDoJogador.FinalizaNodoByCard(meuMonstro.Card.Id, _gameState.CurrentPlayer.IsEnemy);
+					MaoDoJogador.FinalizaNodoByCard(meuMonstro.zoneName, _gameState.CurrentPlayer.IsEnemy);
 					_gameState.CurrentPlayer.Field.RemoveMonster(atacanteIdx);							
 					_gameState.CurrentPlayer.TakeDamage(battleResult.DamageDealt);
 				}
@@ -260,7 +263,13 @@ namespace fm
 		
 		public void SincronizaField()
 		{
-			MaoDoJogador.PrintTodasInstancias();
+			List<(string carta,bool defesa)> tuple = MaoDoJogador.DevolvePosicoes();
+			foreach(var item in tuple)
+			{
+				_gameState.Player1.Field.BotaDeLadinho(item.carta, item.defesa);
+				_gameState.Player2.Field.BotaDeLadinho(item.carta, item.defesa);
+				GD.Print($"carta: {item.carta} - de ladinho? {item.defesa}");
+			}
 		}
 		
 		public void RotateCameraPivot180Slow()

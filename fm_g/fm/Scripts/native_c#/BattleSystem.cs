@@ -65,8 +65,9 @@ namespace fm
 				}
 				else
 				{
-					result.AttackerDestroyed = true;
-					result.DefenderDestroyed = true;
+					result.AttackerDestroyed = false;
+					result.DefenderDestroyed = false;
+					result.DamageDealt = defensePower - attackPower;
 					result.Description = $"{attackingMonster.Card.Name} fails to destroy {defendingMonster.Card.Name}!";
 				}
 			}
