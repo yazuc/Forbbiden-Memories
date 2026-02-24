@@ -125,10 +125,17 @@ namespace fm
 			return true;
 		}
 
-		public bool RemoveMonster(int zoneIndex)
+		public bool RemoveMonster(string zoneName)
 		{
-			if (zoneIndex < 0 || zoneIndex >= MONSTER_ZONES)
-				return false;
+			int zoneIndex = 0;			
+			foreach(var item in MonsterZones)
+			{
+				if(item.zoneName == zoneName){					
+					break;
+				}
+				zoneIndex++;
+			}
+				
 
 			MonsterZones[zoneIndex] = null;
 			return true;

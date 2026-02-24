@@ -39,7 +39,7 @@ namespace fm
 				if (monster != null)
 				{
 					opponent.SendToGraveyard(monster.Card);
-					opponent.Field.RemoveMonster(i);
+					//opponent.Field.RemoveMonster(i);
 				}
 			}
 		}

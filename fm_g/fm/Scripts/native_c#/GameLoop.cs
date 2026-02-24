@@ -144,10 +144,22 @@ namespace fm
 					_gameState.AdvancePhase();
 					break;
 				}
+				if(_gameState.CurrentPlayer.LifePoints <= 0)
+				{
+					GD.Print("fim de jogo");
+					BP_Ativa = false;
+					_gameState.EndGame(_gameState.Player2);
+					_gameState.AdvancePhase();
+					break;
+				}
 				
 				GD.Print("Escolha um atacante...");
-				int slotAtacante = await MaoDoJogador.SelecionarSlotAsync(MaoDoJogador.SlotsCampo, _gameState.CurrentTurn == 1);				
-				SincronizaField();
+				int slotAtacante = await MaoDoJogador.SelecionarSlotAsync(MaoDoJogador.FiltraSlot(_gameState.CurrentPlayer.IsEnemy), _gameState.CurrentTurn == 1);								
+				var meuMonstro = _gameState.CurrentPlayer.Field.GetMonsterInZone(slotAtacante);
+				if(meuMonstro != null && meuMonstro.HasAttackedThisTurn)
+				{
+					continue;
+				}
 				if (slotAtacante == -2 || slotAtacante == -1) 
 				{
 					BP_Ativa = false; // Sai do loop se apertar V ou Cancelar na seleção de ataque
@@ -162,7 +174,8 @@ namespace fm
 				
 				if (slotAlvo != -1 && slotAlvo != -2)
 				{
-					ResolverBatalha(slotAtacante, slotAlvo);
+					var monstroInimigo = _gameState.OpponentPlayer.Field.GetMonsterInZone(slotAlvo);
+					ResolverBatalha(meuMonstro, monstroInimigo);
 				}
 
 				await MaoDoJogador.TransitionTo(CameraField, 0.4f);
@@ -174,10 +187,9 @@ namespace fm
 			_gameState.AdvancePhase();
 		}			
 
-		private bool ResolverBatalha(int atacanteIdx, int alvoIdx)
+		private bool ResolverBatalha(FieldMonster meuMonstro, FieldMonster? monstroInimigo)
 		{
-			var meuMonstro = _gameState.CurrentPlayer.Field.GetMonsterInZone(atacanteIdx);
-			var monstroInimigo = _gameState.OpponentPlayer.Field.GetMonsterInZone(alvoIdx);
+			
 			MaoDoJogador.Flipa(meuMonstro.zoneName);
 
 			if (meuMonstro?.Card == null)
@@ -196,27 +208,20 @@ namespace fm
 				if(battleResult.AttackerDestroyed && battleResult.DefenderDestroyed)
 				{
 					MaoDoJogador.FinalizaNodoByCard(monstroInimigo.zoneName);
-					_gameState.OpponentPlayer.Field.RemoveMonster(alvoIdx);	
+					_gameState.OpponentPlayer.Field.RemoveMonster(monstroInimigo.zoneName);	
 					MaoDoJogador.FinalizaNodoByCard(meuMonstro.zoneName, _gameState.CurrentPlayer.IsEnemy);
-					_gameState.CurrentPlayer.Field.RemoveMonster(atacanteIdx);			
+					_gameState.CurrentPlayer.Field.RemoveMonster(meuMonstro.zoneName);			
 				}
 				if(battleResult.DefenderDestroyed){
 					MaoDoJogador.FinalizaNodoByCard(monstroInimigo.zoneName);
-					_gameState.OpponentPlayer.Field.RemoveMonster(alvoIdx);		
+					_gameState.OpponentPlayer.Field.RemoveMonster(monstroInimigo.zoneName);		
 					_gameState.OpponentPlayer.TakeDamage(battleResult.DamageDealt);				
 				}
 				if(battleResult.AttackerDestroyed){
 					MaoDoJogador.FinalizaNodoByCard(meuMonstro.zoneName, _gameState.CurrentPlayer.IsEnemy);
-					_gameState.CurrentPlayer.Field.RemoveMonster(atacanteIdx);							
+					_gameState.CurrentPlayer.Field.RemoveMonster(meuMonstro.zoneName);							
 					_gameState.CurrentPlayer.TakeDamage(battleResult.DamageDealt);
 				}
-			}
-			if(_gameState.OpponentPlayer.LifePoints <= 0){
-				GD.Print("fim de jogo");
-				_isBattlePhaseActive = false;
-				_gameState.EndGame(_gameState.CurrentPlayer);
-				_gameState.AdvancePhase();
-				return true;
 			}
 			
 			_gameState.CurrentPlayer.Field.DrawFieldState();

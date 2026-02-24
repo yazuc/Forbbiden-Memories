@@ -17,7 +17,8 @@ namespace fm{
 		public Godot.Collections.Array<Marker3D> SlotsCampo = new();
 		public Godot.Collections.Array<Marker3D> SlotsCampoST = new ();
 		public Godot.Collections.Array<Marker3D> SlotsCampoIni = new ();
-		public Godot.Collections.Array<Marker3D> SlotsCampoSTIni = new ();	
+		public Godot.Collections.Array<Marker3D> SlotsCampoSTIni = new ();
+		public Godot.Collections.Array<Marker3D> Slots = new ();	
 		public bool STOP {get;set;}
 		
 		private TaskCompletionSource<Godot.Collections.Array<int>> _tcsCarta;
@@ -756,6 +757,25 @@ namespace fm{
 			return SlotsCampo;
 		}
 		
+		public Godot.Collections.Array<Marker3D> FiltraSlot(bool inimigo = false, bool aliado = false, bool aliadoM = false, bool inimigoM = false, bool spell = false, bool trap = false)
+		{
+			var markers = new List<Marker3D>();
+			if(inimigo)	
+			{
+				GD.Print("aqui");
+				markers.AddRange(Slots.Where(x => x.Name.ToString().Contains("Ini")).ToList());
+				GD.Print(markers.Count());
+			}			
+			if(inimigoM)
+				markers.AddRange(Slots.Where(x => x.Name.ToString().Contains("Ini") && x.Name.ToString().Contains("M")).ToList());			
+			if(!inimigo)				
+				markers.AddRange(Slots.Where(x => !x.Name.ToString().Contains("Ini")).ToList());
+			if(aliadoM)
+				markers.AddRange(Slots.Where(x => !x.Name.ToString().Contains("Ini") && x.Name.ToString().Contains("M")).ToList());
+				
+			return new Godot.Collections.Array<Marker3D>(markers);
+		}
+		
 		public void PrintTodosNodos3D(){
 			var nodes = GetTree().GetNodesInGroup("cartas");
 			foreach(var item in nodes){
@@ -768,9 +788,37 @@ namespace fm{
 			int dir = camIni ? -1 : 1;		
 			if(!STOP){
 				if (Input.IsActionJustPressed("ui_right"))
-					_indiceCampoSelecionado = Mathf.Min(_indiceCampoSelecionado + 1 * dir, slots.Count - 1);											
+				{
+					_indiceCampoSelecionado = Mathf.Clamp(
+								_indiceCampoSelecionado + dir,
+								0,
+								slots.Count - 1
+							);
+				}
 				if (Input.IsActionJustPressed("ui_left"))
-					_indiceCampoSelecionado = Mathf.Max(_indiceCampoSelecionado - 1 * dir , 0);					
+				{
+					_indiceCampoSelecionado = Mathf.Clamp(
+							_indiceCampoSelecionado - dir,
+							0,
+							slots.Count - 1
+						);
+				}
+				if(Input.IsActionJustPressed("ui_up"))
+				{					
+					 _indiceCampoSelecionado = Mathf.Clamp(
+							_indiceCampoSelecionado - 5,
+							0,
+							slots.Count - 1
+						);
+				}
+				if(Input.IsActionJustPressed("ui_down"))
+				{
+					 _indiceCampoSelecionado = Mathf.Clamp(
+								_indiceCampoSelecionado + 5,
+								0,
+								slots.Count - 1
+							);												
+				}
 			}								
 		}	
 		
@@ -829,6 +877,15 @@ namespace fm{
 			this.SlotsCampoIni = monstrosInimigos;			
 			this.SlotsCampoST = magiasAliados;
 			this.SlotsCampoSTIni = magiasInimigos;			
+			
+			if(this.Slots.Count() < 20){
+				this.Slots.AddRange(SlotsCampo);
+				this.Slots.AddRange(SlotsCampoIni);
+				this.Slots.AddRange(SlotsCampoST);
+				this.Slots.AddRange(SlotsCampoSTIni);				
+			}
+			
+			GD.Print(Slots.Count());
 			
 			GD.Print("MaoJogador: Slots redefinidos com sucesso via GameLoop.");
 		}

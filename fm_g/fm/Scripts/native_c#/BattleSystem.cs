@@ -25,6 +25,7 @@ namespace fm
 			Player defender)
 		{
 			var result = new BattleResult();
+			attackingMonster.HasAttackedThisTurn = true;
 			
 			if(defender.Field.HasMonster() && defendingMonster == null)
 				return result;
