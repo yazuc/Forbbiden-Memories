@@ -34,16 +34,16 @@ public partial class Campo : Node3D
 		// Agora você pode usar PNGs externos normalmente
 		_texturas = new Texture2D[]
 		{
-			GD.Load<Texture2D>("res://Assets/normalfield.png"),
-			GD.Load<Texture2D>("res://Assets/campo_agua/campo_agua_water_field.png"),
-			GD.Load<Texture2D>("res://Assets/campo_dark/dark_3.png"),
-			GD.Load<Texture2D>("res://Assets/campo_deserto/campo_deserto_wasteland.png"),
-			GD.Load<Texture2D>("res://Assets/campo_forest/campo_forest_campo_1.png"),
-			GD.Load<Texture2D>("res://Assets/campo_grass/campo_grama_grama.png"),
-			GD.Load<Texture2D>("res://Assets/campo_montanha/campo_montanha_montanha_3.png"),
+			GD.Load<Texture2D>("res://Assets/campos/campo_original/normalfield.png"),
+			GD.Load<Texture2D>("res://Assets/campos/campo_agua/campo_agua_water_field.png"),
+			GD.Load<Texture2D>("res://Assets/campos/campo_dark/dark_3.png"),
+			GD.Load<Texture2D>("res://Assets/campos/campo_deserto/campo_deserto_wasteland.png"),
+			GD.Load<Texture2D>("res://Assets/campos/campo_forest/campo_forest_campo_1.png"),
+			GD.Load<Texture2D>("res://Assets/campos/campo_grass/campo_grama_grama.png"),
+			GD.Load<Texture2D>("res://Assets/campos/campo_montanha/campo_montanha_montanha_3.png"),
 		};
 
-		SetEstadoCampo(0);
+		SetEstadoCampo(2);
 	}
 
 	public void SetEstadoCampo(int estado)

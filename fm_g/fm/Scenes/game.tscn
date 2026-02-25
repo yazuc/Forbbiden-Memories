@@ -6,9 +6,10 @@
 [ext_resource type="PackedScene" uid="uid://dpjrxybf4pcvc" path="res://HUD/IndicadorTriangulo.tscn" id="5_wowpa"]
 [ext_resource type="PackedScene" uid="uid://c3fy4s3sps4kh" path="res://Carta/Carta3D.tscn" id="6_i6g32"]
 [ext_resource type="PackedScene" uid="uid://b2f4acrh1ecd2" path="res://HUD/seletor.tscn" id="7_1l0tm"]
-[ext_resource type="Texture2D" uid="uid://cbc7dm2v8t55w" path="res://Assets/interface.png" id="8_h4fw4"]
+[ext_resource type="Texture2D" uid="uid://dxh4uocct2t3t" path="res://Assets/COM_active.png" id="8_ldgsr"]
 [ext_resource type="LabelSettings" uid="uid://crt0cwlxu1bjj" path="res://Assets/new_label_settings.tres" id="9_h4fw4"]
 [ext_resource type="PackedScene" uid="uid://b38xoflgh70ea" path="res://board.tscn" id="9_ldgsr"]
+[ext_resource type="Texture2D" uid="uid://bf2s664bwkruy" path="res://Assets/you_activee.png" id="9_o5yvi"]
 
 [sub_resource type="Environment" id="Environment_v158k"]
 background_mode = 2
@@ -64,10 +65,15 @@ transform = Transform3D(-0.0025830397, -0.99966085, 0.0259151, -3.5205373e-11, 0
 [node name="CameraField" type="Camera3D" parent="CameraPivot" unique_id=573948242]
 transform = Transform3D(0.0052026417, -0.99971455, 0.023318915, 0.004783277, 0.02334384, 0.9997161, -0.999975, -0.005089624, 0.0049033617, 2.9831161, 5.465997, -0.1062417)
 
-[node name="Interface" type="Sprite2D" parent="CameraPivot" unique_id=1057327622]
-position = Vector2(1754, 109.00001)
-scale = Vector2(0.6066504, 0.745)
-texture = ExtResource("8_h4fw4")
+[node name="ComActive" type="Sprite2D" parent="CameraPivot" unique_id=1013509322]
+position = Vector2(1742.0001, 106)
+scale = Vector2(2.1599998, 2.4399993)
+texture = ExtResource("8_ldgsr")
+
+[node name="YouActive" type="Sprite2D" parent="CameraPivot" unique_id=1654907783]
+position = Vector2(1742, 106)
+scale = Vector2(2.16, 2.44)
+texture = ExtResource("9_o5yvi")
 
 [node name="YOU" type="Label" parent="CameraPivot" unique_id=2037219627]
 offset_left = 1779.9999

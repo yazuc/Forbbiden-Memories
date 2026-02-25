@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://d0jx6sqn04bn1"]
+
+[ext_resource type="Texture2D" uid="uid://bwfrk084qivly" path="res://Assets/personagens/heishin/75584ED82C7DBDD02EEA3B44B4434C4Dt1-Sheet-Sheet.png" id="1_vdj1p"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5f4wd"]
+atlas = ExtResource("1_vdj1p")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e6r6w"]
+atlas = ExtResource("1_vdj1p")
+region = Rect2(256, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d0gxg"]
+atlas = ExtResource("1_vdj1p")
+region = Rect2(512, 0, 256, 256)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6iof7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5f4wd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e6r6w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d0gxg")
+}],
+"loop": true,
+"name": &"default",
+"speed": 4.0
+}]
+
+[node name="CharacterPortrait" type="Node2D" unique_id=637338660]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1678777022]
+sprite_frames = SubResource("SpriteFrames_6iof7")
+frame_progress = 0.47635478

@@ -1,19 +1,19 @@
 [gd_scene format=4 uid="uid://b38xoflgh70ea"]
 
-[ext_resource type="Texture2D" uid="uid://lv4w4t28umvm" path="res://Assets/campo_0.png" id="1_1rang"]
+[ext_resource type="Texture2D" uid="uid://lv4w4t28umvm" path="res://Assets/campos/campo_original/campo_0.png" id="1_1rang"]
 [ext_resource type="Script" uid="uid://dliceihy2u8go" path="res://Assets/Campo.cs" id="1_o821d"]
-[ext_resource type="Texture2D" uid="uid://b53vdmject8ay" path="res://Assets/campo_1.png" id="2_o821d"]
-[ext_resource type="Texture2D" uid="uid://bn4fxtfpmf3ma" path="res://Assets/campo_2.png" id="3_enpss"]
-[ext_resource type="Texture2D" uid="uid://c8ahhxirjygfl" path="res://Assets/campo_3.png" id="4_7plpp"]
-[ext_resource type="Texture2D" uid="uid://c7iqvxrlkpb6r" path="res://Assets/campo_4.png" id="5_lxheh"]
-[ext_resource type="Texture2D" uid="uid://cycbqtgjfmuux" path="res://Assets/campo_5.png" id="6_r6t13"]
-[ext_resource type="Texture2D" uid="uid://chmhlphonuk8y" path="res://Assets/campo_6.png" id="7_y1vqq"]
-[ext_resource type="Texture2D" uid="uid://ys6mjmshpjab" path="res://Assets/campo_7.png" id="8_b65qd"]
-[ext_resource type="Texture2D" uid="uid://djkho6ey3kebh" path="res://Assets/campo_8.png" id="9_ftc52"]
-[ext_resource type="Texture2D" uid="uid://c5f1laf7bnjm8" path="res://Assets/campo_9.png" id="10_lutf5"]
-[ext_resource type="Texture2D" uid="uid://14tldbcd3w2b" path="res://Assets/campo_10.png" id="11_8issi"]
-[ext_resource type="Texture2D" uid="uid://bc8gacsm1nw6m" path="res://Assets/campo_11.png" id="12_mrqbj"]
-[ext_resource type="Texture2D" uid="uid://daa66v5gkid4f" path="res://Assets/campo_12.png" id="13_cg1r7"]
+[ext_resource type="Texture2D" uid="uid://b53vdmject8ay" path="res://Assets/campos/campo_original/campo_1.png" id="2_o821d"]
+[ext_resource type="Texture2D" uid="uid://bn4fxtfpmf3ma" path="res://Assets/campos/campo_original/campo_2.png" id="3_enpss"]
+[ext_resource type="Texture2D" uid="uid://c8ahhxirjygfl" path="res://Assets/campos/campo_original/campo_3.png" id="4_7plpp"]
+[ext_resource type="Texture2D" uid="uid://c7iqvxrlkpb6r" path="res://Assets/campos/campo_original/campo_4.png" id="5_lxheh"]
+[ext_resource type="Texture2D" uid="uid://cycbqtgjfmuux" path="res://Assets/campos/campo_original/campo_5.png" id="6_r6t13"]
+[ext_resource type="Texture2D" uid="uid://chmhlphonuk8y" path="res://Assets/campos/campo_original/campo_6.png" id="7_y1vqq"]
+[ext_resource type="Texture2D" uid="uid://ys6mjmshpjab" path="res://Assets/campos/campo_original/campo_7.png" id="8_b65qd"]
+[ext_resource type="Texture2D" uid="uid://djkho6ey3kebh" path="res://Assets/campos/campo_original/campo_8.png" id="9_ftc52"]
+[ext_resource type="Texture2D" uid="uid://c5f1laf7bnjm8" path="res://Assets/campos/campo_original/campo_9.png" id="10_lutf5"]
+[ext_resource type="Texture2D" uid="uid://14tldbcd3w2b" path="res://Assets/campos/campo_original/campo_10.png" id="11_8issi"]
+[ext_resource type="Texture2D" uid="uid://bc8gacsm1nw6m" path="res://Assets/campos/campo_original/campo_11.png" id="12_mrqbj"]
+[ext_resource type="Texture2D" uid="uid://daa66v5gkid4f" path="res://Assets/campos/campo_original/campo_12.png" id="13_cg1r7"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g17qi"]
 resource_name = "03786CBBC67DBB11FD2D4A7A21DA5233"
@@ -52,6 +52,11 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_b25d7")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o821d"]
+resource_name = "03786CBBC67DBB11FD2D4A7A21DA5233"
+cull_mode = 2
+roughness = 0.6
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_74f0w"]
 resource_name = "0A3DAD5AB863EE77529B77568A1D60BC"
@@ -519,14 +524,17 @@ script = ExtResource("1_o821d")
 [node name="text_st_ally" type="MeshInstance3D" parent="." unique_id=1189870162]
 transform = Transform3D(1, 0, 0, 0, 2.220446e-16, 1, 0, -1, 2.220446e-16, 0, 0, 0)
 mesh = SubResource("ArrayMesh_2l5qu")
+surface_material_override/0 = SubResource("StandardMaterial3D_o821d")
 
 [node name="text_st_enemy" type="MeshInstance3D" parent="." unique_id=932234825]
 transform = Transform3D(1, 0, 0, 0, 2.220446e-16, 1, 0, -1, 2.220446e-16, 0, 0, 0)
 mesh = SubResource("ArrayMesh_o8kld")
+surface_material_override/0 = SubResource("StandardMaterial3D_o821d")
 
 [node name="text_mt_ally" type="MeshInstance3D" parent="." unique_id=183918655]
 transform = Transform3D(1, 0, 0, 0, 2.220446e-16, 1, 0, -1, 2.220446e-16, 0, 0, 0)
 mesh = SubResource("ArrayMesh_rriaw")
+surface_material_override/0 = SubResource("StandardMaterial3D_o821d")
 
 [node name="Object_5" type="MeshInstance3D" parent="." unique_id=2027067672]
 transform = Transform3D(1, 0, 0, 0, 2.220446e-16, 1, 0, -1, 2.220446e-16, 0, 0, 0)
@@ -555,10 +563,12 @@ mesh = SubResource("ArrayMesh_4ufy1")
 [node name="text_mt_enemy" type="MeshInstance3D" parent="." unique_id=185277605]
 transform = Transform3D(1, 0, 0, 0, 2.220446e-16, 1, 0, -1, 2.220446e-16, 0, 0, 0)
 mesh = SubResource("ArrayMesh_4m323")
+surface_material_override/0 = SubResource("StandardMaterial3D_o821d")
 
 [node name="text_center" type="MeshInstance3D" parent="." unique_id=926700725]
 transform = Transform3D(1, 0, 0, 0, 2.220446e-16, 1, 0, -1, 2.220446e-16, 0, 0, 0)
 mesh = SubResource("ArrayMesh_wdqn1")
+surface_material_override/0 = SubResource("StandardMaterial3D_o821d")
 
 [node name="Object_13" type="MeshInstance3D" parent="." unique_id=1510704317]
 transform = Transform3D(1, 0, 0, 0, 2.220446e-16, 1, 0, -1, 2.220446e-16, 0, 0, 0)

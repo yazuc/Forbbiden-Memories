@@ -69,7 +69,7 @@ namespace fm
 				if (_gameState.IsGameOver()) break;
 
 				// Switch player
-				_gameState.SwitchPlayer();				
+				_gameState.SwitchPlayer();							
 				await RotateCameraPivot180();
 			}
 			
@@ -262,6 +262,7 @@ namespace fm
 				1.5f
 			);
 			await ToSignal(tween, Tween.SignalName.Finished);
+			MaoDoJogador.SwitchTurn();
 			MaoDoJogador.DefineVisibilidade(true);
 		}
 		

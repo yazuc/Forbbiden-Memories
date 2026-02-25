@@ -37,6 +37,8 @@ namespace fm{
 		private bool _processandoInput = false;		
 		private List<int> IDFusao = new List<int>();
 		private Vector2 lastPos = Vector2.Zero;
+		public Sprite2D ComActive;
+		public Sprite2D YouActive;
 		public override void _Ready()
 		{
 			_transitionCam = new Camera3D();
@@ -47,6 +49,9 @@ namespace fm{
 				GetTree().CurrentScene.CallDeferred("add_child", _instanciaSeletor);
 				_instanciaSeletor.Visible = false;
 			}
+			ComActive = GetNode<Sprite2D>($"../CameraPivot/ComActive");
+			YouActive = GetNode<Sprite2D>($"../CameraPivot/YouActive");
+			ComActive.Visible = false;			
 		}
 
 		public async override void _Process(double delta)
@@ -900,6 +905,12 @@ namespace fm{
 			// O código aqui fica "parado" até que ConfirmarInvocacaoNoCampo() seja chamado
 			var resultado = await _tcsCarta.Task;
 			return resultado;
+		}
+		
+		public void SwitchTurn()
+		{
+			YouActive.Visible = !YouActive.Visible;
+			ComActive.Visible = !ComActive.Visible;
 		}
 		
 		public async Task TransitionTo(Camera3D targetCam, double duration, bool MainPhase = false)

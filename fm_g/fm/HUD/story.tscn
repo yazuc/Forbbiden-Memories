@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://cdmfiiy1re7nc"]
+
+[ext_resource type="Script" uid="uid://cxhhwfks84r72" path="res://HUD/Story.cs" id="1_1ulib"]
+[ext_resource type="PackedScene" uid="uid://b67lws32k16qv" path="res://HUD/TBox.tscn" id="1_oiqi2"]
+[ext_resource type="Texture2D" uid="uid://bwfrk084qivly" path="res://Assets/personagens/heishin/75584ED82C7DBDD02EEA3B44B4434C4Dt1-Sheet-Sheet.png" id="2_u5ht0"]
+[ext_resource type="Texture2D" uid="uid://mugqt0fv8viv" path="res://Assets/background/441A5247026AD8600B08270DCC969E18.png" id="4_dt6vs"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5f4wd"]
+atlas = ExtResource("2_u5ht0")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e6r6w"]
+atlas = ExtResource("2_u5ht0")
+region = Rect2(256, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d0gxg"]
+atlas = ExtResource("2_u5ht0")
+region = Rect2(512, 0, 256, 256)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1ulib"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5f4wd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e6r6w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d0gxg")
+}],
+"loop": true,
+"name": &"default",
+"speed": 4.0
+}]
+
+[node name="Story" type="Node2D" unique_id=1509849363]
+script = ExtResource("1_1ulib")
+
+[node name="TBox" parent="." unique_id=711438253 instance=ExtResource("1_oiqi2")]
+position = Vector2(961, 893.0001)
+scale = Vector2(5.324, 3.889)
+
+[node name="boneco" type="AnimatedSprite2D" parent="." unique_id=1365024978]
+position = Vector2(387, 590)
+scale = Vector2(4.09, 4.61)
+sprite_frames = SubResource("SpriteFrames_1ulib")
+frame_progress = 0.5253918
+
+[node name="background" type="Sprite2D" parent="." unique_id=1393744992]
+show_behind_parent = true
+position = Vector2(964.00006, 600)
+scale = Vector2(7.5284986, 4.6984167)
+texture = ExtResource("4_dt6vs")

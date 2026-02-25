@@ -49,4 +49,4 @@ region_rect = Rect2(359.9828, 200.34744, 169.5116, 52.15741)
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=362303357]
 position = Vector2(159, 21)
 sprite_frames = SubResource("SpriteFrames_5xeue")
-frame_progress = 0.41460472
+frame_progress = 0.60442924

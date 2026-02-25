@@ -17,8 +17,6 @@ config/icon="res://icon.svg"
 
 [display]
 
-window/size/viewport_width=1980
-window/size/viewport_height=1050
 window/size/mode=3
 window/size/borderless=true
 

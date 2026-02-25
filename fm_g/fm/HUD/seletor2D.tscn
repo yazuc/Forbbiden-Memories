@@ -1,9 +1,16 @@
 [gd_scene format=3 uid="uid://c6xdru4c501sp"]
 
 [ext_resource type="Texture2D" uid="uid://buk3y5jf2wf1t" path="res://Assets/seletor.png" id="1_6adoy"]
+[ext_resource type="Texture2D" uid="uid://300pj75wv2iy" path="res://Assets/seletorOG.png" id="2_v3rrn"]
 
 [node name="Seletor2D" type="Node2D" unique_id=1746380690]
 
 [node name="Seletor" type="Sprite2D" parent="." unique_id=1720303008]
+visible = false
 scale = Vector2(0.9712963, 1)
 texture = ExtResource("1_6adoy")
+
+[node name="SeletorOG" type="Sprite2D" parent="." unique_id=1191677292]
+position = Vector2(-35, 26)
+scale = Vector2(9.56, 10.155)
+texture = ExtResource("2_v3rrn")
