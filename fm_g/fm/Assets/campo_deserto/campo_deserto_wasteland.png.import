@@ -2,17 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://14tldbcd3w2b"
-path.s3tc="res://.godot/imported/campo_10.png-7709f01139c36ec1c668f5713f029c52.s3tc.ctex"
+uid="uid://wmwp84asrngq"
+path.s3tc="res://.godot/imported/campo_deserto_wasteland.png-cf4b0a02e6e49287da2b2523f96606f5.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
+generator_parameters={
+"md5": "10ea3267c4f5652b803f64916cbc049a"
+}
 
 [deps]
 
-source_file="res://Assets/campo_10.png"
-dest_files=["res://.godot/imported/campo_10.png-7709f01139c36ec1c668f5713f029c52.s3tc.ctex"]
+source_file="res://Assets/campo_deserto/campo_deserto_wasteland.png"
+dest_files=["res://.godot/imported/campo_deserto_wasteland.png-cf4b0a02e6e49287da2b2523f96606f5.s3tc.ctex"]
 
 [params]
 

@@ -2,21 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://14tldbcd3w2b"
-path.s3tc="res://.godot/imported/campo_10.png-7709f01139c36ec1c668f5713f029c52.s3tc.ctex"
+uid="uid://bj8ccfck3mqnf"
+path="res://.godot/imported/normalfield.png-eb4af2741684e8b099178a22d1573dc0.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/campo_10.png"
-dest_files=["res://.godot/imported/campo_10.png-7709f01139c36ec1c668f5713f029c52.s3tc.ctex"]
+source_file="res://Assets/normalfield.png"
+dest_files=["res://.godot/imported/normalfield.png-eb4af2741684e8b099178a22d1573dc0.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -24,7 +23,7 @@ compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
@@ -38,4 +37,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1

@@ -2,17 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://14tldbcd3w2b"
-path.s3tc="res://.godot/imported/campo_10.png-7709f01139c36ec1c668f5713f029c52.s3tc.ctex"
+uid="uid://bke16bvrhagsj"
+path.s3tc="res://.godot/imported/campo_montanha_montanha_3.png-1d57aab2a3f81004708424f03f1713c4.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
+generator_parameters={
+"md5": "723775af7b8627bd478a24719e80cbd5"
+}
 
 [deps]
 
-source_file="res://Assets/campo_10.png"
-dest_files=["res://.godot/imported/campo_10.png-7709f01139c36ec1c668f5713f029c52.s3tc.ctex"]
+source_file="res://Assets/campo_montanha/campo_montanha_montanha_3.png"
+dest_files=["res://.godot/imported/campo_montanha_montanha_3.png-1d57aab2a3f81004708424f03f1713c4.s3tc.ctex"]
 
 [params]
 

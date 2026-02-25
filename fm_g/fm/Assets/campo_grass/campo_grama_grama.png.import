@@ -2,17 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://14tldbcd3w2b"
-path.s3tc="res://.godot/imported/campo_10.png-7709f01139c36ec1c668f5713f029c52.s3tc.ctex"
+uid="uid://bghhth2i44ud6"
+path.s3tc="res://.godot/imported/campo_grama_grama.png-71d2f8db6b626a8cb81cebaf082276ee.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
+generator_parameters={
+"md5": "59517e8bcdd482a1c90d5774f480a78b"
+}
 
 [deps]
 
-source_file="res://Assets/campo_10.png"
-dest_files=["res://.godot/imported/campo_10.png-7709f01139c36ec1c668f5713f029c52.s3tc.ctex"]
+source_file="res://Assets/campo_grass/campo_grama_grama.png"
+dest_files=["res://.godot/imported/campo_grama_grama.png-71d2f8db6b626a8cb81cebaf082276ee.s3tc.ctex"]
 
 [params]
 

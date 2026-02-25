@@ -7,8 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://c3fy4s3sps4kh" path="res://Carta/Carta3D.tscn" id="6_i6g32"]
 [ext_resource type="PackedScene" uid="uid://b2f4acrh1ecd2" path="res://HUD/seletor.tscn" id="7_1l0tm"]
 [ext_resource type="Texture2D" uid="uid://cbc7dm2v8t55w" path="res://Assets/interface.png" id="8_h4fw4"]
-[ext_resource type="PackedScene" uid="uid://dcgpwjgiljbd7" path="res://Assets/campo.glb" id="8_v158k"]
 [ext_resource type="LabelSettings" uid="uid://crt0cwlxu1bjj" path="res://Assets/new_label_settings.tres" id="9_h4fw4"]
+[ext_resource type="PackedScene" uid="uid://b38xoflgh70ea" path="res://board.tscn" id="9_ldgsr"]
 
 [sub_resource type="Environment" id="Environment_v158k"]
 background_mode = 2
@@ -40,11 +40,12 @@ CameraInimigo = NodePath("../CameraPivot/CameraInimigo")
 Seletor = ExtResource("7_1l0tm")
 metadata/_edit_use_anchors_ = true
 
-[node name="Board" parent="." unique_id=1698784219 instance=ExtResource("8_v158k")]
-transform = Transform3D(-6.802757e-08, 0.47996116, -1.5335242, -3.0355742e-09, 1.315467, 0.55952144, 1.5578378, 2.3522208e-08, -6.5875554e-08, -0.065074444, 1.0585952, 0.22310543)
+[node name="Board" parent="." unique_id=1698784219 instance=ExtResource("9_ldgsr")]
+transform = Transform3D(-6.8102345e-08, 0.47882816, -1.5335783, 0, 1.3155696, 0.5581768, 1.558, 2.0930244e-08, -6.703483e-08, -0.065, 1.059, 0.223)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=188368505]
 transform = Transform3D(-0.000853264, 0.9989379, -0.04606975, 0.018497184, 0.046077646, 0.99876666, 0.9998286, 5.105711e-08, -0.018516853, 0.0482471, 8.921741, 0.27553463)
+light_specular = 0.0
 shadow_enabled = true
 
 [node name="IndicadorTriangulo" parent="." unique_id=360567357 instance=ExtResource("5_wowpa")]

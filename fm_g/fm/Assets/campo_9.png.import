@@ -2,14 +2,11 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dl5c2rpnsi7rc"
+uid="uid://c5f1laf7bnjm8"
 path.s3tc="res://.godot/imported/campo_9.png-491c8a65437576eee92e9fdfac5333ad.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
-}
-generator_parameters={
-"md5": "2037e8dd38e3f00733f50de8a6e077a6"
 }
 
 [deps]
