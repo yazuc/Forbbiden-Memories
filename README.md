@@ -14,4 +14,8 @@ GProject State:
 <img width="1600" height="900" alt="image" src="https://github.com/user-attachments/assets/7692b116-8f62-40c4-9e01-9b09e9b7f9e3" />
 <img width="1600" height="900" alt="image" src="https://github.com/user-attachments/assets/b35d9d4b-9175-4b4b-b189-51984e8b1cc4" />
 <img width="1600" height="900" alt="image" src="https://github.com/user-attachments/assets/7ef7e260-9a7c-4427-a94b-d50b5586f3c8" />
+25/02
+<img width="1600" height="900" alt="image" src="https://github.com/user-attachments/assets/b80ffbd1-ead3-43ab-974c-ace468da72ec" />
+<img width="1600" height="900" alt="image" src="https://github.com/user-attachments/assets/8332a73d-9b05-44de-a67d-28e883aa98df" />
+
 
