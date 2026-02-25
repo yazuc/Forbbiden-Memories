@@ -37,15 +37,15 @@ animations = [{
 [node name="Story" type="Node2D" unique_id=1509849363]
 script = ExtResource("1_1ulib")
 
-[node name="TBox" parent="." unique_id=711438253 instance=ExtResource("1_oiqi2")]
-position = Vector2(961, 893.0001)
-scale = Vector2(5.324, 3.889)
-
 [node name="boneco" type="AnimatedSprite2D" parent="." unique_id=1365024978]
-position = Vector2(387, 590)
+position = Vector2(452, 421)
 scale = Vector2(4.09, 4.61)
 sprite_frames = SubResource("SpriteFrames_1ulib")
 frame_progress = 0.5253918
+
+[node name="TBox" parent="." unique_id=711438253 instance=ExtResource("1_oiqi2")]
+position = Vector2(961, 893.0001)
+scale = Vector2(5.324, 3.889)
 
 [node name="background" type="Sprite2D" parent="." unique_id=1393744992]
 show_behind_parent = true
