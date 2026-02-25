@@ -43,7 +43,7 @@ public partial class Campo : Node3D
 			GD.Load<Texture2D>("res://Assets/campo_montanha/campo_montanha_montanha_3.png"),
 		};
 
-		SetEstadoCampo(2);
+		SetEstadoCampo(0);
 	}
 
 	public void SetEstadoCampo(int estado)
