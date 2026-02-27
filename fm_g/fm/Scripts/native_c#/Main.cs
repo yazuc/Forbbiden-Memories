@@ -48,8 +48,7 @@ namespace fm
 			var deckList = Funcoes.LoadUserDeck(srcPath);
 			deck.LoadDeck(deckList);
 			
-			var deckListIni = Funcoes.LoadUserDeck(srcPath2);
-			deckIni.LoadDeck(deckListIni);
+			deckIni.LoadDeck(db.GetDeckByNpcId(8));
 			// 3. Inicializar o GameLoop
 			// Passando Alice e Bob como os duelistas
 			if (MaoVisual != null)

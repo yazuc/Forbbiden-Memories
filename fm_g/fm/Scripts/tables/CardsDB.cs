@@ -18,6 +18,7 @@ namespace fm
 			_database.CreateTable<Cards>();
 			_database.CreateTable<NpcCharacter>();
 			_database.CreateTable<NpcDropEntry>();	
+			_database.CreateTable<NpcDeck>();	
 		}
 
 		public static CardDatabase Instance
@@ -78,7 +79,16 @@ namespace fm
 
 		// Fetch a specific card by ID (Much faster than LINQ on a List)
 		public Cards? GetCardById(int id) => _database?.Table<Cards>().FirstOrDefault(c => c.Id == id);
-
+		public new List<Cards> GetDeckByNpcId(int id)
+		{
+			var list_card = _database?.Table<NpcDeck>().Where(c => c.NpcId == id).Select(x => x.CardId).ToList();
+			
+			var deck = _database?.Table<Cards>().Where(x => list_card.Contains(x.Id)).ToList();
+			
+		 	return deck;
+		}
+			
+		
 		public void SyncJsonToDatabase(string jsonFilePath)
 		{
 			// 1. Check if we already have data to avoid duplicates
@@ -182,9 +192,24 @@ namespace fm
 					_database.Insert(dropEntry);
 				}
 			}
+			void InsertDeck(List<JsonCardEntry> list)
+			{
+				if (list == null) return;
+
+				foreach (var drop in list)
+				{
+					var dropEntry = new NpcDeck
+					{
+						NpcId = npcId,
+						CardId = int.Parse(drop.card),
+					};
+
+					_database.Insert(dropEntry);
+				}
+			}
 
 			// Inserir todas as categorias
-			InsertDrops(npcData.deck);
+			InsertDeck(npcData.deck);
 			InsertDrops(npcData.sapow);
 			InsertDrops(npcData.bcdpt);
 			InsertDrops(npcData.satec);
