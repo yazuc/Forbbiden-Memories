@@ -8,6 +8,9 @@ public partial class Story : Node2D
 	private bool _isTyping = false;
 	private string _currentText = "";
 	List<string> text = new List<string>();
+	private Sprite2D _background;
+	[Export] public Texture2D[] Backgrounds;
+	private int _currentBgIndex = 0;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -15,6 +18,7 @@ public partial class Story : Node2D
 		var sprite = GetNode<AnimatedSprite2D>("boneco");
 		var TBox = GetNode<Node2D>("TBox");
 		var _sprite = GetNode<AnimatedSprite2D>("TBox/AnimatedSprite2D");
+		_background = GetNode<Sprite2D>("background");
 		_textLabel = GetNode<RichTextLabel>("Panel/RichTextLabel");
 		_textLabel.ScrollActive = false;
 		StartDialogue("A wasted effort, boy!");
@@ -24,11 +28,17 @@ public partial class Story : Node2D
 		text.Add("<Duel>");
 		_sprite.Play();
 		sprite.Play();
+		SetBackgroundByIndex(_currentBgIndex);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		if(Input.IsActionJustPressed("ui_right")){
+			_currentBgIndex++;
+			SetBackgroundByIndex(_currentBgIndex);
+		}
+			
 		if (Input.IsActionJustPressed("ui_accept")) // Enter, por exemplo
 		{
 			if(text.Count() > 0)
@@ -63,4 +73,14 @@ public partial class Story : Node2D
 		_textLabel.VisibleCharacters = text.Length;
 		_isTyping = false;
 	}
+	
+	private void SetBackgroundByIndex(int index)
+	{
+		if (index < 0 || index >= Backgrounds.Length)
+			return;
+
+		_currentBgIndex = index;
+		_background.Texture = Backgrounds[index];
+	}
+
 }
