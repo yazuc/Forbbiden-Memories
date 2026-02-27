@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cxhhwfks84r72" path="res://HUD/Story.cs" id="1_1ulib"]
 [ext_resource type="PackedScene" uid="uid://b67lws32k16qv" path="res://HUD/TBox.tscn" id="1_oiqi2"]
 [ext_resource type="Texture2D" uid="uid://bwfrk084qivly" path="res://Assets/personagens/heishin/75584ED82C7DBDD02EEA3B44B4434C4Dt1-Sheet-Sheet.png" id="2_u5ht0"]
+[ext_resource type="Texture2D" uid="uid://cy04qp2trk4up" path="res://Assets/personagens/Simon/simon_-Sheet1.png" id="3_o67l8"]
 [ext_resource type="Texture2D" uid="uid://mugqt0fv8viv" path="res://Assets/background/441A5247026AD8600B08270DCC969E18.png" id="4_dt6vs"]
 [ext_resource type="FontFile" uid="uid://dvaju2cffkn2i" path="res://Assets/matrix-bold-small-caps-wisabo/MatrixBoldSmallCaps.otf" id="5_ieit4"]
 
@@ -18,6 +19,10 @@ region = Rect2(256, 0, 256, 256)
 atlas = ExtResource("2_u5ht0")
 region = Rect2(512, 0, 256, 256)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_o67l8"]
+atlas = ExtResource("3_o67l8")
+region = Rect2(44, 0, 169, 223)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_1ulib"]
 animations = [{
 "frames": [{
@@ -31,8 +36,16 @@ animations = [{
 "texture": SubResource("AtlasTexture_d0gxg")
 }],
 "loop": true,
-"name": &"default",
+"name": &"heishin",
 "speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o67l8")
+}],
+"loop": true,
+"name": &"simon",
+"speed": 5.0
 }]
 
 [sub_resource type="FontVariation" id="FontVariation_ieit4"]
@@ -45,7 +58,7 @@ script = ExtResource("1_1ulib")
 position = Vector2(452, 421)
 scale = Vector2(4.09, 4.61)
 sprite_frames = SubResource("SpriteFrames_1ulib")
-frame_progress = 0.5253918
+animation = &"simon"
 
 [node name="TBox" parent="." unique_id=711438253 instance=ExtResource("1_oiqi2")]
 position = Vector2(961, 893.0001)
