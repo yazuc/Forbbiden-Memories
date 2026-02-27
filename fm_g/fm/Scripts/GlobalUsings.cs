@@ -3,7 +3,9 @@ global using System;
 global using System.Collections.Generic;
 global using System.Linq;
 global using System.Threading.Tasks;
-
+global using Newtonsoft.Json;
+global using Newtonsoft.Json.Converters;
+global using System.Text.Json;
 public partial class GlobalUsings : Node
 {
 	// Called when the node enters the scene tree for the first time.

@@ -1,0 +1,2706 @@
+{
+  "deck": [
+    {
+      "card": "2",
+      "prob": "32",
+      "rank": "0",
+      "nombre": "Mystical Elf",
+      "atk": "800",
+      "def": "2000",
+      "color": "0"
+    },
+    {
+      "card": "14",
+      "prob": "24",
+      "rank": "0",
+      "nombre": "Battle Steer",
+      "atk": "1800",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "16",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Time Wizard",
+      "atk": "500",
+      "def": "400",
+      "color": "0"
+    },
+    {
+      "card": "32",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Two-headed King Rex",
+      "atk": "1600",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "34",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Saggi the Dark Clown",
+      "atk": "600",
+      "def": "1500",
+      "color": "0"
+    },
+    {
+      "card": "42",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Illusionist Faceless Mage",
+      "atk": "1200",
+      "def": "2200",
+      "color": "0"
+    },
+    {
+      "card": "44",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Rogue Doll",
+      "atk": "1600",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "78",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Axe Raider",
+      "atk": "1700",
+      "def": "1150",
+      "color": "0"
+    },
+    {
+      "card": "81",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Crawling Dragon #2",
+      "atk": "1600",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "83",
+      "prob": "24",
+      "rank": "0",
+      "nombre": "Castle of Dark Illusions",
+      "atk": "920",
+      "def": "1930",
+      "color": "0"
+    },
+    {
+      "card": "86",
+      "prob": "24",
+      "rank": "0",
+      "nombre": "Barox",
+      "atk": "1380",
+      "def": "1530",
+      "color": "0"
+    },
+    {
+      "card": "87",
+      "prob": "32",
+      "rank": "0",
+      "nombre": "Dark Chimera",
+      "atk": "1610",
+      "def": "1460",
+      "color": "0"
+    },
+    {
+      "card": "89",
+      "prob": "32",
+      "rank": "0",
+      "nombre": "Catapult Turtle",
+      "atk": "1000",
+      "def": "2000",
+      "color": "0"
+    },
+    {
+      "card": "91",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Mystic Horseman",
+      "atk": "1300",
+      "def": "1550",
+      "color": "0"
+    },
+    {
+      "card": "93",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Zanki",
+      "atk": "1500",
+      "def": "1700",
+      "color": "0"
+    },
+    {
+      "card": "94",
+      "prob": "32",
+      "rank": "0",
+      "nombre": "Crawling Dragon",
+      "atk": "1600",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "104",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Curtain of the Dark Ones",
+      "atk": "600",
+      "def": "500",
+      "color": "0"
+    },
+    {
+      "card": "106",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Spirit of the Winds",
+      "atk": "1700",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "109",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Goddess with the Third Eye",
+      "atk": "1200",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "111",
+      "prob": "72",
+      "rank": "0",
+      "nombre": "Doma The Angel of Silence",
+      "atk": "1600",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "114",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "White Magical Hat",
+      "atk": "1000",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "115",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Kamion Wizard",
+      "atk": "1300",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "124",
+      "prob": "24",
+      "rank": "0",
+      "nombre": "Ancient Tool",
+      "atk": "1700",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "126",
+      "prob": "4",
+      "rank": "0",
+      "nombre": "Orion the Battle King",
+      "atk": "1800",
+      "def": "1500",
+      "color": "0"
+    },
+    {
+      "card": "127",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Ansatsu",
+      "atk": "1700",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "128",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "LaMoon",
+      "atk": "1200",
+      "def": "1700",
+      "color": "0"
+    },
+    {
+      "card": "129",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Nemuriko",
+      "atk": "800",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "130",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Weather Control",
+      "atk": "600",
+      "def": "400",
+      "color": "0"
+    },
+    {
+      "card": "131",
+      "prob": "32",
+      "rank": "0",
+      "nombre": "Octoberser",
+      "atk": "1600",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "134",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Mystical Capture Chain",
+      "atk": "700",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "142",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Flame Manipulator",
+      "atk": "900",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "143",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Necrolancer the Timelord",
+      "atk": "800",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "144",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Djinn the Watcher of the Wind",
+      "atk": "700",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "145",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "The Bewitching Phantom Thief",
+      "atk": "700",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "150",
+      "prob": "24",
+      "rank": "0",
+      "nombre": "Akihiron",
+      "atk": "1700",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "170",
+      "prob": "32",
+      "rank": "0",
+      "nombre": "Spirit of the Harp",
+      "atk": "800",
+      "def": "2000",
+      "color": "0"
+    },
+    {
+      "card": "174",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Hurricail",
+      "atk": "900",
+      "def": "200",
+      "color": "0"
+    },
+    {
+      "card": "179",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Phantom Dewan",
+      "atk": "700",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "183",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Lucky Trinket",
+      "atk": "600",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "184",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Genin",
+      "atk": "600",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "190",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Akakieisu",
+      "atk": "1000",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "192",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Key Mace",
+      "atk": "400",
+      "def": "300",
+      "color": "0"
+    },
+    {
+      "card": "198",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Happy Lover",
+      "atk": "800",
+      "def": "500",
+      "color": "0"
+    },
+    {
+      "card": "204",
+      "prob": "24",
+      "rank": "0",
+      "nombre": "Mabarrel",
+      "atk": "1700",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "208",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Petit Angel",
+      "atk": "600",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "213",
+      "prob": "32",
+      "rank": "0",
+      "nombre": "Aqua Madoor",
+      "atk": "1200",
+      "def": "2000",
+      "color": "0"
+    },
+    {
+      "card": "216",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Dryad",
+      "atk": "1200",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "220",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Masked Sorcerer",
+      "atk": "900",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "229",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Hourglass of Life",
+      "atk": "700",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "253",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Angelwitch",
+      "atk": "800",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "259",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Ancient Sorcerer",
+      "atk": "1000",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "260",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Lunar Queen Elzaim",
+      "atk": "750",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "264",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Wing Egg Elf",
+      "atk": "500",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "268",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Sectarian of Secrets",
+      "atk": "700",
+      "def": "500",
+      "color": "0"
+    },
+    {
+      "card": "276",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Ray & Temperature",
+      "atk": "1000",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "284",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Tao the Chanter",
+      "atk": "1200",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "311",
+      "prob": "32",
+      "rank": "0",
+      "nombre": "Black Pendant",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "323",
+      "prob": "32",
+      "rank": "0",
+      "nombre": "Book of Secret Arts",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "335",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Yami",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "336",
+      "prob": "32",
+      "rank": "0",
+      "nombre": "Dark Hole",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "341",
+      "prob": "32",
+      "rank": "0",
+      "nombre": "Soul of the Pure",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "349",
+      "prob": "80",
+      "rank": "0",
+      "nombre": "Spellbinding Circle",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "351",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Yaranzo",
+      "atk": "1300",
+      "def": "1500",
+      "color": "0"
+    },
+    {
+      "card": "352",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Kanan the Swordmistress",
+      "atk": "1400",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "362",
+      "prob": "32",
+      "rank": "0",
+      "nombre": "Millennium Shield",
+      "atk": "0",
+      "def": "3000",
+      "color": "0"
+    },
+    {
+      "card": "363",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Fairy's Gift",
+      "atk": "1400",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "366",
+      "prob": "32",
+      "rank": "0",
+      "nombre": "Labyrinth Wall",
+      "atk": "0",
+      "def": "3000",
+      "color": "0"
+    },
+    {
+      "card": "368",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Shadow Ghoul",
+      "atk": "1600",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "377",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Ryu-kishin Powered",
+      "atk": "1600",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "379",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "La Jinn the Mystical Genie",
+      "atk": "1800",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "387",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Mystic Lamp",
+      "atk": "400",
+      "def": "300",
+      "color": "0"
+    },
+    {
+      "card": "395",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Dancing Elf",
+      "atk": "300",
+      "def": "200",
+      "color": "0"
+    },
+    {
+      "card": "396",
+      "prob": "32",
+      "rank": "0",
+      "nombre": "Ocubeam",
+      "atk": "1550",
+      "def": "1650",
+      "color": "0"
+    },
+    {
+      "card": "404",
+      "prob": "24",
+      "rank": "0",
+      "nombre": "Tatsunootoshigo",
+      "atk": "1350",
+      "def": "1600",
+      "color": "0"
+    },
+    {
+      "card": "405",
+      "prob": "24",
+      "rank": "0",
+      "nombre": "Saber Slasher",
+      "atk": "1450",
+      "def": "1500",
+      "color": "0"
+    },
+    {
+      "card": "413",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Cyber Soldier",
+      "atk": "1500",
+      "def": "1700",
+      "color": "0"
+    },
+    {
+      "card": "425",
+      "prob": "24",
+      "rank": "0",
+      "nombre": "Thunder Dragon",
+      "atk": "1600",
+      "def": "1500",
+      "color": "0"
+    },
+    {
+      "card": "428",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Magician of Faith",
+      "atk": "300",
+      "def": "400",
+      "color": "0"
+    },
+    {
+      "card": "429",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Goddess of Whim",
+      "atk": "950",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "433",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Ancient Elf",
+      "atk": "1450",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "448",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Spike Seadra",
+      "atk": "1600",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "460",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Bolt Escargot",
+      "atk": "1400",
+      "def": "1500",
+      "color": "0"
+    },
+    {
+      "card": "462",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "The Immortal of Thunder",
+      "atk": "1500",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "468",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Queen Bird",
+      "atk": "1200",
+      "def": "2000",
+      "color": "0"
+    },
+    {
+      "card": "486",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Boo Koo",
+      "atk": "650",
+      "def": "500",
+      "color": "0"
+    },
+    {
+      "card": "487",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Flower Wolf",
+      "atk": "1800",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "491",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Peacock",
+      "atk": "1700",
+      "def": "1500",
+      "color": "0"
+    },
+    {
+      "card": "492",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Hoshiningen",
+      "atk": "500",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "493",
+      "prob": "64",
+      "rank": "0",
+      "nombre": "Maha Vailo",
+      "atk": "1550",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "495",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Musician King",
+      "atk": "1750",
+      "def": "1500",
+      "color": "0"
+    },
+    {
+      "card": "498",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Morinphen",
+      "atk": "1550",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "507",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Crazy Fish",
+      "atk": "1600",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "508",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Cyber Saurus",
+      "atk": "1800",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "517",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Sand Stone",
+      "atk": "1300",
+      "def": "1600",
+      "color": "0"
+    },
+    {
+      "card": "519",
+      "prob": "24",
+      "rank": "0",
+      "nombre": "Fire Kraken",
+      "atk": "1600",
+      "def": "1500",
+      "color": "0"
+    },
+    {
+      "card": "523",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "The Bistro Butcher",
+      "atk": "1800",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "525",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Spirit of the Mountain",
+      "atk": "1300",
+      "def": "1800",
+      "color": "0"
+    },
+    {
+      "card": "530",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Eldeen",
+      "atk": "950",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "532",
+      "prob": "32",
+      "rank": "0",
+      "nombre": "Gemini Elf",
+      "atk": "1900",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "540",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Skelengel",
+      "atk": "900",
+      "def": "400",
+      "color": "0"
+    },
+    {
+      "card": "542",
+      "prob": "32",
+      "rank": "0",
+      "nombre": "Misairuzame",
+      "atk": "1400",
+      "def": "1600",
+      "color": "0"
+    },
+    {
+      "card": "551",
+      "prob": "32",
+      "rank": "0",
+      "nombre": "Dark Elf",
+      "atk": "2000",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "557",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Steel Ogre Grotto #1",
+      "atk": "1400",
+      "def": "1800",
+      "color": "0"
+    },
+    {
+      "card": "574",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Witch of the Black Forest",
+      "atk": "1100",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "578",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Leo Wizard",
+      "atk": "1350",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "584",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Binding Chain",
+      "atk": "1000",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "592",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Muse-A",
+      "atk": "850",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "593",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Giant Turtle Who Feeds on Flames",
+      "atk": "1400",
+      "def": "1800",
+      "color": "0"
+    },
+    {
+      "card": "596",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Ghoul with an Appetite",
+      "atk": "1600",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "601",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Tenderness",
+      "atk": "700",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "608",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Shining Friendship",
+      "atk": "1300",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "612",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Lady of Faith",
+      "atk": "1100",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "614",
+      "prob": "32",
+      "rank": "0",
+      "nombre": "Hunter Spider",
+      "atk": "1600",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "616",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Hourglass of Courage",
+      "atk": "1100",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "621",
+      "prob": "32",
+      "rank": "0",
+      "nombre": "Succubus Knight",
+      "atk": "1650",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "622",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Ill Witch",
+      "atk": "1600",
+      "def": "1500",
+      "color": "0"
+    },
+    {
+      "card": "624",
+      "prob": "32",
+      "rank": "0",
+      "nombre": "High Tide Gyojin",
+      "atk": "1650",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "628",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Witch's Apprentice",
+      "atk": "550",
+      "def": "500",
+      "color": "0"
+    },
+    {
+      "card": "631",
+      "prob": "32",
+      "rank": "0",
+      "nombre": "Maiden of the Moonlight",
+      "atk": "1500",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "632",
+      "prob": "24",
+      "rank": "0",
+      "nombre": "Stone Ogre Grotto",
+      "atk": "1600",
+      "def": "1500",
+      "color": "0"
+    },
+    {
+      "card": "633",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Winged Egg of New Life",
+      "atk": "1400",
+      "def": "1700",
+      "color": "0"
+    },
+    {
+      "card": "636",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Blue-winged Crown",
+      "atk": "1600",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "639",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Amphibious Bugroth",
+      "atk": "1850",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "641",
+      "prob": "32",
+      "rank": "0",
+      "nombre": "Invader of the Throne",
+      "atk": "1350",
+      "def": "1700",
+      "color": "0"
+    },
+    {
+      "card": "648",
+      "prob": "24",
+      "rank": "0",
+      "nombre": "Machine Attacker",
+      "atk": "1600",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "683",
+      "prob": "32",
+      "rank": "0",
+      "nombre": "Bear Trap",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "689",
+      "prob": "32",
+      "rank": "0",
+      "nombre": "Reverse Trap",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "690",
+      "prob": "32",
+      "rank": "0",
+      "nombre": "Fake Trap",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    }
+  ],
+  "sapow": [
+    {
+      "card": "2",
+      "prob": "50",
+      "rank": "1",
+      "nombre": "Mystical Elf",
+      "atk": "800",
+      "def": "2000",
+      "color": "0"
+    },
+    {
+      "card": "16",
+      "prob": "46",
+      "rank": "1",
+      "nombre": "Time Wizard",
+      "atk": "500",
+      "def": "400",
+      "color": "0"
+    },
+    {
+      "card": "20",
+      "prob": "10",
+      "rank": "1",
+      "nombre": "Left Arm of the Forbidden One",
+      "atk": "200",
+      "def": "300",
+      "color": "0"
+    },
+    {
+      "card": "34",
+      "prob": "48",
+      "rank": "1",
+      "nombre": "Saggi the Dark Clown",
+      "atk": "600",
+      "def": "1500",
+      "color": "0"
+    },
+    {
+      "card": "44",
+      "prob": "50",
+      "rank": "1",
+      "nombre": "Rogue Doll",
+      "atk": "1600",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "104",
+      "prob": "46",
+      "rank": "1",
+      "nombre": "Curtain of the Dark Ones",
+      "atk": "600",
+      "def": "500",
+      "color": "0"
+    },
+    {
+      "card": "109",
+      "prob": "48",
+      "rank": "1",
+      "nombre": "Goddess with the Third Eye",
+      "atk": "1200",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "114",
+      "prob": "46",
+      "rank": "1",
+      "nombre": "White Magical Hat",
+      "atk": "1000",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "115",
+      "prob": "46",
+      "rank": "1",
+      "nombre": "Kamion Wizard",
+      "atk": "1300",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "128",
+      "prob": "10",
+      "rank": "1",
+      "nombre": "LaMoon",
+      "atk": "1200",
+      "def": "1700",
+      "color": "0"
+    },
+    {
+      "card": "129",
+      "prob": "46",
+      "rank": "1",
+      "nombre": "Nemuriko",
+      "atk": "800",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "130",
+      "prob": "46",
+      "rank": "1",
+      "nombre": "Weather Control",
+      "atk": "600",
+      "def": "400",
+      "color": "0"
+    },
+    {
+      "card": "134",
+      "prob": "46",
+      "rank": "1",
+      "nombre": "Mystical Capture Chain",
+      "atk": "700",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "142",
+      "prob": "46",
+      "rank": "1",
+      "nombre": "Flame Manipulator",
+      "atk": "900",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "143",
+      "prob": "46",
+      "rank": "1",
+      "nombre": "Necrolancer the Timelord",
+      "atk": "800",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "144",
+      "prob": "46",
+      "rank": "1",
+      "nombre": "Djinn the Watcher of the Wind",
+      "atk": "700",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "145",
+      "prob": "46",
+      "rank": "1",
+      "nombre": "The Bewitching Phantom Thief",
+      "atk": "700",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "170",
+      "prob": "50",
+      "rank": "1",
+      "nombre": "Spirit of the Harp",
+      "atk": "800",
+      "def": "2000",
+      "color": "0"
+    },
+    {
+      "card": "174",
+      "prob": "46",
+      "rank": "1",
+      "nombre": "Hurricail",
+      "atk": "900",
+      "def": "200",
+      "color": "0"
+    },
+    {
+      "card": "179",
+      "prob": "46",
+      "rank": "1",
+      "nombre": "Phantom Dewan",
+      "atk": "700",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "183",
+      "prob": "46",
+      "rank": "1",
+      "nombre": "Lucky Trinket",
+      "atk": "600",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "184",
+      "prob": "46",
+      "rank": "1",
+      "nombre": "Genin",
+      "atk": "600",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "190",
+      "prob": "46",
+      "rank": "1",
+      "nombre": "Akakieisu",
+      "atk": "1000",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "192",
+      "prob": "46",
+      "rank": "1",
+      "nombre": "Key Mace",
+      "atk": "400",
+      "def": "300",
+      "color": "0"
+    },
+    {
+      "card": "198",
+      "prob": "46",
+      "rank": "1",
+      "nombre": "Happy Lover",
+      "atk": "800",
+      "def": "500",
+      "color": "0"
+    },
+    {
+      "card": "208",
+      "prob": "46",
+      "rank": "1",
+      "nombre": "Petit Angel",
+      "atk": "600",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "216",
+      "prob": "10",
+      "rank": "1",
+      "nombre": "Dryad",
+      "atk": "1200",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "220",
+      "prob": "48",
+      "rank": "1",
+      "nombre": "Masked Sorcerer",
+      "atk": "900",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "229",
+      "prob": "46",
+      "rank": "1",
+      "nombre": "Hourglass of Life",
+      "atk": "700",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "253",
+      "prob": "46",
+      "rank": "1",
+      "nombre": "Angelwitch",
+      "atk": "800",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "259",
+      "prob": "46",
+      "rank": "1",
+      "nombre": "Ancient Sorcerer",
+      "atk": "1000",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "260",
+      "prob": "46",
+      "rank": "1",
+      "nombre": "Lunar Queen Elzaim",
+      "atk": "750",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "264",
+      "prob": "46",
+      "rank": "1",
+      "nombre": "Wing Egg Elf",
+      "atk": "500",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "268",
+      "prob": "46",
+      "rank": "1",
+      "nombre": "Sectarian of Secrets",
+      "atk": "700",
+      "def": "500",
+      "color": "0"
+    },
+    {
+      "card": "276",
+      "prob": "46",
+      "rank": "1",
+      "nombre": "Ray & Temperature",
+      "atk": "1000",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "287",
+      "prob": "10",
+      "rank": "1",
+      "nombre": "Ogre of the Black Shadow",
+      "atk": "1200",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "334",
+      "prob": "58",
+      "rank": "1",
+      "nombre": "Umi",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "387",
+      "prob": "46",
+      "rank": "1",
+      "nombre": "Mystic Lamp",
+      "atk": "400",
+      "def": "300",
+      "color": "0"
+    },
+    {
+      "card": "395",
+      "prob": "46",
+      "rank": "1",
+      "nombre": "Dancing Elf",
+      "atk": "300",
+      "def": "200",
+      "color": "0"
+    },
+    {
+      "card": "433",
+      "prob": "10",
+      "rank": "1",
+      "nombre": "Ancient Elf",
+      "atk": "1450",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "486",
+      "prob": "46",
+      "rank": "1",
+      "nombre": "Boo Koo",
+      "atk": "650",
+      "def": "500",
+      "color": "0"
+    },
+    {
+      "card": "492",
+      "prob": "46",
+      "rank": "1",
+      "nombre": "Hoshiningen",
+      "atk": "500",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "540",
+      "prob": "46",
+      "rank": "1",
+      "nombre": "Skelengel",
+      "atk": "900",
+      "def": "400",
+      "color": "0"
+    },
+    {
+      "card": "578",
+      "prob": "10",
+      "rank": "1",
+      "nombre": "Leo Wizard",
+      "atk": "1350",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "584",
+      "prob": "48",
+      "rank": "1",
+      "nombre": "Binding Chain",
+      "atk": "1000",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "587",
+      "prob": "10",
+      "rank": "1",
+      "nombre": "Mon Larvas",
+      "atk": "1300",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "601",
+      "prob": "48",
+      "rank": "1",
+      "nombre": "Tenderness",
+      "atk": "700",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "608",
+      "prob": "48",
+      "rank": "1",
+      "nombre": "Shining Friendship",
+      "atk": "1300",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "612",
+      "prob": "46",
+      "rank": "1",
+      "nombre": "Lady of Faith",
+      "atk": "1100",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "630",
+      "prob": "10",
+      "rank": "1",
+      "nombre": "Ancient Lizard Warrior",
+      "atk": "1400",
+      "def": "1100",
+      "color": "0"
+    }
+  ],
+  "bcdpt": [
+    {
+      "card": "16",
+      "prob": "48",
+      "rank": "2",
+      "nombre": "Time Wizard",
+      "atk": "500",
+      "def": "400",
+      "color": "0"
+    },
+    {
+      "card": "20",
+      "prob": "6",
+      "rank": "2",
+      "nombre": "Left Arm of the Forbidden One",
+      "atk": "200",
+      "def": "300",
+      "color": "0"
+    },
+    {
+      "card": "34",
+      "prob": "40",
+      "rank": "2",
+      "nombre": "Saggi the Dark Clown",
+      "atk": "600",
+      "def": "1500",
+      "color": "0"
+    },
+    {
+      "card": "104",
+      "prob": "48",
+      "rank": "2",
+      "nombre": "Curtain of the Dark Ones",
+      "atk": "600",
+      "def": "500",
+      "color": "0"
+    },
+    {
+      "card": "109",
+      "prob": "44",
+      "rank": "2",
+      "nombre": "Goddess with the Third Eye",
+      "atk": "1200",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "114",
+      "prob": "48",
+      "rank": "2",
+      "nombre": "White Magical Hat",
+      "atk": "1000",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "115",
+      "prob": "40",
+      "rank": "2",
+      "nombre": "Kamion Wizard",
+      "atk": "1300",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "128",
+      "prob": "10",
+      "rank": "2",
+      "nombre": "LaMoon",
+      "atk": "1200",
+      "def": "1700",
+      "color": "0"
+    },
+    {
+      "card": "129",
+      "prob": "48",
+      "rank": "2",
+      "nombre": "Nemuriko",
+      "atk": "800",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "130",
+      "prob": "48",
+      "rank": "2",
+      "nombre": "Weather Control",
+      "atk": "600",
+      "def": "400",
+      "color": "0"
+    },
+    {
+      "card": "134",
+      "prob": "48",
+      "rank": "2",
+      "nombre": "Mystical Capture Chain",
+      "atk": "700",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "142",
+      "prob": "48",
+      "rank": "2",
+      "nombre": "Flame Manipulator",
+      "atk": "900",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "143",
+      "prob": "48",
+      "rank": "2",
+      "nombre": "Necrolancer the Timelord",
+      "atk": "800",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "144",
+      "prob": "48",
+      "rank": "2",
+      "nombre": "Djinn the Watcher of the Wind",
+      "atk": "700",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "145",
+      "prob": "48",
+      "rank": "2",
+      "nombre": "The Bewitching Phantom Thief",
+      "atk": "700",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "174",
+      "prob": "48",
+      "rank": "2",
+      "nombre": "Hurricail",
+      "atk": "900",
+      "def": "200",
+      "color": "0"
+    },
+    {
+      "card": "179",
+      "prob": "48",
+      "rank": "2",
+      "nombre": "Phantom Dewan",
+      "atk": "700",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "183",
+      "prob": "48",
+      "rank": "2",
+      "nombre": "Lucky Trinket",
+      "atk": "600",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "184",
+      "prob": "48",
+      "rank": "2",
+      "nombre": "Genin",
+      "atk": "600",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "190",
+      "prob": "48",
+      "rank": "2",
+      "nombre": "Akakieisu",
+      "atk": "1000",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "192",
+      "prob": "48",
+      "rank": "2",
+      "nombre": "Key Mace",
+      "atk": "400",
+      "def": "300",
+      "color": "0"
+    },
+    {
+      "card": "198",
+      "prob": "48",
+      "rank": "2",
+      "nombre": "Happy Lover",
+      "atk": "800",
+      "def": "500",
+      "color": "0"
+    },
+    {
+      "card": "208",
+      "prob": "48",
+      "rank": "2",
+      "nombre": "Petit Angel",
+      "atk": "600",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "216",
+      "prob": "10",
+      "rank": "2",
+      "nombre": "Dryad",
+      "atk": "1200",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "220",
+      "prob": "40",
+      "rank": "2",
+      "nombre": "Masked Sorcerer",
+      "atk": "900",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "229",
+      "prob": "48",
+      "rank": "2",
+      "nombre": "Hourglass of Life",
+      "atk": "700",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "253",
+      "prob": "48",
+      "rank": "2",
+      "nombre": "Angelwitch",
+      "atk": "800",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "259",
+      "prob": "44",
+      "rank": "2",
+      "nombre": "Ancient Sorcerer",
+      "atk": "1000",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "260",
+      "prob": "48",
+      "rank": "2",
+      "nombre": "Lunar Queen Elzaim",
+      "atk": "750",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "264",
+      "prob": "48",
+      "rank": "2",
+      "nombre": "Wing Egg Elf",
+      "atk": "500",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "268",
+      "prob": "48",
+      "rank": "2",
+      "nombre": "Sectarian of Secrets",
+      "atk": "700",
+      "def": "500",
+      "color": "0"
+    },
+    {
+      "card": "276",
+      "prob": "48",
+      "rank": "2",
+      "nombre": "Ray & Temperature",
+      "atk": "1000",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "287",
+      "prob": "10",
+      "rank": "2",
+      "nombre": "Ogre of the Black Shadow",
+      "atk": "1200",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "311",
+      "prob": "32",
+      "rank": "2",
+      "nombre": "Black Pendant",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "323",
+      "prob": "32",
+      "rank": "2",
+      "nombre": "Book of Secret Arts",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "334",
+      "prob": "64",
+      "rank": "2",
+      "nombre": "Umi",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "350",
+      "prob": "32",
+      "rank": "2",
+      "nombre": "Dark-piercing Light",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "387",
+      "prob": "48",
+      "rank": "2",
+      "nombre": "Mystic Lamp",
+      "atk": "400",
+      "def": "300",
+      "color": "0"
+    },
+    {
+      "card": "395",
+      "prob": "48",
+      "rank": "2",
+      "nombre": "Dancing Elf",
+      "atk": "300",
+      "def": "200",
+      "color": "0"
+    },
+    {
+      "card": "433",
+      "prob": "10",
+      "rank": "2",
+      "nombre": "Ancient Elf",
+      "atk": "1450",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "486",
+      "prob": "48",
+      "rank": "2",
+      "nombre": "Boo Koo",
+      "atk": "650",
+      "def": "500",
+      "color": "0"
+    },
+    {
+      "card": "492",
+      "prob": "48",
+      "rank": "2",
+      "nombre": "Hoshiningen",
+      "atk": "500",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "540",
+      "prob": "48",
+      "rank": "2",
+      "nombre": "Skelengel",
+      "atk": "900",
+      "def": "400",
+      "color": "0"
+    },
+    {
+      "card": "578",
+      "prob": "10",
+      "rank": "2",
+      "nombre": "Leo Wizard",
+      "atk": "1350",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "584",
+      "prob": "44",
+      "rank": "2",
+      "nombre": "Binding Chain",
+      "atk": "1000",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "587",
+      "prob": "10",
+      "rank": "2",
+      "nombre": "Mon Larvas",
+      "atk": "1300",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "601",
+      "prob": "44",
+      "rank": "2",
+      "nombre": "Tenderness",
+      "atk": "700",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "608",
+      "prob": "44",
+      "rank": "2",
+      "nombre": "Shining Friendship",
+      "atk": "1300",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "612",
+      "prob": "48",
+      "rank": "2",
+      "nombre": "Lady of Faith",
+      "atk": "1100",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "630",
+      "prob": "10",
+      "rank": "2",
+      "nombre": "Ancient Lizard Warrior",
+      "atk": "1400",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "684",
+      "prob": "32",
+      "rank": "2",
+      "nombre": "Invisible Wire",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    }
+  ],
+  "satec": [
+    {
+      "card": "16",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Time Wizard",
+      "atk": "500",
+      "def": "400",
+      "color": "0"
+    },
+    {
+      "card": "20",
+      "prob": "6",
+      "rank": "3",
+      "nombre": "Left Arm of the Forbidden One",
+      "atk": "200",
+      "def": "300",
+      "color": "0"
+    },
+    {
+      "card": "104",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Curtain of the Dark Ones",
+      "atk": "600",
+      "def": "500",
+      "color": "0"
+    },
+    {
+      "card": "114",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "White Magical Hat",
+      "atk": "1000",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "128",
+      "prob": "6",
+      "rank": "3",
+      "nombre": "LaMoon",
+      "atk": "1200",
+      "def": "1700",
+      "color": "0"
+    },
+    {
+      "card": "129",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Nemuriko",
+      "atk": "800",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "130",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Weather Control",
+      "atk": "600",
+      "def": "400",
+      "color": "0"
+    },
+    {
+      "card": "134",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Mystical Capture Chain",
+      "atk": "700",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "142",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Flame Manipulator",
+      "atk": "900",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "143",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Necrolancer the Timelord",
+      "atk": "800",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "144",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Djinn the Watcher of the Wind",
+      "atk": "700",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "145",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "The Bewitching Phantom Thief",
+      "atk": "700",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "174",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Hurricail",
+      "atk": "900",
+      "def": "200",
+      "color": "0"
+    },
+    {
+      "card": "179",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Phantom Dewan",
+      "atk": "700",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "183",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Lucky Trinket",
+      "atk": "600",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "184",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Genin",
+      "atk": "600",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "190",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Akakieisu",
+      "atk": "1000",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "192",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Key Mace",
+      "atk": "400",
+      "def": "300",
+      "color": "0"
+    },
+    {
+      "card": "198",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Happy Lover",
+      "atk": "800",
+      "def": "500",
+      "color": "0"
+    },
+    {
+      "card": "208",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Petit Angel",
+      "atk": "600",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "216",
+      "prob": "6",
+      "rank": "3",
+      "nombre": "Dryad",
+      "atk": "1200",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "229",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Hourglass of Life",
+      "atk": "700",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "253",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Angelwitch",
+      "atk": "800",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "260",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Lunar Queen Elzaim",
+      "atk": "750",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "264",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Wing Egg Elf",
+      "atk": "500",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "268",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Sectarian of Secrets",
+      "atk": "700",
+      "def": "500",
+      "color": "0"
+    },
+    {
+      "card": "276",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Ray & Temperature",
+      "atk": "1000",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "287",
+      "prob": "6",
+      "rank": "3",
+      "nombre": "Ogre of the Black Shadow",
+      "atk": "1200",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "311",
+      "prob": "36",
+      "rank": "3",
+      "nombre": "Black Pendant",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "312",
+      "prob": "36",
+      "rank": "3",
+      "nombre": "Silver Bow and Arrow",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "323",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Book of Secret Arts",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "334",
+      "prob": "64",
+      "rank": "3",
+      "nombre": "Umi",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "350",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Dark-piercing Light",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "387",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Mystic Lamp",
+      "atk": "400",
+      "def": "300",
+      "color": "0"
+    },
+    {
+      "card": "395",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Dancing Elf",
+      "atk": "300",
+      "def": "200",
+      "color": "0"
+    },
+    {
+      "card": "433",
+      "prob": "6",
+      "rank": "3",
+      "nombre": "Ancient Elf",
+      "atk": "1450",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "486",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Boo Koo",
+      "atk": "650",
+      "def": "500",
+      "color": "0"
+    },
+    {
+      "card": "492",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Hoshiningen",
+      "atk": "500",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "540",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Skelengel",
+      "atk": "900",
+      "def": "400",
+      "color": "0"
+    },
+    {
+      "card": "578",
+      "prob": "6",
+      "rank": "3",
+      "nombre": "Leo Wizard",
+      "atk": "1350",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "587",
+      "prob": "6",
+      "rank": "3",
+      "nombre": "Mon Larvas",
+      "atk": "1300",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "612",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Lady of Faith",
+      "atk": "1100",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "630",
+      "prob": "6",
+      "rank": "3",
+      "nombre": "Ancient Lizard Warrior",
+      "atk": "1400",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "653",
+      "prob": "32",
+      "rank": "3",
+      "nombre": "Warrior Elimination",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "661",
+      "prob": "2",
+      "rank": "3",
+      "nombre": "Crush Card",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "665",
+      "prob": "32",
+      "rank": "3",
+      "nombre": "Curse of Millennium Shield",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "666",
+      "prob": "74",
+      "rank": "3",
+      "nombre": "Yamadron Ritual",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "668",
+      "prob": "32",
+      "rank": "3",
+      "nombre": "Bright Castle",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "671",
+      "prob": "8",
+      "rank": "3",
+      "nombre": "Zera Ritual",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "672",
+      "prob": "32",
+      "rank": "3",
+      "nombre": "Harpie's Feather Duster",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "673",
+      "prob": "8",
+      "rank": "3",
+      "nombre": "War-lion Ritual",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "674",
+      "prob": "8",
+      "rank": "3",
+      "nombre": "Beastry Mirror Ritual",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "676",
+      "prob": "8",
+      "rank": "3",
+      "nombre": "Commencement Dance",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "677",
+      "prob": "8",
+      "rank": "3",
+      "nombre": "Hamburger Recipe",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "678",
+      "prob": "10",
+      "rank": "3",
+      "nombre": "Revival of Sennen Genjin",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "679",
+      "prob": "32",
+      "rank": "3",
+      "nombre": "Novox's Prayer",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "680",
+      "prob": "10",
+      "rank": "3",
+      "nombre": "Curse of Tri-Horned Dragon",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "684",
+      "prob": "32",
+      "rank": "3",
+      "nombre": "Invisible Wire",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "685",
+      "prob": "34",
+      "rank": "3",
+      "nombre": "Acid Trap Hole",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "688",
+      "prob": "34",
+      "rank": "3",
+      "nombre": "Bad Reaction to Simochi",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "690",
+      "prob": "32",
+      "rank": "3",
+      "nombre": "Fake Trap",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "691",
+      "prob": "10",
+      "rank": "3",
+      "nombre": "Revived of Serpent Night Dragon",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "692",
+      "prob": "10",
+      "rank": "3",
+      "nombre": "Turtle Oath",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "693",
+      "prob": "32",
+      "rank": "3",
+      "nombre": "Contruct of Mask",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "694",
+      "prob": "10",
+      "rank": "3",
+      "nombre": "Resurrection of Chakra",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "695",
+      "prob": "32",
+      "rank": "3",
+      "nombre": "Puppet Ritual",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "697",
+      "prob": "10",
+      "rank": "3",
+      "nombre": "Garma Sword Oath",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "698",
+      "prob": "10",
+      "rank": "3",
+      "nombre": "Cosmo Queen's Prayer",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "699",
+      "prob": "32",
+      "rank": "3",
+      "nombre": "Revival of Skeleton Rider",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "700",
+      "prob": "10",
+      "rank": "3",
+      "nombre": "Fortress Whale's Oath",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    }
+  ],
+  "npc": {
+    "numero": "14",
+    "nombre": "Yami Bakura",
+    "id": "14"
+  }
+}

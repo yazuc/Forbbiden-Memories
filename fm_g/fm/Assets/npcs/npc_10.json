@@ -1,0 +1,3228 @@
+{
+  "deck": [
+    {
+      "card": "3",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Hitotsu-me Giant",
+      "atk": "1200",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "8",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Mushroom Man",
+      "atk": "800",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "10",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Blackland Fire Dragon",
+      "atk": "1500",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "23",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "The Wicked Worm Beast",
+      "atk": "1400",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "25",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Horn Imp",
+      "atk": "1300",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "28",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Rock Ogre Grotto #1",
+      "atk": "800",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "30",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Zombie Warrior",
+      "atk": "1200",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "34",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Saggi the Dark Clown",
+      "atk": "600",
+      "def": "1500",
+      "color": "0"
+    },
+    {
+      "card": "40",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Dragon Piper",
+      "atk": "200",
+      "def": "1800",
+      "color": "0"
+    },
+    {
+      "card": "50",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Basic Insect",
+      "atk": "500",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "53",
+      "prob": "72",
+      "rank": "0",
+      "nombre": "Killer Needle",
+      "atk": "1200",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "56",
+      "prob": "32",
+      "rank": "0",
+      "nombre": "Larvae Moth",
+      "atk": "500",
+      "def": "400",
+      "color": "0"
+    },
+    {
+      "card": "59",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Mammoth Graveyard",
+      "atk": "1200",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "60",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Great White",
+      "atk": "1600",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "61",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Wolf",
+      "atk": "1200",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "64",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Tiger Axe",
+      "atk": "1300",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "65",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Silver Fang",
+      "atk": "1200",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "72",
+      "prob": "32",
+      "rank": "0",
+      "nombre": "Cocoon of Evolution",
+      "atk": "0",
+      "def": "2000",
+      "color": "0"
+    },
+    {
+      "card": "75",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Man-eating Plant",
+      "atk": "800",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "76",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Krokodilus",
+      "atk": "1100",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "80",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Uraby",
+      "atk": "1500",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "103",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Job-change Mirror",
+      "atk": "800",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "109",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Goddess with the Third Eye",
+      "atk": "1200",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "110",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Hero of the East",
+      "atk": "1100",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "112",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "That Which Feeds on Life",
+      "atk": "1200",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "115",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Kamion Wizard",
+      "atk": "1300",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "116",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Nightmare Scorpion",
+      "atk": "900",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "118",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Supporter in the Shadows",
+      "atk": "1000",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "119",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Trial of Nightmares",
+      "atk": "1300",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "120",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Dream Clown",
+      "atk": "1200",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "121",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Sleeping Lion",
+      "atk": "700",
+      "def": "1700",
+      "color": "0"
+    },
+    {
+      "card": "123",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Dark Plant",
+      "atk": "300",
+      "def": "400",
+      "color": "0"
+    },
+    {
+      "card": "132",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "The 13th Grave",
+      "atk": "1200",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "138",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Dragon Statue",
+      "atk": "1100",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "140",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Toad Master",
+      "atk": "1000",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "141",
+      "prob": "24",
+      "rank": "0",
+      "nombre": "Spiked Snail",
+      "atk": "700",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "146",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Temple of Skulls",
+      "atk": "900",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "153",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Dokuroizo the Grim Reaper",
+      "atk": "900",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "157",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Firegrass",
+      "atk": "700",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "158",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Man Eater",
+      "atk": "800",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "162",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Tainted Wisdom",
+      "atk": "1250",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "164",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Lord of Zemia",
+      "atk": "1300",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "165",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "The Judgement Hand",
+      "atk": "1400",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "169",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Dark King of the Abyss",
+      "atk": "1200",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "171",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Big Eye",
+      "atk": "1200",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "172",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Armaill",
+      "atk": "700",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "180",
+      "prob": "2",
+      "rank": "0",
+      "nombre": "Arlownay",
+      "atk": "800",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "181",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Dark Shade",
+      "atk": "1000",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "196",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Arma Knight",
+      "atk": "1000",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "201",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Frenzied Panda",
+      "atk": "1200",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "209",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Winged Cleaver",
+      "atk": "700",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "219",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Solitude",
+      "atk": "1050",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "220",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Masked Sorcerer",
+      "atk": "900",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "221",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Kumootoko",
+      "atk": "700",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "225",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Fiend Sword",
+      "atk": "1400",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "231",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Wood Clown",
+      "atk": "800",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "233",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Dark Titan of Terror",
+      "atk": "1300",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "234",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Beautiful Headhuntress",
+      "atk": "1600",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "235",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Wodan the Resident of the Forest",
+      "atk": "900",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "236",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Guardian of the Labyrinth",
+      "atk": "1000",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "238",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Yashinoki",
+      "atk": "800",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "241",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Dark Assailant",
+      "atk": "1200",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "246",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "One Who Hunts Souls",
+      "atk": "1100",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "248",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Master & Expert",
+      "atk": "1200",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "250",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Hyo",
+      "atk": "800",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "251",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Enchanting Mermaid",
+      "atk": "1200",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "252",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Nekogal #1",
+      "atk": "1100",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "256",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Dimensional Warrior",
+      "atk": "1200",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "257",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Stone Armadiller",
+      "atk": "800",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "258",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Beastking of the Swamps",
+      "atk": "1000",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "259",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Ancient Sorcerer",
+      "atk": "1000",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "262",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "The Little Swordsman of Aile",
+      "atk": "800",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "263",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Rock Ogre Grotto #2",
+      "atk": "700",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "269",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Versago the Destroyer",
+      "atk": "1100",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "272",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Mavelus",
+      "atk": "1300",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "273",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Ancient Tree of Enlightenment",
+      "atk": "600",
+      "def": "1500",
+      "color": "0"
+    },
+    {
+      "card": "274",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Green Phantom King",
+      "atk": "500",
+      "def": "1600",
+      "color": "0"
+    },
+    {
+      "card": "276",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Ray & Temperature",
+      "atk": "1000",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "278",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Petit Moth",
+      "atk": "300",
+      "def": "200",
+      "color": "0"
+    },
+    {
+      "card": "280",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Protector of the Throne",
+      "atk": "800",
+      "def": "1500",
+      "color": "0"
+    },
+    {
+      "card": "284",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Tao the Chanter",
+      "atk": "1200",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "288",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Dark Artist",
+      "atk": "600",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "290",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Moon Envoy",
+      "atk": "1100",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "291",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Fireyarou",
+      "atk": "1300",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "293",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Masaki the Legendary Swordsman",
+      "atk": "1100",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "294",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Dragoness the Wicked Knight",
+      "atk": "1200",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "296",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "One-eyed Shield Dragon",
+      "atk": "700",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "299",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Sonic Maid",
+      "atk": "1200",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "305",
+      "prob": "50",
+      "rank": "0",
+      "nombre": "Laser Cannon Armor",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "306",
+      "prob": "50",
+      "rank": "0",
+      "nombre": "Insect Armor with Laser Cannon",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "330",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Forest",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "354",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Stuffed Animal",
+      "atk": "1200",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "361",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Flying Penguin",
+      "atk": "1200",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "363",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Fairy's Gift",
+      "atk": "1400",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "367",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Jirai Gumo",
+      "atk": "2200",
+      "def": "100",
+      "color": "0"
+    },
+    {
+      "card": "381",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Toon Alligator",
+      "atk": "800",
+      "def": "1600",
+      "color": "0"
+    },
+    {
+      "card": "397",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Leghul",
+      "atk": "300",
+      "def": "350",
+      "color": "0"
+    },
+    {
+      "card": "406",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Yaiba Robo",
+      "atk": "1000",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "414",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Shovel Crusher",
+      "atk": "900",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "430",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Water Magician",
+      "atk": "1400",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "431",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Ice Water",
+      "atk": "1150",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "435",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Water Girl",
+      "atk": "1250",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "445",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Guardian of the Sea",
+      "atk": "1300",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "450",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Kappa Avenger",
+      "atk": "1200",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "455",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Barrel Rock",
+      "atk": "1000",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "457",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Stone Ghost",
+      "atk": "1200",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "474",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Sea Kamen",
+      "atk": "1100",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "476",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Ganigumo",
+      "atk": "600",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "477",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Alinsection",
+      "atk": "950",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "478",
+      "prob": "2",
+      "rank": "0",
+      "nombre": "Insect Soldiers of the Sky",
+      "atk": "1000",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "479",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Cockroach Knight",
+      "atk": "800",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "480",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Kuwagata",
+      "atk": "1250",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "485",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Korogashi",
+      "atk": "550",
+      "def": "400",
+      "color": "0"
+    },
+    {
+      "card": "488",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Rainbow Flower",
+      "atk": "400",
+      "def": "500",
+      "color": "0"
+    },
+    {
+      "card": "489",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Barrel Lily",
+      "atk": "1100",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "496",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Wilmee",
+      "atk": "1000",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "499",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Kattapillar",
+      "atk": "250",
+      "def": "300",
+      "color": "0"
+    },
+    {
+      "card": "501",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Man-eater Bug",
+      "atk": "450",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "502",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "D. Human",
+      "atk": "1300",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "506",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Gale Dogra",
+      "atk": "650",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "510",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Laughing Flower",
+      "atk": "900",
+      "def": "500",
+      "color": "0"
+    },
+    {
+      "card": "514",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Brave Scizzar",
+      "atk": "1300",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "534",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Minar",
+      "atk": "850",
+      "def": "750",
+      "color": "0"
+    },
+    {
+      "card": "543",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Tongyo",
+      "atk": "1350",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "546",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Wow Warrior",
+      "atk": "1250",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "547",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Griggle",
+      "atk": "350",
+      "def": "300",
+      "color": "0"
+    },
+    {
+      "card": "550",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Behegon",
+      "atk": "1350",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "552",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Winged Dragon #2",
+      "atk": "1200",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "553",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Mushroom Man #2",
+      "atk": "1250",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "560",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Invader from Another Dimension",
+      "atk": "950",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "561",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Lesser Dragon",
+      "atk": "1200",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "562",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Needle Worm",
+      "atk": "750",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "566",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Yormungarde",
+      "atk": "1200",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "567",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Darkworld Thorns",
+      "atk": "1200",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "570",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Trakadon",
+      "atk": "1300",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "574",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Witch of the Black Forest",
+      "atk": "1100",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "576",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Giant Scorpion of the Tundra",
+      "atk": "1100",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "579",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Abyss Flower",
+      "atk": "750",
+      "def": "400",
+      "color": "0"
+    },
+    {
+      "card": "580",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Patrol Robo",
+      "atk": "1100",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "584",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Binding Chain",
+      "atk": "1000",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "588",
+      "prob": "24",
+      "rank": "0",
+      "nombre": "Living Vase",
+      "atk": "900",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "589",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Tentacle Plant",
+      "atk": "500",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "599",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Violent Rain",
+      "atk": "1550",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "600",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Key Mace #2",
+      "atk": "1050",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "601",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Tenderness",
+      "atk": "700",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "603",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Fairy Dragon",
+      "atk": "1100",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "608",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Shining Friendship",
+      "atk": "1300",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "609",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Bladefly",
+      "atk": "600",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "615",
+      "prob": "16",
+      "rank": "0",
+      "nombre": "Armored Starfish",
+      "atk": "850",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "616",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Hourglass of Courage",
+      "atk": "1100",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "620",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Snakeyashi",
+      "atk": "1000",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "629",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Armored Rat",
+      "atk": "950",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "640",
+      "prob": "1",
+      "rank": "0",
+      "nombre": "Acid Crawler",
+      "atk": "900",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "642",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Mystical Sheep #1",
+      "atk": "1150",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "643",
+      "prob": "12",
+      "rank": "0",
+      "nombre": "Disk Magician",
+      "atk": "1350",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "646",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Gruesome Goo",
+      "atk": "1300",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "647",
+      "prob": "8",
+      "rank": "0",
+      "nombre": "Hyosube",
+      "atk": "1500",
+      "def": "900",
+      "color": "0"
+    }
+  ],
+  "sapow": [
+    {
+      "card": "3",
+      "prob": "20",
+      "rank": "1",
+      "nombre": "Hitotsu-me Giant",
+      "atk": "1200",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "8",
+      "prob": "21",
+      "rank": "1",
+      "nombre": "Mushroom Man",
+      "atk": "800",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "10",
+      "prob": "20",
+      "rank": "1",
+      "nombre": "Blackland Fire Dragon",
+      "atk": "1500",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "13",
+      "prob": "26",
+      "rank": "1",
+      "nombre": "Tyhone",
+      "atk": "1200",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "19",
+      "prob": "6",
+      "rank": "1",
+      "nombre": "Right Arm of the Forbidden One",
+      "atk": "200",
+      "def": "300",
+      "color": "0"
+    },
+    {
+      "card": "25",
+      "prob": "20",
+      "rank": "1",
+      "nombre": "Horn Imp",
+      "atk": "1300",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "41",
+      "prob": "26",
+      "rank": "1",
+      "nombre": "Celtic Guardian",
+      "atk": "1400",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "44",
+      "prob": "26",
+      "rank": "1",
+      "nombre": "Rogue Doll",
+      "atk": "1600",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "49",
+      "prob": "72",
+      "rank": "1",
+      "nombre": "Big Insect",
+      "atk": "1200",
+      "def": "1500",
+      "color": "0"
+    },
+    {
+      "card": "50",
+      "prob": "68",
+      "rank": "1",
+      "nombre": "Basic Insect",
+      "atk": "500",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "53",
+      "prob": "95",
+      "rank": "1",
+      "nombre": "Killer Needle",
+      "atk": "1200",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "54",
+      "prob": "98",
+      "rank": "1",
+      "nombre": "Gokibore",
+      "atk": "1200",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "55",
+      "prob": "72",
+      "rank": "1",
+      "nombre": "Giant Flea",
+      "atk": "1500",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "70",
+      "prob": "26",
+      "rank": "1",
+      "nombre": "Fiend Kraken",
+      "atk": "1200",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "77",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Grappler",
+      "atk": "1300",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "80",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Uraby",
+      "atk": "1500",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "109",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Goddess with the Third Eye",
+      "atk": "1200",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "115",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Kamion Wizard",
+      "atk": "1300",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "116",
+      "prob": "21",
+      "rank": "1",
+      "nombre": "Nightmare Scorpion",
+      "atk": "900",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "119",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Trial of Nightmares",
+      "atk": "1300",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "121",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Sleeping Lion",
+      "atk": "700",
+      "def": "1700",
+      "color": "0"
+    },
+    {
+      "card": "123",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Dark Plant",
+      "atk": "300",
+      "def": "400",
+      "color": "0"
+    },
+    {
+      "card": "125",
+      "prob": "26",
+      "rank": "1",
+      "nombre": "Faith Bird",
+      "atk": "1500",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "141",
+      "prob": "20",
+      "rank": "1",
+      "nombre": "Spiked Snail",
+      "atk": "700",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "149",
+      "prob": "26",
+      "rank": "1",
+      "nombre": "Lord of the Lamp",
+      "atk": "1400",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "157",
+      "prob": "20",
+      "rank": "1",
+      "nombre": "Firegrass",
+      "atk": "700",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "158",
+      "prob": "20",
+      "rank": "1",
+      "nombre": "Man Eater",
+      "atk": "800",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "164",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Lord of Zemia",
+      "atk": "1300",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "166",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Mysterious Puppeteer",
+      "atk": "1000",
+      "def": "1500",
+      "color": "0"
+    },
+    {
+      "card": "171",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Big Eye",
+      "atk": "1200",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "180",
+      "prob": "20",
+      "rank": "1",
+      "nombre": "Arlownay",
+      "atk": "800",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "186",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Fiend Refrection #2",
+      "atk": "1100",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "193",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Turtle Tiger",
+      "atk": "1000",
+      "def": "1500",
+      "color": "0"
+    },
+    {
+      "card": "194",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Terra the Terrible",
+      "atk": "1200",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "196",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Arma Knight",
+      "atk": "1000",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "201",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Frenzied Panda",
+      "atk": "1200",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "209",
+      "prob": "20",
+      "rank": "1",
+      "nombre": "Winged Cleaver",
+      "atk": "700",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "220",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Masked Sorcerer",
+      "atk": "900",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "221",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Kumootoko",
+      "atk": "700",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "225",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Fiend Sword",
+      "atk": "1400",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "233",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Dark Titan of Terror",
+      "atk": "1300",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "236",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Guardian of the Labyrinth",
+      "atk": "1000",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "248",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Master & Expert",
+      "atk": "1200",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "255",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Prevent Rat",
+      "atk": "500",
+      "def": "2000",
+      "color": "0"
+    },
+    {
+      "card": "256",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Dimensional Warrior",
+      "atk": "1200",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "259",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Ancient Sorcerer",
+      "atk": "1000",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "272",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Mavelus",
+      "atk": "1300",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "273",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Ancient Tree of Enlightenment",
+      "atk": "600",
+      "def": "1500",
+      "color": "0"
+    },
+    {
+      "card": "274",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Green Phantom King",
+      "atk": "500",
+      "def": "1600",
+      "color": "0"
+    },
+    {
+      "card": "280",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Protector of the Throne",
+      "atk": "800",
+      "def": "1500",
+      "color": "0"
+    },
+    {
+      "card": "291",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Fireyarou",
+      "atk": "1300",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "293",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Masaki the Legendary Swordsman",
+      "atk": "1100",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "330",
+      "prob": "24",
+      "rank": "1",
+      "nombre": "Forest",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "367",
+      "prob": "5",
+      "rank": "1",
+      "nombre": "Jirai Gumo",
+      "atk": "2200",
+      "def": "100",
+      "color": "0"
+    },
+    {
+      "card": "397",
+      "prob": "20",
+      "rank": "1",
+      "nombre": "Leghul",
+      "atk": "300",
+      "def": "350",
+      "color": "0"
+    },
+    {
+      "card": "406",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Yaiba Robo",
+      "atk": "1000",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "412",
+      "prob": "24",
+      "rank": "1",
+      "nombre": "Giga-tech Wolf",
+      "atk": "1200",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "459",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Tripwire Beast",
+      "atk": "1200",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "476",
+      "prob": "20",
+      "rank": "1",
+      "nombre": "Ganigumo",
+      "atk": "600",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "477",
+      "prob": "20",
+      "rank": "1",
+      "nombre": "Alinsection",
+      "atk": "950",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "478",
+      "prob": "20",
+      "rank": "1",
+      "nombre": "Insect Soldiers of the Sky",
+      "atk": "1000",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "479",
+      "prob": "20",
+      "rank": "1",
+      "nombre": "Cockroach Knight",
+      "atk": "800",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "485",
+      "prob": "20",
+      "rank": "1",
+      "nombre": "Korogashi",
+      "atk": "550",
+      "def": "400",
+      "color": "0"
+    },
+    {
+      "card": "488",
+      "prob": "20",
+      "rank": "1",
+      "nombre": "Rainbow Flower",
+      "atk": "400",
+      "def": "500",
+      "color": "0"
+    },
+    {
+      "card": "496",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Wilmee",
+      "atk": "1000",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "501",
+      "prob": "20",
+      "rank": "1",
+      "nombre": "Man-eater Bug",
+      "atk": "450",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "506",
+      "prob": "20",
+      "rank": "1",
+      "nombre": "Gale Dogra",
+      "atk": "650",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "510",
+      "prob": "20",
+      "rank": "1",
+      "nombre": "Laughing Flower",
+      "atk": "900",
+      "def": "500",
+      "color": "0"
+    },
+    {
+      "card": "511",
+      "prob": "24",
+      "rank": "1",
+      "nombre": "Bean Soldier",
+      "atk": "1400",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "514",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Brave Scizzar",
+      "atk": "1300",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "534",
+      "prob": "20",
+      "rank": "1",
+      "nombre": "Minar",
+      "atk": "850",
+      "def": "750",
+      "color": "0"
+    },
+    {
+      "card": "547",
+      "prob": "20",
+      "rank": "1",
+      "nombre": "Griggle",
+      "atk": "350",
+      "def": "300",
+      "color": "0"
+    },
+    {
+      "card": "552",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Winged Dragon #2",
+      "atk": "1200",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "567",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Darkworld Thorns",
+      "atk": "1200",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "576",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Giant Scorpion of the Tundra",
+      "atk": "1100",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "579",
+      "prob": "20",
+      "rank": "1",
+      "nombre": "Abyss Flower",
+      "atk": "750",
+      "def": "400",
+      "color": "0"
+    },
+    {
+      "card": "589",
+      "prob": "20",
+      "rank": "1",
+      "nombre": "Tentacle Plant",
+      "atk": "500",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "608",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Shining Friendship",
+      "atk": "1300",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "609",
+      "prob": "20",
+      "rank": "1",
+      "nombre": "Bladefly",
+      "atk": "600",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "620",
+      "prob": "44",
+      "rank": "1",
+      "nombre": "Snakeyashi",
+      "atk": "1000",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "643",
+      "prob": "22",
+      "rank": "1",
+      "nombre": "Disk Magician",
+      "atk": "1350",
+      "def": "1000",
+      "color": "0"
+    }
+  ],
+  "bcdpt": [
+    {
+      "card": "3",
+      "prob": "33",
+      "rank": "2",
+      "nombre": "Hitotsu-me Giant",
+      "atk": "1200",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "8",
+      "prob": "33",
+      "rank": "2",
+      "nombre": "Mushroom Man",
+      "atk": "800",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "10",
+      "prob": "33",
+      "rank": "2",
+      "nombre": "Blackland Fire Dragon",
+      "atk": "1500",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "19",
+      "prob": "6",
+      "rank": "2",
+      "nombre": "Right Arm of the Forbidden One",
+      "atk": "200",
+      "def": "300",
+      "color": "0"
+    },
+    {
+      "card": "25",
+      "prob": "33",
+      "rank": "2",
+      "nombre": "Horn Imp",
+      "atk": "1300",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "50",
+      "prob": "84",
+      "rank": "2",
+      "nombre": "Basic Insect",
+      "atk": "500",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "53",
+      "prob": "120",
+      "rank": "2",
+      "nombre": "Killer Needle",
+      "atk": "1200",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "77",
+      "prob": "33",
+      "rank": "2",
+      "nombre": "Grappler",
+      "atk": "1300",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "80",
+      "prob": "33",
+      "rank": "2",
+      "nombre": "Uraby",
+      "atk": "1500",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "109",
+      "prob": "33",
+      "rank": "2",
+      "nombre": "Goddess with the Third Eye",
+      "atk": "1200",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "115",
+      "prob": "33",
+      "rank": "2",
+      "nombre": "Kamion Wizard",
+      "atk": "1300",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "116",
+      "prob": "33",
+      "rank": "2",
+      "nombre": "Nightmare Scorpion",
+      "atk": "900",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "119",
+      "prob": "33",
+      "rank": "2",
+      "nombre": "Trial of Nightmares",
+      "atk": "1300",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "121",
+      "prob": "33",
+      "rank": "2",
+      "nombre": "Sleeping Lion",
+      "atk": "700",
+      "def": "1700",
+      "color": "0"
+    },
+    {
+      "card": "123",
+      "prob": "33",
+      "rank": "2",
+      "nombre": "Dark Plant",
+      "atk": "300",
+      "def": "400",
+      "color": "0"
+    },
+    {
+      "card": "141",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Spiked Snail",
+      "atk": "700",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "157",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Firegrass",
+      "atk": "700",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "158",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Man Eater",
+      "atk": "800",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "164",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Lord of Zemia",
+      "atk": "1300",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "166",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Mysterious Puppeteer",
+      "atk": "1000",
+      "def": "1500",
+      "color": "0"
+    },
+    {
+      "card": "171",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Big Eye",
+      "atk": "1200",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "180",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Arlownay",
+      "atk": "800",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "186",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Fiend Refrection #2",
+      "atk": "1100",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "193",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Turtle Tiger",
+      "atk": "1000",
+      "def": "1500",
+      "color": "0"
+    },
+    {
+      "card": "194",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Terra the Terrible",
+      "atk": "1200",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "196",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Arma Knight",
+      "atk": "1000",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "201",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Frenzied Panda",
+      "atk": "1200",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "209",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Winged Cleaver",
+      "atk": "700",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "220",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Masked Sorcerer",
+      "atk": "900",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "221",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Kumootoko",
+      "atk": "700",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "225",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Fiend Sword",
+      "atk": "1400",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "233",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Dark Titan of Terror",
+      "atk": "1300",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "236",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Guardian of the Labyrinth",
+      "atk": "1000",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "248",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Master & Expert",
+      "atk": "1200",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "255",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Prevent Rat",
+      "atk": "500",
+      "def": "2000",
+      "color": "0"
+    },
+    {
+      "card": "256",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Dimensional Warrior",
+      "atk": "1200",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "259",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Ancient Sorcerer",
+      "atk": "1000",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "272",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Mavelus",
+      "atk": "1300",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "273",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Ancient Tree of Enlightenment",
+      "atk": "600",
+      "def": "1500",
+      "color": "0"
+    },
+    {
+      "card": "274",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Green Phantom King",
+      "atk": "500",
+      "def": "1600",
+      "color": "0"
+    },
+    {
+      "card": "280",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Protector of the Throne",
+      "atk": "800",
+      "def": "1500",
+      "color": "0"
+    },
+    {
+      "card": "291",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Fireyarou",
+      "atk": "1300",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "293",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Masaki the Legendary Swordsman",
+      "atk": "1100",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "330",
+      "prob": "30",
+      "rank": "2",
+      "nombre": "Forest",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "367",
+      "prob": "2",
+      "rank": "2",
+      "nombre": "Jirai Gumo",
+      "atk": "2200",
+      "def": "100",
+      "color": "0"
+    },
+    {
+      "card": "397",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Leghul",
+      "atk": "300",
+      "def": "350",
+      "color": "0"
+    },
+    {
+      "card": "406",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Yaiba Robo",
+      "atk": "1000",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "459",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Tripwire Beast",
+      "atk": "1200",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "476",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Ganigumo",
+      "atk": "600",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "477",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Alinsection",
+      "atk": "950",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "478",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Insect Soldiers of the Sky",
+      "atk": "1000",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "479",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Cockroach Knight",
+      "atk": "800",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "485",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Korogashi",
+      "atk": "550",
+      "def": "400",
+      "color": "0"
+    },
+    {
+      "card": "488",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Rainbow Flower",
+      "atk": "400",
+      "def": "500",
+      "color": "0"
+    },
+    {
+      "card": "496",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Wilmee",
+      "atk": "1000",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "501",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Man-eater Bug",
+      "atk": "450",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "506",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Gale Dogra",
+      "atk": "650",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "510",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Laughing Flower",
+      "atk": "900",
+      "def": "500",
+      "color": "0"
+    },
+    {
+      "card": "514",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Brave Scizzar",
+      "atk": "1300",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "534",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Minar",
+      "atk": "850",
+      "def": "750",
+      "color": "0"
+    },
+    {
+      "card": "547",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Griggle",
+      "atk": "350",
+      "def": "300",
+      "color": "0"
+    },
+    {
+      "card": "552",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Winged Dragon #2",
+      "atk": "1200",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "567",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Darkworld Thorns",
+      "atk": "1200",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "576",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Giant Scorpion of the Tundra",
+      "atk": "1100",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "579",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Abyss Flower",
+      "atk": "750",
+      "def": "400",
+      "color": "0"
+    },
+    {
+      "card": "589",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Tentacle Plant",
+      "atk": "500",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "608",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Shining Friendship",
+      "atk": "1300",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "609",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Bladefly",
+      "atk": "600",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "620",
+      "prob": "42",
+      "rank": "2",
+      "nombre": "Snakeyashi",
+      "atk": "1000",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "643",
+      "prob": "26",
+      "rank": "2",
+      "nombre": "Disk Magician",
+      "atk": "1350",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "683",
+      "prob": "16",
+      "rank": "2",
+      "nombre": "Bear Trap",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    }
+  ],
+  "satec": [
+    {
+      "card": "8",
+      "prob": "48",
+      "rank": "3",
+      "nombre": "Mushroom Man",
+      "atk": "800",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "19",
+      "prob": "4",
+      "rank": "3",
+      "nombre": "Right Arm of the Forbidden One",
+      "atk": "200",
+      "def": "300",
+      "color": "0"
+    },
+    {
+      "card": "50",
+      "prob": "250",
+      "rank": "3",
+      "nombre": "Basic Insect",
+      "atk": "500",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "116",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Nightmare Scorpion",
+      "atk": "900",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "123",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Dark Plant",
+      "atk": "300",
+      "def": "400",
+      "color": "0"
+    },
+    {
+      "card": "141",
+      "prob": "42",
+      "rank": "3",
+      "nombre": "Spiked Snail",
+      "atk": "700",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "157",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Firegrass",
+      "atk": "700",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "158",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Man Eater",
+      "atk": "800",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "180",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Arlownay",
+      "atk": "800",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "209",
+      "prob": "40",
+      "rank": "3",
+      "nombre": "Winged Cleaver",
+      "atk": "700",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "305",
+      "prob": "60",
+      "rank": "3",
+      "nombre": "Laser Cannon Armor",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "306",
+      "prob": "60",
+      "rank": "3",
+      "nombre": "Insect Armor with Laser Cannon",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "310",
+      "prob": "32",
+      "rank": "3",
+      "nombre": "Vile Germs",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "325",
+      "prob": "32",
+      "rank": "3",
+      "nombre": "Machine Conversion Factory",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "330",
+      "prob": "60",
+      "rank": "3",
+      "nombre": "Forest",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "336",
+      "prob": "32",
+      "rank": "3",
+      "nombre": "Dark Hole",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "338",
+      "prob": "32",
+      "rank": "3",
+      "nombre": "Mooyan Curry",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "339",
+      "prob": "32",
+      "rank": "3",
+      "nombre": "Red Medicine",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "340",
+      "prob": "32",
+      "rank": "3",
+      "nombre": "Goblin's Secret Remedy",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "343",
+      "prob": "32",
+      "rank": "3",
+      "nombre": "Sparks",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "344",
+      "prob": "32",
+      "rank": "3",
+      "nombre": "Hinotama",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "345",
+      "prob": "32",
+      "rank": "3",
+      "nombre": "Final Flame",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "350",
+      "prob": "32",
+      "rank": "3",
+      "nombre": "Dark-piercing Light",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "397",
+      "prob": "24",
+      "rank": "3",
+      "nombre": "Leghul",
+      "atk": "300",
+      "def": "350",
+      "color": "0"
+    },
+    {
+      "card": "476",
+      "prob": "42",
+      "rank": "3",
+      "nombre": "Ganigumo",
+      "atk": "600",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "477",
+      "prob": "42",
+      "rank": "3",
+      "nombre": "Alinsection",
+      "atk": "950",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "478",
+      "prob": "42",
+      "rank": "3",
+      "nombre": "Insect Soldiers of the Sky",
+      "atk": "1000",
+      "def": "800",
+      "color": "0"
+    },
+    {
+      "card": "479",
+      "prob": "42",
+      "rank": "3",
+      "nombre": "Cockroach Knight",
+      "atk": "800",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "485",
+      "prob": "42",
+      "rank": "3",
+      "nombre": "Korogashi",
+      "atk": "550",
+      "def": "400",
+      "color": "0"
+    },
+    {
+      "card": "488",
+      "prob": "42",
+      "rank": "3",
+      "nombre": "Rainbow Flower",
+      "atk": "400",
+      "def": "500",
+      "color": "0"
+    },
+    {
+      "card": "501",
+      "prob": "42",
+      "rank": "3",
+      "nombre": "Man-eater Bug",
+      "atk": "450",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "506",
+      "prob": "42",
+      "rank": "3",
+      "nombre": "Gale Dogra",
+      "atk": "650",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "510",
+      "prob": "42",
+      "rank": "3",
+      "nombre": "Laughing Flower",
+      "atk": "900",
+      "def": "500",
+      "color": "0"
+    },
+    {
+      "card": "534",
+      "prob": "42",
+      "rank": "3",
+      "nombre": "Minar",
+      "atk": "850",
+      "def": "750",
+      "color": "0"
+    },
+    {
+      "card": "547",
+      "prob": "42",
+      "rank": "3",
+      "nombre": "Griggle",
+      "atk": "350",
+      "def": "300",
+      "color": "0"
+    },
+    {
+      "card": "579",
+      "prob": "42",
+      "rank": "3",
+      "nombre": "Abyss Flower",
+      "atk": "750",
+      "def": "400",
+      "color": "0"
+    },
+    {
+      "card": "589",
+      "prob": "42",
+      "rank": "3",
+      "nombre": "Tentacle Plant",
+      "atk": "500",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "609",
+      "prob": "42",
+      "rank": "3",
+      "nombre": "Bladefly",
+      "atk": "600",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "662",
+      "prob": "64",
+      "rank": "3",
+      "nombre": "Eradicating Aerosol",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "666",
+      "prob": "32",
+      "rank": "3",
+      "nombre": "Yamadron Ritual",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "677",
+      "prob": "32",
+      "rank": "3",
+      "nombre": "Hamburger Recipe",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "683",
+      "prob": "32",
+      "rank": "3",
+      "nombre": "Bear Trap",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "684",
+      "prob": "32",
+      "rank": "3",
+      "nombre": "Invisible Wire",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "688",
+      "prob": "32",
+      "rank": "3",
+      "nombre": "Bad Reaction to Simochi",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "690",
+      "prob": "32",
+      "rank": "3",
+      "nombre": "Fake Trap",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "693",
+      "prob": "32",
+      "rank": "3",
+      "nombre": "Contruct of Mask",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "695",
+      "prob": "32",
+      "rank": "3",
+      "nombre": "Puppet Ritual",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "699",
+      "prob": "32",
+      "rank": "3",
+      "nombre": "Revival of Skeleton Rider",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    }
+  ],
+  "npc": {
+    "numero": "10",
+    "nombre": "Weevil Underwood",
+    "id": "10"
+  }
+}

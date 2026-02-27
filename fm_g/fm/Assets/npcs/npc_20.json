@@ -1,0 +1,789 @@
+{
+  "deck": [
+    {
+      "card": "24",
+      "prob": "32",
+      "rank": "0",
+      "nombre": "Skull Servant",
+      "atk": "300",
+      "def": "200",
+      "color": "0"
+    },
+    {
+      "card": "58",
+      "prob": "32",
+      "rank": "0",
+      "nombre": "Kuriboh",
+      "atk": "300",
+      "def": "200",
+      "color": "0"
+    },
+    {
+      "card": "90",
+      "prob": "80",
+      "rank": "0",
+      "nombre": "Gyakutenno Megami",
+      "atk": "1800",
+      "def": "2000",
+      "color": "0"
+    },
+    {
+      "card": "109",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Goddess with the Third Eye",
+      "atk": "1200",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "111",
+      "prob": "80",
+      "rank": "0",
+      "nombre": "Doma The Angel of Silence",
+      "atk": "1600",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "126",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Orion the Battle King",
+      "atk": "1800",
+      "def": "1500",
+      "color": "0"
+    },
+    {
+      "card": "130",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Weather Control",
+      "atk": "600",
+      "def": "400",
+      "color": "0"
+    },
+    {
+      "card": "134",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Mystical Capture Chain",
+      "atk": "700",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "170",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Spirit of the Harp",
+      "atk": "800",
+      "def": "2000",
+      "color": "0"
+    },
+    {
+      "card": "192",
+      "prob": "32",
+      "rank": "0",
+      "nombre": "Key Mace",
+      "atk": "400",
+      "def": "300",
+      "color": "0"
+    },
+    {
+      "card": "198",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Happy Lover",
+      "atk": "800",
+      "def": "500",
+      "color": "0"
+    },
+    {
+      "card": "208",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Petit Angel",
+      "atk": "600",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "229",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Hourglass of Life",
+      "atk": "700",
+      "def": "600",
+      "color": "0"
+    },
+    {
+      "card": "260",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Lunar Queen Elzaim",
+      "atk": "750",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "264",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Wing Egg Elf",
+      "atk": "500",
+      "def": "1300",
+      "color": "0"
+    },
+    {
+      "card": "276",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Ray & Temperature",
+      "atk": "1000",
+      "def": "1000",
+      "color": "0"
+    },
+    {
+      "card": "312",
+      "prob": "80",
+      "rank": "0",
+      "nombre": "Silver Bow and Arrow",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "320",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Stop Defense",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "321",
+      "prob": "80",
+      "rank": "0",
+      "nombre": "Malevolent Nuzzler",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "330",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Forest",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "331",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Wasteland",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "332",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Mountain",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "333",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Sogen",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "334",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Umi",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "335",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Yami",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "393",
+      "prob": "32",
+      "rank": "0",
+      "nombre": "Zone Eater",
+      "atk": "250",
+      "def": "200",
+      "color": "0"
+    },
+    {
+      "card": "395",
+      "prob": "32",
+      "rank": "0",
+      "nombre": "Dancing Elf",
+      "atk": "300",
+      "def": "200",
+      "color": "0"
+    },
+    {
+      "card": "396",
+      "prob": "80",
+      "rank": "0",
+      "nombre": "Ocubeam",
+      "atk": "1550",
+      "def": "1650",
+      "color": "0"
+    },
+    {
+      "card": "399",
+      "prob": "32",
+      "rank": "0",
+      "nombre": "Swordsman from a Foreign Land",
+      "atk": "250",
+      "def": "250",
+      "color": "0"
+    },
+    {
+      "card": "429",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Goddess of Whim",
+      "atk": "950",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "492",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Hoshiningen",
+      "atk": "500",
+      "def": "700",
+      "color": "0"
+    },
+    {
+      "card": "540",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Skelengel",
+      "atk": "900",
+      "def": "400",
+      "color": "0"
+    },
+    {
+      "card": "582",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Dark Witch",
+      "atk": "1800",
+      "def": "1700",
+      "color": "0"
+    },
+    {
+      "card": "584",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Binding Chain",
+      "atk": "1000",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "592",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Muse-A",
+      "atk": "850",
+      "def": "900",
+      "color": "0"
+    },
+    {
+      "card": "601",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Tenderness",
+      "atk": "700",
+      "def": "1400",
+      "color": "0"
+    },
+    {
+      "card": "608",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Shining Friendship",
+      "atk": "1300",
+      "def": "1100",
+      "color": "0"
+    },
+    {
+      "card": "616",
+      "prob": "48",
+      "rank": "0",
+      "nombre": "Hourglass of Courage",
+      "atk": "1100",
+      "def": "1200",
+      "color": "0"
+    },
+    {
+      "card": "633",
+      "prob": "80",
+      "rank": "0",
+      "nombre": "Winged Egg of New Life",
+      "atk": "1400",
+      "def": "1700",
+      "color": "0"
+    },
+    {
+      "card": "659",
+      "prob": "80",
+      "rank": "0",
+      "nombre": "Winged Trumpeter",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    }
+  ],
+  "sapow": [
+    {
+      "card": "19",
+      "prob": "8",
+      "rank": "1",
+      "nombre": "Right Arm of the Forbidden One",
+      "atk": "200",
+      "def": "300",
+      "color": "0"
+    },
+    {
+      "card": "24",
+      "prob": "182",
+      "rank": "1",
+      "nombre": "Skull Servant",
+      "atk": "300",
+      "def": "200",
+      "color": "0"
+    },
+    {
+      "card": "58",
+      "prob": "182",
+      "rank": "1",
+      "nombre": "Kuriboh",
+      "atk": "300",
+      "def": "200",
+      "color": "0"
+    },
+    {
+      "card": "167",
+      "prob": "182",
+      "rank": "1",
+      "nombre": "Ancient Jar",
+      "atk": "400",
+      "def": "200",
+      "color": "0"
+    },
+    {
+      "card": "330",
+      "prob": "38",
+      "rank": "1",
+      "nombre": "Forest",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "393",
+      "prob": "182",
+      "rank": "1",
+      "nombre": "Zone Eater",
+      "atk": "250",
+      "def": "200",
+      "color": "0"
+    },
+    {
+      "card": "395",
+      "prob": "182",
+      "rank": "1",
+      "nombre": "Dancing Elf",
+      "atk": "300",
+      "def": "200",
+      "color": "0"
+    },
+    {
+      "card": "398",
+      "prob": "182",
+      "rank": "1",
+      "nombre": "Ooguchi",
+      "atk": "300",
+      "def": "250",
+      "color": "0"
+    },
+    {
+      "card": "399",
+      "prob": "182",
+      "rank": "1",
+      "nombre": "Swordsman from a Foreign Land",
+      "atk": "250",
+      "def": "250",
+      "color": "0"
+    },
+    {
+      "card": "402",
+      "prob": "182",
+      "rank": "1",
+      "nombre": "Monster Eye",
+      "atk": "250",
+      "def": "350",
+      "color": "0"
+    },
+    {
+      "card": "469",
+      "prob": "182",
+      "rank": "1",
+      "nombre": "Armed Ninja",
+      "atk": "300",
+      "def": "300",
+      "color": "0"
+    },
+    {
+      "card": "475",
+      "prob": "182",
+      "rank": "1",
+      "nombre": "Sinister Serpent",
+      "atk": "300",
+      "def": "250",
+      "color": "0"
+    },
+    {
+      "card": "527",
+      "prob": "182",
+      "rank": "1",
+      "nombre": "Milus Radiant",
+      "atk": "300",
+      "def": "250",
+      "color": "0"
+    }
+  ],
+  "bcdpt": [
+    {
+      "card": "19",
+      "prob": "8",
+      "rank": "2",
+      "nombre": "Right Arm of the Forbidden One",
+      "atk": "200",
+      "def": "300",
+      "color": "0"
+    },
+    {
+      "card": "24",
+      "prob": "182",
+      "rank": "2",
+      "nombre": "Skull Servant",
+      "atk": "300",
+      "def": "200",
+      "color": "0"
+    },
+    {
+      "card": "58",
+      "prob": "182",
+      "rank": "2",
+      "nombre": "Kuriboh",
+      "atk": "300",
+      "def": "200",
+      "color": "0"
+    },
+    {
+      "card": "167",
+      "prob": "182",
+      "rank": "2",
+      "nombre": "Ancient Jar",
+      "atk": "400",
+      "def": "200",
+      "color": "0"
+    },
+    {
+      "card": "330",
+      "prob": "38",
+      "rank": "2",
+      "nombre": "Forest",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "393",
+      "prob": "182",
+      "rank": "2",
+      "nombre": "Zone Eater",
+      "atk": "250",
+      "def": "200",
+      "color": "0"
+    },
+    {
+      "card": "395",
+      "prob": "182",
+      "rank": "2",
+      "nombre": "Dancing Elf",
+      "atk": "300",
+      "def": "200",
+      "color": "0"
+    },
+    {
+      "card": "398",
+      "prob": "182",
+      "rank": "2",
+      "nombre": "Ooguchi",
+      "atk": "300",
+      "def": "250",
+      "color": "0"
+    },
+    {
+      "card": "399",
+      "prob": "182",
+      "rank": "2",
+      "nombre": "Swordsman from a Foreign Land",
+      "atk": "250",
+      "def": "250",
+      "color": "0"
+    },
+    {
+      "card": "402",
+      "prob": "182",
+      "rank": "2",
+      "nombre": "Monster Eye",
+      "atk": "250",
+      "def": "350",
+      "color": "0"
+    },
+    {
+      "card": "469",
+      "prob": "182",
+      "rank": "2",
+      "nombre": "Armed Ninja",
+      "atk": "300",
+      "def": "300",
+      "color": "0"
+    },
+    {
+      "card": "475",
+      "prob": "182",
+      "rank": "2",
+      "nombre": "Sinister Serpent",
+      "atk": "300",
+      "def": "250",
+      "color": "0"
+    },
+    {
+      "card": "527",
+      "prob": "182",
+      "rank": "2",
+      "nombre": "Milus Radiant",
+      "atk": "300",
+      "def": "250",
+      "color": "0"
+    }
+  ],
+  "satec": [
+    {
+      "card": "19",
+      "prob": "6",
+      "rank": "3",
+      "nombre": "Right Arm of the Forbidden One",
+      "atk": "200",
+      "def": "300",
+      "color": "0"
+    },
+    {
+      "card": "24",
+      "prob": "172",
+      "rank": "3",
+      "nombre": "Skull Servant",
+      "atk": "300",
+      "def": "200",
+      "color": "0"
+    },
+    {
+      "card": "58",
+      "prob": "172",
+      "rank": "3",
+      "nombre": "Kuriboh",
+      "atk": "300",
+      "def": "200",
+      "color": "0"
+    },
+    {
+      "card": "167",
+      "prob": "172",
+      "rank": "3",
+      "nombre": "Ancient Jar",
+      "atk": "400",
+      "def": "200",
+      "color": "0"
+    },
+    {
+      "card": "302",
+      "prob": "18",
+      "rank": "3",
+      "nombre": "Sword of Dark Destruction",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "312",
+      "prob": "18",
+      "rank": "3",
+      "nombre": "Silver Bow and Arrow",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "330",
+      "prob": "30",
+      "rank": "3",
+      "nombre": "Forest",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "336",
+      "prob": "16",
+      "rank": "3",
+      "nombre": "Dark Hole",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "345",
+      "prob": "18",
+      "rank": "3",
+      "nombre": "Final Flame",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "350",
+      "prob": "32",
+      "rank": "3",
+      "nombre": "Dark-piercing Light",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "393",
+      "prob": "172",
+      "rank": "3",
+      "nombre": "Zone Eater",
+      "atk": "250",
+      "def": "200",
+      "color": "0"
+    },
+    {
+      "card": "395",
+      "prob": "172",
+      "rank": "3",
+      "nombre": "Dancing Elf",
+      "atk": "300",
+      "def": "200",
+      "color": "0"
+    },
+    {
+      "card": "398",
+      "prob": "172",
+      "rank": "3",
+      "nombre": "Ooguchi",
+      "atk": "300",
+      "def": "250",
+      "color": "0"
+    },
+    {
+      "card": "399",
+      "prob": "172",
+      "rank": "3",
+      "nombre": "Swordsman from a Foreign Land",
+      "atk": "250",
+      "def": "250",
+      "color": "0"
+    },
+    {
+      "card": "402",
+      "prob": "172",
+      "rank": "3",
+      "nombre": "Monster Eye",
+      "atk": "250",
+      "def": "350",
+      "color": "0"
+    },
+    {
+      "card": "469",
+      "prob": "172",
+      "rank": "3",
+      "nombre": "Armed Ninja",
+      "atk": "300",
+      "def": "300",
+      "color": "0"
+    },
+    {
+      "card": "475",
+      "prob": "172",
+      "rank": "3",
+      "nombre": "Sinister Serpent",
+      "atk": "300",
+      "def": "250",
+      "color": "0"
+    },
+    {
+      "card": "527",
+      "prob": "172",
+      "rank": "3",
+      "nombre": "Milus Radiant",
+      "atk": "300",
+      "def": "250",
+      "color": "0"
+    },
+    {
+      "card": "681",
+      "prob": "16",
+      "rank": "3",
+      "nombre": "House of Adhesive Tape",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    },
+    {
+      "card": "699",
+      "prob": "2",
+      "rank": "3",
+      "nombre": "Revival of Skeleton Rider",
+      "atk": "-",
+      "def": "-",
+      "color": "0"
+    }
+  ],
+  "npc": {
+    "numero": "20",
+    "nombre": "Teana 2nd",
+    "id": "20"
+  }
+}
