@@ -7,15 +7,21 @@ public partial class Story : Node2D
 	private RichTextLabel _textLabel;
 	private bool _isTyping = false;
 	private string _currentText = "";
+	List<string> text = new List<string>();
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		var sprite = GetNode<AnimatedSprite2D>("boneco");
 		var TBox = GetNode<Node2D>("TBox");
 		var _sprite = GetNode<AnimatedSprite2D>("TBox/AnimatedSprite2D");
-		_textLabel = GetNode<RichTextLabel>("TBox/Panel/RichTextLabel");
+		_textLabel = GetNode<RichTextLabel>("Panel/RichTextLabel");
 		_textLabel.ScrollActive = false;
-		StartDialogue("A wasted effort, boy! You lack the power to defeat me!");
+		StartDialogue("A wasted effort, boy!");
+		text.Add("You lack the power to defeat me!");
+		text.Add("O magro é gay");
+		text.Add("vamos duelar");
+		text.Add("<Duel>");
 		_sprite.Play();
 		sprite.Play();
 	}
@@ -25,7 +31,14 @@ public partial class Story : Node2D
 	{
 		if (Input.IsActionJustPressed("ui_accept")) // Enter, por exemplo
 		{
-			GetTree().ChangeSceneToFile("res://Scenes/game.tscn");
+			if(text.Count() > 0)
+			{
+				StartDialogue(text.FirstOrDefault());
+				text.RemoveAt(0);
+			}else
+			{
+				GetTree().ChangeSceneToFile("res://Scenes/game.tscn");				
+			}
 		}
 	}
 	

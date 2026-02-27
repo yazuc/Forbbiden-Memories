@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://b67lws32k16qv" path="res://HUD/TBox.tscn" id="1_oiqi2"]
 [ext_resource type="Texture2D" uid="uid://bwfrk084qivly" path="res://Assets/personagens/heishin/75584ED82C7DBDD02EEA3B44B4434C4Dt1-Sheet-Sheet.png" id="2_u5ht0"]
 [ext_resource type="Texture2D" uid="uid://mugqt0fv8viv" path="res://Assets/background/441A5247026AD8600B08270DCC969E18.png" id="4_dt6vs"]
+[ext_resource type="FontFile" uid="uid://dvaju2cffkn2i" path="res://Assets/matrix-bold-small-caps-wisabo/MatrixBoldSmallCaps.otf" id="5_ieit4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5f4wd"]
 atlas = ExtResource("2_u5ht0")
@@ -34,6 +35,9 @@ animations = [{
 "speed": 4.0
 }]
 
+[sub_resource type="FontVariation" id="FontVariation_ieit4"]
+base_font = ExtResource("5_ieit4")
+
 [node name="Story" type="Node2D" unique_id=1509849363]
 script = ExtResource("1_1ulib")
 
@@ -46,9 +50,30 @@ frame_progress = 0.5253918
 [node name="TBox" parent="." unique_id=711438253 instance=ExtResource("1_oiqi2")]
 position = Vector2(961, 893.0001)
 scale = Vector2(5.324, 3.889)
+script = null
 
 [node name="background" type="Sprite2D" parent="." unique_id=1393744992]
 show_behind_parent = true
 position = Vector2(964.00006, 600)
 scale = Vector2(7.5284986, 4.6984167)
 texture = ExtResource("4_dt6vs")
+
+[node name="Panel" type="Panel" parent="." unique_id=1433587423]
+self_modulate = Color(0.015686275, 0.007843138, 0, 0)
+offset_left = 81.0
+offset_top = 802.0
+offset_right = 414.0
+offset_bottom = 862.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel" unique_id=565579822]
+layout_mode = 0
+offset_left = 13.0
+offset_top = -13.0
+offset_right = 1668.0
+offset_bottom = 195.0
+theme_override_fonts/normal_font = SubResource("FontVariation_ieit4")
+theme_override_font_sizes/normal_font_size = 64
+text = "texto"
+scroll_following = true
+scroll_following_visible_characters = true
+text_direction = 1

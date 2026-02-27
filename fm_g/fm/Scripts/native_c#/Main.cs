@@ -23,6 +23,7 @@ namespace fm
 		
 		public override async void _Ready()
 		{						
+			
 			SlotsCampo = GetSlotsFromGroup("player_monster_slots");
 			SlotsCampoIni = GetSlotsFromGroup("enemy_monster_slots");
 			SlotsCampoST = GetSlotsFromGroup("player_spell_slot");

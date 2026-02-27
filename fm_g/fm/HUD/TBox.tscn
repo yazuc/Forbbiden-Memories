@@ -4,7 +4,6 @@
 [ext_resource type="Script" uid="uid://bmbqst125oiqv" path="res://HUD/TBox.cs" id="1_teyo8"]
 [ext_resource type="Texture2D" uid="uid://d2lfmtd5kj5jb" path="res://Assets/PlayStation - Yu-Gi-Oh! Forbidden Memories - Miscellaneous - Name Input Screen & Font.png" id="2_rh6wi"]
 [ext_resource type="Texture2D" uid="uid://drra2vess6t22" path="res://Assets/button_mash.png" id="3_rh6wi"]
-[ext_resource type="FontFile" uid="uid://dvaju2cffkn2i" path="res://Assets/matrix-bold-small-caps-wisabo/MatrixBoldSmallCaps.otf" id="5_jx8nl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5xeue"]
 atlas = ExtResource("3_rh6wi")
@@ -35,9 +34,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="FontVariation" id="FontVariation_70aym"]
-base_font = ExtResource("5_jx8nl")
-
 [node name="TBox" type="Node2D" unique_id=711438253]
 script = ExtResource("1_teyo8")
 
@@ -56,21 +52,3 @@ region_rect = Rect2(359.9828, 200.34744, 169.5116, 52.15741)
 position = Vector2(159, 21)
 sprite_frames = SubResource("SpriteFrames_5xeue")
 frame_progress = 0.60442924
-
-[node name="Panel" type="Panel" parent="." unique_id=1014959822]
-self_modulate = Color(0.015686275, 0.007843138, 0, 0)
-offset_left = -164.0
-offset_top = -26.0
-offset_right = 169.0
-offset_bottom = 34.0
-
-[node name="RichTextLabel" type="RichTextLabel" parent="Panel" unique_id=1441457335]
-layout_mode = 0
-offset_right = 328.0
-offset_bottom = 53.0
-theme_override_fonts/normal_font = SubResource("FontVariation_70aym")
-theme_override_font_sizes/normal_font_size = 16
-text = "texto"
-scroll_following = true
-scroll_following_visible_characters = true
-text_direction = 1

@@ -5,12 +5,13 @@ public partial class TBox : Node2D
 {
 	private RichTextLabel _textLabel;
 	public float TextSpeed = 0.03f;
+	List<string> text = new List<string>();
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		_textLabel = GetNode<RichTextLabel>("Panel/RichTextLabel");
-
+		
 		StartDialogue("Seto Kaiba... I will defeat you!");
 	}
 
