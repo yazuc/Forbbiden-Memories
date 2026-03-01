@@ -663,6 +663,7 @@ namespace fm{
 							
 			foreach(var item in nodes){				
 				if(CardID == item.markerName){
+					_cartasInstanciadas.Remove(item);
 					item.QueueFree();										
 				}				
 			}
@@ -960,8 +961,13 @@ namespace fm{
 			}
 								
 			await Task.Delay(800);
-			
+			if (monstroInimigo3d != null && IsInstanceValid(monstroInimigo3d))
+			{
+				// Certifique-se que Queimar() retorna um Task ou SignalAwaiter válido
+				await monstroInimigo3d.Queimar(); 
+			}			
 			taskMe = meuMonstro3d.TransitionCardTo(originalPos, 0.5f, originalPosRot);
+			GD.Print("finalizou");
 		}	
 	}
 }

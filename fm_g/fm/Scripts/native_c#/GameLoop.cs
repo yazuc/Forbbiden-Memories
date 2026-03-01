@@ -213,6 +213,7 @@ namespace fm
 				}
 				if(battleResult.DefenderDestroyed){
 					//aqui teste meuMonstro, monstroInimigo, battleresult
+					GD.Print(monstroInimigo.zoneName);
 					await MaoDoJogador.AnimateBattle(meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy);
 					MaoDoJogador.FinalizaNodoByCard(monstroInimigo.zoneName);
 					_gameState.OpponentPlayer.Field.RemoveMonster(monstroInimigo.zoneName);		

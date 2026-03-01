@@ -2,16 +2,58 @@
 
 [ext_resource type="Script" uid="uid://c8b5cvb66ig8t" path="res://Carta/Carta3d.cs" id="1_2tffa"]
 [ext_resource type="PackedScene" uid="uid://uys23mmogslm" path="res://Carta/CartasBase.tscn" id="1_itp21"]
+[ext_resource type="Shader" uid="uid://lruf3vdil34p" path="res://Carta/Carta3D.gdshader" id="3_r0ftk"]
+[ext_resource type="Texture2D" uid="uid://8rjwc1p5o7fw" path="res://Assets/foguinho.png" id="4_l0m1i"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l0m1i"]
+render_priority = 0
+shader = ExtResource("3_r0ftk")
+shader_parameter/progress = 0.0
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_itp21"]
 viewport_path = NodePath("SubViewport")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gjbah"]
 
-[node name="Carta3d" type="Node3D" unique_id=557434675 node_paths=PackedStringArray("Visual")]
+[sub_resource type="Curve" id="Curve_l0m1i"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_hrhay"]
+width = 271
+curve = SubResource("Curve_l0m1i")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8c6m7"]
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 2.0
+initial_velocity_max = 2.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.0
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_hrhay")
+collision_use_scale = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dojj5"]
+transparency = 1
+blend_mode = 4
+shading_mode = 0
+albedo_color = Color(0.7784904, 0.07198059, 0.25601402, 1)
+albedo_texture = ExtResource("4_l0m1i")
+texture_repeat = false
+proximity_fade_enabled = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_a472i"]
+material = SubResource("StandardMaterial3D_dojj5")
+size = Vector2(1.4, 1)
+subdivide_depth = 1
+
+[node name="Carta3d" type="Node3D" unique_id=557434675 node_paths=PackedStringArray("Visual", "SpriteDaCarta", "SistemaDeFogo")]
 transform = Transform3D(0.9121746, 0, 0, 0, 1, 0, 0, 0, 0.80412024, 0, 0, 0)
 script = ExtResource("1_2tffa")
 Visual = NodePath("SubViewport/CartasBase")
+SpriteDaCarta = NodePath("Sprite3D")
+SistemaDeFogo = NodePath("GPUParticles3D")
 
 [node name="SubViewport" type="SubViewport" parent="." unique_id=1278667879]
 transparent_bg = true
@@ -24,6 +66,7 @@ position = Vector2(72, 100)
 
 [node name="Sprite3D" type="Sprite3D" parent="." unique_id=38909370]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+material_override = SubResource("ShaderMaterial_l0m1i")
 cast_shadow = 2
 gi_mode = 2
 texture = SubResource("ViewportTexture_itp21")
@@ -32,3 +75,12 @@ texture = SubResource("ViewportTexture_itp21")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=2082988319]
 shape = SubResource("BoxShape3D_gjbah")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=143766921]
+transform = Transform3D(0.14495227, 0, 0, 0, -1.1112223e-08, 0.005498098, 0, -0.25421804, -2.403295e-10, 0.14301416, 0.24827367, 0.72171277)
+visible = false
+amount = 2
+lifetime = 0.27
+visibility_aabb = AABB(-3.9, -4, -4, 8, 8, 8)
+process_material = SubResource("ParticleProcessMaterial_8c6m7")
+draw_pass_1 = SubResource("QuadMesh_a472i")
