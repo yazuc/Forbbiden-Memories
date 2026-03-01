@@ -5093,7 +5093,9 @@ offset_left = -55.0
 offset_top = -87.0
 offset_right = 68.0
 offset_bottom = -70.0
+scale = Vector2(0.8800003, 1)
 label_settings = ExtResource("3_28wyl")
+text_overrun_behavior = 3
 
 [node name="Ataque" type="Label" parent="." unique_id=1475170378]
 offset_left = 3.0

@@ -6,8 +6,7 @@ namespace fm{
 		// Arraste o nó CartasBase do Inspetor para esta variável
 		[Export] public CartasBase Visual; 
 		[Export] public Sprite3D SpriteDaCarta;
-		[Export] public GpuParticles3D SistemaDeFogo; // O nó criado no passo 2
-		private float _alturaDaCarta = 2.0f; // Ajuste para o tamanho real da sua carta em metros
+		private float _alturaDaCarta = 5f; // Ajuste para o tamanho real da sua carta em metros
 		private float _velocidadeDeQueima = 1.5f; // segundos
 		public bool SouCarta = true;
 		public int carta = -1;
@@ -21,19 +20,14 @@ namespace fm{
 		public override void _Ready()
 		{
 			if (SpriteDaCarta != null)
-			{
-				// Garante material único
+			{				
 				if (SpriteDaCarta.MaterialOverride is ShaderMaterial mat)
 				{
 					ShaderMaterial novoMat = (ShaderMaterial)mat.Duplicate();
-					SpriteDaCarta.MaterialOverride = novoMat;
-					
-					// Atribui a textura do Viewport ao shader. 
-					// Em Sprite3D configurado com Viewport, a textura vem do ViewportTexture.
+					SpriteDaCarta.MaterialOverride = novoMat;								
 					novoMat.SetShaderParameter("albedo_texture", SpriteDaCarta.Texture);
 				}
 			}
-			if (SistemaDeFogo != null) SistemaDeFogo.Emitting = false;
 		}
 
 		public void Setup(int cardId, int slot, bool IsEnemy, bool Facedown, string markerName)
@@ -41,7 +35,6 @@ namespace fm{
 			if (Visual != null)
 			{
 				IsFaceDown = Facedown;
-				// Chama o seu método existente que carrega do CardDatabase
 				Visual.DisplayCard(cardId, IsFaceDown);
 				this.carta = cardId;
 				this.slotPlaced = slot;
@@ -56,7 +49,6 @@ namespace fm{
 			IsFaceDown = faceDown;
 			if (Visual != null)
 			{
-				// Apenas atualiza a parte visual sem mexer no restante dos dados
 				Visual.DisplayCard(this.carta, IsFaceDown);
 			}
 		}
@@ -95,32 +87,19 @@ namespace fm{
 
 		public async Task Queimar()
 		{
-			if (SpriteDaCarta?.MaterialOverride is ShaderMaterial mat && SistemaDeFogo != null)
+			if (SpriteDaCarta?.MaterialOverride is ShaderMaterial mat)
 			{
-				// Liga o fogo
-				SistemaDeFogo.Emitting = true;
-				
-				// Posição inicial do emissor (na base da carta, localmente)
-				SistemaDeFogo.Position = new Vector3(0, -_alturaDaCarta / 2.0f, 0.01f); // 0.01f para ficar levemente na frente
-
 				Tween tween = GetTree().CreateTween();
 				
-				// Anima o progresso de baixo para cima no Shader (0.0 -> 1.0)
-				tween.Parallel().TweenProperty(mat, "shader_parameter/progress", 1.0f, _velocidadeDeQueima)
-					 .SetTrans(Tween.TransitionType.Linear);
-
-				// Anima o EMISSOR de partículas para cima (sincronizado com o corte)
-				Vector3 posicaoFinal = new Vector3(0, _alturaDaCarta / 2.0f, 0.01f);
-				tween.Parallel().TweenProperty(SistemaDeFogo, "position", posicaoFinal, _velocidadeDeQueima)
-					 .SetTrans(Tween.TransitionType.Linear);
+				// Anima o progresso de 0.0 até 1.1 
+				// (Usamos 1.1 para garantir que o ruído passe totalmente do topo da carta)
+				tween.TweenProperty(mat, "shader_parameter/progress", 1.1f, _velocidadeDeQueima)
+					 .SetTrans(Tween.TransitionType.Quad) // Quad ou Cubic fica mais natural que Linear
+					 .SetEase(Tween.EaseType.In);
 
 				await ToSignal(tween, Tween.SignalName.Finished);
 				
-				// Deixa as últimas partículas sumirem antes de deletar
-				SistemaDeFogo.Emitting = false;
-				await ToSignal(GetTree().CreateTimer(SistemaDeFogo.Lifetime), SceneTreeTimer.SignalName.Timeout);
-				
-				// Remove a carta
+				// Remove a carta da cena
 				QueueFree();
 			}
 		}

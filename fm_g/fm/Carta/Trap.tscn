@@ -5,6 +5,7 @@
 [node name="Trap" type="Node2D" unique_id=2047153709]
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=531444544]
+position = Vector2(1, 0)
 texture = ExtResource("1_l4kat")
 region_enabled = true
 region_rect = Rect2(881.4443, 39.384842, 141.72498, 205.50108)

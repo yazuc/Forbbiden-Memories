@@ -13,6 +13,7 @@
 
 [sub_resource type="Environment" id="Environment_v158k"]
 background_mode = 2
+glow_enabled = true
 
 [sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_h4fw4"]
 
