@@ -500,11 +500,20 @@ namespace fm{
 			}
 			_cartasNaMao.Clear();
 
-			float espacamentoHorizontal = 150.0f; // Ajuste para as cartas ficarem lado a lado
-			Vector2 posicaoInicial = new Vector2(200, 500); // Posição da primeira carta na tela
-			float larguraTela = GetViewportRect().Size.X;
-			Vector2 posicaoOffScreen = new Vector2(larguraTela + 200, 500);
-			
+			Vector2 viewportSize = GetViewportRect().Size;
+			float larguraTela = viewportSize.X;
+			float alturaTela = viewportSize.Y;
+
+			int quantidade = idsCartasNoDeck.Count;
+			float margemInferior = alturaTela * 0.12f;
+			float alturaCarta = 250f; // adjust to your real card height
+			float yMao = alturaTela - alturaCarta * 0.6f;
+			float espacamentoHorizontal = larguraTela / 10f;
+			float larguraTotal = (quantidade - 1) * espacamentoHorizontal;
+			float xInicial = (larguraTela - larguraTotal) / 2f;
+
+			Vector2 posicaoOffScreen = new Vector2(larguraTela + 200, yMao);
+
 			for (int i = 0; i < idsCartasNoDeck.Count; i++)
 			{
 				int id = idsCartasNoDeck[i];				
@@ -518,7 +527,7 @@ namespace fm{
 				_cartasNaMao.Add(novaCarta);
 				
 				// 2. Calcula a posição final dela na mão
-				Vector2 posicaoFinal = posicaoInicial + new Vector2(i * espacamentoHorizontal, 0);
+				Vector2 posicaoFinal = new Vector2(xInicial + i * espacamentoHorizontal, yMao);
 
 				// 3. Animação de entrada
 				Tween tween = GetTree().CreateTween();

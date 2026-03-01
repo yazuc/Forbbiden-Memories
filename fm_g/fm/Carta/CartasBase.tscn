@@ -5084,6 +5084,7 @@ offset_right = 52.0
 offset_bottom = 46.0
 
 [node name="ArteRecortada" type="AnimatedSprite2D" parent="." unique_id=50041102]
+texture_filter = 2
 position = Vector2(1, -0.5)
 scale = Vector2(1.02, 1.054)
 sprite_frames = SubResource("SpriteFrames_82yog")

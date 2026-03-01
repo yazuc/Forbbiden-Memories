@@ -38,6 +38,7 @@ size_2d_override = Vector2i(50, 23)
 render_target_update_mode = 4
 
 [node name="CartasBase" parent="SubViewport" unique_id=242195520 instance=ExtResource("1_itp21")]
+texture_filter = 2
 position = Vector2(72, 100)
 
 [node name="Sprite3D" type="Sprite3D" parent="." unique_id=38909370]

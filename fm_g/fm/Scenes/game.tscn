@@ -31,7 +31,6 @@ Com = NodePath("CameraPivot/COM")
 
 [node name="MaoJogador" type="Node2D" parent="." unique_id=222280098 node_paths=PackedStringArray("IndicadorTriangulo", "CameraHand", "CameraField", "CameraInimigo")]
 process_mode = 3
-position = Vector2(438, 414)
 script = ExtResource("3_3dryh")
 CartaCena = ExtResource("4_wowpa")
 IndicadorTriangulo = NodePath("../IndicadorTriangulo")
@@ -52,7 +51,6 @@ shadow_enabled = true
 
 [node name="IndicadorTriangulo" parent="." unique_id=360567357 instance=ExtResource("5_wowpa")]
 top_level = true
-position = Vector2(380, 352)
 
 [node name="CameraPivot" type="Node3D" parent="." unique_id=1777681859]
 
