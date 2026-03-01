@@ -82,10 +82,12 @@ namespace fm
 		
 		public void BotaDeLadinho(string ID, bool DeLadinho)
 		{
+			GD.Print("bota de ladinho: " + ID + "-" + DeLadinho);
 			foreach(var monstro in MonsterZones)
 			{
 				if(monstro != null && monstro.zoneName == ID)
 				{
+					GD.Print("monstro zone name" + monstro.zoneName + " - " + ID);
 					monstro.IsAttackMode = !DeLadinho;
 					break;	
 				}

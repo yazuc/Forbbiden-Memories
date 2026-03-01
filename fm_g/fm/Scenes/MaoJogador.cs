@@ -594,13 +594,15 @@ namespace fm{
 				{
 					var slotDestino = slots[_indiceCampoSelecionado];									
 					var isEnemy = slotDestino.Name.ToString().Contains("Ini");
-					var pegou = PegaNodo(slotDestino, false);
+					var pegou = PegaNodoCarta3d(slotDestino.Name);
 					if(pegou != null)
 					{						
 						var rotacao = pegou.Rotation;			
 						if(pegou is Carta3d nodo)
 						{
 							nodo.Defesa = !nodo.Defesa;
+							GD.Print("Buscando ID: " + slotDestino.Name);
+							GD.Print("Encontrado: " + (pegou != null ? pegou.markerName : "null"));
 							GD.Print($"defesa: {nodo.Defesa}");
 						}		
 						if(!isEnemy){
@@ -842,8 +844,11 @@ namespace fm{
 			var tuple = new List<(string carta,bool defesa)>();	
 			foreach(var item in _cartasInstanciadas)
 			{
-				if(item is Carta3d nodo)	
+				if(item is Carta3d nodo)
+				{
+					GD.Print("DEVOLVE POS:" + nodo.markerName + " - " + nodo.Defesa);
 					tuple.Add((nodo.markerName, nodo.Defesa));
+				}	
 			}
 			
 			return tuple;
@@ -962,20 +967,35 @@ namespace fm{
 			
 			var originalPos = meuMonstro3d.GlobalPosition;
 			var originalPosRot = meuMonstro3d.Rotation;
+			Vector3 originalPosIni = new Vector3(0,0,0);
+			Vector3 orignalPosIniRot = new Vector3(0,0,0);
 			var taskMe = meuMonstro3d.TransitionCardTo(position3D + new Vector3(0, 0, (diffEnemy * -2)), 0.5f);
 			if(monstroInimigo3d != null)
 			{
+				originalPosIni = monstroInimigo3d.GlobalPosition;
+				orignalPosIniRot = monstroInimigo3d.Rotation;
 				monstroInimigo3d.Rotation = new Vector3(-0, (diffEnemy * -1.5707964f), 0);
 				var taskIni = monstroInimigo3d.TransitionCardTo(position3D + new Vector3(0,0,( diffEnemy * 2)), 0.5f);				
 			}
 								
 			await Task.Delay(800);
-			if (monstroInimigo3d != null && IsInstanceValid(monstroInimigo3d))
+			if(br.DefenderDestroyed){
+				if (monstroInimigo3d != null && IsInstanceValid(monstroInimigo3d))
+				{
+					// Certifique-se que Queimar() retorna um Task ou SignalAwaiter válido
+					await monstroInimigo3d.Queimar(); 
+				}			
+				taskMe = meuMonstro3d.TransitionCardTo(originalPos, 0.5f, originalPosRot);				
+			}
+			if(!br.AttackerDestroyed)
 			{
-				// Certifique-se que Queimar() retorna um Task ou SignalAwaiter válido
-				await monstroInimigo3d.Queimar(); 
-			}			
-			taskMe = meuMonstro3d.TransitionCardTo(originalPos, 0.5f, originalPosRot);
+				taskMe = meuMonstro3d.TransitionCardTo(originalPos, 0.5f, originalPosRot);				
+			}
+			if(br.AttackerDestroyed)
+			{
+				await meuMonstro3d.Queimar();
+				var taskIni = monstroInimigo3d.TransitionCardTo(originalPosIni, 0.5f, orignalPosIniRot);
+			}
 			GD.Print("finalizou");
 		}	
 	}

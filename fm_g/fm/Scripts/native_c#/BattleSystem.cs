@@ -50,7 +50,8 @@ namespace fm
 			{
 				// Attacker wins
 				result.DefenderDestroyed = true;
-				result.DamageDealt = attackPower - defensePower;
+				if(defendingMonster.IsAttackMode)
+					result.DamageDealt = attackPower - defensePower;
 				result.Description = $"{attackingMonster.Card.Name} destroys {defendingMonster.Card.Name}! " +
 									$"Damage dealt: {result.DamageDealt}";
 			}

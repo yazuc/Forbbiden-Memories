@@ -29,6 +29,11 @@ namespace fm{
 				}
 			}
 		}
+		
+		public override void _Process(double delta)
+		{
+		
+		}
 
 		public void Setup(int cardId, int slot, bool IsEnemy, bool Facedown, string markerName)
 		{

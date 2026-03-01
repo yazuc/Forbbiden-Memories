@@ -27,8 +27,8 @@ public partial class Story : Node2D
 		// Setup dos diálogos
 		_dialogueLines.Add("A wasted effort, boy!");
 		_dialogueLines.Add("You lack the power to defeat me!");
-		_dialogueLines.Add("O magro é gay");
-		_dialogueLines.Add("vamos duelar");
+		//_dialogueLines.Add("O magro é gay");
+		//_dialogueLines.Add("vamos duelar");
 		_dialogueLines.Add("<Duel>"); // Gatilho
 
 		AdvanceDialogue();

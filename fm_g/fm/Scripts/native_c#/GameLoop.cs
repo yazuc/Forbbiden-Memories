@@ -115,7 +115,9 @@ namespace fm
 				var cardData = CardDatabase.Instance.GetCardById((int)item);	
 				if(i == idEscolhido.Count()){
 					//arrumar quando colocar um nodo por cima de outro, deletar o anterior sempre
-					_gameState.CurrentPlayer.Field.placeCard(MaoDoJogador.PegaSlot(cardData.Id), cardData, true, false, _gameState.CurrentPlayer.IsEnemy);					
+					var car = MaoDoJogador.PegaSlot(cardData.Id);
+					GD.Print(car);
+					_gameState.CurrentPlayer.Field.placeCard(car, cardData, true, false, _gameState.CurrentPlayer.IsEnemy);					
 				}
 				_gameState.CurrentPlayer.DiscardCard(cardData.Id);
 				i++;
@@ -220,11 +222,17 @@ namespace fm
 					_gameState.OpponentPlayer.TakeDamage(battleResult.DamageDealt);				
 				}
 				if(battleResult.AttackerDestroyed){
+					//ajustar para o meuMonstro ser destruido
+					await MaoDoJogador.AnimateBattle(meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy);
 					MaoDoJogador.FinalizaNodoByCard(meuMonstro.zoneName);
 					_gameState.CurrentPlayer.Field.RemoveMonster(meuMonstro.zoneName);							
 					_gameState.CurrentPlayer.TakeDamage(battleResult.DamageDealt);
 				}
+			}else
+			{
+				await MaoDoJogador.AnimateBattle(meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy);
 			}
+			
 			
 			_gameState.CurrentPlayer.Field.DrawFieldState();
 			_gameState.OpponentPlayer.Field.DrawFieldState();
