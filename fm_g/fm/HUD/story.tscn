@@ -90,16 +90,21 @@ animations = [{
 [sub_resource type="FontVariation" id="FontVariation_ieit4"]
 base_font = ExtResource("5_ieit4")
 
-[node name="Story" type="Node2D" unique_id=1509849363]
+[sub_resource type="Theme" id="Theme_di7lt"]
+default_font = ExtResource("5_ieit4")
+default_font_size = 60
+
+[node name="Story" type="Node2D" unique_id=1509849363 node_paths=PackedStringArray("ChoiceContainer")]
 script = ExtResource("1_1ulib")
 Backgrounds = Array[Texture2D]([ExtResource("2_di7lt"), ExtResource("3_qufbq"), ExtResource("4_mf4px"), ExtResource("5_dldg1"), ExtResource("6_56y0j"), ExtResource("5_o67l8"), ExtResource("8_2d66m"), ExtResource("9_afpnp"), ExtResource("10_l52ue"), ExtResource("11_u7g0h"), ExtResource("12_hek4t"), ExtResource("13_idw7x"), ExtResource("14_ndg8u"), ExtResource("15_ej5yj"), ExtResource("16_smxyr"), ExtResource("17_dpi23"), ExtResource("18_7jn3k"), ExtResource("19_4s3pk"), ExtResource("20_3up44"), ExtResource("21_s5w0b"), ExtResource("22_qsgnj"), ExtResource("23_83qvl"), ExtResource("24_sagei"), ExtResource("25_oaunh"), ExtResource("26_vuqpg"), ExtResource("27_sps80"), ExtResource("28_kxsqe"), ExtResource("29_o3ged"), ExtResource("30_3j6jp"), ExtResource("31_ociha"), ExtResource("32_gjg5m"), ExtResource("33_mrxjp"), ExtResource("34_n1kko"), ExtResource("35_0nam0"), ExtResource("36_353cn"), ExtResource("37_pn3kf"), ExtResource("38_wvcfi"), ExtResource("39_hh6ee"), ExtResource("40_ksegw"), ExtResource("41_d80kp")])
+ChoiceContainer = NodePath("Control/HBoxContainer")
 
 [node name="boneco" type="AnimatedSprite2D" parent="." unique_id=1365024978]
 texture_filter = 5
 position = Vector2(452, 421)
 scale = Vector2(4.09, 4.61)
 sprite_frames = SubResource("SpriteFrames_1ulib")
-animation = &"simon"
+animation = &"heishin"
 
 [node name="TBox" parent="." unique_id=711438253 instance=ExtResource("1_oiqi2")]
 position = Vector2(961, 893.0001)
@@ -132,3 +137,19 @@ text = "texto"
 scroll_following = true
 scroll_following_visible_characters = true
 text_direction = 1
+
+[node name="Control" type="Control" parent="." unique_id=945981635]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 106.0
+offset_top = 857.0
+offset_right = 743.0
+offset_bottom = 993.0
+
+[node name="HBoxContainer" type="VBoxContainer" parent="Control" unique_id=1411244293]
+layout_mode = 0
+offset_left = -18.0
+offset_top = -67.0
+offset_right = 22.0
+offset_bottom = -27.0
+theme = SubResource("Theme_di7lt")
