@@ -658,14 +658,9 @@ namespace fm{
 			}
 		}
 		
-		public void FinalizaNodoByCard(string CardID, bool IsEnemy = false){
+		public void FinalizaNodoByCard(string CardID){
 			var nodes = GetTree().GetNodesInGroup("cartas").Cast<Carta3d>().ToArray();		
 							
-			if(IsEnemy){
-				nodes = nodes.Where(x => x.IsEnemy == IsEnemy).ToArray();
-				GD.Print("temos nodos:" + nodes.Count());
-			}
-				
 			foreach(var item in nodes){				
 				if(CardID == item.markerName){
 					item.QueueFree();										
@@ -933,8 +928,40 @@ namespace fm{
 			await ToSignal(tween, Tween.SignalName.Finished);
 
 			targetCam.MakeCurrent();
-			//GD.Print($"Câmera {targetCam.Name} assumiu o controle.");
 			STOP = false;
 		}
+		
+		public async Task AnimateBattle(FieldMonster meuMonstro, FieldMonster? monstroInimigo, BattleSystem.BattleResult br, bool IsEnemy)
+		{
+			await TransitionTo(CameraHand, 0.5f);
+			var viewport = GetViewport();			
+			Vector2 screenCenter = viewport.GetVisibleRect().Size / 2f;
+			
+			float distancia = 5.0f; 
+			Vector3 rayOrigin = CameraHand.ProjectRayOrigin(screenCenter);
+			Vector3 rayNormal = CameraHand.ProjectRayNormal(screenCenter);			
+			Vector3 position3D = rayOrigin + rayNormal * distancia;
+			
+			Carta3d meuMonstro3d = PegaNodoCarta3d(meuMonstro.zoneName);
+			Carta3d monstroInimigo3d = null;
+			
+			if(monstroInimigo != null)
+				monstroInimigo3d = PegaNodoCarta3d(monstroInimigo.zoneName);
+			
+			int diffEnemy = IsEnemy ? 1 : -1;
+			
+			var originalPos = meuMonstro3d.GlobalPosition;
+			var originalPosRot = meuMonstro3d.Rotation;
+			var taskMe = meuMonstro3d.TransitionCardTo(position3D + new Vector3(0, 0, (diffEnemy * -2)), 0.5f);
+			if(monstroInimigo3d != null)
+			{
+				monstroInimigo3d.Rotation = new Vector3(-0, (diffEnemy * -1.5707964f), 0);
+				var taskIni = monstroInimigo3d.TransitionCardTo(position3D + new Vector3(0,0,( diffEnemy * 2)), 0.5f);				
+			}
+								
+			await Task.Delay(800);
+			
+			taskMe = meuMonstro3d.TransitionCardTo(originalPos, 0.5f, originalPosRot);
+		}	
 	}
 }

@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="fm"
-run/main_scene="uid://cdmfiiy1re7nc"
+run/main_scene="uid://dj7s3t4ux6vfw"
 config/features=PackedStringArray("4.6", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 

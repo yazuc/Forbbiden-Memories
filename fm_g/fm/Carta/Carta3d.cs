@@ -38,5 +38,21 @@ namespace fm{
 				Visual.DisplayCard(this.carta, IsFaceDown);
 			}
 		}
+		
+		public SignalAwaiter TransitionCardTo(Vector3 targetGlobalPosition, float duration = 0.6f, Vector3? targetRotation = null)
+		{
+			Tween tween = GetTree().CreateTween();
+			tween.SetTrans(Tween.TransitionType.Cubic);
+			tween.SetEase(Tween.EaseType.Out);
+			
+			// Se targetRotation for nulo, usa o padrão de 70 graus no X
+			Vector3 finalRot = targetRotation ?? new Vector3(Mathf.DegToRad(70), Rotation.Y, Rotation.Z);
+
+			tween.TweenProperty(this, "global_position", targetGlobalPosition, duration);
+			tween.Parallel().TweenProperty(this, "rotation", finalRot, duration);
+			
+			return ToSignal(tween, Tween.SignalName.Finished);
+		}
+				
 	}
 }

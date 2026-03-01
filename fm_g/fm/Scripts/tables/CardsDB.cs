@@ -81,11 +81,16 @@ namespace fm
 		public Cards? GetCardById(int id) => _database?.Table<Cards>().FirstOrDefault(c => c.Id == id);
 		public new List<Cards> GetDeckByNpcId(int id)
 		{
-			var list_card = _database?.Table<NpcDeck>().Where(c => c.NpcId == id).Select(x => x.CardId).ToList();
-			
-			var deck = _database?.Table<Cards>().Where(x => list_card.Contains(x.Id)).ToList();
-			
-		 	return deck;
+			var list_card = _database?.Table<NpcDeck>().Where(c => c.NpcId == id).Take(40).Select(x => x.CardId).ToList();
+			var cardsdeck = new List<Cards>();
+			foreach(var cardInList in list_card)
+			{
+				var card = _database?.Table<Cards>().Where(x => x.Id == cardInList).ToList();
+				if(card != null)
+					cardsdeck.Add(card.FirstOrDefault());
+				
+			}			
+		 	return cardsdeck;
 		}
 			
 		

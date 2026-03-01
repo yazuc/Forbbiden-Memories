@@ -174,7 +174,7 @@ namespace fm
 				if (slotAlvo != -1 && slotAlvo != -2)
 				{
 					var monstroInimigo = _gameState.OpponentPlayer.Field.GetMonsterInZone(slotAlvo);
-					ResolverBatalha(meuMonstro, monstroInimigo);
+					await ResolverBatalha(meuMonstro, monstroInimigo);
 				}
 
 				await MaoDoJogador.TransitionTo(CameraField, 0.4f);
@@ -186,7 +186,7 @@ namespace fm
 			_gameState.AdvancePhase();
 		}			
 
-		private bool ResolverBatalha(FieldMonster meuMonstro, FieldMonster? monstroInimigo)
+		private async Task<bool> ResolverBatalha(FieldMonster meuMonstro, FieldMonster? monstroInimigo)
 		{
 			
 			MaoDoJogador.Flipa(meuMonstro.zoneName);
@@ -208,16 +208,18 @@ namespace fm
 				{
 					MaoDoJogador.FinalizaNodoByCard(monstroInimigo.zoneName);
 					_gameState.OpponentPlayer.Field.RemoveMonster(monstroInimigo.zoneName);	
-					MaoDoJogador.FinalizaNodoByCard(meuMonstro.zoneName, _gameState.CurrentPlayer.IsEnemy);
+					MaoDoJogador.FinalizaNodoByCard(meuMonstro.zoneName);
 					_gameState.CurrentPlayer.Field.RemoveMonster(meuMonstro.zoneName);			
 				}
 				if(battleResult.DefenderDestroyed){
+					//aqui teste meuMonstro, monstroInimigo, battleresult
+					await MaoDoJogador.AnimateBattle(meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy);
 					MaoDoJogador.FinalizaNodoByCard(monstroInimigo.zoneName);
 					_gameState.OpponentPlayer.Field.RemoveMonster(monstroInimigo.zoneName);		
 					_gameState.OpponentPlayer.TakeDamage(battleResult.DamageDealt);				
 				}
 				if(battleResult.AttackerDestroyed){
-					MaoDoJogador.FinalizaNodoByCard(meuMonstro.zoneName, _gameState.CurrentPlayer.IsEnemy);
+					MaoDoJogador.FinalizaNodoByCard(meuMonstro.zoneName);
 					_gameState.CurrentPlayer.Field.RemoveMonster(meuMonstro.zoneName);							
 					_gameState.CurrentPlayer.TakeDamage(battleResult.DamageDealt);
 				}
