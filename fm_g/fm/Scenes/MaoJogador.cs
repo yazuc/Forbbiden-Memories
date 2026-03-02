@@ -969,7 +969,7 @@ namespace fm{
 			var originalPosRot = meuMonstro3d.Rotation;
 			Vector3 originalPosIni = new Vector3(0,0,0);
 			Vector3 orignalPosIniRot = new Vector3(0,0,0);
-			var taskMe = meuMonstro3d.TransitionCardTo(position3D + new Vector3(0, 0, (diffEnemy * -2)), 0.5f);
+			var taskMe =  meuMonstro3d.TransitionCardTo(position3D + new Vector3(0, 0, (diffEnemy * -2)), 0.5f);
 			if(monstroInimigo3d != null)
 			{
 				originalPosIni = monstroInimigo3d.GlobalPosition;
@@ -978,18 +978,28 @@ namespace fm{
 				var taskIni = monstroInimigo3d.TransitionCardTo(position3D + new Vector3(0,0,( diffEnemy * 2)), 0.5f);				
 			}
 								
-			await Task.Delay(800);
+			if(br.DefenderDestroyed && br.AttackerDestroyed)
+			{
+				await monstroInimigo3d.Queimar(); 
+				await meuMonstro3d.Queimar(); 
+				
+				return;
+			}
 			if(br.DefenderDestroyed){
 				if (monstroInimigo3d != null && IsInstanceValid(monstroInimigo3d))
 				{
 					// Certifique-se que Queimar() retorna um Task ou SignalAwaiter válido
 					await monstroInimigo3d.Queimar(); 
 				}			
-				taskMe = meuMonstro3d.TransitionCardTo(originalPos, 0.5f, originalPosRot);				
+				//taskMe =  meuMonstro3d.TransitionCardTo(originalPos, 0.5f, originalPosRot);				
+			}
+			if(!br.DefenderDestroyed)
+			{
+				var taskIni = monstroInimigo3d.TransitionCardTo(originalPosIni, 0.5f, orignalPosIniRot);
 			}
 			if(!br.AttackerDestroyed)
 			{
-				taskMe = meuMonstro3d.TransitionCardTo(originalPos, 0.5f, originalPosRot);				
+				taskMe =  meuMonstro3d.TransitionCardTo(originalPos, 0.5f, originalPosRot);				
 			}
 			if(br.AttackerDestroyed)
 			{

@@ -39,14 +39,14 @@ namespace fm
 				if (monster != null)
 				{
 					opponent.SendToGraveyard(monster.Card);
-					//opponent.Field.RemoveMonster(i);
+					opponent.Field.RemoveMonster(monster.zoneName);
 				}
 			}
 		}
 	}
 
 	// Example effect: Ritual Summon
-	public class RitualSummonEffect : BaseCardEffect
+	public class EquipEffect : BaseCardEffect
 	{
 		public override string EffectName => "Ritual Summon";
 
@@ -68,25 +68,6 @@ namespace fm
 		}
 	}
 
-	// Example effect: Fusion Summon
-	public class FusionEffect : BaseCardEffect
-	{
-		public override string EffectName => "Fusion";
-
-		public override bool CanActivate(GameState gameState, Player caster, Cards card)
-		{
-			return card.Fusions != null && card.Fusions.Length > 0;
-		}
-
-		public override void Activate(GameState gameState, Player caster, Cards card)
-		{
-			if (!CanActivate(gameState, caster, card))
-				return;
-
-			// TODO: Implement fusion logic using Function.TryGetFusion()
-		}
-	}
-
 	public class CardEffectManager
 	{
 		private Dictionary<string, ICardEffect> _effects = new();
@@ -94,8 +75,7 @@ namespace fm
 		public CardEffectManager()
 		{
 			RegisterEffect(new BoardWipeEffect());
-			RegisterEffect(new RitualSummonEffect());
-			RegisterEffect(new FusionEffect());
+			RegisterEffect(new EquipEffect());
 		}
 
 		public void RegisterEffect(ICardEffect effect)

@@ -41,20 +41,18 @@ namespace fm
 			//List<QuickType.Cards> starterDeck = generator.GenerateStarterDeck(db.GetAllCards());          
 			//Funcoes.WriteCardsToFile(starterDeck, "starter_deck_ini.txt");
 			string srcGodot = "res://starter_deck.txt";
-			string srcGodot2 = "res://starter_deck_ini.txt";
 			string srcPath = ProjectSettings.GlobalizePath(srcGodot);
-			string srcPath2 = ProjectSettings.GlobalizePath(srcGodot2);
 						
 			var deckList = Funcoes.LoadUserDeck(srcPath);
 			deck.LoadDeck(deckList);
 			
-			deckIni.LoadDeck(db.GetDeckByNpcId(8));
+			deckIni.LoadDeck(db.GetDeckByNpcId(1));
 			// 3. Inicializar o GameLoop
 			// Passando Alice e Bob como os duelistas
 			if (MaoVisual != null)
 			{				
 				gL = new GameLoop(
-					new Player("Alice", deck.Cards, SlotsCampo, SlotsCampoST, LP_You, You, 8000), 
+					new Player("Alice", deckIni.Cards, SlotsCampo, SlotsCampoST, LP_You, You, 8000), 
 					new Player("Bob", deckIni.Cards, SlotsCampoIni, SlotsCampoSTIni, LP_Com, Com, 8000),
 					MaoVisual,
 					CameraHand,

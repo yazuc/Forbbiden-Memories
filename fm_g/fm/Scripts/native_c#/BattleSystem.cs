@@ -75,6 +75,11 @@ namespace fm
 			}
 			else
 			{
+				if(defendingMonster.IsAttackMode)
+				{
+					result.AttackerDestroyed = true;
+					result.DefenderDestroyed = true;
+				}
 				// Draw
 				result.Description = $"Battle is a draw! Both monsters remain.";
 			}

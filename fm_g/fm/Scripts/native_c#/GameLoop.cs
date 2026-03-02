@@ -208,10 +208,13 @@ namespace fm
 				}
 				if(battleResult.AttackerDestroyed && battleResult.DefenderDestroyed)
 				{
+					//descobrir pq draw ta bugado
+					await MaoDoJogador.AnimateBattle(meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy);
 					MaoDoJogador.FinalizaNodoByCard(monstroInimigo.zoneName);
 					_gameState.OpponentPlayer.Field.RemoveMonster(monstroInimigo.zoneName);	
 					MaoDoJogador.FinalizaNodoByCard(meuMonstro.zoneName);
-					_gameState.CurrentPlayer.Field.RemoveMonster(meuMonstro.zoneName);			
+					_gameState.CurrentPlayer.Field.RemoveMonster(meuMonstro.zoneName);	
+					return false;		
 				}
 				if(battleResult.DefenderDestroyed){
 					//aqui teste meuMonstro, monstroInimigo, battleresult
