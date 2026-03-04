@@ -1,0 +1,121 @@
+[gd_scene format=3 uid="uid://xrx7buqabjwx"]
+
+[ext_resource type="Texture2D" uid="uid://bxxi3572iwhlv" path="res://Assets/free_duel_bg.png" id="1_55pe4"]
+[ext_resource type="Script" uid="uid://c37clnkfw7brm" path="res://Menu/GridContainer.cs" id="1_orgy2"]
+[ext_resource type="Texture2D" uid="uid://dxw1pdrixnuxa" path="res://Assets/free_duel.png" id="2_nenxg"]
+
+[node name="FreeDuel" type="Control" unique_id=1721527336]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1461184796]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TextureRect2" type="TextureRect" parent="." unique_id=1495379682]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.046000004
+anchor_top = 0.18100001
+anchor_right = 0.95500004
+anchor_bottom = 0.36400002
+offset_left = 0.0079956055
+offset_top = -0.28800964
+offset_right = -0.16003418
+offset_bottom = 0.12799072
+texture = ExtResource("1_55pe4")
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect3" type="TextureRect" parent="." unique_id=1959412630]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.046000004
+anchor_top = 0.36400002
+anchor_right = 0.95500004
+anchor_bottom = 0.54800004
+offset_left = 0.0079956055
+offset_top = 0.12799072
+offset_right = -0.16003418
+offset_bottom = -0.104034424
+texture = ExtResource("1_55pe4")
+
+[node name="TextureRect4" type="TextureRect" parent="." unique_id=899488427]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.046000004
+anchor_top = 0.545
+anchor_right = 0.95500004
+anchor_bottom = 0.72800004
+offset_left = 0.0079956055
+offset_top = -0.16000366
+offset_right = -0.16003418
+offset_bottom = 0.25598145
+texture = ExtResource("1_55pe4")
+
+[node name="TextureRect5" type="TextureRect" parent="." unique_id=1422857852]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.046000004
+anchor_top = 0.725
+anchor_right = 0.95500004
+anchor_bottom = 0.90900004
+offset_left = 0.0079956055
+offset_top = 0.19998169
+offset_right = -0.16003418
+offset_bottom = -0.032043457
+texture = ExtResource("1_55pe4")
+
+[node name="TextureRect6" type="TextureRect" parent="." unique_id=2103661688]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.047000002
+anchor_top = 0.029000001
+anchor_right = 0.95900005
+anchor_bottom = 0.21300001
+offset_left = -0.144001
+offset_top = 0.20800018
+offset_right = -3.7680664
+offset_bottom = -0.024002075
+texture = ExtResource("1_55pe4")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=304435771]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_nenxg")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="TextureRect" unique_id=2025750925]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.089409724
+anchor_top = 0.16820988
+anchor_right = 0.9088542
+anchor_bottom = 0.8194444
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="GridContainer" type="GridContainer" parent="TextureRect/ScrollContainer" unique_id=945072082]
+custom_minimum_size = Vector2(275, 163.72)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 12
+columns = 10
+script = ExtResource("1_orgy2")
