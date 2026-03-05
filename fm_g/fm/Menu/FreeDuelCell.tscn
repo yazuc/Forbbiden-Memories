@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://dw41tebwcaxiv"]
+
+[ext_resource type="Texture2D" uid="uid://c8rankfbykrbd" path="res://Assets/SeletorFD.png" id="1_n1ik8"]
+[ext_resource type="Script" uid="uid://detqnlee6oxty" path="res://Menu/FreeDuelCell.cs" id="2_n1ik8"]
+
+[node name="FreeDuelCell" type="TextureButton" unique_id=763741244]
+anchors_preset = -1
+anchor_left = 0.28993055
+anchor_top = 0.13271604
+anchor_right = 0.5208333
+anchor_bottom = 0.537037
+offset_left = -334.0
+offset_top = -86.0
+offset_right = -552.0
+offset_bottom = -300.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture_hover = ExtResource("1_n1ik8")
+stretch_mode = 1
+script = ExtResource("2_n1ik8")
+metadata/_edit_use_anchors_ = true

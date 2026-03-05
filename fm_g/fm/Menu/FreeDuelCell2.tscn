@@ -9,7 +9,7 @@ region = Rect2(275.6, 27.5, 47, 47)
 
 [node name="FreeDuelCell2" type="TextureRect" unique_id=1382879831]
 clip_contents = true
-custom_minimum_size = Vector2(53, 53)
+custom_minimum_size = Vector2(265, 265)
 anchors_preset = -1
 anchor_left = 0.42600003
 anchor_right = 0.523
@@ -19,7 +19,6 @@ offset_right = 0.0040283203
 offset_bottom = 0.13599396
 grow_horizontal = 2
 texture = SubResource("AtlasTexture_obsew")
-expand_mode = 2
-stretch_mode = 3
+expand_mode = 1
 script = ExtResource("2_obsew")
 metadata/_edit_use_anchors_ = true

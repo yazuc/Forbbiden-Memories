@@ -2,6 +2,7 @@ using Godot;
 using System;
 namespace fm
 {	
+	[Tool]
 	public partial class FreeDuelCell2 : TextureRect
 	{
 		private int colunasMax = 5;
@@ -27,8 +28,8 @@ namespace fm
 		public override void _Process(double delta)
 		{
 			// Exemplo: Mover um por um com as setas
-			if (Input.IsActionJustPressed("ui_right")) IrParaIndex(indexAtual + 1);
-			if (Input.IsActionJustPressed("ui_left"))  IrParaIndex(indexAtual - 1);
+			//if (Input.IsActionJustPressed("ui_right")) IrParaIndex(indexAtual + 1);
+			//if (Input.IsActionJustPressed("ui_left"))  IrParaIndex(indexAtual - 1);
 		}
 
 		public void IrParaIndex(int novoIndex)

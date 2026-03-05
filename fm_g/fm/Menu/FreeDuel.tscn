@@ -1,10 +1,13 @@
 [gd_scene format=3 uid="uid://xrx7buqabjwx"]
 
 [ext_resource type="Texture2D" uid="uid://bxxi3572iwhlv" path="res://Assets/free_duel_bg.png" id="1_55pe4"]
+[ext_resource type="Script" uid="uid://f5xsfcmsuneh" path="res://Menu/FreeDuel.cs" id="1_156d0"]
 [ext_resource type="Script" uid="uid://c37clnkfw7brm" path="res://Menu/GridContainer.cs" id="1_orgy2"]
 [ext_resource type="Texture2D" uid="uid://dxw1pdrixnuxa" path="res://Assets/free_duel.png" id="2_nenxg"]
+[ext_resource type="PackedScene" uid="uid://dw41tebwcaxiv" path="res://Menu/FreeDuelCell.tscn" id="4_55b2y"]
+[ext_resource type="Texture2D" uid="uid://c8rankfbykrbd" path="res://Assets/SeletorFD.png" id="4_pwtei"]
 
-[node name="FreeDuel" type="Control" unique_id=1721527336]
+[node name="FreeDuel" type="Control" unique_id=1721527336 node_paths=PackedStringArray("CharacterGrid", "ScrollBox", "Selector")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,16 +16,10 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-
-[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1461184796]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+script = ExtResource("1_156d0")
+CharacterGrid = NodePath("TextureRect/ScrollContainer/GridContainer")
+ScrollBox = NodePath("TextureRect/ScrollContainer")
+Selector = NodePath("TextureRect/FreeDuelCell")
 
 [node name="TextureRect2" type="TextureRect" parent="." unique_id=1495379682]
 layout_mode = 1
@@ -108,10 +105,10 @@ anchor_right = 0.9548611
 anchor_bottom = 0.80864197
 grow_horizontal = 2
 grow_vertical = 2
-metadata/_edit_use_anchors_ = true
 
 [node name="GridContainer" type="GridContainer" parent="TextureRect/ScrollContainer" unique_id=945072082]
 custom_minimum_size = Vector2(275, 163.72)
+layout_direction = 1
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -119,3 +116,19 @@ theme_override_constants/h_separation = 10
 theme_override_constants/v_separation = 12
 columns = 6
 script = ExtResource("1_orgy2")
+
+[node name="FreeDuelCell" parent="TextureRect" unique_id=763741244 instance=ExtResource("4_55b2y")]
+layout_mode = 0
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 564.0
+offset_top = 288.0
+offset_right = 612.0
+offset_bottom = 336.0
+grow_horizontal = 1
+grow_vertical = 1
+texture_normal = ExtResource("4_pwtei")
+texture_hover = null
