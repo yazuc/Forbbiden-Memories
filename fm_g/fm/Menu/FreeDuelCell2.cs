@@ -7,7 +7,7 @@ namespace fm
 		private int colunasMax = 5;
 		private int linhasMax = 8;
 		private int tamanhoFrame = 53;
-
+		[Export] public float escalaDesejada = 5.0f; 
 		private float inicioX = 275.6f; 
 		private float inicioY = 27.5f;
 
@@ -17,7 +17,6 @@ namespace fm
 		
 		public void _ready()
 		{
-			float escalaDesejada = 3.0f; 
 			this.CustomMinimumSize = new Vector2(tamanhoFrame * escalaDesejada, tamanhoFrame * escalaDesejada);
 
 			// Configure como a imagem deve se comportar dentro desse novo tamanho
