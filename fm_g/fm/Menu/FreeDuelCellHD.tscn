@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://cblr5g0ykskg"]
+
+[ext_resource type="Texture2D" uid="uid://s6uwklgpaeuw" path="res://Assets/mugshots_4.png" id="1_dh5oj"]
+[ext_resource type="Script" uid="uid://b2fvlh0ojm24f" path="res://Menu/FreeDuelCellHd.cs" id="2_dh5oj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2myb7"]
+atlas = ExtResource("1_dh5oj")
+region = Rect2(554.222, 59.238, 93.778, 93.778)
+
+[node name="FreeDuelCellHd" type="TextureRect" unique_id=1599722837]
+clip_contents = true
+custom_minimum_size = Vector2(265, 265)
+anchors_preset = -1
+anchor_left = 0.38498265
+anchor_top = 0.2955247
+anchor_right = 0.61501735
+anchor_bottom = 0.7044753
+offset_left = 85.25
+offset_top = 132.5
+offset_right = -85.25
+offset_bottom = -132.49997
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_2myb7")
+expand_mode = 1
+script = ExtResource("2_dh5oj")
+escalaDesejada = 2.0

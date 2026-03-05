@@ -1,24 +1,27 @@
 [gd_scene format=3 uid="uid://cca8sehh063on"]
 
-[ext_resource type="Texture2D" uid="uid://bfd5kyvxr57hg" path="res://Assets/mugshots.png" id="1_tdonw"]
+[ext_resource type="Texture2D" uid="uid://l2mfhaslvoyk" path="res://Assets/mugshots_.png" id="1_obsew"]
 [ext_resource type="Script" uid="uid://d162ppknouppt" path="res://Menu/FreeDuelCell2.cs" id="2_obsew"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_obsew"]
-atlas = ExtResource("1_tdonw")
+atlas = ExtResource("1_obsew")
 region = Rect2(275.6, 27.5, 47, 47)
 
 [node name="FreeDuelCell2" type="TextureRect" unique_id=1382879831]
 clip_contents = true
 custom_minimum_size = Vector2(265, 265)
 anchors_preset = -1
-anchor_left = 0.42600003
-anchor_right = 0.523
-anchor_bottom = 0.16800001
-offset_left = 0.24795532
-offset_right = 0.0040283203
-offset_bottom = 0.13599396
+anchor_left = 0.36
+anchor_top = -0.120000005
+anchor_right = 0.59000003
+anchor_bottom = 0.289
+offset_left = 76.27997
+offset_top = 77.76
+offset_right = -77.18005
+offset_bottom = -78.272
 grow_horizontal = 2
+grow_vertical = 2
 texture = SubResource("AtlasTexture_obsew")
 expand_mode = 1
 script = ExtResource("2_obsew")
-metadata/_edit_use_anchors_ = true
+escalaDesejada = 2.8

@@ -3,7 +3,7 @@ using System;
 
 public partial class FreeDuelCell : TextureButton
 {
-	[Export] public float escalaDesejada = 5.0f; 
+	[Export] public float escalaDesejada = 2.5f; 
 	private float inicioX = 275.6f; 
 	private float inicioY = 27.5f;
 	private int tamanhoFrame = 53;

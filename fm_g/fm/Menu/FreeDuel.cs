@@ -25,6 +25,7 @@ public partial class FreeDuel : Control
 	public override void _Ready()
 	{
 		_columns = CharacterGrid.Columns;
+		ScrollBox.ScrollVertical = 0; // força topo
 		UpdateSelector(false); 
 	}
 
