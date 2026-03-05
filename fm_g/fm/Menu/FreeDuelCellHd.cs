@@ -7,10 +7,10 @@ namespace fm
 	{
 		private int colunasMax = 5;
 		private int linhasMax = 8;
-		private int tamanhoFrame = 107;
+		private int tamanhoFrame = 106;
 		[Export] public float escalaDesejada = 2.5f; 
-		private float inicioX = 554.222f; 
-		private float inicioY = 59.238f;
+		private float inicioX = 554f; 
+		private float inicioY = 58f;
 
 		// Agora controlamos apenas um índice global
 		private int indexAtual = 0;
