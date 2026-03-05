@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://c37clnkfw7brm" path="res://Menu/GridContainer.cs" id="1_orgy2"]
 [ext_resource type="Texture2D" uid="uid://jlkyixcl8id6" path="res://Assets/fd_4.png" id="3_156d0"]
 [ext_resource type="PackedScene" uid="uid://dw41tebwcaxiv" path="res://Menu/FreeDuelCell.tscn" id="4_55b2y"]
-[ext_resource type="Texture2D" uid="uid://c8rankfbykrbd" path="res://Assets/SeletorFD.png" id="4_pwtei"]
+[ext_resource type="Texture2D" uid="uid://ppit13cjasxp" path="res://Assets/SeletorFD_waifu2x_scale2x.png" id="6_156d0"]
 
 [node name="FreeDuel" type="Control" unique_id=1721527336 node_paths=PackedStringArray("CharacterGrid", "ScrollBox", "Selector")]
 layout_mode = 3
@@ -134,6 +134,6 @@ offset_right = 612.0
 offset_bottom = 336.0
 grow_horizontal = 1
 grow_vertical = 1
-texture_normal = ExtResource("4_pwtei")
+texture_normal = ExtResource("6_156d0")
 texture_hover = null
 escalaDesejada = 2.0
