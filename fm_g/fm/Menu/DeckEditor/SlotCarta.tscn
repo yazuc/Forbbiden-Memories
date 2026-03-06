@@ -1,0 +1,100 @@
+[gd_scene format=3 uid="uid://bnoejnmft8sbi"]
+
+[node name="SlotCarta" type="HBoxContainer" unique_id=27032381]
+custom_minimum_size = Vector2(0, 55)
+anchors_preset = -1
+anchor_top = 0.42901236
+anchor_right = 1.0
+anchor_bottom = 0.55709875
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1, 0.68)
+size_flags_horizontal = 3
+size_flags_vertical = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="DeckNumber" type="ColorRect" parent="." unique_id=82416771]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+size_flags_vertical = 3
+color = Color(0.007843138, 0, 0.12156863, 1)
+
+[node name="Label" type="Label" parent="DeckNumber" unique_id=1968272138]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CardNumber" type="ColorRect" parent="." unique_id=1353404570]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+size_flags_vertical = 3
+color = Color(0.007843138, 0, 0.12156863, 1)
+
+[node name="Label" type="Label" parent="CardNumber" unique_id=1913422344]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CardName" type="ColorRect" parent="." unique_id=94831386]
+custom_minimum_size = Vector2(450, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0.007843138, 0, 0.12156863, 1)
+
+[node name="Label" type="Label" parent="CardName" unique_id=1183552691]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CardStats" type="ColorRect" parent="." unique_id=402053797]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_vertical = 3
+color = Color(0.007843138, 0, 0.12156863, 1)
+
+[node name="Label" type="Label" parent="CardStats" unique_id=2112026927]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CardType" type="ColorRect" parent="." unique_id=97037678]
+custom_minimum_size = Vector2(65, 0)
+layout_direction = 1
+layout_mode = 2
+size_flags_vertical = 3
+color = Color(0.007843138, 0, 0.12156863, 1)
+
+[node name="Label" type="Label" parent="CardType" unique_id=273839680]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CardSign" type="ColorRect" parent="." unique_id=1686755690]
+custom_minimum_size = Vector2(120.64, 0)
+layout_mode = 2
+size_flags_vertical = 3
+color = Color(0.007843138, 0, 0.12156863, 1)
+
+[node name="Label" type="Label" parent="CardSign" unique_id=1239170939]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
