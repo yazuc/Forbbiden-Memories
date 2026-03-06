@@ -1,16 +1,28 @@
 [gd_scene format=3 uid="uid://bnoejnmft8sbi"]
 
-[node name="SlotCarta" type="HBoxContainer" unique_id=27032381]
+[ext_resource type="Script" uid="uid://cs5lq3io2h3ml" path="res://Menu/DeckEditor/SlotCarta.cs" id="1_lycdx"]
+[ext_resource type="LabelSettings" uid="uid://c25w33a2xsn05" path="res://Menu/DeckEditor/new_label_settings.tres" id="2_3u48p"]
+
+[node name="SlotCarta" type="HBoxContainer" unique_id=27032381 node_paths=PackedStringArray("DeckNumber", "CardNumber", "CardName", "CardStats", "CardType", "CardSign")]
 custom_minimum_size = Vector2(0, 55)
 anchors_preset = -1
 anchor_top = 0.42901236
 anchor_right = 1.0
-anchor_bottom = 0.55709875
+anchor_bottom = 0.51600003
+offset_bottom = 26.631989
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(1, 0.68)
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/separation = 4
+script = ExtResource("1_lycdx")
+DeckNumber = NodePath("DeckNumber/Label")
+CardNumber = NodePath("CardNumber/Label")
+CardName = NodePath("CardName/Label")
+CardStats = NodePath("CardStats/Label")
+CardType = NodePath("CardType/Label")
+CardSign = NodePath("CardSign/Label")
 metadata/_edit_use_anchors_ = true
 
 [node name="DeckNumber" type="ColorRect" parent="." unique_id=82416771]
@@ -26,6 +38,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+label_settings = ExtResource("2_3u48p")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="CardNumber" type="ColorRect" parent="." unique_id=1353404570]
 custom_minimum_size = Vector2(70, 0)
@@ -40,6 +55,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+label_settings = ExtResource("2_3u48p")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="CardName" type="ColorRect" parent="." unique_id=94831386]
 custom_minimum_size = Vector2(450, 0)
@@ -55,6 +73,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+label_settings = ExtResource("2_3u48p")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="CardStats" type="ColorRect" parent="." unique_id=402053797]
 custom_minimum_size = Vector2(150, 0)
@@ -69,6 +90,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+label_settings = ExtResource("2_3u48p")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="CardType" type="ColorRect" parent="." unique_id=97037678]
 custom_minimum_size = Vector2(65, 0)
@@ -84,6 +108,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+label_settings = ExtResource("2_3u48p")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="CardSign" type="ColorRect" parent="." unique_id=1686755690]
 custom_minimum_size = Vector2(120.64, 0)
@@ -98,3 +125,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+label_settings = ExtResource("2_3u48p")
+horizontal_alignment = 1
+vertical_alignment = 1
