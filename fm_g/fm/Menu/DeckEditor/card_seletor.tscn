@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://lc8gchaw7gis"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vmukw"]
+bg_color = Color(0.6, 0.6, 0, 0)
+draw_center = false
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.7294118, 0, 0, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3001y"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.99215686, 0.80784315, 0, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r50h8"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.8901961, 0.43137255, 0, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[node name="CardSeletor" type="Panel" unique_id=1392681870]
+custom_minimum_size = Vector2(1158, 55)
+anchors_preset = -1
+anchor_left = -0.006076389
+anchor_top = 0.45522225
+anchor_right = 1.0034722
+anchor_bottom = 0.54009885
+offset_left = 3.0
+offset_top = 0.015991211
+offset_right = 3.0
+offset_bottom = 0.015960693
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_vmukw")
+metadata/_edit_use_anchors_ = true
+
+[node name="Panel" type="Panel" parent="." unique_id=359504894]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0017361111
+anchor_top = 0.036654387
+anchor_right = 0.9982639
+anchor_bottom = 0.9639271
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3001y")
+metadata/_edit_use_anchors_ = true
+
+[node name="Panel2" type="Panel" parent="." unique_id=395121710]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0017361111
+anchor_top = 0.018472567
+anchor_right = 0.9982639
+anchor_bottom = 0.98210895
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_r50h8")
+metadata/_edit_use_anchors_ = true
+
+[node name="Panel3" type="Panel" parent="." unique_id=1692808412]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0026041667
+anchor_top = 0.054836202
+anchor_right = 0.9973958
+anchor_bottom = 0.9457453
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_r50h8")
+metadata/_edit_use_anchors_ = true

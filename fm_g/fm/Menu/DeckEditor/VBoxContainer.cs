@@ -25,13 +25,6 @@ namespace fm
 				AddChild(cell);
 				i++;
 			}
-			// for(int i = 0; i < 40; i++)
-			// {
-			// 	var cell = scene.Instantiate();
-			// 	//cell.Call("IrParaIndex", i);
-			// 	AddChild(cell);
-			// }
-
 		}
 
 		// Called every frame. 'delta' is the elapsed time since the previous frame.

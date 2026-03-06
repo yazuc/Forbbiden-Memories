@@ -112,6 +112,14 @@ label_settings = ExtResource("2_3u48p")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="TextureRect" type="TextureRect" parent="CardType" unique_id=940792869]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="CardSign" type="ColorRect" parent="." unique_id=1686755690]
 custom_minimum_size = Vector2(120.64, 0)
 layout_mode = 2
