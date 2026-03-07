@@ -4,7 +4,7 @@ using System.Reflection.Emit;
 
 namespace fm
 {
-	public partial class SlotCarta : HBoxContainer
+	public partial class SlotCarta : Godot.HBoxContainer
 	{
 		[Export] public Godot.Label DeckNumber;
 		[Export] public Godot.Label CardNumber;

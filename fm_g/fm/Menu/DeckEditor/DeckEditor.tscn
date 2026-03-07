@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://cejd0qfh25o4s" path="res://Assets/tijolo_frederico.jpg" id="1_0crxi"]
 [ext_resource type="Script" uid="uid://bey2pwuy0swjw" path="res://Menu/DeckEditor/VBoxContainer.cs" id="1_dmf6v"]
 [ext_resource type="FontFile" uid="uid://dvaju2cffkn2i" path="res://Assets/matrix-bold-small-caps-wisabo/MatrixBoldSmallCaps.otf" id="2_0crxi"]
+[ext_resource type="PackedScene" uid="uid://lc8gchaw7gis" path="res://Menu/DeckEditor/card_seletor.tscn" id="4_p0pxx"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_p0pxx"]
 font = ExtResource("2_0crxi")
@@ -123,6 +124,9 @@ anchor_right = 0.9348958
 anchor_bottom = 0.95987654
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
 metadata/_edit_use_anchors_ = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel/VScrollBar" unique_id=987494637]
@@ -131,3 +135,18 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_dmf6v")
 metadata/_edit_use_anchors_ = true
+
+[node name="CardSeletor" parent="Panel" unique_id=1392681870 instance=ExtResource("4_p0pxx")]
+layout_mode = 0
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = -1.5
+offset_top = 75.0
+offset_right = 1156.5
+offset_bottom = 130.0
+grow_horizontal = 1
+grow_vertical = 1
+size_flags_horizontal = 3

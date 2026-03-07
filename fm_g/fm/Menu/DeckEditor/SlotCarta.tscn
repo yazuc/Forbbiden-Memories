@@ -2,6 +2,15 @@
 
 [ext_resource type="Script" uid="uid://cs5lq3io2h3ml" path="res://Menu/DeckEditor/SlotCarta.cs" id="1_lycdx"]
 [ext_resource type="LabelSettings" uid="uid://c25w33a2xsn05" path="res://Menu/DeckEditor/new_label_settings.tres" id="2_3u48p"]
+[ext_resource type="Texture2D" uid="uid://b7cigqpe0db40" path="res://Assets/signos.png" id="3_wosbd"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x0tuo"]
+atlas = ExtResource("3_wosbd")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wosbd"]
+atlas = ExtResource("3_wosbd")
+region = Rect2(64, 0, 64, 64)
 
 [node name="SlotCarta" type="HBoxContainer" unique_id=27032381 node_paths=PackedStringArray("DeckNumber", "CardNumber", "CardName", "CardStats", "CardType", "CardSign")]
 custom_minimum_size = Vector2(0, 55)
@@ -43,7 +52,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="CardNumber" type="ColorRect" parent="." unique_id=1353404570]
-custom_minimum_size = Vector2(70, 0)
+custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 size_flags_vertical = 3
 color = Color(0.007843138, 0, 0.12156863, 1)
@@ -112,21 +121,16 @@ label_settings = ExtResource("2_3u48p")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="CardType" unique_id=940792869]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
 [node name="CardSign" type="ColorRect" parent="." unique_id=1686755690]
+clip_contents = true
 custom_minimum_size = Vector2(120.64, 0)
 layout_mode = 2
+size_flags_horizontal = 4
 size_flags_vertical = 3
 color = Color(0.007843138, 0, 0.12156863, 1)
 
 [node name="Label" type="Label" parent="CardSign" unique_id=1239170939]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -136,3 +140,38 @@ grow_vertical = 2
 label_settings = ExtResource("2_3u48p")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="CardSign" unique_id=940792869]
+texture_filter = 1
+custom_minimum_size = Vector2(64, 55)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.09118036
+anchor_top = 0.21261537
+anchor_right = 0.5056365
+anchor_bottom = 0.7087174
+offset_right = 200.0
+offset_bottom = 58.823536
+grow_vertical = 2
+scale = Vector2(0.19999999, 0.41176468)
+texture = SubResource("AtlasTexture_x0tuo")
+expand_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect2" type="TextureRect" parent="CardSign" unique_id=1736342283]
+texture_filter = 1
+custom_minimum_size = Vector2(64, 55)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5222148
+anchor_top = 0.21261445
+anchor_right = 0.93667096
+anchor_bottom = 0.70871645
+offset_right = 200.0
+offset_bottom = 58.823536
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(0.19999999, 0.41176468)
+texture = SubResource("AtlasTexture_wosbd")
+expand_mode = 1
+metadata/_edit_use_anchors_ = true
