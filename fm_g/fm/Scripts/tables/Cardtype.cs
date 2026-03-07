@@ -30,10 +30,10 @@ namespace QuickType
 		public int Id { get; set; }
 
 		[JsonProperty("GuardianStarA")]
-		public long GuardianStarA { get; set; }
+		public GuardianStar GuardianStarA { get; set; }
 
 		[JsonProperty("GuardianStarB")]
-		public long GuardianStarB { get; set; }
+		public GuardianStar GuardianStarB { get; set; }
 
 		[JsonProperty("Level")]
 		public long Level { get; set; }

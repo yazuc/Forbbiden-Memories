@@ -8,6 +8,7 @@ namespace fm
 	{
 		public Panel selector;
 		public ScrollContainer scroll;    		
+		public TextureRect Type => new TextureRect();
 		public int j = 0;
 		// Called when the node enters the scene tree for the first time.
 		public override void _Ready()
@@ -17,7 +18,7 @@ namespace fm
 			var deck = new Deck();					
 			var deckList = Funcoes.LoadUserDeck(srcPath);
 			deck.LoadDeck(deckList);
-			var scene1 = "res://Menu/DeckEditor/SlotCarta.tscn";
+			var scene1 = "res://Menu/DeckEditor/slot_carta.scn";
 			var scene = GD.Load<PackedScene>(scene1);
 			int i = 1;
 			foreach(var item in deck.Cards)
@@ -25,15 +26,8 @@ namespace fm
 				var cell = scene.Instantiate();				
 				if(cell is SlotCarta slot)
 				{
-					slot.FillLabel(
-						i.ToString(),
-						item.Id.ToString(),
-						item.Name,
-						item.Attack.ToString(),
-						item.Type.ToString(),
-						item.GuardianStarA.ToString()
-					);					
 					AddChild(slot);
+					slot.Initialize(item, i);				
 					i++;
 				}
 			}		
@@ -48,10 +42,16 @@ namespace fm
 		public override void _Process(double delta)
 		{
 			MoveSelector(j);
-			if(Input.IsActionJustPressed("ui_down"))			
-				j++;				
-			if(Input.IsActionJustPressed("ui_up"))
-				j--;							
+			if(Input.IsActionJustPressed("ui_down"))
+			{
+				if(j < 39)
+					j++;				
+			}
+			if (Input.IsActionJustPressed("ui_up"))
+			{
+				if(j > 0)
+					j--;							
+			}
 		}	
 
 		public void MoveSelector(int index)

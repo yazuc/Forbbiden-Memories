@@ -995,7 +995,10 @@ namespace fm{
 			}
 			if(!br.DefenderDestroyed)
 			{
-				var taskIni = monstroInimigo3d.TransitionCardTo(originalPosIni, 0.5f, orignalPosIniRot);
+				if(monstroInimigo3d != null)
+				{
+					var taskIni = monstroInimigo3d.TransitionCardTo(originalPosIni, 0.5f, orignalPosIniRot);					
+				}
 			}
 			if(!br.AttackerDestroyed)
 			{
@@ -1004,7 +1007,10 @@ namespace fm{
 			if(br.AttackerDestroyed)
 			{
 				await meuMonstro3d.Queimar();
-				var taskIni = monstroInimigo3d.TransitionCardTo(originalPosIni, 0.5f, orignalPosIniRot);
+				if(monstroInimigo3d != null)
+				{					
+					var taskIni = monstroInimigo3d.TransitionCardTo(originalPosIni, 0.5f, orignalPosIniRot);
+				}
 			}
 			GD.Print("finalizou");
 		}	

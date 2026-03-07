@@ -52,7 +52,7 @@ namespace fm
 			if (MaoVisual != null)
 			{				
 				gL = new GameLoop(
-					new Player("Alice", deckIni.Cards, SlotsCampo, SlotsCampoST, LP_You, You, 8000), 
+					new Player("Alice", deck.Cards, SlotsCampo, SlotsCampoST, LP_You, You, 8000), 
 					new Player("Bob", deckIni.Cards, SlotsCampoIni, SlotsCampoSTIni, LP_Com, Com, 8000),
 					MaoVisual,
 					CameraHand,

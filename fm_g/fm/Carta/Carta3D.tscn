@@ -16,7 +16,7 @@ seamless = true
 render_priority = 0
 shader = ExtResource("3_r0ftk")
 shader_parameter/noise_texture = SubResource("NoiseTexture2D_hrhay")
-shader_parameter/progress = 0.4310000204725
+shader_parameter/progress = 0.0
 shader_parameter/edge_width = 0.0910000043225
 shader_parameter/fire_color = Color(1.1612457, 0.27347544, 0, 1)
 
