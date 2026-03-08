@@ -39,6 +39,7 @@ namespace fm{
 		private Vector2 lastPos = Vector2.Zero;
 		public Sprite2D ComActive;
 		public Sprite2D YouActive;
+		public string LogicalPosition {get;set;}
 		public override void _Ready()
 		{
 			_transitionCam = new Camera3D();
@@ -107,7 +108,8 @@ namespace fm{
 						try 
 						{
 							// O await vai "explodir" aqui se TrySetCanceled for chamado
-							IsFaceDown = await MoveCartaParaCentro(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID);
+							var alvo = _cartasSelecionadasParaFusao.FirstOrDefault();
+							IsFaceDown = await MoveCartaParaCentro(alvo.CurrentID, alvo.Name);
 							
 							GD.Print("Facedown confirmado: " + IsFaceDown);
 							EntrarModoSelecaoCampo();
@@ -118,7 +120,7 @@ namespace fm{
 							GD.Print("Ação cancelada pelo usuário.");
 							
 							if (_cartasSelecionadasParaFusao.Any()) {
-								DevolveCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID, true);
+								DevolveCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID, _cartasSelecionadasParaFusao.FirstOrDefault().Name, true);
 							}
 						}
 					}
@@ -168,7 +170,7 @@ namespace fm{
 		private async Task EntrarModoSelecaoCampo()
 		{
 			if(_cartasSelecionadasParaFusao.Count() == 1)
-				DevolveCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID);
+				DevolveCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID, _cartasSelecionadasParaFusao.FirstOrDefault().Name);
 			_selecionandoLocal = true;
 			_indiceCampoSelecionado = 0; // Começa no primeiro slot								
 			if (_instanciaSeletor != null)
@@ -189,7 +191,7 @@ namespace fm{
 			}
 						
 			if (_cartasSelecionadasParaFusao.Any() && _cartasSelecionadasParaFusao.Count() == 1) {
-				DevolveCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID, true);
+				DevolveCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID, _cartasSelecionadasParaFusao.FirstOrDefault().Name, true);
 			}			
 						
 			_cartasSelecionadasParaFusao.Clear();
@@ -224,11 +226,10 @@ namespace fm{
 				.OrderBy(x => int.Parse(x.label.Text)) 
 				.ToList();
 
-			var idsOrdenados = selecionadasOrdenadas.Select(x => x.CurrentID).ToList();
+			var list3d = selecionadasOrdenadas.ToList();
+
+			var idsOrdenados = list3d.Select(x => x.CurrentID).ToList();
 			IDFusao = idsOrdenados;
-			var list3d = idsOrdenados
-				.Select(id => _cartasNaMao.First(c => c.CurrentID == id))
-				.ToList();
 
 			var cartaPrincipal = list3d[0];
 			float sideOffset = 250f; 
@@ -347,7 +348,7 @@ namespace fm{
 			novoPai.AddChild(node);
 		}
 		
-		private async Task<bool> MoveCartaParaCentro(int ID)
+		private async Task<bool> MoveCartaParaCentro(int ID, string name)
 		{
 			//await AnimaFusao();
 			if(_cartasSelecionadasParaFusao.Count() > 1) return false;
@@ -357,7 +358,7 @@ namespace fm{
 			var viewport = GetViewport();			
 			Vector2 screenCenter = viewport.GetVisibleRect().Size / 2f;
 			
-			var nodoAlvo = _cartasNaMao.Where(x => x.CurrentID == ID).FirstOrDefault();
+			var nodoAlvo = _cartasNaMao.FirstOrDefault(x => x.Name == name);
 			lastPos = nodoAlvo.GlobalPosition;
 			
 			Tween tween = GetTree().CreateTween();
@@ -395,9 +396,9 @@ namespace fm{
 			return await _tcsFaceDown.Task;
 		}
 		
-		private void DevolveCartaParaMao(int ID, bool cancel = false)
+		private void DevolveCartaParaMao(int ID, string name, bool cancel = false)
 		{			
-			var nodoAlvo = _cartasNaMao.Where(x => x.CurrentID == ID).FirstOrDefault();
+			var nodoAlvo = _cartasNaMao.FirstOrDefault(x => x.CurrentID == ID && x.Name == name);
 			if(cancel)
 				nodoAlvo.FlipCard(false);
 			Tween tween = GetTree().CreateTween();
@@ -438,8 +439,10 @@ namespace fm{
 			if (resultadoFusao != null)
 			{				
 				var idsMateriais = IDFusao;
-				var retorno = new Godot.Collections.Array<int>(idsMateriais);
-				retorno.Add(resultadoFusao.Id);
+				var retorno = new Godot.Collections.Array<int>(idsMateriais)
+                {
+                    resultadoFusao.Id
+                };
 				
 				var slotDestino = SlotsCampo[_indiceCampoSelecionado];
 				if(_cartasSelecionadasParaFusao.Count() == 1){
@@ -451,9 +454,12 @@ namespace fm{
 					slotDestino = DefineSlotagem(tipo)[_indiceCampoSelecionado];				
 					summon = tipo != CardTypeEnum.Spell && tipo != CardTypeEnum.Trap && tipo != CardTypeEnum.Equipment;
 				}
-				
-				if(summon)
-					Instancia3D(slotDestino, (int)resultadoFusao.Id);			
+
+				if (summon)
+				{
+					await Instancia3D(slotDestino, (int)resultadoFusao.Id);			
+					LogicalPosition = slotDestino.Name.ToString();
+				}
 				
 				_cartasSelecionadasParaFusao.Clear();
 				SairModoSelecaoCampo();
@@ -477,7 +483,8 @@ namespace fm{
 			foreach (var carta in _cartasSelecionadasParaFusao)
 			{
 				_cartasNaMao.Remove(carta);
-				carta.QueueFree();
+				if(IsInstanceValid(carta))
+					carta.QueueFree();
 			}		
 		}
 
@@ -629,6 +636,7 @@ namespace fm{
 						GD.Print($"{slotDestino.Name} Slot confirmado: " + _indiceCampoSelecionado);
 						if(PegaNodoNoSlot(slotDestino))
 						{							
+							LogicalPosition = slotDestino.Name;
 							_tcsSlot.TrySetResult(_indiceCampoSelecionado);
 						}
 						else if(PodeBate())
@@ -672,16 +680,41 @@ namespace fm{
 		public void FinalizaNodoByCard(string CardID){
 			var nodes = GetTree().GetNodesInGroup("cartas").Cast<Carta3d>().ToArray();		
 							
-			foreach(var item in nodes){				
-				if(CardID == item.markerName){
-					_cartasInstanciadas.Remove(item);
-					item.QueueFree();										
+			try
+			{
+				foreach(var item in nodes)
+				{				
+					if(CardID == item.markerName)
+					{
+						_cartasInstanciadas.Remove(item);
+						item.QueueFree();						
+					}
 				}				
+			}catch(Exception e)
+			{						
+				GD.PrintErr($"Erro na Batalha: {e.Message}");
+				GD.PrintErr(e.StackTrace);
+			}								
+		}
+		
+
+		public int PegaSlotByMarker(string marker){
+			var nodes = GetTree().GetNodesInGroup("cartas");						
+
+			foreach(var item in nodes){
+				if(item is Carta3d meuNode){
+					if(marker == meuNode.markerName){
+						return meuNode.slotPlaced;
+					}
+				}
 			}
+			//nao achou
+			return -1;
 		}
 		
 		public int PegaSlot(int CardID){
-			var nodes = GetTree().GetNodesInGroup("cartas");
+			var nodes = GetTree().GetNodesInGroup("cartas");						
+
 			foreach(var item in nodes){
 				if(item is Carta3d meuNode){
 					if(CardID == meuNode.carta){
@@ -708,6 +741,8 @@ namespace fm{
 		
 		public bool PodeBate(){
 			var nodes = GetTree().GetNodesInGroup("cartas");
+			if(nodes.Count() == 0) return false;
+
 			foreach(var item in nodes){
 				if(item is Carta3d meuNode){
 					foreach(var inimigo in SlotsCampoIni){
@@ -715,6 +750,10 @@ namespace fm{
 							return false;
 						}						
 					}
+				}
+				else
+				{
+					GD.Print("item não é carta3d");
 				}
 			}			
 			return true;
@@ -724,8 +763,11 @@ namespace fm{
 			var nodes = GetTree().GetNodesInGroup("cartas");
 			foreach(var item in nodes){
 				if(item is Carta3d meuNode){
-					if(slotDestino.Name == meuNode.markerName){
-						return true;
+					if(IsInstanceValid(meuNode))
+					{
+						if((slotDestino.Name == meuNode.markerName)){
+							return true;
+						}						
 					}
 				}
 			}			
@@ -977,40 +1019,35 @@ namespace fm{
 				monstroInimigo3d.Rotation = new Vector3(-0, (diffEnemy * -1.5707964f), 0);
 				var taskIni = monstroInimigo3d.TransitionCardTo(position3D + new Vector3(0,0,( diffEnemy * 2)), 0.5f);				
 			}
+
+			await Task.Delay(600);
 								
-			if(br.DefenderDestroyed && br.AttackerDestroyed)
+			if(br.DefenderDestroyed && br.AttackerDestroyed) //draw, both die // works
 			{
-				await monstroInimigo3d.Queimar(); 
+				if(monstroInimigo3d != null)
+					await monstroInimigo3d.Queimar(); 
 				await meuMonstro3d.Queimar(); 
 				
 				return;
 			}
-			if(br.DefenderDestroyed){
-				if (monstroInimigo3d != null && IsInstanceValid(monstroInimigo3d))
-				{
-					// Certifique-se que Queimar() retorna um Task ou SignalAwaiter válido
-					await monstroInimigo3d.Queimar(); 
-				}			
-				//taskMe =  meuMonstro3d.TransitionCardTo(originalPos, 0.5f, originalPosRot);				
+			if(!br.DefenderDestroyed && br.AttackerDestroyed) //defender blocks, in attack mode, I die // works
+			{	
+				await meuMonstro3d.Queimar();
+				var taskIni = monstroInimigo3d?.TransitionCardTo(originalPosIni, 0.5f, orignalPosIniRot);					
 			}
-			if(!br.DefenderDestroyed)
-			{
+			if(br.DefenderDestroyed && !br.AttackerDestroyed) //defender blocks, in attack mode, I die // works
+			{	
+				if(monstroInimigo3d != null)
+					await monstroInimigo3d.Queimar(); 
+				taskMe =  meuMonstro3d.TransitionCardTo(originalPos, 0.5f, originalPosRot);													
+			}
+			if(!br.DefenderDestroyed && !br.AttackerDestroyed) //defender blocks, in attack mode, I die // works
+			{	
 				if(monstroInimigo3d != null)
 				{
 					var taskIni = monstroInimigo3d.TransitionCardTo(originalPosIni, 0.5f, orignalPosIniRot);					
 				}
-			}
-			if(!br.AttackerDestroyed)
-			{
-				taskMe =  meuMonstro3d.TransitionCardTo(originalPos, 0.5f, originalPosRot);				
-			}
-			if(br.AttackerDestroyed)
-			{
-				await meuMonstro3d.Queimar();
-				if(monstroInimigo3d != null)
-				{					
-					var taskIni = monstroInimigo3d.TransitionCardTo(originalPosIni, 0.5f, orignalPosIniRot);
-				}
+				taskMe =  meuMonstro3d.TransitionCardTo(originalPos, 0.5f, originalPosRot);		
 			}
 			GD.Print("finalizou");
 		}	

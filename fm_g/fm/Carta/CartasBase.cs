@@ -10,6 +10,7 @@ namespace fm
 		{
 		}
 		public int CurrentID;
+		public string internalID;
 		private Node? _currentFrameNode;
 		private AnimatedSprite2D? _arteSprite;
 		private Node2D? _frameAnchor;

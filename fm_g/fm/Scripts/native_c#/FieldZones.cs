@@ -47,11 +47,11 @@ namespace fm
 				var monster = MonsterZones[i];
 				if (monster != null)
 				{
-					GD.Print($"- Zone {i + 1}: zn: {monster.zoneName} - {monster.Card.Name} - Status ATK:{monster.Card.Attack} DEF:{monster.Card.Defense} ({(monster.IsAttackMode ? "ATK" : "DEF")}, Turns: {monster.TurnsOnField})");
+					GD.Print($"- Zone {i}: zn: {monster.zoneIndex} - {monster.zoneName} - {monster.Card.Name} - Status ATK:{monster.Card.Attack} DEF:{monster.Card.Defense} ({(monster.IsAttackMode ? "ATK" : "DEF")}, Turns: {monster.TurnsOnField})");
 				}
 				else
 				{
-					GD.Print($"- Zone {i + 1}: Empty");
+					GD.Print($"- Zone {i}: Empty");
 				}
 			}
 
@@ -104,6 +104,7 @@ namespace fm
 			MonsterZones[zoneIndex] = new FieldMonster 
 			{ 
 				zoneName = ini ?  $"Carta{zoneIndex + 1}IniM" : $"Carta{zoneIndex + 1}M",
+				zoneIndex = zoneIndex,
 				Card = card, 
 				IsAttackMode = isAttackMode,
 				IsFaceDown = isFaceDown,
@@ -129,19 +130,29 @@ namespace fm
 
 		public bool RemoveMonster(string zoneName)
 		{
-			int zoneIndex = 0;			
-			foreach(var item in MonsterZones)
-			{
-				if(item.zoneName == zoneName){					
-					break;
-				}
-				zoneIndex++;
-			}
+			var index = MonsterZones.Where(x => x != null && x.zoneName == zoneName).Select(x => x.zoneIndex).FirstOrDefault();
+			MonsterZones[index] = null;
+			// if(MonsterZones != null && MonsterZones.Count() > 0)
+			// {
+			// 	foreach(var item in MonsterZones)
+			// 	{
+			// 		if(item != null)
+			// 		{
+			// 			GD.Print("enemyzone name" + item.zoneName);
+			// 			if(item.zoneName == zoneName){	
+			// 				GD.Print($"item {item.zoneName} e zonename {zoneName}");				
+			// 				break;
+			// 			}
+			// 			zoneIndex++;						
+			// 		}
+			// 	}				
+			// 	MonsterZones[zoneIndex] = null;
+			// }
 				
-
-			MonsterZones[zoneIndex] = null;
 			return true;
 		}
+
+		public FieldMonster? GetMonsterInZone(string zoneName) => 	MonsterZones.FirstOrDefault(x => x != null && x.zoneName == zoneName);		
 
 		public FieldMonster? GetMonsterInZone(
 			int zoneIndex) => 
@@ -154,6 +165,7 @@ namespace fm
 	public class FieldMonster
 	{
 		public string zoneName {get; set;}
+		public int zoneIndex {get;set;}
 		public Cards? Card { get; set; }
 		public bool IsAttackMode { get; set; }
 		public bool IsFaceDown { get; set; }

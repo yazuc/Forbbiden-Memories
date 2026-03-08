@@ -115,8 +115,7 @@ namespace fm
 				var cardData = CardDatabase.Instance.GetCardById((int)item);	
 				if(i == idEscolhido.Count()){
 					//arrumar quando colocar um nodo por cima de outro, deletar o anterior sempre
-					var car = MaoDoJogador.PegaSlot(cardData.Id);
-					GD.Print(car);
+					var car = MaoDoJogador.PegaSlotByMarker(MaoDoJogador.LogicalPosition);
 					_gameState.CurrentPlayer.Field.placeCard(car, cardData, true, false, _gameState.CurrentPlayer.IsEnemy);					
 				}
 				_gameState.CurrentPlayer.DiscardCard(cardData.Id);
@@ -157,7 +156,8 @@ namespace fm
 				
 				GD.Print("Escolha um atacante...");
 				int slotAtacante = await MaoDoJogador.SelecionarSlotAsync(MaoDoJogador.FiltraSlot(_gameState.CurrentPlayer.IsEnemy, true), _gameState.CurrentTurn == 1);								
-				var meuMonstro = _gameState.CurrentPlayer.Field.GetMonsterInZone(slotAtacante);
+				var meuMonstro = _gameState.CurrentPlayer.Field.GetMonsterInZone(MaoDoJogador.LogicalPosition);
+				GD.Print("Logical pos meu monstro: " + MaoDoJogador.LogicalPosition);
 				if(meuMonstro != null && meuMonstro.HasAttackedThisTurn)
 				{
 					continue;
@@ -172,11 +172,19 @@ namespace fm
 				
 				GD.Print("Escolha o alvo...");
 				int slotAlvo = await MaoDoJogador.SelecionarSlotAsync(MaoDoJogador.SlotsCampoIni, _gameState.CurrentTurn == 1, true);
-				
+				GD.Print("Logical pos inimigo monstro: " + MaoDoJogador.LogicalPosition);
 				if (slotAlvo != -1 && slotAlvo != -2)
 				{
-					var monstroInimigo = _gameState.OpponentPlayer.Field.GetMonsterInZone(slotAlvo);
-					await ResolverBatalha(meuMonstro, monstroInimigo);
+					try
+					{
+						var monstroInimigo = _gameState.OpponentPlayer.Field.GetMonsterInZone(MaoDoJogador.LogicalPosition);
+						await ResolverBatalha(meuMonstro, monstroInimigo);
+						
+					}catch(Exception e)
+					{						
+						GD.PrintErr($"Erro na Batalha: {e.Message}");
+    					GD.PrintErr(e.StackTrace);
+					}
 				}
 
 				await MaoDoJogador.TransitionTo(CameraField, 0.4f);
@@ -209,20 +217,22 @@ namespace fm
 				if(battleResult.AttackerDestroyed && battleResult.DefenderDestroyed)
 				{
 					//descobrir pq draw ta bugado
+					GD.Print("caiu onde deveria");
 					await MaoDoJogador.AnimateBattle(meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy);
+					GD.Print("passou do animate");
 					MaoDoJogador.FinalizaNodoByCard(monstroInimigo.zoneName);
 					_gameState.OpponentPlayer.Field.RemoveMonster(monstroInimigo.zoneName);	
 					MaoDoJogador.FinalizaNodoByCard(meuMonstro.zoneName);
 					_gameState.CurrentPlayer.Field.RemoveMonster(meuMonstro.zoneName);	
 					return false;		
 				}
-				if(battleResult.DefenderDestroyed){
-					//aqui teste meuMonstro, monstroInimigo, battleresult
-					GD.Print(monstroInimigo.zoneName);
-					await MaoDoJogador.AnimateBattle(meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy);
+				if(battleResult.DefenderDestroyed){					
+					await MaoDoJogador.AnimateBattle(meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy);					
 					MaoDoJogador.FinalizaNodoByCard(monstroInimigo.zoneName);
-					_gameState.OpponentPlayer.Field.RemoveMonster(monstroInimigo.zoneName);		
-					_gameState.OpponentPlayer.TakeDamage(battleResult.DamageDealt);				
+					GD.Print("zona que passou para destruir");
+					_gameState.OpponentPlayer.Field.RemoveMonster(monstroInimigo.zoneName);
+					GD.Print($"removeu a referencia do monstro na posicao {monstroInimigo.zoneName}");		
+					_gameState.OpponentPlayer.TakeDamage(battleResult.DamageDealt);									
 				}
 				if(battleResult.AttackerDestroyed){
 					//ajustar para o meuMonstro ser destruido

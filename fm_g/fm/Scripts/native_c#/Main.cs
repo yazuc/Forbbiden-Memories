@@ -40,7 +40,7 @@ namespace fm
 			//FmStarterDeckGenerator generator = new FmStarterDeckGenerator();
 			//List<QuickType.Cards> starterDeck = generator.GenerateStarterDeck(db.GetAllCards());          
 			//Funcoes.WriteCardsToFile(starterDeck, "starter_deck_ini.txt");
-			string srcGodot = "res://starter_deck.txt";
+			string srcGodot = "res://test_copy.txt";
 			string srcPath = ProjectSettings.GlobalizePath(srcGodot);
 						
 			var deckList = Funcoes.LoadUserDeck(srcPath);
@@ -53,7 +53,7 @@ namespace fm
 			{				
 				gL = new GameLoop(
 					new Player("Alice", deck.Cards, SlotsCampo, SlotsCampoST, LP_You, You, 8000), 
-					new Player("Bob", deckIni.Cards, SlotsCampoIni, SlotsCampoSTIni, LP_Com, Com, 8000),
+					new Player("Bob", deck.Cards, SlotsCampoIni, SlotsCampoSTIni, LP_Com, Com, 8000),
 					MaoVisual,
 					CameraHand,
 					CameraField,
