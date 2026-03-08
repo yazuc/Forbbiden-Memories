@@ -1,0 +1,150 @@
+[gd_scene format=3 uid="uid://keibpphv5dyc"]
+
+[ext_resource type="Texture2D" uid="uid://ba6hmhsyfrs4p" path="res://Resources/signs.tres" id="1_ayjil"]
+[ext_resource type="LabelSettings" uid="uid://c25w33a2xsn05" path="res://Menu/DeckEditor/new_label_settings.tres" id="2_l4jlr"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tcltv"]
+bg_color = Color(0.13, 0.13, 0.13, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f7fs8"]
+bg_color = Color(0.13, 0.13, 0.13, 0.5019608)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ayjil"]
+bg_color = Color(0.12941177, 0.12941177, 0.12941177, 1)
+corner_detail = 1
+shadow_color = Color(0.1254902, 0.1254902, 0.1254902, 0.6431373)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l4jlr"]
+bg_color = Color(0.12941177, 0.12941177, 0.12941177, 1)
+
+[node name="SeletorGuardian" type="Panel" unique_id=26353554]
+z_index = 2
+custom_minimum_size = Vector2(500, 193)
+anchors_preset = -1
+anchor_left = 0.36979166
+anchor_top = 0.6
+anchor_right = 0.6302083
+anchor_bottom = 0.7793213
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_tcltv")
+metadata/_edit_use_anchors_ = true
+
+[node name="Panel5" type="Panel" parent="." unique_id=1182205750]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_f7fs8")
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel5" unique_id=1459398982]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel5/VBoxContainer" unique_id=674712979]
+layout_mode = 2
+size_flags_vertical = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect" type="TextureRect" parent="Panel5/VBoxContainer/HBoxContainer" unique_id=1076636748]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("1_ayjil")
+expand_mode = 3
+stretch_mode = 3
+
+[node name="Label" type="Label" parent="Panel5/VBoxContainer/HBoxContainer" unique_id=951791471]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Mercury"
+label_settings = ExtResource("2_l4jlr")
+vertical_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Panel5/VBoxContainer" unique_id=1813352814]
+layout_mode = 2
+size_flags_vertical = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect" type="TextureRect" parent="Panel5/VBoxContainer/HBoxContainer2" unique_id=366819212]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("1_ayjil")
+expand_mode = 3
+stretch_mode = 3
+
+[node name="Label" type="Label" parent="Panel5/VBoxContainer/HBoxContainer2" unique_id=1263160472]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Mercury"
+label_settings = ExtResource("2_l4jlr")
+vertical_alignment = 1
+
+[node name="Panel" type="Panel" parent="Panel5" unique_id=256237377]
+clip_children = 2
+z_index = 1
+clip_contents = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0012559834
+anchor_top = -0.0019493973
+anchor_right = 0.00084805297
+anchor_bottom = 0.5923803
+offset_top = -2.9563904e-05
+offset_right = 37.65648
+offset_bottom = -11.577255
+rotation = 0.35604715
+theme_override_styles/panel = SubResource("StyleBoxFlat_ayjil")
+
+[node name="Panel2" type="Panel" parent="Panel5" unique_id=1337046178]
+z_index = 1
+clip_contents = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.07
+anchor_top = 0.50085974
+anchor_right = -0.04331296
+anchor_bottom = 1.084468
+offset_right = 37.65648
+offset_bottom = -11.577225
+rotation = -0.34232724
+theme_override_styles/panel = SubResource("StyleBoxFlat_l4jlr")
+
+[node name="Panel3" type="Panel" parent="Panel5" unique_id=466275353]
+z_index = 4
+clip_contents = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.9
+anchor_top = 0.09294297
+anchor_right = 0.926687
+anchor_bottom = 0.6872726
+offset_left = 1.999939
+offset_top = 1.5258789e-05
+offset_right = 39.656433
+offset_bottom = -11.577209
+rotation = -0.35604715
+theme_override_styles/panel = SubResource("StyleBoxFlat_ayjil")
+
+[node name="Panel4" type="Panel" parent="Panel5" unique_id=1895339112]
+z_index = 1
+clip_contents = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.972
+anchor_top = 0.41308022
+anchor_right = 0.9986869
+anchor_bottom = 0.9966884
+offset_left = 1.0
+offset_right = 38.656494
+offset_bottom = -11.577225
+rotation = 0.34208453
+theme_override_styles/panel = SubResource("StyleBoxFlat_l4jlr")
