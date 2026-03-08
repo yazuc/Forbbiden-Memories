@@ -109,8 +109,7 @@ namespace fm{
 						{
 							// O await vai "explodir" aqui se TrySetCanceled for chamado
 							var alvo = _cartasSelecionadasParaFusao.FirstOrDefault();
-							IsFaceDown = await MoveCartaParaCentro(alvo.CurrentID, alvo.Name);
-							
+							IsFaceDown = await MoveCartaParaCentro(alvo.CurrentID, alvo.Name);							
 							GD.Print("Facedown confirmado: " + IsFaceDown);
 							EntrarModoSelecaoCampo();
 						}
@@ -599,33 +598,36 @@ namespace fm{
 				}
 				if(Input.IsActionJustPressed("ui_lb") || Input.IsActionJustPressed("ui_rb"))
 				{
-					var slotDestino = slots[_indiceCampoSelecionado];									
-					var isEnemy = slotDestino.Name.ToString().Contains("Ini");
-					var pegou = PegaNodoCarta3d(slotDestino.Name);
-					if(pegou != null)
-					{						
-						var rotacao = pegou.Rotation;			
-						if(pegou is Carta3d nodo)
-						{
-							nodo.Defesa = !nodo.Defesa;
-							GD.Print("Buscando ID: " + slotDestino.Name);
-							GD.Print("Encontrado: " + (pegou != null ? pegou.markerName : "null"));
-							GD.Print($"defesa: {nodo.Defesa}");
-						}		
-						if(!isEnemy){
-							if(rotacao == new Vector3(0,0,0)){
-								pegou.Rotation = new Vector3(-0, 1.5707964f, 0);
+					if (!camIni)
+					{
+						var slotDestino = slots[_indiceCampoSelecionado];									
+						var isEnemy = slotDestino.Name.ToString().Contains("Ini");
+						var pegou = PegaNodoCarta3d(slotDestino.Name);
+						if(pegou != null)
+						{						
+							var rotacao = pegou.Rotation;			
+							if(pegou != null && pegou is Carta3d nodo)
+							{
+								nodo.Defesa = !nodo.Defesa;
+								GD.Print("Buscando ID: " + slotDestino.Name);
+								GD.Print("Encontrado: " + (pegou != null ? pegou.markerName : "null"));
+								GD.Print($"defesa: {nodo.Defesa}");
+							}		
+							if(!isEnemy){
+								if(rotacao == new Vector3(0,0,0)){
+									pegou.Rotation = new Vector3(-0, 1.5707964f, 0);
+								}else{
+									pegou.Rotation = new Vector3(-0, 0.0f,0);						
+								}						
 							}else{
-								pegou.Rotation = new Vector3(-0, 0.0f,0);						
+								if(rotacao == new Vector3(0,3.14f,0)){
+									pegou.Rotation = new Vector3(-0, -1.5707964f, 0);
+								}else{							
+									pegou.Rotation = new Vector3(0,3.14f,0);						
+								}	
 							}						
-						}else{
-							if(rotacao == new Vector3(0,3.14f,0)){
-								pegou.Rotation = new Vector3(-0, -1.5707964f, 0);
-							}else{							
-								pegou.Rotation = new Vector3(0,3.14f,0);						
-							}	
+							
 						}						
-						
 					}
 				}
 				
@@ -634,14 +636,36 @@ namespace fm{
 					{
 						var slotDestino = camIni ? SlotsCampoIni[_indiceCampoSelecionado] : SlotsCampo[_indiceCampoSelecionado];
 						GD.Print($"{slotDestino.Name} Slot confirmado: " + _indiceCampoSelecionado);
+						var nodo = PegaNodoCarta3d(slotDestino.Name);
 						if(PegaNodoNoSlot(slotDestino))
-						{							
-							LogicalPosition = slotDestino.Name;
-							_tcsSlot.TrySetResult(_indiceCampoSelecionado);
+						{
+							if (!camIni)
+							{
+								if (!nodo.Defesa)
+								{									
+									LogicalPosition = slotDestino.Name;
+									_tcsSlot.TrySetResult(_indiceCampoSelecionado);
+								}
+							}
+							else
+							{
+								LogicalPosition = slotDestino.Name;
+								_tcsSlot.TrySetResult(_indiceCampoSelecionado);
+							}
 						}
 						else if(PodeBate())
 						{
-							_tcsSlot.TrySetResult(_indiceCampoSelecionado);
+							if (!camIni)
+							{
+								if (!nodo.Defesa)
+								{									
+									_tcsSlot.TrySetResult(_indiceCampoSelecionado);
+								}
+							}
+							else
+							{
+								_tcsSlot.TrySetResult(_indiceCampoSelecionado);
+							}
 						}
 					}
 									
@@ -692,7 +716,7 @@ namespace fm{
 				}				
 			}catch(Exception e)
 			{						
-				GD.PrintErr($"Erro na Batalha: {e.Message}");
+				GD.PrintErr($"Erro deletando um nodo: {e.Message}");
 				GD.PrintErr(e.StackTrace);
 			}								
 		}
@@ -956,6 +980,7 @@ namespace fm{
 			
 			// O código aqui fica "parado" até que ConfirmarInvocacaoNoCampo() seja chamado
 			var resultado = await _tcsCarta.Task;
+			//depois de confirmado, setamos a task, e aqui precisamos começar as animações de mover para o centro novamente e em sequência definir qual a guardian star
 			return resultado;
 		}
 		

@@ -58,6 +58,29 @@ top_level = true
 transform = Transform3D(0.025038114, -0.37086505, 0.9283492, 0.016187904, 0.928669, 0.3705562, -0.99955547, 0.00575, 0.029255647, 9.531659, 4.5710425, 0.11641765)
 current = true
 
+[node name="Control" type="Control" parent="CameraPivot/CameraHand" unique_id=511777160]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="Panel" type="Panel" parent="CameraPivot/CameraHand/Control" unique_id=1838759120]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.36979166
+anchor_top = 0.6
+anchor_right = 0.6302083
+anchor_bottom = 0.7793213
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
 [node name="CameraInimigo" type="Camera3D" parent="CameraPivot" unique_id=707581232]
 transform = Transform3D(-0.0025830397, -0.99966085, 0.0259151, -3.5205373e-11, 0.025915185, 0.9996642, -0.99999666, 0.0025821722, -6.693999e-05, -2.8549044, 5.2730637, -0.18105882)
 

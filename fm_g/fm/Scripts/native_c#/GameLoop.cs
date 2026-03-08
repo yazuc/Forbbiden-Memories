@@ -158,7 +158,7 @@ namespace fm
 				int slotAtacante = await MaoDoJogador.SelecionarSlotAsync(MaoDoJogador.FiltraSlot(_gameState.CurrentPlayer.IsEnemy, true), _gameState.CurrentTurn == 1);								
 				var meuMonstro = _gameState.CurrentPlayer.Field.GetMonsterInZone(MaoDoJogador.LogicalPosition);
 				GD.Print("Logical pos meu monstro: " + MaoDoJogador.LogicalPosition);
-				if(meuMonstro != null && meuMonstro.HasAttackedThisTurn)
+				if(meuMonstro != null && meuMonstro.HasAttackedThisTurn && slotAtacante != -2)
 				{
 					continue;
 				}
@@ -172,7 +172,7 @@ namespace fm
 				
 				GD.Print("Escolha o alvo...");
 				int slotAlvo = await MaoDoJogador.SelecionarSlotAsync(MaoDoJogador.SlotsCampoIni, _gameState.CurrentTurn == 1, true);
-				GD.Print("Logical pos inimigo monstro: " + MaoDoJogador.LogicalPosition);
+				GD.Print("slotalvo: "+ slotAlvo +" Logical pos inimigo monstro: " + MaoDoJogador.LogicalPosition);
 				if (slotAlvo != -1 && slotAlvo != -2)
 				{
 					try
@@ -188,7 +188,6 @@ namespace fm
 				}
 
 				await MaoDoJogador.TransitionTo(CameraField, 0.4f);
-				//aqui sincronizar o campo lógico e visual
 				SincronizaField();
 			}
 
