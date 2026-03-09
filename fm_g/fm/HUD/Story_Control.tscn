@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://bcaxtk8srpvms"]
+
+[ext_resource type="Texture2D" uid="uid://dl08tobkiwqk4" path="res://Assets/background/Background_01_Pointer_F7_05_01_00_.png" id="1_scxvy"]
+[ext_resource type="Texture2D" uid="uid://vr75oym7kyp2" path="res://Assets/dialog_box.png" id="3_arpam"]
+[ext_resource type="FontFile" uid="uid://hxr85wlns4c3" path="res://Assets/matrix-bold-small-caps-wisabo/FSEX302.ttf" id="3_o83nc"]
+[ext_resource type="SpriteFrames" uid="uid://b83rmn818joj6" path="res://Resources/button.res" id="4_61apo"]
+[ext_resource type="Script" uid="uid://20ocg0kp27tv" path="res://HUD/ButtonText.cs" id="4_63kk2"]
+
+[node name="Control" type="Control" unique_id=898095359]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Cena" type="VBoxContainer" parent="." unique_id=539279739]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="TextureRect" parent="Cena" unique_id=17047060]
+texture_filter = 5
+custom_minimum_size = Vector2(0, 690)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("1_scxvy")
+metadata/_edit_use_anchors_ = true
+
+[node name="Dialogo" type="TextureRect" parent="Cena" unique_id=1520686336]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("3_arpam")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Cena/Dialogo" unique_id=906215223]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0390625
+anchor_top = 0.23670213
+anchor_right = 0.9604167
+anchor_bottom = 0.8484042
+theme_override_fonts/normal_font = ExtResource("3_o83nc")
+theme_override_font_sizes/normal_font_size = 64
+text = "O Magro está em cativeiro"
+metadata/_edit_use_anchors_ = true
+
+[node name="ButtonText" type="TextureRect" parent="Cena/Dialogo/RichTextLabel" unique_id=2107343979]
+texture_filter = 5
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.9253816
+anchor_top = 0.526087
+anchor_right = 0.99717355
+anchor_bottom = 1.0304347
+script = ExtResource("4_63kk2")
+Sprite = ExtResource("4_61apo")
+metadata/_edit_use_anchors_ = true
