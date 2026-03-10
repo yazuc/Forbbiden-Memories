@@ -1,6 +1,7 @@
 [gd_scene format=4 uid="uid://cirwsoax8gip4"]
 
 [ext_resource type="Texture2D" uid="uid://duam1krp3galp" path="res://Assets/world/0B16056EE574BD3B0DAAB3BDACA95B1C.png" id="1_fnoqa"]
+[ext_resource type="Script" uid="uid://b6nac6i8xfdm0" path="res://Assets/world/World.cs" id="1_nx736"]
 [ext_resource type="Texture2D" uid="uid://cxyk6d0jj857n" path="res://Assets/world/71761A42F98FAE2A3F4FBDCC8BACD418.png" id="2_nx736"]
 [ext_resource type="Texture2D" uid="uid://58mja5fiwlp7" path="res://Assets/world/FED58625F7F842B2C04808691552BED1.png" id="3_55kwu"]
 [ext_resource type="Texture2D" uid="uid://cejblwcp5msj8" path="res://Assets/world/BCB7F0D4073D5AE25E7703B86166D754.png" id="4_f3o6s"]
@@ -47,6 +48,7 @@
 [ext_resource type="Texture2D" uid="uid://cqqdipqgl3r31" path="res://Assets/world/A35DD55A0705A6A20D0A3A72C73E273E.png" id="45_afx2c"]
 [ext_resource type="Texture2D" uid="uid://crcbljccmijb2" path="res://Assets/world/CA09CEF31AEDFB8091FE35E85AA5E7D7.png" id="46_xkj61"]
 [ext_resource type="Texture2D" uid="uid://36fvqo3oi8sw" path="res://Assets/world/59FDC0200E5D1C02DF0CD8F29ABF5871.png" id="47_ednsc"]
+[ext_resource type="PackedScene" uid="uid://2dc1polonw1f" path="res://Assets/world/UI_seletor.tscn" id="49_55kwu"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oa651"]
 albedo_texture = ExtResource("1_fnoqa")
@@ -1256,7 +1258,11 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_td626")
 
-[node name="World" type="Node3D" unique_id=1906406321]
+[node name="World" type="Node3D" unique_id=1906406321 node_paths=PackedStringArray("Camera", "Anchors", "Seletor")]
+script = ExtResource("1_nx736")
+Camera = NodePath("Camera3D")
+Anchors = NodePath("Anchors")
+Seletor = NodePath("AnimatedSprite3D")
 
 [node name="World" type="MeshInstance3D" parent="." unique_id=593464395]
 unique_name_in_owner = true
@@ -1264,7 +1270,33 @@ transform = Transform3D(0.1, 0, 0, 0, 0.08660254, 0.05, 0, -0.05, 0.08660254, 3.
 mesh = SubResource("ArrayMesh_81xfv")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1994499217]
-transform = Transform3D(1, 0, 0, 0, 0.752369, 0.65874195, 0, -0.65874195, 0.752369, 4.295782, 27.757668, -22.66203)
+transform = Transform3D(0.99999994, 0.00027503358, -0.00036094026, -9.201359e-10, 0.7953995, 0.60608554, 0.00045378553, -0.6060855, 0.7953995, 4.295782, 31.622002, -10.377148)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=515976357]
-transform = Transform3D(1, 0, 0, 0, 0.28951636, 0.95717305, 0, -0.95717305, 0.28951636, 0, 38.393326, -34.795883)
+transform = Transform3D(0.9348691, 0.35251018, -0.04190952, -0.08964466, 0.34865838, 0.93295294, 0.34348753, -0.86843187, 0.3575506, 12.852249, 31.478495, -25.388731)
+light_energy = 1.225
+light_angular_distance = 31.69
+light_specular = 0.0
+sky_mode = 1
+
+[node name="Anchors" type="Node3D" parent="." unique_id=2113245147]
+
+[node name="DuelGround" type="Marker3D" parent="Anchors" unique_id=1439488442]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.846931, 13.505932, -31.653864)
+
+[node name="DarkShrine" type="Marker3D" parent="Anchors" unique_id=2143579734]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.6563008, 17.19372, -37.45701)
+
+[node name="CardShop" type="Marker3D" parent="Anchors" unique_id=1830023190]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.024986, 13.84446, -31.438286)
+
+[node name="Tower" type="Marker3D" parent="Anchors" unique_id=1326895183]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.024986, 25.863876, -42.208412)
+
+[node name="Pharaoh" type="Marker3D" parent="Anchors" unique_id=814480661]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5930037, 18.576881, -58.83754)
+
+[node name="AnimatedSprite3D" parent="." unique_id=115538128 instance=ExtResource("49_55kwu")]
+transform = Transform3D(1, 0, 0, 0, 0.99736285, 0.07257673, 0, -0.07257673, 0.99736285, -11.890697, 16.389908, -31.22946)
+pixel_size = 0.2
+frame_progress = 0.35045314
