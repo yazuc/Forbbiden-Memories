@@ -19,7 +19,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TextureRect" type="TextureRect" parent="." unique_id=1534424742]
+[node name="Boneco" type="TextureRect" parent="." unique_id=1534424742]
 z_index = 6
 texture_filter = 5
 custom_minimum_size = Vector2(256, 180)

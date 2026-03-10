@@ -62,7 +62,8 @@ texture_filter = 3
 position = Vector2(452.00003, 293.99997)
 scale = Vector2(4.09, 4.61)
 sprite_frames = ExtResource("42_djbqf")
-animation = &"teana"
+animation = &"bakura"
+frame_progress = 0.8728898
 
 [node name="TBox" parent="." unique_id=711438253 instance=ExtResource("1_oiqi2")]
 position = Vector2(961, 893.0001)
