@@ -3,8 +3,6 @@
 [ext_resource type="Script" uid="uid://cxhhwfks84r72" path="res://HUD/Story.cs" id="1_1ulib"]
 [ext_resource type="PackedScene" uid="uid://b67lws32k16qv" path="res://HUD/TBox.tscn" id="1_oiqi2"]
 [ext_resource type="Texture2D" uid="uid://dl08tobkiwqk4" path="res://Assets/background/Background_01_Pointer_F7_05_01_00_.png" id="2_di7lt"]
-[ext_resource type="Texture2D" uid="uid://bwfrk084qivly" path="res://Assets/personagens/heishin/75584ED82C7DBDD02EEA3B44B4434C4Dt1-Sheet-Sheet.png" id="2_u5ht0"]
-[ext_resource type="Texture2D" uid="uid://cy04qp2trk4up" path="res://Assets/personagens/Simon/simon_-Sheet1.png" id="3_o67l8"]
 [ext_resource type="Texture2D" uid="uid://c62odr4kgw2h4" path="res://Assets/background/Background_02_Pointer_F7_05_02_00_.png" id="3_qufbq"]
 [ext_resource type="Texture2D" uid="uid://craq34i762ebg" path="res://Assets/background/Background_03_Pointer_F7_05_03_00_.png" id="4_mf4px"]
 [ext_resource type="Texture2D" uid="uid://div3ifsjnvoey" path="res://Assets/background/Background_04_Pointer_F7_05_04_00_.png" id="5_dldg1"]
@@ -45,155 +43,7 @@
 [ext_resource type="Texture2D" uid="uid://hexymylmhhr8" path="res://Assets/background/Background_39_Pointer_F7_05_39_00_.png" id="39_hh6ee"]
 [ext_resource type="Texture2D" uid="uid://cbinscvh7vcag" path="res://Assets/background/Background_40_Pointer_F7_05_40_00_.png" id="40_ksegw"]
 [ext_resource type="Texture2D" uid="uid://br5v4ho7u08js" path="res://Assets/background/Background_41_Pointer_F7_05_41_00_.png" id="41_d80kp"]
-[ext_resource type="Texture2D" uid="uid://c8g7nwrvmchk1" path="res://Assets/personagens/2_Jono-Sheet.png" id="43_qufbq"]
-[ext_resource type="Texture2D" uid="uid://ccpjylw2raeg0" path="res://Assets/personagens/rex.png" id="44_dldg1"]
-[ext_resource type="Texture2D" uid="uid://bx5hl7safq2gd" path="res://Assets/personagens/6FD6D9E58012C705A035A5013E913550t.png" id="44_mf4px"]
-[ext_resource type="Texture2D" uid="uid://5336kyl03k03" path="res://Assets/personagens/teana.png" id="47_56y0j"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_mf4px"]
-atlas = ExtResource("2_u5ht0")
-region = Rect2(0, 0, 256, 180)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_hek4t"]
-atlas = ExtResource("2_u5ht0")
-region = Rect2(256, 0, 256, 180)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_idw7x"]
-atlas = ExtResource("2_u5ht0")
-region = Rect2(512, 0, 256, 180)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_dldg1"]
-atlas = ExtResource("43_qufbq")
-region = Rect2(0, 0, 180, 180)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_56y0j"]
-atlas = ExtResource("43_qufbq")
-region = Rect2(180, 0, 180, 180)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_2d66m"]
-atlas = ExtResource("43_qufbq")
-region = Rect2(360, 0, 180, 180)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ndg8u"]
-atlas = ExtResource("44_dldg1")
-region = Rect2(0, 0, 122, 180)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ej5yj"]
-atlas = ExtResource("44_dldg1")
-region = Rect2(122, 0, 122, 180)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_smxyr"]
-atlas = ExtResource("44_dldg1")
-region = Rect2(244, 0, 122, 180)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_afpnp"]
-atlas = ExtResource("44_mf4px")
-region = Rect2(0, 0, 234, 180)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_l52ue"]
-atlas = ExtResource("44_mf4px")
-region = Rect2(234, 0, 234, 180)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_u7g0h"]
-atlas = ExtResource("44_mf4px")
-region = Rect2(468, 0, 234, 180)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_o67l8"]
-atlas = ExtResource("3_o67l8")
-region = Rect2(44, 0, 169, 223)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_dpi23"]
-atlas = ExtResource("47_56y0j")
-region = Rect2(0, 0, 140, 180)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_7jn3k"]
-atlas = ExtResource("47_56y0j")
-region = Rect2(140, 0, 140, 180)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_4s3pk"]
-atlas = ExtResource("47_56y0j")
-region = Rect2(280, 0, 140, 180)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_1ulib"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_mf4px")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_hek4t")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_idw7x")
-}],
-"loop": true,
-"name": &"heishin",
-"speed": 4.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dldg1")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_56y0j")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_2d66m")
-}],
-"loop": false,
-"name": &"jono",
-"speed": 4.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ndg8u")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ej5yj")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_smxyr")
-}],
-"loop": true,
-"name": &"rex",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_afpnp")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_l52ue")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_u7g0h")
-}],
-"loop": true,
-"name": &"seto",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_o67l8")
-}],
-"loop": true,
-"name": &"simon",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dpi23")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7jn3k")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_4s3pk")
-}],
-"loop": true,
-"name": &"teana",
-"speed": 5.0
-}]
+[ext_resource type="SpriteFrames" uid="uid://c1qeb0mxx8wh3" path="res://Resources/personagens.res" id="42_djbqf"]
 
 [sub_resource type="FontVariation" id="FontVariation_ieit4"]
 base_font = ExtResource("5_ieit4")
@@ -208,10 +58,10 @@ Backgrounds = Array[Texture2D]([ExtResource("2_di7lt"), ExtResource("3_qufbq"), 
 ChoiceContainer = NodePath("Control/HBoxContainer")
 
 [node name="boneco" type="AnimatedSprite2D" parent="." unique_id=1365024978]
-texture_filter = 5
+texture_filter = 3
 position = Vector2(452.00003, 293.99997)
 scale = Vector2(4.09, 4.61)
-sprite_frames = SubResource("SpriteFrames_1ulib")
+sprite_frames = ExtResource("42_djbqf")
 animation = &"teana"
 
 [node name="TBox" parent="." unique_id=711438253 instance=ExtResource("1_oiqi2")]

@@ -5,6 +5,11 @@
 [ext_resource type="FontFile" uid="uid://hxr85wlns4c3" path="res://Assets/matrix-bold-small-caps-wisabo/FSEX302.ttf" id="3_o83nc"]
 [ext_resource type="SpriteFrames" uid="uid://b83rmn818joj6" path="res://Resources/button.res" id="4_61apo"]
 [ext_resource type="Script" uid="uid://20ocg0kp27tv" path="res://HUD/ButtonText.cs" id="4_63kk2"]
+[ext_resource type="Texture2D" uid="uid://mv6rwsgar3ka" path="res://Assets/personagens/joey.png" id="6_63kk2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rwlpc"]
+atlas = ExtResource("6_63kk2")
+region = Rect2(0, 0, 180, 180)
 
 [node name="Control" type="Control" unique_id=898095359]
 layout_mode = 3
@@ -13,6 +18,18 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1534424742]
+z_index = 6
+texture_filter = 5
+custom_minimum_size = Vector2(256, 180)
+layout_mode = 1
+anchors_preset = -1
+offset_top = -3.0
+offset_right = 700.0
+offset_bottom = 692.0
+texture = SubResource("AtlasTexture_rwlpc")
+metadata/_edit_use_anchors_ = true
 
 [node name="Cena" type="VBoxContainer" parent="." unique_id=539279739]
 layout_mode = 1
@@ -23,7 +40,9 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Background" type="TextureRect" parent="Cena" unique_id=17047060]
+z_index = 5
 texture_filter = 5
+clip_contents = true
 custom_minimum_size = Vector2(0, 690)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -32,6 +51,8 @@ texture = ExtResource("1_scxvy")
 metadata/_edit_use_anchors_ = true
 
 [node name="Dialogo" type="TextureRect" parent="Cena" unique_id=1520686336]
+texture_filter = 5
+clip_contents = true
 layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("3_arpam")
@@ -52,10 +73,10 @@ metadata/_edit_use_anchors_ = true
 texture_filter = 5
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.9253816
-anchor_top = 0.526087
-anchor_right = 0.99717355
-anchor_bottom = 1.0304347
+anchor_left = 0.9231204
+anchor_top = 0.57267416
+anchor_right = 0.9949124
+anchor_bottom = 1.0770217
 script = ExtResource("4_63kk2")
 Sprite = ExtResource("4_61apo")
 metadata/_edit_use_anchors_ = true
