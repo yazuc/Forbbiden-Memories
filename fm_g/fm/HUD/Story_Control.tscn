@@ -5,11 +5,7 @@
 [ext_resource type="FontFile" uid="uid://hxr85wlns4c3" path="res://Assets/matrix-bold-small-caps-wisabo/FSEX302.ttf" id="3_o83nc"]
 [ext_resource type="SpriteFrames" uid="uid://b83rmn818joj6" path="res://Resources/button.res" id="4_61apo"]
 [ext_resource type="Script" uid="uid://20ocg0kp27tv" path="res://HUD/ButtonText.cs" id="4_63kk2"]
-[ext_resource type="Texture2D" uid="uid://mv6rwsgar3ka" path="res://Assets/personagens/joey.png" id="6_63kk2"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_rwlpc"]
-atlas = ExtResource("6_63kk2")
-region = Rect2(0, 0, 180, 180)
+[ext_resource type="SpriteFrames" uid="uid://c1qeb0mxx8wh3" path="res://Resources/personagens.res" id="7_rwlpc"]
 
 [node name="Control" type="Control" unique_id=898095359]
 layout_mode = 3
@@ -19,17 +15,24 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Boneco" type="TextureRect" parent="." unique_id=1534424742]
-z_index = 6
-texture_filter = 5
-custom_minimum_size = Vector2(256, 180)
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=596192287]
+z_index = 7
 layout_mode = 1
 anchors_preset = -1
-offset_top = -3.0
-offset_right = 700.0
-offset_bottom = 692.0
-texture = SubResource("AtlasTexture_rwlpc")
-metadata/_edit_use_anchors_ = true
+offset_top = -2.0
+offset_right = 706.0
+offset_bottom = 693.0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=1703349096]
+transparent_bg = true
+size = Vector2i(1091, 791)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="SubViewportContainer/SubViewport" unique_id=112446890]
+texture_filter = 5
+position = Vector2(352.00003, 343.93332)
+scale = Vector2(3.9333336, 3.9780307)
+sprite_frames = ExtResource("7_rwlpc")
+animation = &"simon"
 
 [node name="Cena" type="VBoxContainer" parent="." unique_id=539279739]
 layout_mode = 1
