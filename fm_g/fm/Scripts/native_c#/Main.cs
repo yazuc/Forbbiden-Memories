@@ -19,6 +19,7 @@ namespace fm
 		[Export] public Label LP_Com;
 		[Export] public Label You;
 		[Export] public Label Com;
+		public int index_deck {get;set;} = GlobalUsings.Instance.DeckIndex;
 		private GameLoop gL;
 		
 		public override async void _Ready()
@@ -46,14 +47,14 @@ namespace fm
 			var deckList = Funcoes.LoadUserDeck(srcPath);
 			deck.LoadDeck(deckList);
 			
-			deckIni.LoadDeck(db.GetDeckByNpcId(1));
+			deckIni.LoadDeck(db.GetDeckByNpcId(index_deck));
 			// 3. Inicializar o GameLoop
 			// Passando Alice e Bob como os duelistas
 			if (MaoVisual != null)
 			{				
 				gL = new GameLoop(
 					new Player("Alice", deck.Cards, SlotsCampo, SlotsCampoST, LP_You, You, 8000), 
-					new Player("Bob", deck.Cards, SlotsCampoIni, SlotsCampoSTIni, LP_Com, Com, 8000),
+					new Player("Bob", deckIni.Cards, SlotsCampoIni, SlotsCampoSTIni, LP_Com, Com, 8000),
 					MaoVisual,
 					CameraHand,
 					CameraField,

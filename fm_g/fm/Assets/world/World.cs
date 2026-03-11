@@ -7,7 +7,7 @@ public partial class World : Node3D
 	[Export] public Control MarkerUI;
 	[Export] public Node3D Anchors;
 	[Export] public AnimatedSprite3D Seletor {get;set;}
-	public PackedScene scene = GD.Load<PackedScene>("res://HUD/story.tscn");
+	public PackedScene scene = GD.Load<PackedScene>("res://Menu/Story/Story_Control.tscn");
 	
 	public List<Marker3D> points = new();
 	public int index = 0;
@@ -29,6 +29,7 @@ public partial class World : Node3D
 		if (Input.IsActionJustPressed("ui_accept"))
 		{
 			//GetTree().ChangeSceneToFile("res://HUD/story.tscn");
+			GlobalUsings.Instance.currentBackGround = 0;
 			GetTree().ChangeSceneToPacked(scene);			
 		}
 		

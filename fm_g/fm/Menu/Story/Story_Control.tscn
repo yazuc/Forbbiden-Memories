@@ -1,0 +1,153 @@
+[gd_scene format=3 uid="uid://bcaxtk8srpvms"]
+
+[ext_resource type="Script" uid="uid://bv4ktow0bh74g" path="res://Menu/Story/StoryControl.cs" id="1_rwlpc"]
+[ext_resource type="Texture2D" uid="uid://dl08tobkiwqk4" path="res://Assets/background/Background_01_Pointer_F7_05_01_00_.png" id="1_scxvy"]
+[ext_resource type="Texture2D" uid="uid://vr75oym7kyp2" path="res://Assets/dialog_box.png" id="3_arpam"]
+[ext_resource type="FontFile" uid="uid://hxr85wlns4c3" path="res://Assets/matrix-bold-small-caps-wisabo/FSEX302.ttf" id="3_o83nc"]
+[ext_resource type="Texture2D" uid="uid://c62odr4kgw2h4" path="res://Assets/background/Background_02_Pointer_F7_05_02_00_.png" id="3_vgcoi"]
+[ext_resource type="Texture2D" uid="uid://craq34i762ebg" path="res://Assets/background/Background_03_Pointer_F7_05_03_00_.png" id="4_8r4at"]
+[ext_resource type="SpriteFrames" uid="uid://b83rmn818joj6" path="res://Resources/button.res" id="4_61apo"]
+[ext_resource type="Script" uid="uid://20ocg0kp27tv" path="res://HUD/ButtonText.cs" id="4_63kk2"]
+[ext_resource type="Texture2D" uid="uid://div3ifsjnvoey" path="res://Assets/background/Background_04_Pointer_F7_05_04_00_.png" id="5_r4f5f"]
+[ext_resource type="Texture2D" uid="uid://d01aqdyuhoxnc" path="res://Assets/background/Background_05_Pointer_F7_05_05_00_.png" id="6_uie33"]
+[ext_resource type="SpriteFrames" uid="uid://c1qeb0mxx8wh3" path="res://Resources/personagens.res" id="7_rwlpc"]
+[ext_resource type="Texture2D" uid="uid://dnac4trmkjmae" path="res://Assets/background/Background_06_Pointer_F7_05_06_00_.png" id="7_rx6my"]
+[ext_resource type="Texture2D" uid="uid://stuymmsm4mqd" path="res://Assets/background/Background_07_Pointer_F7_05_07_00_.png" id="8_lhv3w"]
+[ext_resource type="Texture2D" uid="uid://ckyo6vw2funav" path="res://Assets/background/Background_08_Pointer_F7_05_08_00_.png" id="9_m3flc"]
+[ext_resource type="Texture2D" uid="uid://cfuwiim03hypu" path="res://Assets/background/Background_09_Pointer_F7_05_09_00_.png" id="10_oghol"]
+[ext_resource type="Texture2D" uid="uid://b87pqfbas1a3b" path="res://Assets/background/Background_10_Pointer_F7_05_10_00_.png" id="11_1odev"]
+[ext_resource type="Texture2D" uid="uid://bmb7tfs2l7xn6" path="res://Assets/background/Background_11_Pointer_F7_05_11_00_.png" id="12_nqw5i"]
+[ext_resource type="Texture2D" uid="uid://cyu8s2wx4fp03" path="res://Assets/background/Background_12_Pointer_F7_05_12_00_.png" id="13_88j73"]
+[ext_resource type="Texture2D" uid="uid://dhk8re376v3hd" path="res://Assets/background/Background_13_Pointer_F7_05_13_00_.png" id="14_ocw4r"]
+[ext_resource type="Texture2D" uid="uid://caf1gjn16q70y" path="res://Assets/background/Background_14_Pointer_F7_05_14_00_.png" id="15_orgfy"]
+[ext_resource type="Texture2D" uid="uid://c6ff1hbua6xmh" path="res://Assets/background/Background_15_Pointer_F7_05_15_00_.png" id="16_cvnr7"]
+[ext_resource type="Texture2D" uid="uid://cwln8mdonpdir" path="res://Assets/background/Background_16_Pointer_F7_05_16_00_.png" id="17_y0csl"]
+[ext_resource type="Texture2D" uid="uid://bi0pochgdkimr" path="res://Assets/background/Background_17_Pointer_F7_05_17_00_.png" id="18_58568"]
+[ext_resource type="Texture2D" uid="uid://dxpvpsw3cvqx4" path="res://Assets/background/Background_18_Pointer_F7_05_18_00_.png" id="19_i6qb0"]
+[ext_resource type="Texture2D" uid="uid://dyb20yx6cbs0b" path="res://Assets/background/Background_19_Pointer_F7_05_19_00_.png" id="20_bocoo"]
+[ext_resource type="Texture2D" uid="uid://dk17qcpl04y8k" path="res://Assets/background/Background_20_Pointer_F7_05_20_00_.png" id="21_xbuho"]
+[ext_resource type="Texture2D" uid="uid://cbk1noav33f42" path="res://Assets/background/Background_21_Pointer_F7_05_21_00_.png" id="22_gkns5"]
+[ext_resource type="Texture2D" uid="uid://bc5dfc02tpbc8" path="res://Assets/background/Background_22_Pointer_F7_05_22_00_.png" id="23_axuua"]
+[ext_resource type="Texture2D" uid="uid://bx433wo7xbwih" path="res://Assets/background/Background_23_Pointer_F7_05_23_00_.png" id="24_la0nr"]
+[ext_resource type="Texture2D" uid="uid://c6djv8xfoq2ek" path="res://Assets/background/Background_24_Pointer_F7_05_24_00_.png" id="25_0hvsr"]
+[ext_resource type="Texture2D" uid="uid://4jwxmbpld41j" path="res://Assets/background/Background_25_Pointer_F7_05_25_00_.png" id="26_0fqb4"]
+[ext_resource type="Texture2D" uid="uid://c7jdh50jb51qo" path="res://Assets/background/Background_26_Pointer_F7_05_26_00_.png" id="27_dyiky"]
+[ext_resource type="Texture2D" uid="uid://sdglu12bdl1c" path="res://Assets/background/Background_27_Pointer_F7_05_27_00_.png" id="28_uewnd"]
+[ext_resource type="Texture2D" uid="uid://30k8nhdqe7vo" path="res://Assets/background/Background_28_Pointer_F7_05_28_00_.png" id="29_2xvex"]
+[ext_resource type="Texture2D" uid="uid://cwhlkpsfay1o7" path="res://Assets/background/Background_29_Pointer_F7_05_29_00_.png" id="30_tf86k"]
+[ext_resource type="Texture2D" uid="uid://dtox7kxp44vcd" path="res://Assets/background/Background_30_Pointer_F7_05_30_00_.png" id="31_xbx3s"]
+[ext_resource type="Texture2D" uid="uid://cmxs6sb083hug" path="res://Assets/background/Background_31_Pointer_F7_05_31_00_.png" id="32_ts4ml"]
+[ext_resource type="Texture2D" uid="uid://dhtwsexqfkve3" path="res://Assets/background/Background_32_Pointer_F7_05_32_00_.png" id="33_k1qfn"]
+[ext_resource type="Texture2D" uid="uid://bpwd2kf18bg04" path="res://Assets/background/Background_34_Pointer_F7_05_34_00_.png" id="34_4hfli"]
+[ext_resource type="Texture2D" uid="uid://d2u23cukiopk" path="res://Assets/background/Background_35_Pointer_F7_05_35_00_.png" id="35_vwfcu"]
+[ext_resource type="Texture2D" uid="uid://bgctdemlhrdsx" path="res://Assets/background/Background_36_Pointer_F7_05_36_00_.png" id="36_7uvnb"]
+[ext_resource type="Texture2D" uid="uid://drhi8c2cnhk5m" path="res://Assets/background/Background_37_Pointer_F7_05_37_00_.png" id="37_0lrp2"]
+[ext_resource type="Texture2D" uid="uid://8o4wiqu5k6o7" path="res://Assets/background/Background_38_Pointer_F7_05_38_00_.png" id="38_h613l"]
+[ext_resource type="Texture2D" uid="uid://hexymylmhhr8" path="res://Assets/background/Background_39_Pointer_F7_05_39_00_.png" id="39_sobld"]
+[ext_resource type="Texture2D" uid="uid://cbinscvh7vcag" path="res://Assets/background/Background_40_Pointer_F7_05_40_00_.png" id="40_xiak7"]
+[ext_resource type="Texture2D" uid="uid://br5v4ho7u08js" path="res://Assets/background/Background_41_Pointer_F7_05_41_00_.png" id="41_cnq1u"]
+
+[sub_resource type="Theme" id="Theme_vgcoi"]
+default_font = ExtResource("3_o83nc")
+default_font_size = 64
+
+[node name="StoryUI" type="Control" unique_id=898095359 node_paths=PackedStringArray("ChoiceContainer")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rwlpc")
+Backgrounds = Array[Texture2D]([ExtResource("1_scxvy"), ExtResource("3_vgcoi"), ExtResource("4_8r4at"), ExtResource("5_r4f5f"), ExtResource("6_uie33"), ExtResource("7_rx6my"), ExtResource("8_lhv3w"), ExtResource("9_m3flc"), ExtResource("10_oghol"), ExtResource("11_1odev"), ExtResource("12_nqw5i"), ExtResource("13_88j73"), ExtResource("14_ocw4r"), ExtResource("15_orgfy"), ExtResource("16_cvnr7"), ExtResource("17_y0csl"), ExtResource("18_58568"), ExtResource("19_i6qb0"), ExtResource("20_bocoo"), ExtResource("21_xbuho"), ExtResource("22_gkns5"), ExtResource("23_axuua"), ExtResource("24_la0nr"), ExtResource("25_0hvsr"), ExtResource("26_0fqb4"), ExtResource("27_dyiky"), ExtResource("28_uewnd"), ExtResource("29_2xvex"), ExtResource("30_tf86k"), ExtResource("31_xbx3s"), ExtResource("32_ts4ml"), ExtResource("33_k1qfn"), ExtResource("34_4hfli"), ExtResource("35_vwfcu"), ExtResource("36_7uvnb"), ExtResource("37_0lrp2"), ExtResource("38_h613l"), ExtResource("39_sobld"), ExtResource("40_xiak7"), ExtResource("41_cnq1u")])
+ChoiceContainer = NodePath("Cena/Dialogo/RichTextLabel/HBoxContainer")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=596192287]
+z_index = 7
+layout_mode = 1
+anchors_preset = -1
+offset_top = -2.0
+offset_right = 706.0
+offset_bottom = 693.0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=1703349096]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1091, 791)
+render_target_update_mode = 4
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="SubViewportContainer/SubViewport" unique_id=112446890]
+texture_filter = 5
+position = Vector2(352.00003, 343.93332)
+scale = Vector2(3.9333336, 3.9780307)
+sprite_frames = ExtResource("7_rwlpc")
+animation = &"heishin"
+
+[node name="Cena" type="VBoxContainer" parent="." unique_id=539279739]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="TextureRect" parent="Cena" unique_id=17047060]
+z_index = 5
+texture_filter = 5
+clip_contents = true
+custom_minimum_size = Vector2(0, 690)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("1_scxvy")
+metadata/_edit_use_anchors_ = true
+
+[node name="Dialogo" type="TextureRect" parent="Cena" unique_id=1520686336]
+texture_filter = 5
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("3_arpam")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Cena/Dialogo" unique_id=906215223]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0390625
+anchor_top = 0.23670213
+anchor_right = 0.96000004
+anchor_bottom = 0.84800005
+offset_right = 0.79992676
+offset_bottom = 0.15600586
+theme_override_fonts/normal_font = ExtResource("3_o83nc")
+theme_override_font_sizes/normal_font_size = 64
+text = "O Magro está em cativeiro"
+scroll_active = false
+scroll_following = true
+scroll_following_visible_characters = true
+metadata/_edit_use_anchors_ = true
+
+[node name="ButtonText" type="TextureRect" parent="Cena/Dialogo/RichTextLabel" unique_id=2107343979]
+texture_filter = 5
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.9231204
+anchor_top = 0.57267416
+anchor_right = 0.9949124
+anchor_bottom = 1.0770217
+script = ExtResource("4_63kk2")
+Sprite = ExtResource("4_61apo")
+metadata/_edit_use_anchors_ = true
+
+[node name="HBoxContainer" type="VBoxContainer" parent="Cena/Dialogo/RichTextLabel" unique_id=2115899601]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -6.0
+offset_top = -10.367004
+offset_right = -6.0
+offset_bottom = -10.367004
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_vgcoi")
+metadata/_edit_use_anchors_ = true

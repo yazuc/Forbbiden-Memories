@@ -15,6 +15,10 @@ run/main_scene="uid://dj7s3t4ux6vfw"
 config/features=PackedStringArray("4.6", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+GlobalUsings="*uid://oh1wbdrmkcu1"
+
 [display]
 
 window/size/viewport_width=1920
@@ -25,6 +29,10 @@ window/size/borderless=true
 [dotnet]
 
 project/assembly_name="fm"
+
+[editor_plugins]
+
+enabled=PackedStringArray()
 
 [global_group]
 
