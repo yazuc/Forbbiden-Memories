@@ -71,6 +71,7 @@ size_flags_vertical = 3
 metadata/_edit_use_anchors_ = true
 
 [node name="Panel" parent="CameraPivot/CameraHand/Control" unique_id=26353554 instance=ExtResource("8_o5yvi")]
+visible = false
 show_behind_parent = true
 layout_mode = 1
 anchor_top = 0.5555556

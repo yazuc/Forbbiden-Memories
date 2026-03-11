@@ -44,6 +44,7 @@
 [ext_resource type="Texture2D" uid="uid://cbinscvh7vcag" path="res://Assets/background/Background_40_Pointer_F7_05_40_00_.png" id="40_ksegw"]
 [ext_resource type="Texture2D" uid="uid://br5v4ho7u08js" path="res://Assets/background/Background_41_Pointer_F7_05_41_00_.png" id="41_d80kp"]
 [ext_resource type="SpriteFrames" uid="uid://c1qeb0mxx8wh3" path="res://Resources/personagens.res" id="42_djbqf"]
+[ext_resource type="Texture2D" uid="uid://vr75oym7kyp2" path="res://Assets/dialog_box.png" id="44_di7lt"]
 
 [sub_resource type="FontVariation" id="FontVariation_ieit4"]
 base_font = ExtResource("5_ieit4")
@@ -59,11 +60,10 @@ ChoiceContainer = NodePath("Control/HBoxContainer")
 
 [node name="boneco" type="AnimatedSprite2D" parent="." unique_id=1365024978]
 texture_filter = 3
-position = Vector2(452.00003, 293.99997)
+position = Vector2(420.99997, 408)
 scale = Vector2(4.09, 4.61)
 sprite_frames = ExtResource("42_djbqf")
-animation = &"bakura"
-frame_progress = 0.8728898
+animation = &"simon"
 
 [node name="TBox" parent="." unique_id=711438253 instance=ExtResource("1_oiqi2")]
 position = Vector2(961, 893.0001)
@@ -76,6 +76,12 @@ texture_filter = 5
 position = Vector2(963.61, 351.99997)
 scale = Vector2(6.0211873, 4.4249997)
 texture = ExtResource("5_o67l8")
+
+[node name="DialogBox" type="Sprite2D" parent="." unique_id=26958889]
+texture_filter = 5
+position = Vector2(961.25006, 891.5)
+scale = Vector2(6.0235114, 4.392857)
+texture = ExtResource("44_di7lt")
 
 [node name="Panel" type="Panel" parent="." unique_id=1433587423]
 self_modulate = Color(0.015686275, 0.007843138, 0, 0)

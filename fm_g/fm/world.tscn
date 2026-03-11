@@ -1299,4 +1299,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5930037, 18.576881, -58.83
 [node name="AnimatedSprite3D" parent="." unique_id=115538128 instance=ExtResource("49_55kwu")]
 transform = Transform3D(1, 0, 0, 0, 0.99736285, 0.07257673, 0, -0.07257673, 0.99736285, -11.890697, 16.389908, -31.22946)
 pixel_size = 0.2
+billboard = 1
 frame_progress = 0.35045314

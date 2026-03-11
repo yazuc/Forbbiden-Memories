@@ -10,7 +10,8 @@ public partial class Story : Node2D
 	private bool _isTyping = false;
 	private bool _waitingForChoice = false; // Nova trava para escolhas
 	private List<string> _dialogueLines = new List<string>();
-	
+	public PackedScene scene = GD.Load<PackedScene>("res://Scenes/game.tscn");
+
 	private Sprite2D _background;
 	[Export] public Texture2D[] Backgrounds;
 	private int _currentBgIndex = 0;
@@ -23,12 +24,10 @@ public partial class Story : Node2D
 		_background = GetNode<Sprite2D>("background");
 		_textLabel = GetNode<RichTextLabel>("Panel/RichTextLabel");
 		_textLabel.ScrollActive = false;
-
+		SetBackgroundByIndex(_currentBgIndex);
 		// Setup dos diálogos
 		_dialogueLines.Add("A wasted effort, boy!");
 		_dialogueLines.Add("You lack the power to defeat me!");
-		//_dialogueLines.Add("O magro é gay");
-		//_dialogueLines.Add("vamos duelar");
 		_dialogueLines.Add("<Duel>"); // Gatilho
 
 		AdvanceDialogue();
@@ -60,7 +59,7 @@ public partial class Story : Node2D
 		}
 		else
 		{
-			GetTree().ChangeSceneToFile("res://Scenes/game.tscn");
+			GetTree().ChangeSceneToPacked(scene);		
 		}
 	}
 
