@@ -78,10 +78,10 @@ render_target_update_mode = 4
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="SubViewportContainer/SubViewport" unique_id=112446890]
 texture_filter = 5
-position = Vector2(352.00003, 343.93332)
-scale = Vector2(3.9333336, 3.9780307)
+position = Vector2(352.00003, 341.52347)
+scale = Vector2(3.9333336, 3.9613724)
 sprite_frames = ExtResource("7_rwlpc")
-animation = &"heishin"
+animation = &"simon"
 
 [node name="Cena" type="VBoxContainer" parent="." unique_id=539279739]
 layout_mode = 1
@@ -90,12 +90,14 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 0
 
 [node name="Background" type="TextureRect" parent="Cena" unique_id=17047060]
 z_index = 5
 texture_filter = 5
 clip_contents = true
 custom_minimum_size = Vector2(0, 690)
+layout_direction = 4
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -105,9 +107,11 @@ metadata/_edit_use_anchors_ = true
 [node name="Dialogo" type="TextureRect" parent="Cena" unique_id=1520686336]
 texture_filter = 5
 clip_contents = true
+layout_direction = 1
 layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("3_arpam")
+expand_mode = 2
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Cena/Dialogo" unique_id=906215223]
 layout_mode = 1

@@ -21,4 +21,14 @@ public partial class GlobalUsings : Node
 	public override void _Process(double delta)
 	{
 	}
+
+	public void FadeToBlack(float tempo, string path, Node obj)
+	{
+		var tween = CreateTween();
+			tween.TweenProperty(obj,"modulate", Colors.Black, tempo);		
+			tween.Finished += () =>
+			{
+				GetTree().ChangeSceneToFile(path);
+			};
+	}
 }

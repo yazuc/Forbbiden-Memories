@@ -56,9 +56,9 @@ public partial class StoryControl : Control
 			}
 		}
 		else
-		{			
+		{	
+			GlobalUsings.Instance.FadeToBlack(0.8f, "res://Scenes/game.tscn", this);
 			GlobalUsings.Instance.DeckIndex = 8;					
-			GetTree().ChangeSceneToFile("res://Scenes/game.tscn");
 		}
 	}
 
