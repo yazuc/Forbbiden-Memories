@@ -11,6 +11,7 @@
 [ext_resource type="LabelSettings" uid="uid://crt0cwlxu1bjj" path="res://Assets/new_label_settings.tres" id="9_h4fw4"]
 [ext_resource type="PackedScene" uid="uid://b38xoflgh70ea" path="res://board.tscn" id="9_ldgsr"]
 [ext_resource type="Texture2D" uid="uid://bf2s664bwkruy" path="res://Assets/you_activee.png" id="9_o5yvi"]
+[ext_resource type="Texture2D" uid="uid://c1dlsol8iui1w" path="res://Assets/hand_ui.png" id="9_rku1e"]
 
 [sub_resource type="Environment" id="Environment_v158k"]
 background_mode = 2
@@ -32,6 +33,7 @@ Com = NodePath("CameraPivot/COM")
 
 [node name="MaoJogador" type="Node2D" parent="." unique_id=222280098 node_paths=PackedStringArray("IndicadorTriangulo", "CameraHand", "CameraField", "CameraInimigo")]
 process_mode = 3
+z_index = 2
 script = ExtResource("3_3dryh")
 CartaCena = ExtResource("4_wowpa")
 IndicadorTriangulo = NodePath("../IndicadorTriangulo")
@@ -77,6 +79,19 @@ show_behind_parent = true
 layout_mode = 1
 anchor_top = 0.5555556
 anchor_bottom = 0.73425925
+
+[node name="TextureRect" type="TextureRect" parent="CameraPivot/CameraHand/Control" unique_id=1688364586]
+z_index = 1
+texture_filter = 5
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.7648148
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("9_rku1e")
+metadata/_edit_use_anchors_ = true
 
 [node name="CameraInimigo" type="Camera3D" parent="CameraPivot" unique_id=707581232]
 transform = Transform3D(-0.0025830397, -0.99966085, 0.0259151, -3.5205373e-11, 0.025915185, 0.9996642, -0.99999666, 0.0025821722, -6.693999e-05, -2.0402493, 5.273, 0)

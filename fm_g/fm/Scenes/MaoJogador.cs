@@ -512,9 +512,9 @@ namespace fm{
 
 			int quantidade = idsCartasNoDeck.Count;
 			float margemInferior = alturaTela * 0.12f;
-			float alturaCarta = 300f; // adjust to your real card height
+			float alturaCarta = 500f; // adjust to your real card height
 			float yMao = alturaTela - alturaCarta * 0.6f;
-			float espacamentoHorizontal = (larguraTela / 10f) + 20;
+			float espacamentoHorizontal = (larguraTela / 10f) + 50;
 			float larguraTotal = (quantidade - 1) * espacamentoHorizontal;
 			float xInicial = (larguraTela - larguraTotal) / 2f;
 
