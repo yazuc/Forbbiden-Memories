@@ -94,7 +94,7 @@ namespace fm
 			}));
 
 			// 4. Segundo Passo: "Abre" a carta (volta ao scale normal)
-			tween.TweenProperty(this, "scale:x", 1.0f, halfDuration)
+			tween.TweenProperty(this, "scale:x", 1.35f, halfDuration)
 				 .SetTrans(Tween.TransitionType.Quad)
 				 .SetEase(Tween.EaseType.Out);
 		}

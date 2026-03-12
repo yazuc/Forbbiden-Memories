@@ -512,9 +512,9 @@ namespace fm{
 
 			int quantidade = idsCartasNoDeck.Count;
 			float margemInferior = alturaTela * 0.12f;
-			float alturaCarta = 250f; // adjust to your real card height
+			float alturaCarta = 300f; // adjust to your real card height
 			float yMao = alturaTela - alturaCarta * 0.6f;
-			float espacamentoHorizontal = larguraTela / 10f;
+			float espacamentoHorizontal = (larguraTela / 10f) + 20;
 			float larguraTotal = (quantidade - 1) * espacamentoHorizontal;
 			float xInicial = (larguraTela - larguraTotal) / 2f;
 
@@ -524,6 +524,7 @@ namespace fm{
 			{
 				int id = idsCartasNoDeck[i];				
 				var novaCarta = CartaCena.Instantiate<CartasBase>();
+				novaCarta.Scale = new Vector2(1.35f, 1.35f);
 				AddChild(novaCarta);
 
 				// Define a posição manualmente (i * espaçamento faz o alinhamento)
@@ -569,7 +570,7 @@ namespace fm{
 			if (_cartasNaMao.Count > 0 && IndicadorTriangulo != null)
 			{				
 				Vector2 cardPos = _cartasNaMao[_indiceSelecionado].GlobalPosition;
-				Vector2 targetPos = cardPos + new Vector2(-90, 50);
+				Vector2 targetPos = cardPos + new Vector2(-110, 70);
 				IndicadorTriangulo.ZIndex = 10;			
 				Tween tween = GetTree().CreateTween();
 				tween.TweenProperty(IndicadorTriangulo, "position", targetPos, 0.01f)

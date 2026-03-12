@@ -54,7 +54,7 @@ shadow_enabled = true
 top_level = true
 
 [node name="CameraPivot" type="Node3D" parent="." unique_id=1777681859]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.21589994)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.57131433, 0.21589994)
 
 [node name="CameraHand" type="Camera3D" parent="CameraPivot" unique_id=700016231]
 transform = Transform3D(0.025038075, -0.37086505, 0.9283492, 0.016187903, 0.928669, 0.3705562, -0.9995554, 0.0057500117, 0.02925561, 9.532, 4.571, 0)
