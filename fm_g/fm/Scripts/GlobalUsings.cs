@@ -9,12 +9,13 @@ global using System.Text.Json;
 public partial class GlobalUsings : Node
 {
 	public static GlobalUsings Instance { get; private set; }
-	public int DeckIndex;
+	public int DeckIndex = 0;
 	public int currentBackGround;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		Instance = this;
+		DeckIndex = 8;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

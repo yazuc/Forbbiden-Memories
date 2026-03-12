@@ -19,7 +19,7 @@ namespace fm
 		[Export] public Label LP_Com;
 		[Export] public Label You;
 		[Export] public Label Com;
-		public int index_deck {get;set;} = GlobalUsings.Instance.DeckIndex;
+		public int index_deck {get;set;} 
 		private GameLoop gL;
 		
 		public override async void _Ready()
@@ -29,6 +29,7 @@ namespace fm
 			SlotsCampoIni = GetSlotsFromGroup("enemy_monster_slots");
 			SlotsCampoST = GetSlotsFromGroup("player_spell_slot");
 			SlotsCampoSTIni = GetSlotsFromGroup("enemy_spell_slot");
+			index_deck = GlobalUsings.Instance.DeckIndex;
 			
 			// 1. Instanciar Database
 			var db = CardDatabase.Instance;

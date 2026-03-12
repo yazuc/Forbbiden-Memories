@@ -282,7 +282,7 @@ namespace fm
 				CameraPivot,
 				"rotation",
 				CameraPivot.Rotation + new Vector3(0, Mathf.DegToRad(180), 0),
-				1.5f
+				1f
 			);
 			await ToSignal(tween, Tween.SignalName.Finished);
 			MaoDoJogador.SwitchTurn();
