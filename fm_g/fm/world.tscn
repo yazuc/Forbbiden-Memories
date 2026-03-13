@@ -1258,6 +1258,9 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_td626")
 
+[sub_resource type="Environment" id="Environment_55kwu"]
+background_mode = 1
+
 [node name="World" type="Node3D" unique_id=1906406321 node_paths=PackedStringArray("Camera", "Anchors", "Seletor")]
 script = ExtResource("1_nx736")
 Camera = NodePath("Camera3D")
@@ -1274,7 +1277,7 @@ transform = Transform3D(0.99999994, 0.00027503358, -0.00036094026, -9.201359e-10
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=515976357]
 transform = Transform3D(0.9348691, 0.35251018, -0.04190952, -0.08964466, 0.34865838, 0.93295294, 0.34348753, -0.86843187, 0.3575506, 12.852249, 31.478495, -25.388731)
-light_energy = 1.225
+light_energy = 1.763
 light_angular_distance = 31.69
 light_specular = 0.0
 sky_mode = 1
@@ -1301,3 +1304,6 @@ transform = Transform3D(1, 0, 0, 0, 0.99736285, 0.07257673, 0, -0.07257673, 0.99
 pixel_size = 0.2
 billboard = 1
 frame_progress = 0.35045314
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1532452019]
+environment = SubResource("Environment_55kwu")

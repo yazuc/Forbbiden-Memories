@@ -1,0 +1,44 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://bto6bvxqlvhft"
+path.s3tc="res://.godot/imported/Untitled_F7E4DA5FDC43363027112DA684744CC7.png-d40a01c7d33e62edb0d9d56d03521b27.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "4c49c1a6b5d4d316281c66fcf0c3a96b"
+}
+
+[deps]
+
+source_file="res://Assets/world_after/Untitled_F7E4DA5FDC43363027112DA684744CC7.png"
+dest_files=["res://.godot/imported/Untitled_F7E4DA5FDC43363027112DA684744CC7.png-d40a01c7d33e62edb0d9d56d03521b27.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/uastc_level=0
+compress/rdo_quality_loss=0.0
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/channel_remap/red=0
+process/channel_remap/green=1
+process/channel_remap/blue=2
+process/channel_remap/alpha=3
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0

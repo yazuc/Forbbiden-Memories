@@ -15,7 +15,8 @@ namespace fm
 		[Export] public TextureRect Type;
 		[Export] public TextureRect Sign;
 		[Export] public TextureRect Sign2;
-		[Export] public Godot.Label CardSign;		
+		[Export] public Godot.Label CardSign;
+		[Export] public Godot.ColorRect CardSigns;		
 
 		private static readonly AtlasTexture AtlasBase = GD.Load<AtlasTexture>("res://Resources/types.res");
 		private static readonly AtlasTexture AtlasBaseSign = GD.Load<AtlasTexture>("res://Resources/signs.res");
@@ -26,7 +27,10 @@ namespace fm
 		public override void _Ready()
 		{
 			string srcGodot = "res://starter_deck.txt";
-			string srcPath = ProjectSettings.GlobalizePath(srcGodot);	
+			string srcPath = ProjectSettings.GlobalizePath(srcGodot);
+			Sign = GetNode<TextureRect>("CardSign/TextureRect");
+			Sign2 = GetNode<TextureRect>("CardSign/TextureRect2");
+			CardSign = GetNode<Godot.Label>("CardSign/Label");
 			var deck = new Deck();					
 			var deckList = Funcoes.LoadUserDeck(srcPath);
 			deck.LoadDeck(deckList);									

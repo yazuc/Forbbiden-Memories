@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://b38xoflgh70ea" path="res://board.tscn" id="9_ldgsr"]
 [ext_resource type="Texture2D" uid="uid://bf2s664bwkruy" path="res://Assets/you_activee.png" id="9_o5yvi"]
 [ext_resource type="Texture2D" uid="uid://c1dlsol8iui1w" path="res://Assets/hand_ui.png" id="9_rku1e"]
+[ext_resource type="PackedScene" uid="uid://cciasjsny55ra" path="res://Menu/DeckEditor/card_sign.tscn" id="10_rfjv2"]
 
 [sub_resource type="Environment" id="Environment_v158k"]
 background_mode = 2
@@ -92,6 +93,35 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("9_rku1e")
 metadata/_edit_use_anchors_ = true
+
+[node name="Panel" type="HBoxContainer" parent="CameraPivot/CameraHand/Control/TextureRect" unique_id=913294017]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.042708334
+anchor_top = 0.52755904
+anchor_right = 0.9557292
+anchor_bottom = 0.8978262
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1, 0.83999753)
+metadata/_edit_use_anchors_ = true
+
+[node name="Nome" type="Label" parent="CameraPivot/CameraHand/Control/TextureRect/Panel" unique_id=1488297630]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+
+[node name="Status" type="Label" parent="CameraPivot/CameraHand/Control/TextureRect/Panel" unique_id=551837902]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+
+[node name="CardSign" parent="CameraPivot/CameraHand/Control/TextureRect/Panel" unique_id=1028875994 instance=ExtResource("10_rfjv2")]
+custom_minimum_size = Vector2(120.64, 23.25)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 1
+color = Color(0.03137255, 0.03137255, 0.03137255, 1)
 
 [node name="CameraInimigo" type="Camera3D" parent="CameraPivot" unique_id=707581232]
 transform = Transform3D(-0.0025830397, -0.99966085, 0.0259151, -3.5205373e-11, 0.025915185, 0.9996642, -0.99999666, 0.0025821722, -6.693999e-05, -2.0402493, 5.273, 0)

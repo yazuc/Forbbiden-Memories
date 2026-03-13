@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://cciasjsny55ra"]
+
+[ext_resource type="LabelSettings" uid="uid://c25w33a2xsn05" path="res://Menu/DeckEditor/new_label_settings.tres" id="1_qa3kk"]
+[ext_resource type="Texture2D" uid="uid://c0d2it44ekmsi" path="res://Resources/signs.res" id="2_xy7ai"]
+
+[node name="CardSign" type="ColorRect" unique_id=1028875994]
+clip_contents = true
+custom_minimum_size = Vector2(120.64, 55)
+anchors_preset = -1
+anchor_right = 0.06283333
+anchor_bottom = 0.050925925
+size_flags_horizontal = 4
+size_flags_vertical = 3
+color = Color(0.007843138, 0, 0.12156863, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="." unique_id=566257979]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = ExtResource("1_qa3kk")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=160049550]
+texture_filter = 1
+custom_minimum_size = Vector2(64, 55)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.09118036
+anchor_top = 0.21261537
+anchor_right = 0.5056365
+anchor_bottom = 0.85728276
+offset_right = 200.0
+offset_bottom = 50.652443
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.19999999, 0.41176468)
+texture = ExtResource("2_xy7ai")
+expand_mode = 1
+
+[node name="TextureRect2" type="TextureRect" parent="." unique_id=1813370994]
+texture_filter = 1
+custom_minimum_size = Vector2(64, 55)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5222148
+anchor_top = 0.21261445
+anchor_right = 0.9366709
+anchor_bottom = 0.85728186
+offset_right = 200.0
+offset_bottom = 50.65244
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(0.19999999, 0.41176468)
+texture = ExtResource("2_xy7ai")
+expand_mode = 1
+metadata/_edit_use_anchors_ = true
