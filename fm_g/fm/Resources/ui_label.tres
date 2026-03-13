@@ -1,0 +1,7 @@
+[gd_resource type="LabelSettings" format=3 uid="uid://dtcgekw5j12i2"]
+
+[ext_resource type="FontFile" uid="uid://hxr85wlns4c3" path="res://Assets/matrix-bold-small-caps-wisabo/FSEX302.ttf" id="1_u0ka8"]
+
+[resource]
+font = ExtResource("1_u0ka8")
+font_size = 75

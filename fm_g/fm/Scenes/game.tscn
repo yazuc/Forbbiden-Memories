@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://b38xoflgh70ea" path="res://board.tscn" id="9_ldgsr"]
 [ext_resource type="Texture2D" uid="uid://bf2s664bwkruy" path="res://Assets/you_activee.png" id="9_o5yvi"]
 [ext_resource type="Texture2D" uid="uid://c1dlsol8iui1w" path="res://Assets/hand_ui.png" id="9_rku1e"]
+[ext_resource type="LabelSettings" uid="uid://dtcgekw5j12i2" path="res://Resources/ui_label.tres" id="10_1phco"]
 [ext_resource type="PackedScene" uid="uid://cciasjsny55ra" path="res://Menu/DeckEditor/card_sign.tscn" id="10_rfjv2"]
 
 [sub_resource type="Environment" id="Environment_v158k"]
@@ -60,7 +61,7 @@ top_level = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.57131433, 0.21589994)
 
 [node name="CameraHand" type="Camera3D" parent="CameraPivot" unique_id=700016231]
-transform = Transform3D(0.025038075, -0.37086505, 0.9283492, 0.016187903, 0.928669, 0.3705562, -0.9995554, 0.0057500117, 0.02925561, 9.532, 4.571, 0)
+transform = Transform3D(0.02431025, -0.37009922, 0.9286741, 0.01783697, 0.92896134, 0.36974674, -0.99954534, 0.007576096, 0.02918473, 8.910112, 4.571, 0)
 current = true
 
 [node name="Control" type="Control" parent="CameraPivot/CameraHand" unique_id=511777160]
@@ -86,9 +87,10 @@ z_index = 1
 texture_filter = 5
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.7648148
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_left = 0.0010405828
+anchor_top = 0.7244898
+anchor_right = 1.0005203
+anchor_bottom = 0.9968132
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("9_rku1e")
@@ -97,44 +99,61 @@ metadata/_edit_use_anchors_ = true
 [node name="Panel" type="HBoxContainer" parent="CameraPivot/CameraHand/Control/TextureRect" unique_id=913294017]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.042708334
+anchor_left = 0.052083332
 anchor_top = 0.52755904
-anchor_right = 0.9557292
+anchor_right = 0.9520833
 anchor_bottom = 0.8978262
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(1, 0.83999753)
 metadata/_edit_use_anchors_ = true
 
-[node name="Nome" type="Label" parent="CameraPivot/CameraHand/Control/TextureRect/Panel" unique_id=1488297630]
+[node name="Label" type="Label" parent="CameraPivot/CameraHand/Control/TextureRect/Panel" unique_id=966190396]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
+text = "Element"
+label_settings = ExtResource("10_1phco")
+vertical_alignment = 1
+
+[node name="Nome" type="Label" parent="CameraPivot/CameraHand/Control/TextureRect/Panel" unique_id=1488297630]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Lava Battleguard"
+label_settings = ExtResource("10_1phco")
+vertical_alignment = 1
+text_overrun_behavior = 1
 
 [node name="Status" type="Label" parent="CameraPivot/CameraHand/Control/TextureRect/Panel" unique_id=551837902]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
+text = "Warrior"
+label_settings = ExtResource("10_1phco")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="CardSign" parent="CameraPivot/CameraHand/Control/TextureRect/Panel" unique_id=1028875994 instance=ExtResource("10_rfjv2")]
-custom_minimum_size = Vector2(120.64, 23.25)
+custom_minimum_size = Vector2(120.64, 10)
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 1
 color = Color(0.03137255, 0.03137255, 0.03137255, 1)
 
 [node name="CameraInimigo" type="Camera3D" parent="CameraPivot" unique_id=707581232]
-transform = Transform3D(-0.0025830397, -0.99966085, 0.0259151, -3.5205373e-11, 0.025915185, 0.9996642, -0.99999666, 0.0025821722, -6.693999e-05, -2.0402493, 5.273, 0)
+transform = Transform3D(-0.0025830662, -0.99966085, 0.025913427, -3.52031e-11, 0.025913512, 0.9996642, -0.99999666, 0.0025821987, -6.693636e-05, -2.565, 5.273, 0.025)
 
 [node name="CameraField" type="Camera3D" parent="CameraPivot" unique_id=573948242]
-transform = Transform3D(0.005202621, -0.9997146, 0.023316784, 0.00478284, 0.023341708, 0.99971616, -0.999975, -0.0050896243, 0.0049029137, 2.0958264, 5.466, 0)
+transform = Transform3D(-0.003431812, -0.99970734, 0.023950191, 0.0049127783, 0.023933189, 0.9997015, -0.999982, 0.0035484433, 0.0048292056, 2.631, 5.466, 0)
 
 [node name="ComActive" type="Sprite2D" parent="CameraPivot" unique_id=1013509322]
+texture_filter = 5
 position = Vector2(1742.0001, 106)
 scale = Vector2(2.1599998, 2.4399993)
 texture = ExtResource("8_ldgsr")
 
 [node name="YouActive" type="Sprite2D" parent="CameraPivot" unique_id=1654907783]
+texture_filter = 5
 position = Vector2(1742, 106)
 scale = Vector2(2.16, 2.44)
 texture = ExtResource("9_o5yvi")

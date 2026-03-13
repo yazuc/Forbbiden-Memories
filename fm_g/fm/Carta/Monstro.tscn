@@ -5,9 +5,20 @@
 [sub_resource type="CanvasTexture" id="CanvasTexture_brein"]
 diffuse_texture = ExtResource("1_6bxph")
 
+[sub_resource type="CanvasTexture" id="CanvasTexture_6bxph"]
+diffuse_texture = ExtResource("1_6bxph")
+
 [node name="Monstro" type="Node2D" unique_id=219028799]
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1517458919]
 texture = SubResource("CanvasTexture_brein")
 region_enabled = true
 region_rect = Rect2(151.76448, 35.846085, 147.0396, 209.04422)
+
+[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=1554804481]
+visible = false
+texture_filter = 5
+scale = Vector2(2.916666, 3.4821427)
+texture = SubResource("CanvasTexture_6bxph")
+region_enabled = true
+region_rect = Rect2(647.71356, 281.51434, 48.56183, 56.790833)

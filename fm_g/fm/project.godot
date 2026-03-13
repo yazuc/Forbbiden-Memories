@@ -41,6 +41,11 @@ enemy_monster_slots="grupo de monstros do inimigo"
 enemy_spell_slot=""
 player_spell_slot=""
 
+[gui]
+
+theme/default_font_multichannel_signed_distance_field=true
+theme/default_font_generate_mipmaps=true
+
 [input]
 
 ui_accept={
@@ -81,4 +86,5 @@ ui_lb={
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=3
 rendering_device/driver.windows="d3d12"
