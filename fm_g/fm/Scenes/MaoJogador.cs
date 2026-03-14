@@ -40,9 +40,12 @@ namespace fm{
 		public Sprite2D ComActive;
 		public Sprite2D YouActive;
 		public string LogicalPosition {get;set;}
+		public Mao MaoControl {get;set;}
+
 		public override void _Ready()
 		{
 			_transitionCam = new Camera3D();
+			MaoControl = GetNode<Mao>("../CameraPivot/CameraHand/Control/TextureRect/Mao");		
 			AddChild(_transitionCam);
 			if (Seletor != null)
 			{
@@ -73,7 +76,7 @@ namespace fm{
 		private async Task HandleNavigation()
 		{
 			if (_bloquearNavegaçãoManual) return;
-			if (_cartasNaMao.Count == 0) return;
+			if (MaoControl.CartasNaMaoCount() == 0) return;
 
 			if (!_selecionandoLocal) 
 			{				
@@ -86,7 +89,7 @@ namespace fm{
 					_indiceSelecionado = 4;
 				}
 				if(!STOP){
-					if (Input.IsActionJustPressed("ui_right")) _indiceSelecionado = Mathf.Min(_indiceSelecionado + 1, _cartasNaMao.Count - 1);
+					if (Input.IsActionJustPressed("ui_right")) _indiceSelecionado = Mathf.Min(_indiceSelecionado + 1, MaoControl.CartasNaMaoCount() - 1);
 					else if (Input.IsActionJustPressed("ui_left")) _indiceSelecionado = Mathf.Max(_indiceSelecionado - 1, 0);					
 				}
 
@@ -96,14 +99,14 @@ namespace fm{
 				if(!STOP){
 					if (Input.IsActionJustPressed("ui_up")) 
 					{
-						AlternarSelecaoFusao(_cartasNaMao[_indiceSelecionado]);
+						AlternarSelecaoFusao(MaoControl.GetCartaBase(_indiceSelecionado));
 					}					
 					if (Input.IsActionJustPressed("ui_accept")) 
 					{
 						await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 						if (_cartasSelecionadasParaFusao.Count == 0)
 						{
-							_cartasSelecionadasParaFusao.Add(_cartasNaMao[_indiceSelecionado]);
+							_cartasSelecionadasParaFusao.Add(MaoControl.GetCartaBase(_indiceSelecionado));
 						}
 						try 
 						{
@@ -349,6 +352,7 @@ namespace fm{
 		
 		private async Task<bool> MoveCartaParaCentro(int ID, string name)
 		{
+			GD.Print(name);
 			//await AnimaFusao();
 			if(_cartasSelecionadasParaFusao.Count() > 1) return false;
 			bool IsFaceDown = true;
@@ -357,8 +361,9 @@ namespace fm{
 			var viewport = GetViewport();			
 			Vector2 screenCenter = viewport.GetVisibleRect().Size / 2f;
 			
-			var nodoAlvo = _cartasNaMao.FirstOrDefault(x => x.Name == name);
-			lastPos = nodoAlvo.GlobalPosition;
+			var nodoAlvo = MaoControl.GetCartaBase(_indiceSelecionado);// _cartasNaMao.FirstOrDefault(x => x.Name == name);			
+			lastPos = MaoControl.GetCarta(_indiceSelecionado).GlobalPosition;
+			nodoAlvo.Reparent(this,true);
 			
 			Tween tween = GetTree().CreateTween();
 			tween.TweenProperty(nodoAlvo, "global_position", screenCenter, 0.2f)
@@ -366,8 +371,8 @@ namespace fm{
 				 .SetEase(Tween.EaseType.Out);
 			nodoAlvo.FlipCard(IsFaceDown);
 			
-			var instancia = CriarSetaPersonalizada(screenCenter + new Vector2(90,-20));
-			var instancia2 = CriarSetaPersonalizada(screenCenter + new Vector2(-90,-20));
+			var instancia = CriarSetaPersonalizada(screenCenter + new Vector2(100,-20));
+			var instancia2 = CriarSetaPersonalizada(screenCenter + new Vector2(-100,-20));
 			
 			while(!_tcsFaceDown.Task.IsCompleted) 
 			{
@@ -386,6 +391,7 @@ namespace fm{
 					if(Input.IsActionJustPressed("ui_cancel")){
 						instancia.Visible = false;
 						instancia2.Visible = false;
+						nodoAlvo.Reparent(MaoControl.Hbox);
 						_tcsFaceDown?.TrySetCanceled();		
 					}
 				}
@@ -397,7 +403,7 @@ namespace fm{
 		
 		private void DevolveCartaParaMao(int ID, string name, bool cancel = false)
 		{			
-			var nodoAlvo = _cartasNaMao.FirstOrDefault(x => x.CurrentID == ID && x.Name == name);
+			var nodoAlvo = MaoControl.GetCartaBase(_indiceSelecionado); //_cartasNaMao.FirstOrDefault(x => x.CurrentID == ID && x.Name == name);
 			if(cancel)
 				nodoAlvo.FlipCard(false);
 			Tween tween = GetTree().CreateTween();
@@ -496,6 +502,17 @@ namespace fm{
 
 		public void AtualizarMao(List<int> idsCartasNoDeck)
 		{
+			GD.Print(idsCartasNoDeck.Count());	
+			MaoControl.InstanciaMao(idsCartasNoDeck);
+			_indiceSelecionado = 0;
+			if (IndicadorTriangulo != null)
+			{			
+				IndicadorTriangulo.Visible = true;				
+				AtualizarPosicaoIndicador(); 
+			}
+
+			return;
+
 			// Limpa a mão atual
 			foreach (var carta in _cartasNaMao)
 			{
@@ -567,9 +584,9 @@ namespace fm{
 		
 		private void AtualizarPosicaoIndicador()
 		{
-			if (_cartasNaMao.Count > 0 && IndicadorTriangulo != null)
+			if (IndicadorTriangulo != null)
 			{				
-				Vector2 cardPos = _cartasNaMao[_indiceSelecionado].GlobalPosition;
+				Vector2 cardPos = MaoControl.GetCarta(_indiceSelecionado)?.GlobalPosition ?? Vector2.Zero;
 				Vector2 targetPos = cardPos + new Vector2(-110, 70);
 				IndicadorTriangulo.ZIndex = 10;			
 				Tween tween = GetTree().CreateTween();
