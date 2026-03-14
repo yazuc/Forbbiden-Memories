@@ -24,9 +24,19 @@ namespace fm
 				cartaInstanciada.SetFaceDown(!cartaInstanciada.IsFaceDown);				
 			}
 		}
+
+		public void RemoveDasInstanciadas(Node3D carta)
+		{
+			if(_cartasInstanciadas.Contains(carta))
+			{
+				_cartasInstanciadas.Remove(carta);
+			}
+		}
 		
 		public Carta3d PegaNodoCarta3d(string ID)
 		{
+			GD.Print("Procurando carta3d com ID: " + ID);
+			GD.Print("Cartas instanciadas: " + _cartasInstanciadas.Count);
 			return _cartasInstanciadas.OfType<Carta3d>().FirstOrDefault(x => x.markerName == ID);
 		}	
 
@@ -144,7 +154,8 @@ namespace fm
 			var tuple = new List<(string carta,bool defesa)>();	
 			foreach(var item in _cartasInstanciadas)
 			{
-				if(item is Carta3d nodo)
+				
+				if(IsInstanceValid(item) && item is Carta3d nodo)
 				{
 					GD.Print("DEVOLVE POS:" + nodo.markerName + " - " + nodo.Defesa);
 					tuple.Add((nodo.markerName, nodo.Defesa));

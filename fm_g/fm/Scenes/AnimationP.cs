@@ -3,11 +3,15 @@ using System.Threading.Tasks;
 
 namespace fm{
 	
-	public partial class AnimationPlayer : Node
+	public partial class AnimationP : Node
 	{
 		[Export] public Camera3D CameraHand;
 		[Export] public Mao MaoControl;
 		public List<CartasBase> _cartasSelecionadasParaFusao {get;set;}
+
+		public override void _Ready()
+		{
+		}
 
 		public async Task AnimaBattle(
 			MaoJogador mao,
@@ -17,6 +21,7 @@ namespace fm{
 			bool IsEnemy
 		)
 		{
+			mao.STOP = true;
 			await mao.Tools.TransitionTo(CameraHand, 0.5f, mao._transitionCam, mao.STOP);
 
 			var viewport = GetViewport();
@@ -28,10 +33,17 @@ namespace fm{
 			Vector3 position3D = rayOrigin + rayNormal * distancia;
 
 			Carta3d meuMonstro3d = mao.Tools.PegaNodoCarta3d(meuMonstro.zoneName);
+			if (!IsInstanceValid(meuMonstro3d))
+    			return;
+
 			Carta3d monstroInimigo3d = null;
 
 			if (monstroInimigo != null)
+			{
 				monstroInimigo3d = mao.Tools.PegaNodoCarta3d(monstroInimigo.zoneName);
+				if (!IsInstanceValid(monstroInimigo3d))
+    				return;
+			}
 
 			int diffEnemy = IsEnemy ? 1 : -1;
 
@@ -58,24 +70,34 @@ namespace fm{
 			if(br.DefenderDestroyed && br.AttackerDestroyed)
 			{
 				if(monstroInimigo3d != null)
+				{
 					await monstroInimigo3d.Queimar();
+					mao.Tools.RemoveDasInstanciadas(monstroInimigo3d);
+				}
 
 				await meuMonstro3d.Queimar();
+				mao.Tools.RemoveDasInstanciadas(meuMonstro3d);
 				return;
 			}
 
 			if(!br.DefenderDestroyed && br.AttackerDestroyed)
 			{
 				await meuMonstro3d.Queimar();
+				mao.Tools.RemoveDasInstanciadas(meuMonstro3d);				
 
 				if(monstroInimigo3d != null)
-					 monstroInimigo3d.TransitionCardTo(originalEnemyPos,0.5f,originalEnemyRot);
+                    _ = monstroInimigo3d.TransitionCardTo(originalEnemyPos, 0.5f, originalEnemyRot);
+
+				return;
 			}
 
 			if(br.DefenderDestroyed && !br.AttackerDestroyed)
 			{
 				if(monstroInimigo3d != null)
+				{
 					await monstroInimigo3d.Queimar();
+					mao.Tools.RemoveDasInstanciadas(monstroInimigo3d);
+				}
 
 				  taskMe = meuMonstro3d.TransitionCardTo(originalPos,0.5f,originalRot);
 			}
@@ -118,7 +140,6 @@ namespace fm{
 		public async Task<bool> AnimaCartaParaCentro(MaoJogador maoJogador, int ID, string name, int _indiceSelecionado)
 		{
 			GD.Print(name);
-			//await AnimaFusao();
 			if(_cartasSelecionadasParaFusao.Count() > 1) return false;
 			bool IsFaceDown = true;
 			maoJogador._tcsFaceDown = new TaskCompletionSource<bool>();
@@ -141,8 +162,9 @@ namespace fm{
 			tween.TweenProperty(nodoAlvo, "global_position", screenCenter, 0.2f)
 				 .SetTrans(Tween.TransitionType.Sine)
 				 .SetEase(Tween.EaseType.Out);
+			maoJogador.STOP = true;
 			nodoAlvo.FlipCard(IsFaceDown);
-			
+			maoJogador.STOP = false;
 			var instancia = maoJogador.CriarSetaPersonalizada(screenCenter + new Vector2(100,-20));
 			var instancia2 = maoJogador.CriarSetaPersonalizada(screenCenter + new Vector2(-100,-20), true);
 			

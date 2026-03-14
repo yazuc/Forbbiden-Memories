@@ -211,22 +211,26 @@ namespace fm
 				MaoDoJogador.Tools.Flipa(monstroInimigo.zoneName);
 				if(!battleResult.AttackerDestroyed && !battleResult.DefenderDestroyed)
 				{
+					GD.Print("caiu no empate, ninguem destruido");
 					_gameState.CurrentPlayer.TakeDamage(battleResult.DamageDealt);		
 				}
 				if(battleResult.AttackerDestroyed && battleResult.DefenderDestroyed)
 				{
 					//descobrir pq draw ta bugado
+					GD.Print("caiu no empate, ambos destruídos");
 					await MaoDoJogador._anim.AnimaBattle(MaoDoJogador, meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy);
 					_gameState.OpponentPlayer.Field.RemoveMonster(monstroInimigo.zoneName);	
 					_gameState.CurrentPlayer.Field.RemoveMonster(meuMonstro.zoneName);	
 					return false;		
 				}
-				if(battleResult.DefenderDestroyed){					
+				if(battleResult.DefenderDestroyed){	
+					GD.Print("caiu no defensor destruído");				
 					await MaoDoJogador._anim.AnimaBattle(MaoDoJogador, meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy);					
 					_gameState.OpponentPlayer.Field.RemoveMonster(monstroInimigo.zoneName);
 					_gameState.OpponentPlayer.TakeDamage(battleResult.DamageDealt);									
 				}
 				if(battleResult.AttackerDestroyed){
+					GD.Print("caiu no atacante destruído");
 					//ajustar para o meuMonstro ser destruido
 					await MaoDoJogador._anim.AnimaBattle(MaoDoJogador, meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy);
 					_gameState.CurrentPlayer.Field.RemoveMonster(meuMonstro.zoneName);							
@@ -234,10 +238,12 @@ namespace fm
 				}
 			}else
 			{
+				GD.Print("caiu no ataque direto");
 				await MaoDoJogador._anim.AnimaBattle(MaoDoJogador, meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy);
 			}
 			
 			
+			MaoDoJogador.STOP = false;
 			_gameState.CurrentPlayer.Field.DrawFieldState();
 			_gameState.OpponentPlayer.Field.DrawFieldState();
 			return false;			

@@ -38,7 +38,7 @@ namespace fm{
 		public Mao MaoControl {get;set;}
 		public IndicadorSeta indicadorSetaEsquerda{get;set;}
 		public IndicadorSeta indicadorSetaDireita{get;set;}
-		public AnimationPlayer _anim;
+		public AnimationP _anim;
 		public Helper Tools;
 
 		public override void _Ready()
@@ -54,8 +54,8 @@ namespace fm{
 			}
 			ComActive = GetNode<Sprite2D>($"../CameraPivot/ComActive");
 			YouActive = GetNode<Sprite2D>($"../CameraPivot/YouActive");
-			ComActive.Visible = false;			
-			_anim = GetNode<AnimationPlayer>("../AnimationPlayer");
+			ComActive.Visible = false;					
+			_anim = GetNode<AnimationP>("../AnimationP");
 			_anim._cartasSelecionadasParaFusao = _cartasSelecionadasParaFusao;
 			Tools = GetNode<Helper>("../Helper");
 			Tools._cartasInstanciadas = _cartasInstanciadas;
@@ -323,36 +323,39 @@ namespace fm{
 				{
 					AtualizarPosicaoSeletorParaSlots(slots);
 				}
-				if(Input.IsActionJustPressed("ui_lb") || Input.IsActionJustPressed("ui_rb"))
+				if (!STOP)
 				{
-					if (!camIni)
+					if(Input.IsActionJustPressed("ui_lb") || Input.IsActionJustPressed("ui_rb"))
 					{
-						var slotDestino = slots[_indiceCampoSelecionado];									
-						var isEnemy = slotDestino.Name.ToString().Contains("Ini");
-						var pegou = Tools.PegaNodoCarta3d(slotDestino.Name);
-						if(pegou != null)
-						{						
-							var rotacao = pegou.Rotation;			
-							if(pegou != null && pegou is Carta3d nodo)
-							{
-								nodo.Defesa = !nodo.Defesa;
-							}		
-							if(!isEnemy){
-								if(rotacao == new Vector3(0,0,0)){
-									pegou.Rotation = new Vector3(-0, 1.5707964f, 0);
+						if (!camIni)
+						{
+							var slotDestino = slots[_indiceCampoSelecionado];									
+							var isEnemy = slotDestino.Name.ToString().Contains("Ini");
+							var pegou = Tools.PegaNodoCarta3d(slotDestino.Name);
+							if(pegou != null)
+							{						
+								var rotacao = pegou.Rotation;			
+								if(pegou != null && pegou is Carta3d nodo)
+								{
+									nodo.Defesa = !nodo.Defesa;
+								}		
+								if(!isEnemy){
+									if(rotacao == new Vector3(0,0,0)){
+										pegou.Rotation = new Vector3(-0, 1.5707964f, 0);
+									}else{
+										pegou.Rotation = new Vector3(-0, 0.0f,0);						
+									}						
 								}else{
-									pegou.Rotation = new Vector3(-0, 0.0f,0);						
+									if(rotacao == new Vector3(0,3.14f,0)){
+										pegou.Rotation = new Vector3(-0, -1.5707964f, 0);
+									}else{							
+										pegou.Rotation = new Vector3(0,3.14f,0);						
+									}	
 								}						
-							}else{
-								if(rotacao == new Vector3(0,3.14f,0)){
-									pegou.Rotation = new Vector3(-0, -1.5707964f, 0);
-								}else{							
-									pegou.Rotation = new Vector3(0,3.14f,0);						
-								}	
+								
 							}						
-							
-						}						
-					}
+						}
+					}				
 				}
 				
 				if(!STOP){

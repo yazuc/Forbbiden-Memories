@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://daj0t8aw721wf" path="res://Scripts/native_c#/Main.cs" id="1_e2o6t"]
 [ext_resource type="Script" uid="uid://c0sbtdk4bpvtm" path="res://Scenes/Helper.cs" id="2_ewbju"]
 [ext_resource type="PackedScene" uid="uid://c8mda7ioh6qlg" path="res://testeMao/Mao.tscn" id="2_nb51f"]
-[ext_resource type="Script" uid="uid://cw75wo561ptws" path="res://Scenes/AnimationPlayer.cs" id="2_nnt18"]
+[ext_resource type="Script" uid="uid://cw75wo561ptws" path="res://Scenes/AnimationP.cs" id="2_nnt18"]
 [ext_resource type="Script" uid="uid://srumahse3qk" path="res://Scenes/MaoJogador.cs" id="3_3dryh"]
 [ext_resource type="PackedScene" uid="uid://uys23mmogslm" path="res://Carta/CartasBase.tscn" id="4_wowpa"]
 [ext_resource type="PackedScene" uid="uid://dpjrxybf4pcvc" path="res://HUD/IndicadorTriangulo.tscn" id="5_wowpa"]
@@ -40,7 +40,7 @@ Com = NodePath("CameraPivot/COM")
 script = ExtResource("2_ewbju")
 carta3D = ExtResource("6_i6g32")
 
-[node name="AnimationPlayer" type="Node" parent="." unique_id=1698799105 node_paths=PackedStringArray("CameraHand", "MaoControl")]
+[node name="AnimationP" type="Node" parent="." unique_id=1698799105 node_paths=PackedStringArray("CameraHand", "MaoControl")]
 script = ExtResource("2_nnt18")
 CameraHand = NodePath("../CameraPivot/CameraHand")
 MaoControl = NodePath("../CameraPivot/CameraHand/Control/TextureRect/Mao")

@@ -11,7 +11,8 @@ public partial class GlobalUsings : Node
 	public static GlobalUsings Instance { get; private set; }
 	public int DeckIndex = 0;
 	public int BoardIndex = 0;
-	public int currentBackGround;
+	public int currentBackGround;	
+	public bool stop = false;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
