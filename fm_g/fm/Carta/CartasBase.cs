@@ -1,8 +1,8 @@
 using Godot;
 using System;
 namespace fm
-{
-	[Tool]
+{	
+	//[Tool]
 	public partial class CartasBase : Node2D
 	{
 		// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -75,7 +75,7 @@ namespace fm
 			_arteSprite.Scale = new Vector2(1.02f, 1.054f);
 		}
 		
-		public void FlipCard(bool targetFaceDown, float duration = 0.3f)
+		public void FlipCard(bool targetFaceDown, float duration = 0.3f, float customScale = 1.2f)
 		{
 			// 1. Criamos o Tween
 			Tween tween = GetTree().CreateTween();
@@ -94,7 +94,7 @@ namespace fm
 			}));
 
 			// 4. Segundo Passo: "Abre" a carta (volta ao scale normal)
-			tween.TweenProperty(this, "scale:x", 1.35f, halfDuration)
+			tween.TweenProperty(this, "scale:x", customScale, halfDuration)
 				 .SetTrans(Tween.TransitionType.Quad)
 				 .SetEase(Tween.EaseType.Out);
 		}
@@ -144,7 +144,7 @@ namespace fm
 			{
 				var frameScene = GD.Load<PackedScene>(path);
 				_currentFrameNode = frameScene.Instantiate();
-				if(_currentFrameNode != null)
+				if(_currentFrameNode != null && _frameAnchor != null)
 					_frameAnchor.AddChild(_currentFrameNode);
 			}
 		}

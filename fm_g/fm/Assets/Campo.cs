@@ -9,7 +9,6 @@ public partial class Campo : Node3D
 	private MeshInstance3D _mesh_mt_ally;
 	private MeshInstance3D _mesh_center;
 	private StandardMaterial3D _material;
-
 	private Texture2D[] _texturas;
 
 	public override void _Ready()
@@ -42,8 +41,8 @@ public partial class Campo : Node3D
 			GD.Load<Texture2D>("res://Assets/campos/campo_grass/campo_grama_grama.png"),
 			GD.Load<Texture2D>("res://Assets/campos/campo_montanha/campo_montanha_montanha_3.png"),
 		};
-
-		SetEstadoCampo(0);
+		var index = GlobalUsings.Instance != null ? GlobalUsings.Instance.BoardIndex : 0;
+		SetEstadoCampo(index);
 	}
 
 	public void SetEstadoCampo(int estado)

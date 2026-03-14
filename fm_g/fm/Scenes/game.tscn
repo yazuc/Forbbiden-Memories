@@ -1,6 +1,9 @@
 [gd_scene format=3 uid="uid://dj7s3t4ux6vfw"]
 
 [ext_resource type="Script" uid="uid://daj0t8aw721wf" path="res://Scripts/native_c#/Main.cs" id="1_e2o6t"]
+[ext_resource type="Script" uid="uid://c0sbtdk4bpvtm" path="res://Scenes/Helper.cs" id="2_ewbju"]
+[ext_resource type="PackedScene" uid="uid://c8mda7ioh6qlg" path="res://testeMao/Mao.tscn" id="2_nb51f"]
+[ext_resource type="Script" uid="uid://cw75wo561ptws" path="res://Scenes/AnimationP.cs" id="2_nnt18"]
 [ext_resource type="Script" uid="uid://srumahse3qk" path="res://Scenes/MaoJogador.cs" id="3_3dryh"]
 [ext_resource type="PackedScene" uid="uid://uys23mmogslm" path="res://Carta/CartasBase.tscn" id="4_wowpa"]
 [ext_resource type="PackedScene" uid="uid://dpjrxybf4pcvc" path="res://HUD/IndicadorTriangulo.tscn" id="5_wowpa"]
@@ -33,13 +36,21 @@ LP_Com = NodePath("CameraPivot/COM/LP")
 You = NodePath("CameraPivot/YOU")
 Com = NodePath("CameraPivot/COM")
 
+[node name="Helper" type="Node" parent="." unique_id=665815536]
+script = ExtResource("2_ewbju")
+carta3D = ExtResource("6_i6g32")
+
+[node name="AnimationP" type="Node" parent="." unique_id=1698799105 node_paths=PackedStringArray("CameraHand", "MaoControl")]
+script = ExtResource("2_nnt18")
+CameraHand = NodePath("../CameraPivot/CameraHand")
+MaoControl = NodePath("../CameraPivot/CameraHand/Control/TextureRect/Mao")
+
 [node name="MaoJogador" type="Node2D" parent="." unique_id=222280098 node_paths=PackedStringArray("IndicadorTriangulo", "CameraHand", "CameraField", "CameraInimigo")]
 process_mode = 3
 z_index = 2
 script = ExtResource("3_3dryh")
 CartaCena = ExtResource("4_wowpa")
 IndicadorTriangulo = NodePath("../IndicadorTriangulo")
-Carta3d = ExtResource("6_i6g32")
 CameraHand = NodePath("../CameraPivot/CameraHand")
 CameraField = NodePath("../CameraPivot/CameraField")
 CameraInimigo = NodePath("../CameraPivot/CameraInimigo")
@@ -95,6 +106,21 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("9_rku1e")
 metadata/_edit_use_anchors_ = true
+
+[node name="Mao" parent="CameraPivot/CameraHand/Control/TextureRect" unique_id=1223634621 instance=ExtResource("2_nb51f")]
+z_index = 2
+custom_minimum_size = Vector2(830, 197)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.252
+anchor_top = -1.5760101
+anchor_right = 0.80700004
+anchor_bottom = 2.594
+offset_left = 0.41378784
+offset_top = 354.07016
+offset_right = -145.39941
+offset_bottom = -675.3684
+scale = Vector2(1.2, 1.2)
 
 [node name="Panel" type="HBoxContainer" parent="CameraPivot/CameraHand/Control/TextureRect" unique_id=913294017]
 layout_mode = 1
@@ -194,68 +220,68 @@ text = "8000"
 label_settings = ExtResource("9_h4fw4")
 horizontal_alignment = 2
 
-[node name="Carta3d" parent="." unique_id=557434675 instance=ExtResource("6_i6g32")]
-
-[node name="Carta1M" type="Marker3D" parent="." unique_id=1859481463 groups=["player_monster_slots"]]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2.597, 1.369, 3.711)
-
-[node name="Carta2M" type="Marker3D" parent="." unique_id=1159102727 groups=["player_monster_slots"]]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2.597, 1.369, 1.98)
-
-[node name="Carta3M" type="Marker3D" parent="." unique_id=1750837157 groups=["player_monster_slots"]]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2.5966737, 1.369, 0.2493279)
-
-[node name="Carta4M" type="Marker3D" parent="." unique_id=689030238 groups=["player_monster_slots"]]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2.597, 1.369, -1.482)
-
-[node name="Carta5M" type="Marker3D" parent="." unique_id=638832938 groups=["player_monster_slots"]]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2.597, 1.369, -3.213)
-
-[node name="Carta1S" type="Marker3D" parent="." unique_id=960543589 groups=["player_spell_slot"]]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.231, 1.369, 3.705)
-
-[node name="Carta2S" type="Marker3D" parent="." unique_id=689594235 groups=["player_spell_slot"]]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.231, 1.369, 1.9749238)
-
-[node name="Carta3S" type="Marker3D" parent="." unique_id=1263474460 groups=["player_spell_slot"]]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.231, 1.369, 0.24457759)
-
-[node name="Carta4S" type="Marker3D" parent="." unique_id=1508247149 groups=["player_spell_slot"]]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.231, 1.369, -1.485)
-
-[node name="Carta5S" type="Marker3D" parent="." unique_id=1240761787 groups=["player_spell_slot"]]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.231, 1.369, -3.215)
-
-[node name="Carta5IniM" type="Marker3D" parent="." unique_id=986045306 groups=["enemy_monster_slots"]]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.62, 1.369, 3.72)
-
-[node name="Carta4IniM" type="Marker3D" parent="." unique_id=1918354445 groups=["enemy_monster_slots"]]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.62, 1.369, 2.009)
-
-[node name="Carta3IniM" type="Marker3D" parent="." unique_id=1676939068 groups=["enemy_monster_slots"]]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.62, 1.369, 0.249)
-
-[node name="Carta2IniM" type="Marker3D" parent="." unique_id=983436190 groups=["enemy_monster_slots"]]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.62, 1.369, -1.511)
-
-[node name="Carta1IniM" type="Marker3D" parent="." unique_id=434961320 groups=["enemy_monster_slots"]]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.62, 1.369, -3.2)
-
-[node name="Carta5IniS" type="Marker3D" parent="." unique_id=939572990 groups=["enemy_spell_slot"]]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.3514967, 1.369, 3.905)
-
-[node name="Carta4IniS" type="Marker3D" parent="." unique_id=23597922 groups=["enemy_spell_slot"]]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.355207, 1.369, 2.0622222)
-
-[node name="Carta3IniS" type="Marker3D" parent="." unique_id=672846142 groups=["enemy_spell_slot"]]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.3514967, 1.369, 0.15248895)
-
-[node name="Carta2IniS" type="Marker3D" parent="." unique_id=867145139 groups=["enemy_spell_slot"]]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.3514967, 1.369, -1.6604104)
-
-[node name="Carta1IniS" type="Marker3D" parent="." unique_id=659163300 groups=["enemy_spell_slot"]]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.3514967, 1.369, -3.4739966)
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1668532810]
 environment = SubResource("Environment_v158k")
 camera_attributes = SubResource("CameraAttributesPhysical_h4fw4")
+
+[node name="MarcadoresCampo" type="Node" parent="." unique_id=49216432]
+
+[node name="Carta1M" type="Marker3D" parent="MarcadoresCampo" unique_id=1859481463 groups=["player_monster_slots"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2.597, 1.369, 3.711)
+
+[node name="Carta2M" type="Marker3D" parent="MarcadoresCampo" unique_id=1159102727 groups=["player_monster_slots"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2.597, 1.369, 1.98)
+
+[node name="Carta3M" type="Marker3D" parent="MarcadoresCampo" unique_id=1750837157 groups=["player_monster_slots"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2.5966737, 1.369, 0.2493279)
+
+[node name="Carta4M" type="Marker3D" parent="MarcadoresCampo" unique_id=689030238 groups=["player_monster_slots"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2.597, 1.369, -1.482)
+
+[node name="Carta5M" type="Marker3D" parent="MarcadoresCampo" unique_id=638832938 groups=["player_monster_slots"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2.597, 1.369, -3.213)
+
+[node name="Carta1S" type="Marker3D" parent="MarcadoresCampo" unique_id=960543589 groups=["player_spell_slot"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.231, 1.369, 3.705)
+
+[node name="Carta2S" type="Marker3D" parent="MarcadoresCampo" unique_id=689594235 groups=["player_spell_slot"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.231, 1.369, 1.9749238)
+
+[node name="Carta3S" type="Marker3D" parent="MarcadoresCampo" unique_id=1263474460 groups=["player_spell_slot"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.231, 1.369, 0.24457759)
+
+[node name="Carta4S" type="Marker3D" parent="MarcadoresCampo" unique_id=1508247149 groups=["player_spell_slot"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.231, 1.369, -1.485)
+
+[node name="Carta5S" type="Marker3D" parent="MarcadoresCampo" unique_id=1240761787 groups=["player_spell_slot"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.231, 1.369, -3.215)
+
+[node name="Carta5IniM" type="Marker3D" parent="MarcadoresCampo" unique_id=986045306 groups=["enemy_monster_slots"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.62, 1.369, 3.72)
+
+[node name="Carta4IniM" type="Marker3D" parent="MarcadoresCampo" unique_id=1918354445 groups=["enemy_monster_slots"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.62, 1.369, 2.009)
+
+[node name="Carta3IniM" type="Marker3D" parent="MarcadoresCampo" unique_id=1676939068 groups=["enemy_monster_slots"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.62, 1.369, 0.249)
+
+[node name="Carta2IniM" type="Marker3D" parent="MarcadoresCampo" unique_id=983436190 groups=["enemy_monster_slots"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.62, 1.369, -1.511)
+
+[node name="Carta1IniM" type="Marker3D" parent="MarcadoresCampo" unique_id=434961320 groups=["enemy_monster_slots"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.62, 1.369, -3.2)
+
+[node name="Carta5IniS" type="Marker3D" parent="MarcadoresCampo" unique_id=939572990 groups=["enemy_spell_slot"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.3514967, 1.369, 3.905)
+
+[node name="Carta4IniS" type="Marker3D" parent="MarcadoresCampo" unique_id=23597922 groups=["enemy_spell_slot"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.355207, 1.369, 2.0622222)
+
+[node name="Carta3IniS" type="Marker3D" parent="MarcadoresCampo" unique_id=672846142 groups=["enemy_spell_slot"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.3514967, 1.369, 0.15248895)
+
+[node name="Carta2IniS" type="Marker3D" parent="MarcadoresCampo" unique_id=867145139 groups=["enemy_spell_slot"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.3514967, 1.369, -1.6604104)
+
+[node name="Carta1IniS" type="Marker3D" parent="MarcadoresCampo" unique_id=659163300 groups=["enemy_spell_slot"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.3514967, 1.369, -3.4739966)

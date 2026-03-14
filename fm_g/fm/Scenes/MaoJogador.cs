@@ -7,42 +7,44 @@ namespace fm{
 		[Export] public PackedScene CartaCena;
 		[Export] public Node2D IndicadorTriangulo;
 		public Node2D IndicadorSeta;
-		[Export] public PackedScene Carta3d;
 		[Export] public Camera3D CameraHand;
 		[Export] public Camera3D CameraField;
 		[Export] public Camera3D CameraInimigo;
-		[Export] public PackedScene Seletor;
-		
-		private Camera3D _transitionCam;
+		[Export] public PackedScene Seletor;		
+		public Camera3D _transitionCam;
 		public Godot.Collections.Array<Marker3D> SlotsCampo = new();
 		public Godot.Collections.Array<Marker3D> SlotsCampoST = new ();
 		public Godot.Collections.Array<Marker3D> SlotsCampoIni = new ();
 		public Godot.Collections.Array<Marker3D> SlotsCampoSTIni = new ();
 		public Godot.Collections.Array<Marker3D> Slots = new ();	
-		public bool STOP {get;set;}
-		
+		public bool STOP {get;set;}		
 		private TaskCompletionSource<Godot.Collections.Array<int>> _tcsCarta;
 		private TaskCompletionSource<int> _tcsSlot;
-		private TaskCompletionSource<int> _tcsCampo = null;
-		private TaskCompletionSource<bool> _tcsFaceDown;
+		public TaskCompletionSource<bool> _tcsFaceDown;
 		bool IsFaceDown = false;
 		private bool _bloquearNavegaçãoManual = false;
 		private Node3D _instanciaSeletor = null;
 		public int _indiceSelecionado = 0;	
 		public int _indiceCampoSelecionado = 0;		
 		private bool _selecionandoLocal = false; // Estado para saber se estamos escolhendo onde colocar a carta
-		private List<CartasBase> _cartasNaMao = new List<CartasBase>();
 		private List<CartasBase> _cartasSelecionadasParaFusao = new List<CartasBase>();
 		private List<Node3D> _cartasInstanciadas = new List<Node3D>();
 		private bool _processandoInput = false;		
-		private List<int> IDFusao = new List<int>();
-		private Vector2 lastPos = Vector2.Zero;
+		public List<int> IDFusao = new List<int>();
+		public Vector2 lastPos = Vector2.Zero;
 		public Sprite2D ComActive;
 		public Sprite2D YouActive;
 		public string LogicalPosition {get;set;}
+		public Mao MaoControl {get;set;}
+		public IndicadorSeta indicadorSetaEsquerda{get;set;}
+		public IndicadorSeta indicadorSetaDireita{get;set;}
+		public AnimationP _anim;
+		public Helper Tools;
+
 		public override void _Ready()
 		{
 			_transitionCam = new Camera3D();
+			MaoControl = GetNode<Mao>("../CameraPivot/CameraHand/Control/TextureRect/Mao");		
 			AddChild(_transitionCam);
 			if (Seletor != null)
 			{
@@ -52,7 +54,11 @@ namespace fm{
 			}
 			ComActive = GetNode<Sprite2D>($"../CameraPivot/ComActive");
 			YouActive = GetNode<Sprite2D>($"../CameraPivot/YouActive");
-			ComActive.Visible = false;			
+			ComActive.Visible = false;					
+			_anim = GetNode<AnimationP>("../AnimationP");
+			_anim._cartasSelecionadasParaFusao = _cartasSelecionadasParaFusao;
+			Tools = GetNode<Helper>("../Helper");
+			Tools._cartasInstanciadas = _cartasInstanciadas;
 		}
 
 		public async override void _Process(double delta)
@@ -68,12 +74,13 @@ namespace fm{
 			_processandoInput = true;
 			await HandleNavigation();
 			_processandoInput = false;
+			AtualizarPosicaoIndicador();
 		}
 		
 		private async Task HandleNavigation()
 		{
 			if (_bloquearNavegaçãoManual) return;
-			if (_cartasNaMao.Count == 0) return;
+			if (MaoControl.CartasNaMaoCount() == 0) return;
 
 			if (!_selecionandoLocal) 
 			{				
@@ -86,7 +93,7 @@ namespace fm{
 					_indiceSelecionado = 4;
 				}
 				if(!STOP){
-					if (Input.IsActionJustPressed("ui_right")) _indiceSelecionado = Mathf.Min(_indiceSelecionado + 1, _cartasNaMao.Count - 1);
+					if (Input.IsActionJustPressed("ui_right")) _indiceSelecionado = Mathf.Min(_indiceSelecionado + 1, MaoControl.CartasNaMaoCount() - 1);
 					else if (Input.IsActionJustPressed("ui_left")) _indiceSelecionado = Mathf.Max(_indiceSelecionado - 1, 0);					
 				}
 
@@ -96,22 +103,22 @@ namespace fm{
 				if(!STOP){
 					if (Input.IsActionJustPressed("ui_up")) 
 					{
-						AlternarSelecaoFusao(_cartasNaMao[_indiceSelecionado]);
+						_anim.AlternarSelecaoFusao(MaoControl.GetCartaBase(_indiceSelecionado));
 					}					
 					if (Input.IsActionJustPressed("ui_accept")) 
 					{
 						await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 						if (_cartasSelecionadasParaFusao.Count == 0)
 						{
-							_cartasSelecionadasParaFusao.Add(_cartasNaMao[_indiceSelecionado]);
+							_cartasSelecionadasParaFusao.Add(MaoControl.GetCartaBase(_indiceSelecionado));
 						}
 						try 
 						{
 							// O await vai "explodir" aqui se TrySetCanceled for chamado
 							var alvo = _cartasSelecionadasParaFusao.FirstOrDefault();
-							IsFaceDown = await MoveCartaParaCentro(alvo.CurrentID, alvo.Name);							
+							IsFaceDown = await _anim.AnimaCartaParaCentro(this,alvo.CurrentID, alvo.Name, _indiceSelecionado);							
 							GD.Print("Facedown confirmado: " + IsFaceDown);
-							EntrarModoSelecaoCampo();
+							await EntrarModoSelecaoCampo();
 						}
 						catch (OperationCanceledException) 
 						{
@@ -119,7 +126,7 @@ namespace fm{
 							GD.Print("Ação cancelada pelo usuário.");
 							
 							if (_cartasSelecionadasParaFusao.Any()) {
-								DevolveCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID, _cartasSelecionadasParaFusao.FirstOrDefault().Name, true);
+								await _anim.AnimaCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID, _cartasSelecionadasParaFusao.FirstOrDefault().Name, _indiceSelecionado, true);
 							}
 						}
 					}
@@ -137,60 +144,33 @@ namespace fm{
 					
 					if (Input.IsActionJustPressed("ui_cancel")) 
 					{					
-						await TransitionTo(CameraHand, 0.5f);
-						SairModoSelecaoCampo();
+						await Tools.TransitionTo(CameraHand, 0.5f, _transitionCam, STOP);
+						await SairModoSelecaoCampo();
 					}					
 				}
 			}
 			return;
-		}
-		
-		private void AlternarSelecaoFusao(CartasBase carta)
-		{
-			if (_cartasSelecionadasParaFusao.Contains(carta))
-			{
-				// Se já estava selecionada, removemos (Desmarcar)
-				_cartasSelecionadasParaFusao.Remove(carta);
-				carta.SetNumeroFusao(0); // 0 ou ocultar o label
-			}
-			else
-			{
-				// Se não estava, adicionamos à lista de fusão
-				_cartasSelecionadasParaFusao.Add(carta);
-			}
-			
-			// Atualiza visualmente os números de todas as selecionadas para manter a ordem 1, 2, 3...
-			for (int i = 0; i < _cartasSelecionadasParaFusao.Count; i++)
-			{
-				_cartasSelecionadasParaFusao[i].SetNumeroFusao(i + 1);
-			}
-		}
+		}		
 
 		private async Task EntrarModoSelecaoCampo()
 		{
 			if(_cartasSelecionadasParaFusao.Count() == 1)
-				DevolveCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID, _cartasSelecionadasParaFusao.FirstOrDefault().Name);
+				await _anim.AnimaCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID, _cartasSelecionadasParaFusao.FirstOrDefault().Name, _indiceSelecionado);
 			_selecionandoLocal = true;
 			_indiceCampoSelecionado = 0; // Começa no primeiro slot								
 			if (_instanciaSeletor != null)
 			{				
 				AtualizarPosicaoSeletor3D(SlotsCampo, _cartasSelecionadasParaFusao.FirstOrDefault().CurrentID);
 				_instanciaSeletor.Visible = true;
-				await TransitionTo(CameraField, 0.5f);
+				await Tools.TransitionTo(CameraField, 0.5f, _transitionCam, STOP);
 			}
 		}
 		
-		public void CancelarSelecaoNoCampo()
+		public async Task CancelarSelecaoNoCampo()
 		{
-			if (_tcsCampo != null && !_tcsCampo.Task.IsCompleted)
-			{
-				// Resolvemos com -1 para indicar que a seleção foi abortada visualmente
-				_cartasSelecionadasParaFusao = new List<CartasBase>();
-				_tcsCampo.TrySetResult(-1); 
-			}
 						
 			if (_cartasSelecionadasParaFusao.Any() && _cartasSelecionadasParaFusao.Count() == 1) {
-				DevolveCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID, _cartasSelecionadasParaFusao.FirstOrDefault().Name, true);
+				await _anim.AnimaCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID, _cartasSelecionadasParaFusao.FirstOrDefault().Name, _indiceSelecionado, true);
 			}			
 						
 			_cartasSelecionadasParaFusao.Clear();
@@ -213,201 +193,7 @@ namespace fm{
 				AtualizarPosicaoSeletor3D(SlotsCampo, _cartasSelecionadasParaFusao.FirstOrDefault().CurrentID);
 			}
 		}		
-		
-		private async Task AnimaFusao()
-		{
-			if (_cartasSelecionadasParaFusao.Count < 2) return;
-
-			var viewport = GetViewport();
-			Vector2 screenCenter = viewport.GetVisibleRect().Size / 2f;
-	
-			var selecionadasOrdenadas = _cartasSelecionadasParaFusao
-				.OrderBy(x => int.Parse(x.label.Text)) 
-				.ToList();
-
-			var list3d = selecionadasOrdenadas.ToList();
-
-			var idsOrdenados = list3d.Select(x => x.CurrentID).ToList();
-			IDFusao = idsOrdenados;
-
-			var cartaPrincipal = list3d[0];
-			float sideOffset = 250f; 
-			float stackOffset = 30f;  
-
-			var taskPrincipal = MoverParaPosicao(cartaPrincipal, screenCenter + new Vector2(-sideOffset, 0), 0f);
-			List<Task> tarefasIniciais = new List<Task> { taskPrincipal };
-			
-			list3d.FirstOrDefault().EscondeLabel();
-			for (int i = 1; i < list3d.Count; i++)
-			{				
-				Vector2 posPilha = screenCenter + new Vector2(sideOffset + (i * stackOffset), 0);
-				tarefasIniciais.Add(MoverParaPosicao(list3d[i], posPilha, 0f));
-				list3d[i].EscondeLabel();
-			}
-
-			await Task.WhenAll(tarefasIniciais);
-			await Task.Delay(100); 
 						
-			for (int i = 1; i < list3d.Count; i++)
-			{
-				var cartaSacrificio = list3d[i];
-
-				await MoverParaPosicao(cartaSacrificio, screenCenter + new Vector2(sideOffset, 0), 0f);
-				string idsString = $"{cartaPrincipal.CurrentID},{cartaSacrificio.CurrentID}";							
-				var resultadoFusao = Function.Fusion(idsString);						
-				await Task.Delay(200);
-
-				Node2D pivot = new Node2D();
-				AddChild(pivot);
-				pivot.GlobalPosition = screenCenter;
-
-				Reparentar(cartaPrincipal, pivot);
-				Reparentar(cartaSacrificio, pivot);
-
-				cartaPrincipal.RotationDegrees = 0;
-				cartaSacrificio.RotationDegrees = 0;
-				cartaPrincipal.Position = new Vector2(-sideOffset, 0);
-				cartaSacrificio.Position = new Vector2(sideOffset, 0);
-
-				if(cartaSacrificio.CurrentID != resultadoFusao.Id)
-				{
-					Tween spiralTween = CreateTween().SetParallel(true);
-					float duration = 1.2f;
-					float voltas = 1080f; 
-
-					spiralTween.TweenProperty(pivot, "rotation_degrees", voltas, duration)
-						.SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);								
-					spiralTween.TweenProperty(cartaPrincipal, "rotation_degrees", -voltas, duration)
-						.SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);
-					spiralTween.TweenProperty(cartaSacrificio, "rotation_degrees", -voltas, duration)
-						.SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);
-					spiralTween.TweenProperty(cartaPrincipal, "position", Vector2.Zero, duration);
-					spiralTween.TweenProperty(cartaSacrificio, "position", Vector2.Zero, duration);
-					
-					await ToSignal(spiralTween, "finished");				
-					cartaSacrificio.Visible = false;
-									
-					Tween impact = CreateTween();
-					impact.TweenProperty(cartaPrincipal, "scale", new Vector2(1.5f, 1.5f), 0.1f);
-					impact.TweenProperty(cartaPrincipal, "scale", new Vector2(1.0f, 1.0f), 0.1f);				
-					cartaPrincipal.DisplayCard(resultadoFusao.Id);					
-				}else
-				{
-					float durationSaida = 0.5f;
-					Vector2 foraDaTela = new Vector2(-500, 500); 					
-					Tween yeetTween = CreateTween().SetParallel(true);
-					
-					yeetTween.TweenProperty(cartaPrincipal, "position", foraDaTela, durationSaida)
-						.SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);
-					
-					yeetTween.TweenProperty(cartaSacrificio, "position", Vector2.Zero, durationSaida)
-						.SetTrans(Tween.TransitionType.Quad);
-					
-					await ToSignal(yeetTween, "finished");
-					
-					// Cleanup
-					cartaPrincipal.Position = Vector2.Zero; // Reseta pro futuro					
-					
-					// Agora a carta de sacrifício assume o posto de principal visualmente
-					cartaPrincipal.DisplayCard(resultadoFusao.Id);
-				}
-				
-				Vector2 globalPos = cartaPrincipal.GlobalPosition;
-				Reparentar(cartaPrincipal, this);
-				cartaPrincipal.GlobalPosition = globalPos;
-				cartaPrincipal.RotationDegrees = 0; 
-				
-				pivot.QueueFree();
-
-				if (i < list3d.Count - 1)
-				{
-					await MoverParaPosicao(cartaPrincipal, screenCenter + new Vector2(-sideOffset, 0), 0f);
-					await Task.Delay(200);
-				}
-			}
-
-			await MoverParaPosicao(cartaPrincipal, screenCenter, 0f);
-		}
-
-		// Método auxiliar atualizado para aceitar rotação
-		private async Task MoverParaPosicao(Node2D node, Vector2 targetPos, float targetRotation = 0f)
-		{
-			Tween t = CreateTween().SetParallel(true);
-			t.TweenProperty(node, "global_position", targetPos, 0.5f)
-			 .SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.Out);
-			t.TweenProperty(node, "rotation_degrees", targetRotation, 0.5f)
-			 .SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.Out);
-			await ToSignal(t, "finished");
-		}
-
-		private void Reparentar(Node2D node, Node novoPai)
-		{
-			if (node.GetParent() != null) 
-				node.GetParent().RemoveChild(node);
-			novoPai.AddChild(node);
-		}
-		
-		private async Task<bool> MoveCartaParaCentro(int ID, string name)
-		{
-			//await AnimaFusao();
-			if(_cartasSelecionadasParaFusao.Count() > 1) return false;
-			bool IsFaceDown = true;
-			_tcsFaceDown = new TaskCompletionSource<bool>();
-			
-			var viewport = GetViewport();			
-			Vector2 screenCenter = viewport.GetVisibleRect().Size / 2f;
-			
-			var nodoAlvo = _cartasNaMao.FirstOrDefault(x => x.Name == name);
-			lastPos = nodoAlvo.GlobalPosition;
-			
-			Tween tween = GetTree().CreateTween();
-			tween.TweenProperty(nodoAlvo, "global_position", screenCenter, 0.2f)
-				 .SetTrans(Tween.TransitionType.Sine)
-				 .SetEase(Tween.EaseType.Out);
-			nodoAlvo.FlipCard(IsFaceDown);
-			
-			var instancia = CriarSetaPersonalizada(screenCenter + new Vector2(90,-20));
-			var instancia2 = CriarSetaPersonalizada(screenCenter + new Vector2(-90,-20));
-			
-			while(!_tcsFaceDown.Task.IsCompleted) 
-			{
-				await ToSignal(GetTree(), "process_frame");
-				if(!STOP){	
-					if(Input.IsActionJustPressed("ui_left")  || Input.IsActionJustPressed("ui_right")){
-						IsFaceDown = !IsFaceDown;
-						nodoAlvo.FlipCard(IsFaceDown);
-					}
-					if(Input.IsActionJustPressed("ui_accept")){			
-						IDFusao = _cartasSelecionadasParaFusao.Select(x => x.CurrentID).ToList();												
-						_tcsFaceDown?.TrySetResult(IsFaceDown);
-						instancia.Visible = false;
-						instancia2.Visible = false;				
-					}
-					if(Input.IsActionJustPressed("ui_cancel")){
-						instancia.Visible = false;
-						instancia2.Visible = false;
-						_tcsFaceDown?.TrySetCanceled();		
-					}
-				}
-			}			
-			instancia.Visible = false;
-			instancia2.Visible = false;
-			return await _tcsFaceDown.Task;
-		}
-		
-		private void DevolveCartaParaMao(int ID, string name, bool cancel = false)
-		{			
-			var nodoAlvo = _cartasNaMao.FirstOrDefault(x => x.CurrentID == ID && x.Name == name);
-			if(cancel)
-				nodoAlvo.FlipCard(false);
-			Tween tween = GetTree().CreateTween();
-			tween.TweenProperty(nodoAlvo, "global_position", lastPos, 0.2f)
-				 .SetTrans(Tween.TransitionType.Sine)
-				 .SetEase(Tween.EaseType.Out);
-			if(cancel)
-				_cartasSelecionadasParaFusao.Clear();
-			//lastPos = Vector2.Zero;
-		}
 
 		private void AtualizarPosicaoSeletor3D(Godot.Collections.Array<Marker3D> slots, int Id)
 		{
@@ -429,7 +215,7 @@ namespace fm{
 		private async void ConfirmarInvocacaoNoCampo()
 		{			
 			if(_cartasSelecionadasParaFusao.Count() > 1)
-				await AnimaFusao();
+				await _anim.AnimaFusao(this);
 			
 			string idsString = string.Join(",", IDFusao);									
 			var resultadoFusao = Function.Fusion(idsString);		
@@ -461,7 +247,7 @@ namespace fm{
 				}
 				
 				_cartasSelecionadasParaFusao.Clear();
-				SairModoSelecaoCampo();
+				await SairModoSelecaoCampo();
 				_bloquearNavegaçãoManual = false;
 				_tcsCarta?.TrySetResult(retorno);
 			}
@@ -469,7 +255,7 @@ namespace fm{
 		
 		public async Task Instancia3D(Marker3D slotDestino, int fusao){
 			bool IsEnemy = slotDestino.Name.ToString().Contains("Ini");
-			Node3D novaCarta3d = PegaNodo(slotDestino);			
+			Node3D novaCarta3d = Tools.InstanciaNodo(slotDestino);			
 			if(IsEnemy){
 				GD.Print(slotDestino.GlobalRotation.ToString());
 				Vector3 rota = new Vector3(-0, 1.5707964f, 0);
@@ -481,96 +267,36 @@ namespace fm{
 			} 
 			foreach (var carta in _cartasSelecionadasParaFusao)
 			{
-				_cartasNaMao.Remove(carta);
 				if(IsInstanceValid(carta))
 					carta.QueueFree();
 			}		
 		}
 
-		public void SairModoSelecaoCampo()
+		public async Task SairModoSelecaoCampo()
 		{
 			_selecionandoLocal = false;			
-			CancelarSelecaoNoCampo();
+			await CancelarSelecaoNoCampo();
 			if (_instanciaSeletor != null) _instanciaSeletor.Visible = false;
 		}
 
 		public void AtualizarMao(List<int> idsCartasNoDeck)
 		{
-			// Limpa a mão atual
-			foreach (var carta in _cartasNaMao)
-			{
-				if (GodotObject.IsInstanceValid(carta)) 
-				{
-					carta.QueueFree();
-				}
-			}
-			_cartasNaMao.Clear();
-
-			Vector2 viewportSize = GetViewportRect().Size;
-			float larguraTela = viewportSize.X;
-			float alturaTela = viewportSize.Y;
-
-			int quantidade = idsCartasNoDeck.Count;
-			float margemInferior = alturaTela * 0.12f;
-			float alturaCarta = 500f; // adjust to your real card height
-			float yMao = alturaTela - alturaCarta * 0.6f;
-			float espacamentoHorizontal = (larguraTela / 10f) + 50;
-			float larguraTotal = (quantidade - 1) * espacamentoHorizontal;
-			float xInicial = (larguraTela - larguraTotal) / 2f;
-
-			Vector2 posicaoOffScreen = new Vector2(larguraTela + 200, yMao);
-
-			for (int i = 0; i < idsCartasNoDeck.Count; i++)
-			{
-				int id = idsCartasNoDeck[i];				
-				var novaCarta = CartaCena.Instantiate<CartasBase>();
-				novaCarta.Scale = new Vector2(1.35f, 1.35f);
-				AddChild(novaCarta);
-
-				// Define a posição manualmente (i * espaçamento faz o alinhamento)
-				// Isso não interfere no código interno da sua carta (DisplayCard)
-				novaCarta.Position = posicaoOffScreen;// + new Vector2(i * espacamentoHorizontal, 0);
-				novaCarta.DisplayCard(id);
-				_cartasNaMao.Add(novaCarta);
-				
-				// 2. Calcula a posição final dela na mão
-				Vector2 posicaoFinal = new Vector2(xInicial + i * espacamentoHorizontal, yMao);
-
-				// 3. Animação de entrada
-				Tween tween = GetTree().CreateTween();
-				float delay = i * 0.1f; 
-				
-				tween.TweenProperty(novaCarta, "position", posicaoFinal, 0.5f)
-					 .SetTrans(Tween.TransitionType.Cubic) 
-					 .SetEase(Tween.EaseType.Out)
-					 .SetDelay(delay);
-					if (i == 0 && IndicadorTriangulo != null)
-					{
-						IndicadorTriangulo.Visible = false;
-						tween.Finished += () => 
-						{
-							if (GodotObject.IsInstanceValid(IndicadorTriangulo))
-							{
-								IndicadorTriangulo.Visible = true;
-								AtualizarPosicaoIndicador();								
-							}
-						};
-					}
-			}
+			GD.Print(idsCartasNoDeck.Count());	
+			MaoControl.InstanciaMao(idsCartasNoDeck);
 			_indiceSelecionado = 0;
 			if (IndicadorTriangulo != null)
 			{			
 				IndicadorTriangulo.Visible = true;				
 				AtualizarPosicaoIndicador(); 
-			}
+			}			
 		}
 		
 		private void AtualizarPosicaoIndicador()
 		{
-			if (_cartasNaMao.Count > 0 && IndicadorTriangulo != null)
+			if (IndicadorTriangulo != null)
 			{				
-				Vector2 cardPos = _cartasNaMao[_indiceSelecionado].GlobalPosition;
-				Vector2 targetPos = cardPos + new Vector2(-110, 70);
+				Vector2 cardPos = MaoControl.GetCarta(_indiceSelecionado)?.GlobalPosition ?? Vector2.Zero;
+				Vector2 targetPos = cardPos + new Vector2(-10, 210);
 				IndicadorTriangulo.ZIndex = 10;			
 				Tween tween = GetTree().CreateTween();
 				tween.TweenProperty(IndicadorTriangulo, "position", targetPos, 0.01f)
@@ -597,39 +323,39 @@ namespace fm{
 				{
 					AtualizarPosicaoSeletorParaSlots(slots);
 				}
-				if(Input.IsActionJustPressed("ui_lb") || Input.IsActionJustPressed("ui_rb"))
+				if (!STOP)
 				{
-					if (!camIni)
+					if(Input.IsActionJustPressed("ui_lb") || Input.IsActionJustPressed("ui_rb"))
 					{
-						var slotDestino = slots[_indiceCampoSelecionado];									
-						var isEnemy = slotDestino.Name.ToString().Contains("Ini");
-						var pegou = PegaNodoCarta3d(slotDestino.Name);
-						if(pegou != null)
-						{						
-							var rotacao = pegou.Rotation;			
-							if(pegou != null && pegou is Carta3d nodo)
-							{
-								nodo.Defesa = !nodo.Defesa;
-								GD.Print("Buscando ID: " + slotDestino.Name);
-								GD.Print("Encontrado: " + (pegou != null ? pegou.markerName : "null"));
-								GD.Print($"defesa: {nodo.Defesa}");
-							}		
-							if(!isEnemy){
-								if(rotacao == new Vector3(0,0,0)){
-									pegou.Rotation = new Vector3(-0, 1.5707964f, 0);
+						if (!camIni)
+						{
+							var slotDestino = slots[_indiceCampoSelecionado];									
+							var isEnemy = slotDestino.Name.ToString().Contains("Ini");
+							var pegou = Tools.PegaNodoCarta3d(slotDestino.Name);
+							if(pegou != null)
+							{						
+								var rotacao = pegou.Rotation;			
+								if(pegou != null && pegou is Carta3d nodo)
+								{
+									nodo.Defesa = !nodo.Defesa;
+								}		
+								if(!isEnemy){
+									if(rotacao == new Vector3(0,0,0)){
+										pegou.Rotation = new Vector3(-0, 1.5707964f, 0);
+									}else{
+										pegou.Rotation = new Vector3(-0, 0.0f,0);						
+									}						
 								}else{
-									pegou.Rotation = new Vector3(-0, 0.0f,0);						
+									if(rotacao == new Vector3(0,3.14f,0)){
+										pegou.Rotation = new Vector3(-0, -1.5707964f, 0);
+									}else{							
+										pegou.Rotation = new Vector3(0,3.14f,0);						
+									}	
 								}						
-							}else{
-								if(rotacao == new Vector3(0,3.14f,0)){
-									pegou.Rotation = new Vector3(-0, -1.5707964f, 0);
-								}else{							
-									pegou.Rotation = new Vector3(0,3.14f,0);						
-								}	
+								
 							}						
-							
-						}						
-					}
+						}
+					}				
 				}
 				
 				if(!STOP){
@@ -637,8 +363,8 @@ namespace fm{
 					{
 						var slotDestino = camIni ? SlotsCampoIni[_indiceCampoSelecionado] : SlotsCampo[_indiceCampoSelecionado];
 						GD.Print($"{slotDestino.Name} Slot confirmado: " + _indiceCampoSelecionado);
-						var nodo = PegaNodoCarta3d(slotDestino.Name);
-						if(PegaNodoNoSlot(slotDestino))
+						var nodo = Tools.PegaNodoCarta3d(slotDestino.Name);
+						if(Tools.PegaNodoNoSlot(slotDestino))
 						{
 							if (!camIni)
 							{
@@ -654,11 +380,11 @@ namespace fm{
 								_tcsSlot.TrySetResult(_indiceCampoSelecionado);
 							}
 						}
-						else if(PodeBate())
+						else if(Tools.PodeBate(SlotsCampoIni.ToList()))
 						{
 							if (!camIni)
 							{
-								if (!nodo.Defesa)
+								if (nodo != null && !nodo.Defesa)
 								{									
 									_tcsSlot.TrySetResult(_indiceCampoSelecionado);
 								}
@@ -672,7 +398,7 @@ namespace fm{
 									
 					if (Input.IsActionJustPressed("ui_cancel"))
 					{
-						CancelarSelecaoNoCampo();						
+						await CancelarSelecaoNoCampo();						
 						_tcsSlot.TrySetResult(-1);
 					}
 					
@@ -700,128 +426,7 @@ namespace fm{
 				tween.TweenProperty(_instanciaSeletor, "global_position", slotDestino.GlobalPosition + new Vector3(0, 0.05f, 0), 0.05f);
 				_instanciaSeletor.GlobalRotation = slotDestino.GlobalRotation;				
 			}
-		}
-		
-		public void FinalizaNodoByCard(string CardID){
-			var nodes = GetTree().GetNodesInGroup("cartas").Cast<Carta3d>().ToArray();		
-							
-			try
-			{
-				foreach(var item in nodes)
-				{				
-					if(CardID == item.markerName)
-					{
-						_cartasInstanciadas.Remove(item);
-						item.QueueFree();						
-					}
-				}				
-			}catch(Exception e)
-			{						
-				GD.PrintErr($"Erro deletando um nodo: {e.Message}");
-				GD.PrintErr(e.StackTrace);
-			}								
-		}
-		
-
-		public int PegaSlotByMarker(string marker){
-			var nodes = GetTree().GetNodesInGroup("cartas");						
-
-			foreach(var item in nodes){
-				if(item is Carta3d meuNode){
-					if(marker == meuNode.markerName){
-						return meuNode.slotPlaced;
-					}
-				}
-			}
-			//nao achou
-			return -1;
-		}
-		
-		public int PegaSlot(int CardID){
-			var nodes = GetTree().GetNodesInGroup("cartas");						
-
-			foreach(var item in nodes){
-				if(item is Carta3d meuNode){
-					if(CardID == meuNode.carta){
-						return meuNode.slotPlaced;
-					}
-				}
-			}
-			//nao achou
-			return -1;
-		}
-		
-		public void Flipa(string ID)
-		{
-			var cartaInstanciada = PegaNodoCarta3d(ID);
-			if(cartaInstanciada.IsFaceDown){
-				cartaInstanciada.SetFaceDown(!cartaInstanciada.IsFaceDown);				
-			}
-		}
-		
-		public Carta3d PegaNodoCarta3d(string ID)
-		{
-			return _cartasInstanciadas.OfType<Carta3d>().FirstOrDefault(x => x.markerName == ID);
-		}	
-		
-		public bool PodeBate(){
-			var nodes = GetTree().GetNodesInGroup("cartas");
-			if(nodes.Count() == 0) return false;
-
-			foreach(var item in nodes){
-				if(item is Carta3d meuNode){
-					foreach(var inimigo in SlotsCampoIni){
-						if(inimigo.Name == meuNode.markerName){
-							return false;
-						}						
-					}
-				}
-				else
-				{
-					GD.Print("item não é carta3d");
-				}
-			}			
-			return true;
-		}
-		
-		public bool PegaNodoNoSlot(Marker3D slotDestino){
-			var nodes = GetTree().GetNodesInGroup("cartas");
-			foreach(var item in nodes){
-				if(item is Carta3d meuNode){
-					if(IsInstanceValid(meuNode))
-					{
-						if((slotDestino.Name == meuNode.markerName)){
-							return true;
-						}						
-					}
-				}
-			}			
-			return false;
-		}
-		
-		public Node3D PegaNodo(Marker3D slotDestino, bool criarNovo = true){
-			var nodes = GetTree().GetNodesInGroup("cartas");
-			foreach(var item in nodes){
-				if(item is Carta3d meuNode){
-					if(slotDestino.Name == meuNode.markerName){
-						return meuNode;
-					}
-				}
-			}
-			
-			if(!criarNovo)
-				return null;
-			
-			//nao achou
-			var novaCarta3d = Carta3d.Instantiate<Node3D>();
-			novaCarta3d.AddToGroup("cartas");
-			GetTree().CurrentScene.AddChild(novaCarta3d);
-			novaCarta3d.GlobalPosition = slotDestino.GlobalPosition;
-			novaCarta3d.GlobalRotation = slotDestino.GlobalRotation;
-			_cartasInstanciadas.Add(novaCarta3d);
-			
-			return novaCarta3d;
-		}
+		}			
 		
 		public CardTypeEnum PegaTipoPorId(int id)
 		{
@@ -860,13 +465,6 @@ namespace fm{
 			return new Godot.Collections.Array<Marker3D>(markers);
 		}
 		
-		public void PrintTodosNodos3D(){
-			var nodes = GetTree().GetNodesInGroup("cartas");
-			foreach(var item in nodes){
-				if(item is Carta3d meuNode)
-					GD.Print($"Aqui temos o nodo {meuNode.carta}");
-			}
-		}		
 		
 		public void ProcessarNavegacao3D(Godot.Collections.Array<Marker3D> slots, bool camIni){
 			int dir = camIni ? -1 : 1;		
@@ -904,43 +502,32 @@ namespace fm{
 							);												
 				}
 			}								
-		}	
+		}			
+	
 		
-		public List<(string, bool)> DevolvePosicoes()
+		public IndicadorSeta CriarSetaPersonalizada(Vector2 alvo, bool direita = false)
 		{
-			var tuple = new List<(string carta,bool defesa)>();	
-			foreach(var item in _cartasInstanciadas)
+			if(indicadorSetaEsquerda != null && !direita)
 			{
-				if(item is Carta3d nodo)
-				{
-					GD.Print("DEVOLVE POS:" + nodo.markerName + " - " + nodo.Defesa);
-					tuple.Add((nodo.markerName, nodo.Defesa));
-				}	
+				indicadorSetaEsquerda.Visible = true;
+				return indicadorSetaEsquerda;
+			}
+			if(indicadorSetaDireita != null && direita)
+			{
+				indicadorSetaDireita.Visible = true;
+				return indicadorSetaDireita;
 			}
 			
-			return tuple;
-		}	
-		
-		public void PrintTodasInstancias(){
-			foreach(var item in _cartasInstanciadas)
-				PrintInstancia(item);
-		}
-		
-		public void PrintInstancia(Node3D instancia)
-		{
-			if(instancia is Carta3d cartaInstanciada)
-			{
-				GD.Print($"carta {cartaInstanciada.carta.ToString()} - fieldzone {cartaInstanciada.markerName.ToString()} - posicao {cartaInstanciada.Defesa.ToString()}");
-			}
-		}
-		
-		public IndicadorSeta CriarSetaPersonalizada(Vector2 alvo)
-		{
 			var cenaSeta = GD.Load<PackedScene>("res://HUD/IndicadorSeta.tscn");
 			var instancia = cenaSeta.Instantiate<IndicadorSeta>();
 
+			if(!direita)
+				indicadorSetaEsquerda = instancia;
+			else
+				indicadorSetaDireita = instancia;
+
 			instancia.PosicaoDesejada = alvo;
-			instancia.OlharParaDireita = (alvo.X > GetViewportRect().Size.X / 2f); 
+			instancia.OlharParaDireita = alvo.X > GetViewportRect().Size.X / 2f; 
 
 			AddChild(instancia);
 			return instancia;
@@ -990,92 +577,6 @@ namespace fm{
 			YouActive.Visible = !YouActive.Visible;
 			ComActive.Visible = !ComActive.Visible;
 		}
-		
-		public async Task TransitionTo(Camera3D targetCam, double duration, bool MainPhase = false)
-		{			
-			Viewport viewport = GetViewport();
-			Camera3D currentCam = viewport.GetCamera3D();			
-			if (currentCam == null || currentCam == targetCam) return;        
-			STOP = true;
-			_transitionCam.GlobalTransform = currentCam.GlobalTransform;
-			_transitionCam.Fov = currentCam.Fov;
-			_transitionCam.MakeCurrent();
 			
-			Tween tween = GetTree().CreateTween();
-			tween.SetParallel(true);
-			tween.SetTrans(Tween.TransitionType.Cubic);
-			tween.SetEase(Tween.EaseType.InOut);
-
-			tween.TweenProperty(_transitionCam, "global_transform", targetCam.GlobalTransform, duration);
-			tween.TweenProperty(_transitionCam, "fov", targetCam.Fov, duration);
-			await ToSignal(tween, Tween.SignalName.Finished);
-
-			targetCam.MakeCurrent();
-			STOP = false;
-		}
-		
-		public async Task AnimateBattle(FieldMonster meuMonstro, FieldMonster? monstroInimigo, BattleSystem.BattleResult br, bool IsEnemy)
-		{
-			await TransitionTo(CameraHand, 0.5f);
-			var viewport = GetViewport();			
-			Vector2 screenCenter = viewport.GetVisibleRect().Size / 2f;
-			
-			float distancia = 5.0f; 
-			Vector3 rayOrigin = CameraHand.ProjectRayOrigin(screenCenter);
-			Vector3 rayNormal = CameraHand.ProjectRayNormal(screenCenter);			
-			Vector3 position3D = rayOrigin + rayNormal * distancia;
-			
-			Carta3d meuMonstro3d = PegaNodoCarta3d(meuMonstro.zoneName);
-			Carta3d monstroInimigo3d = null;
-			
-			if(monstroInimigo != null)
-				monstroInimigo3d = PegaNodoCarta3d(monstroInimigo.zoneName);
-			
-			int diffEnemy = IsEnemy ? 1 : -1;
-			
-			var originalPos = meuMonstro3d.GlobalPosition;
-			var originalPosRot = meuMonstro3d.Rotation;
-			Vector3 originalPosIni = new Vector3(0,0,0);
-			Vector3 orignalPosIniRot = new Vector3(0,0,0);
-			var taskMe =  meuMonstro3d.TransitionCardTo(position3D + new Vector3(0, 0, (diffEnemy * -2)), 0.5f);
-			if(monstroInimigo3d != null)
-			{
-				originalPosIni = monstroInimigo3d.GlobalPosition;
-				orignalPosIniRot = monstroInimigo3d.Rotation;
-				monstroInimigo3d.Rotation = new Vector3(-0, (diffEnemy * -1.5707964f), 0);
-				var taskIni = monstroInimigo3d.TransitionCardTo(position3D + new Vector3(0,0,( diffEnemy * 2)), 0.5f);				
-			}
-
-			await Task.Delay(600);
-								
-			if(br.DefenderDestroyed && br.AttackerDestroyed) //draw, both die // works
-			{
-				if(monstroInimigo3d != null)
-					await monstroInimigo3d.Queimar(); 
-				await meuMonstro3d.Queimar(); 
-				
-				return;
-			}
-			if(!br.DefenderDestroyed && br.AttackerDestroyed) //defender blocks, in attack mode, I die // works
-			{	
-				await meuMonstro3d.Queimar();
-				var taskIni = monstroInimigo3d?.TransitionCardTo(originalPosIni, 0.5f, orignalPosIniRot);					
-			}
-			if(br.DefenderDestroyed && !br.AttackerDestroyed) //defender blocks, in attack mode, I die // works
-			{	
-				if(monstroInimigo3d != null)
-					await monstroInimigo3d.Queimar(); 
-				taskMe =  meuMonstro3d.TransitionCardTo(originalPos, 0.5f, originalPosRot);													
-			}
-			if(!br.DefenderDestroyed && !br.AttackerDestroyed) //defender blocks, in attack mode, I die // works
-			{	
-				if(monstroInimigo3d != null)
-				{
-					var taskIni = monstroInimigo3d.TransitionCardTo(originalPosIni, 0.5f, orignalPosIniRot);					
-				}
-				taskMe =  meuMonstro3d.TransitionCardTo(originalPos, 0.5f, originalPosRot);		
-			}
-			GD.Print("finalizou");
-		}	
 	}
 }

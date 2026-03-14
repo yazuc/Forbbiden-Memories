@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://0k0402f3tk6y"]
+
+[ext_resource type="PackedScene" uid="uid://uys23mmogslm" path="res://Carta/CartasBase.tscn" id="1_fc54d"]
+[ext_resource type="Script" uid="uid://bsygk5r0aijuc" path="res://testeMao/CartaControl.cs" id="1_yikic"]
+
+[node name="CartaControl" type="Control" unique_id=1240720117]
+custom_minimum_size = Vector2(139, 217)
+layout_mode = 3
+anchor_right = 0.07239583
+anchor_bottom = 0.20092593
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_yikic")
+metadata/_edit_use_anchors_ = true
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="." unique_id=62991347]
+custom_minimum_size = Vector2(139, 194)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch_mode = 1
+alignment_horizontal = 0
+alignment_vertical = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="AspectRatioContainer" unique_id=9594246]
+custom_minimum_size = Vector2(139, 217)
+layout_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="SubViewport" type="SubViewport" parent="AspectRatioContainer/SubViewportContainer" unique_id=770031026]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(139, 217)
+render_target_update_mode = 4
+
+[node name="CartasBase" parent="AspectRatioContainer/SubViewportContainer/SubViewport" unique_id=242195520 instance=ExtResource("1_fc54d")]
+position = Vector2(70, 119.1)
