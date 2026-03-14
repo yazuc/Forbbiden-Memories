@@ -1,6 +1,7 @@
 using fm;
 using Godot;
 using System;
+using System.Numerics;
 
 public partial class Mao : Control
 {
@@ -48,6 +49,18 @@ public partial class Mao : Control
 	{
 		return CartasInstanciadas.Count;
 	}
+	public Godot.Vector2 GetHboxPosition()
+	{
+		return Hbox.GlobalPosition;
+	}
+	public Godot.Vector2 GetSlotPosition(int index)
+	{
+		if (index < 0 || index >= CartasInstanciadas.Count)
+			return Godot.Vector2.Zero;
+
+		return CartasInstanciadas[index].GlobalPosition;
+	}
+
 
 	public CartaControl? GetCarta(int index)
     {

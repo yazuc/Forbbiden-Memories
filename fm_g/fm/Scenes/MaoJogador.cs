@@ -338,6 +338,9 @@ namespace fm{
 		// Método auxiliar atualizado para aceitar rotação
 		private async Task MoverParaPosicao(Node2D node, Vector2 targetPos, float targetRotation = 0f)
 		{
+			// var glob = node.GlobalPosition;
+			// node.GlobalPosition = MaoControl.GetHboxPosition(); 
+			node.Reparent(this);
 			Tween t = CreateTween().SetParallel(true);
 			t.TweenProperty(node, "global_position", targetPos, 0.5f)
 			 .SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.Out);
@@ -365,8 +368,15 @@ namespace fm{
 			Vector2 screenCenter = viewport.GetVisibleRect().Size / 2f;
 			
 			var nodoAlvo = MaoControl.GetCartaBase(_indiceSelecionado);// _cartasNaMao.FirstOrDefault(x => x.Name == name);			
+			if(nodoAlvo == null) 
+			{
+				GD.PrintErr("Não foi possível encontrar a carta selecionada na mão!");
+				return false;
+			}
 			lastPos = MaoControl.GetCarta(_indiceSelecionado).GlobalPosition;
 			nodoAlvo.Reparent(this,true);
+			nodoAlvo.Position = lastPos;
+			nodoAlvo.Scale = new Vector2(1.2f, 1.2f);
 			
 			Tween tween = GetTree().CreateTween();
 			tween.TweenProperty(nodoAlvo, "global_position", screenCenter, 0.2f)
@@ -403,17 +413,25 @@ namespace fm{
 			return await _tcsFaceDown.Task;
 		}
 		
-		private void DevolveCartaParaMao(int ID, string name, bool cancel = false)
+		private async Task DevolveCartaParaMao(int ID, string name, bool cancel = false)
 		{			
-			var nodoAlvo = MaoControl.GetCartaBase(_indiceSelecionado); //_cartasNaMao.FirstOrDefault(x => x.CurrentID == ID && x.Name == name);
+			var nodoAlvo = MaoControl.GetCartaBase(_indiceSelecionado); 
 			var nodoMao = MaoControl.GetCarta(_indiceSelecionado);
-			nodoMao.ReparentCard(nodoAlvo);			
+			if(nodoAlvo == null || nodoMao == null) 
+			{
+				GD.PrintErr("Não foi possível encontrar a carta para devolver à mão!");
+				return;
+			}
+
+			nodoAlvo.Scale = new Vector2(1.0f, 1.0f);			
 			if(cancel)
-				nodoAlvo.FlipCard(false);
-			// Tween tween = GetTree().CreateTween();
-			// tween.TweenProperty(nodoAlvo, "global_position", lastPos, 0.2f)
-			// 	 .SetTrans(Tween.TransitionType.Sine)
-			// 	 .SetEase(Tween.EaseType.Out);
+				nodoAlvo.FlipCard(false, 0.3f, 1.0f);
+			Tween tween = GetTree().CreateTween();
+			tween.TweenProperty(nodoAlvo, "global_position", nodoMao.GlobalPosition, 0.2f)
+				 .SetTrans(Tween.TransitionType.Sine)
+				 .SetEase(Tween.EaseType.Out);
+			await ToSignal(tween, "finished");
+			nodoMao.ReparentCard(nodoAlvo);			
 			if(cancel)
 				_cartasSelecionadasParaFusao.Clear();
 			//lastPos = Vector2.Zero;

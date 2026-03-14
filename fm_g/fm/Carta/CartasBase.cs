@@ -75,7 +75,7 @@ namespace fm
 			_arteSprite.Scale = new Vector2(1.02f, 1.054f);
 		}
 		
-		public void FlipCard(bool targetFaceDown, float duration = 0.3f)
+		public void FlipCard(bool targetFaceDown, float duration = 0.3f, float customScale = 1.2f)
 		{
 			// 1. Criamos o Tween
 			Tween tween = GetTree().CreateTween();
@@ -94,7 +94,7 @@ namespace fm
 			}));
 
 			// 4. Segundo Passo: "Abre" a carta (volta ao scale normal)
-			tween.TweenProperty(this, "scale:x", 1f, halfDuration)
+			tween.TweenProperty(this, "scale:x", customScale, halfDuration)
 				 .SetTrans(Tween.TransitionType.Quad)
 				 .SetEase(Tween.EaseType.Out);
 		}
