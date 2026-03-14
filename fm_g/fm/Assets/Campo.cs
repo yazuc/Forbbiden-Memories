@@ -1,5 +1,6 @@
 using Godot;
 
+[Tool]
 public partial class Campo : Node3D
 {
 	private MeshInstance3D _mesh_st_ally;
@@ -40,8 +41,8 @@ public partial class Campo : Node3D
 			GD.Load<Texture2D>("res://Assets/campos/campo_grass/campo_grama_grama.png"),
 			GD.Load<Texture2D>("res://Assets/campos/campo_montanha/campo_montanha_montanha_3.png"),
 		};
-
-		SetEstadoCampo(GlobalUsings.Instance.BoardIndex);
+		var index = GlobalUsings.Instance != null ? GlobalUsings.Instance.BoardIndex : 0;
+		SetEstadoCampo(index);
 	}
 
 	public void SetEstadoCampo(int estado)

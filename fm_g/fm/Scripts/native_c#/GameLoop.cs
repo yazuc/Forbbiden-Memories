@@ -43,7 +43,7 @@ namespace fm
 		public async Task RunTurn()
 		{
 			while(!_gameState.IsGameOver()){				
-				await MaoDoJogador.TransitionTo(CameraHand, 0.5f, true);
+				await MaoDoJogador.Tools.TransitionTo(CameraHand, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);
 				if (_gameState.IsGameOver())
 				{
 					GD.Print("Game is already over!");
@@ -76,7 +76,7 @@ namespace fm
 			if (_gameState.IsGameOver())
 			{
 				GD.Print("Game is already over after while loop!");
-				await MaoDoJogador.TransitionTo(CameraHand, 0.5);
+				await MaoDoJogador.Tools.TransitionTo(CameraHand, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);
 				RotateCameraPivot180Slow();
 				//return;
 			}
@@ -115,18 +115,18 @@ namespace fm
 				var cardData = CardDatabase.Instance.GetCardById((int)item);	
 				if(i == idEscolhido.Count()){
 					//arrumar quando colocar um nodo por cima de outro, deletar o anterior sempre
-					var car = MaoDoJogador.PegaSlotByMarker(MaoDoJogador.LogicalPosition);
+					var car = MaoDoJogador.Tools.PegaSlotByMarker(MaoDoJogador.LogicalPosition);
 					_gameState.CurrentPlayer.Field.placeCard(car, cardData, true, false, _gameState.CurrentPlayer.IsEnemy);					
 				}
 				_gameState.CurrentPlayer.DiscardCard(cardData.Id);
 				i++;
 			}					
 			MaoDoJogador.AtualizarMao(_gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList());  
-			await MaoDoJogador.TransitionTo(CameraField, 0.5f);			
+			await MaoDoJogador.Tools.TransitionTo(CameraField, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);			
 			_gameState.Player1.Field.DrawFieldState();
 			_gameState.Player2.Field.DrawFieldState();	
 			SincronizaField();
-			MaoDoJogador.PrintTodasInstancias();
+			MaoDoJogador.Tools.PrintTodasInstancias();
 			_gameState.AdvancePhase();
 		}
 		
@@ -168,7 +168,7 @@ namespace fm
 					continue;
 				}				
 
-				await MaoDoJogador.TransitionTo(CameraInimigo, 0.4f);
+				await MaoDoJogador.Tools.TransitionTo(CameraInimigo, 0.4f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);
 				
 				GD.Print("Escolha o alvo...");
 				int slotAlvo = await MaoDoJogador.SelecionarSlotAsync(MaoDoJogador.SlotsCampoIni, _gameState.CurrentTurn == 1, true);
@@ -187,7 +187,7 @@ namespace fm
 					}
 				}
 
-				await MaoDoJogador.TransitionTo(CameraField, 0.4f);
+				await MaoDoJogador.Tools.TransitionTo(CameraField, 0.4f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);
 				SincronizaField();
 			}
 
@@ -198,7 +198,7 @@ namespace fm
 		private async Task<bool> ResolverBatalha(FieldMonster meuMonstro, FieldMonster? monstroInimigo)
 		{
 			
-			MaoDoJogador.Flipa(meuMonstro.zoneName);
+			MaoDoJogador.Tools.Flipa(meuMonstro.zoneName);
 
 			if (meuMonstro?.Card == null)
 			{
@@ -208,7 +208,7 @@ namespace fm
 			
 			var battleResult = _battleSystem.ResolveBattle(meuMonstro, monstroInimigo, _gameState.OpponentPlayer);		
 			if(monstroInimigo != null){
-				MaoDoJogador.Flipa(monstroInimigo.zoneName);
+				MaoDoJogador.Tools.Flipa(monstroInimigo.zoneName);
 				if(!battleResult.AttackerDestroyed && !battleResult.DefenderDestroyed)
 				{
 					_gameState.CurrentPlayer.TakeDamage(battleResult.DamageDealt);		
@@ -216,33 +216,25 @@ namespace fm
 				if(battleResult.AttackerDestroyed && battleResult.DefenderDestroyed)
 				{
 					//descobrir pq draw ta bugado
-					GD.Print("caiu onde deveria");
-					await MaoDoJogador.AnimateBattle(meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy);
-					GD.Print("passou do animate");
-					MaoDoJogador.FinalizaNodoByCard(monstroInimigo.zoneName);
+					await MaoDoJogador._anim.AnimaBattle(MaoDoJogador, meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy);
 					_gameState.OpponentPlayer.Field.RemoveMonster(monstroInimigo.zoneName);	
-					MaoDoJogador.FinalizaNodoByCard(meuMonstro.zoneName);
 					_gameState.CurrentPlayer.Field.RemoveMonster(meuMonstro.zoneName);	
 					return false;		
 				}
 				if(battleResult.DefenderDestroyed){					
-					await MaoDoJogador.AnimateBattle(meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy);					
-					MaoDoJogador.FinalizaNodoByCard(monstroInimigo.zoneName);
-					GD.Print("zona que passou para destruir");
+					await MaoDoJogador._anim.AnimaBattle(MaoDoJogador, meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy);					
 					_gameState.OpponentPlayer.Field.RemoveMonster(monstroInimigo.zoneName);
-					GD.Print($"removeu a referencia do monstro na posicao {monstroInimigo.zoneName}");		
 					_gameState.OpponentPlayer.TakeDamage(battleResult.DamageDealt);									
 				}
 				if(battleResult.AttackerDestroyed){
 					//ajustar para o meuMonstro ser destruido
-					await MaoDoJogador.AnimateBattle(meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy);
-					MaoDoJogador.FinalizaNodoByCard(meuMonstro.zoneName);
+					await MaoDoJogador._anim.AnimaBattle(MaoDoJogador, meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy);
 					_gameState.CurrentPlayer.Field.RemoveMonster(meuMonstro.zoneName);							
 					_gameState.CurrentPlayer.TakeDamage(battleResult.DamageDealt);
 				}
 			}else
 			{
-				await MaoDoJogador.AnimateBattle(meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy);
+				await MaoDoJogador._anim.AnimaBattle(MaoDoJogador, meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy);
 			}
 			
 			
@@ -275,7 +267,7 @@ namespace fm
 		public async Task RotateCameraPivot180()
 		{			
 			MaoDoJogador.DefineVisibilidade(false);
-			await MaoDoJogador.TransitionTo(CameraHand, 0.5f);
+			await MaoDoJogador.Tools.TransitionTo(CameraHand, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);
 			var tween = CameraPivot.CreateTween();
 			
 			tween.TweenProperty(
@@ -291,7 +283,7 @@ namespace fm
 		
 		public void SincronizaField()
 		{
-			List<(string carta,bool defesa)> tuple = MaoDoJogador.DevolvePosicoes();
+			List<(string carta,bool defesa)> tuple = MaoDoJogador.Tools.DevolvePosicoes();
 			foreach(var item in tuple)
 			{
 				_gameState.Player1.Field.BotaDeLadinho(item.carta, item.defesa);

@@ -11,7 +11,6 @@
 [ext_resource type="Texture2D" uid="uid://ys6mjmshpjab" path="res://Assets/campos/campo_original/campo_7.png" id="8_b65qd"]
 [ext_resource type="Texture2D" uid="uid://djkho6ey3kebh" path="res://Assets/campos/campo_original/campo_8.png" id="9_ftc52"]
 [ext_resource type="Texture2D" uid="uid://c5f1laf7bnjm8" path="res://Assets/campos/campo_original/campo_9.png" id="10_lutf5"]
-[ext_resource type="Texture2D" uid="uid://14tldbcd3w2b" path="res://Assets/campos/campo_original/campo_10.png" id="11_8issi"]
 [ext_resource type="Texture2D" uid="uid://bc8gacsm1nw6m" path="res://Assets/campos/campo_original/campo_11.png" id="12_mrqbj"]
 [ext_resource type="Texture2D" uid="uid://daa66v5gkid4f" path="res://Assets/campos/campo_original/campo_12.png" id="13_cg1r7"]
 
@@ -405,7 +404,7 @@ shadow_mesh = SubResource("ArrayMesh_wwyvx")
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8jo3o"]
 resource_name = "D343B915CCEBDA248C2EAC6E8EF3E6DC"
 cull_mode = 2
-albedo_texture = ExtResource("11_8issi")
+albedo_texture = ExtResource("1_1rang")
 roughness = 0.6
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_1s5ju"]
