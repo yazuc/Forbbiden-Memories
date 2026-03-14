@@ -7,27 +7,14 @@
 [ext_resource type="PackedScene" uid="uid://dpjrxybf4pcvc" path="res://HUD/IndicadorTriangulo.tscn" id="5_wowpa"]
 [ext_resource type="PackedScene" uid="uid://c3fy4s3sps4kh" path="res://Carta/Carta3D.tscn" id="6_i6g32"]
 [ext_resource type="PackedScene" uid="uid://b2f4acrh1ecd2" path="res://HUD/seletor.tscn" id="7_1l0tm"]
-[ext_resource type="Texture2D" uid="uid://bj8ccfck3mqnf" path="res://Assets/campos/campo_original/normalfield.png" id="7_7t8sx"]
 [ext_resource type="Texture2D" uid="uid://dxh4uocct2t3t" path="res://Assets/COM_active.png" id="8_ldgsr"]
-[ext_resource type="Texture2D" uid="uid://b06123r0py0i8" path="res://Assets/campos/campo_agua/campo_agua_water_field.png" id="8_mg4q0"]
 [ext_resource type="PackedScene" uid="uid://keibpphv5dyc" path="res://Scenes/Guardian/SeletorGuardian.tscn" id="8_o5yvi"]
 [ext_resource type="LabelSettings" uid="uid://crt0cwlxu1bjj" path="res://Assets/new_label_settings.tres" id="9_h4fw4"]
 [ext_resource type="PackedScene" uid="uid://b38xoflgh70ea" path="res://board.tscn" id="9_ldgsr"]
 [ext_resource type="Texture2D" uid="uid://bf2s664bwkruy" path="res://Assets/you_activee.png" id="9_o5yvi"]
 [ext_resource type="Texture2D" uid="uid://c1dlsol8iui1w" path="res://Assets/hand_ui.png" id="9_rku1e"]
-[ext_resource type="Texture2D" uid="uid://beed00ahftjrr" path="res://Assets/campos/campo_dark/dark_3.png" id="9_vm72l"]
 [ext_resource type="LabelSettings" uid="uid://dtcgekw5j12i2" path="res://Resources/ui_label.tres" id="10_1phco"]
-[ext_resource type="Texture2D" uid="uid://wmwp84asrngq" path="res://Assets/campos/campo_deserto/campo_deserto_wasteland.png" id="10_22asu"]
 [ext_resource type="PackedScene" uid="uid://cciasjsny55ra" path="res://Menu/DeckEditor/card_sign.tscn" id="10_rfjv2"]
-[ext_resource type="Texture2D" uid="uid://dw4taminkksdp" path="res://Assets/campos/campo_forest/campo_forest_campo_1.png" id="11_fkdbe"]
-[ext_resource type="Texture2D" uid="uid://bghhth2i44ud6" path="res://Assets/campos/campo_grass/campo_grama_grama.png" id="12_81klo"]
-[ext_resource type="Texture2D" uid="uid://bke16bvrhagsj" path="res://Assets/campos/campo_montanha/campo_montanha_montanha_3.png" id="13_tgy6u"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cwurv"]
-resource_name = "03786CBBC67DBB11FD2D4A7A21DA5233"
-cull_mode = 2
-albedo_texture = ExtResource("7_7t8sx")
-roughness = 0.6
 
 [sub_resource type="Environment" id="Environment_v158k"]
 background_mode = 2
@@ -52,23 +39,16 @@ process_mode = 3
 z_index = 2
 script = ExtResource("3_3dryh")
 CartaCena = ExtResource("4_wowpa")
-Carta3d = ExtResource("6_i6g32")
-Seletor = ExtResource("7_1l0tm")
 IndicadorTriangulo = NodePath("../IndicadorTriangulo")
+Carta3d = ExtResource("6_i6g32")
 CameraHand = NodePath("../CameraPivot/CameraHand")
 CameraField = NodePath("../CameraPivot/CameraField")
 CameraInimigo = NodePath("../CameraPivot/CameraInimigo")
+Seletor = ExtResource("7_1l0tm")
 metadata/_edit_use_anchors_ = true
 
-[node name="Board" parent="." unique_id=1698784219 node_paths=PackedStringArray("_mesh_st_ally", "_mesh_st_enemy", "_mesh_mt_enemy", "_mesh_mt_ally", "_mesh_center") instance=ExtResource("9_ldgsr")]
+[node name="Board" parent="." unique_id=1698784219 instance=ExtResource("9_ldgsr")]
 transform = Transform3D(-6.8102345e-08, 0.47882816, -1.5335783, 0, 1.3155696, 0.5581768, 1.558, 2.0930244e-08, -6.703483e-08, -0.065, 1.059, 0.223)
-_material = SubResource("StandardMaterial3D_cwurv")
-_texturas = [ExtResource("7_7t8sx"), ExtResource("8_mg4q0"), ExtResource("9_vm72l"), ExtResource("10_22asu"), ExtResource("11_fkdbe"), ExtResource("12_81klo"), ExtResource("13_tgy6u")]
-_mesh_st_ally = NodePath("text_st_ally")
-_mesh_st_enemy = NodePath("text_st_enemy")
-_mesh_mt_enemy = NodePath("text_mt_ally")
-_mesh_mt_ally = NodePath("text_mt_enemy")
-_mesh_center = NodePath("text_center")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=188368505]
 transform = Transform3D(-0.000853264, 0.9989379, -0.04606975, 0.018497184, 0.046077646, 0.99876666, 0.9998286, 5.105711e-08, -0.018516853, 0.0482471, 8.921741, 0.27553463)
@@ -122,15 +102,15 @@ z_index = 2
 custom_minimum_size = Vector2(830, 197)
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.25
-anchor_top = -1.2190001
-anchor_right = 0.808
-anchor_bottom = 1.3298094
-offset_left = -25.750305
-offset_top = 354.0702
-offset_right = -177.32056
-offset_bottom = -198.55826
-scale = Vector2(1.4, 1.4)
+anchor_left = 0.252
+anchor_top = -1.5760101
+anchor_right = 0.80700004
+anchor_bottom = 2.594
+offset_left = 0.41378784
+offset_top = 354.07016
+offset_right = -145.39941
+offset_bottom = -675.3684
+scale = Vector2(1.2, 1.2)
 
 [node name="Panel" type="HBoxContainer" parent="CameraPivot/CameraHand/Control/TextureRect" unique_id=913294017]
 layout_mode = 1

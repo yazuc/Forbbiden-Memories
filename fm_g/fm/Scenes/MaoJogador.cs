@@ -41,6 +41,8 @@ namespace fm{
 		public Sprite2D YouActive;
 		public string LogicalPosition {get;set;}
 		public Mao MaoControl {get;set;}
+		public IndicadorSeta indicadorSetaEsquerda{get;set;}
+		public IndicadorSeta indicadorSetaDireita{get;set;}
 
 		public override void _Ready()
 		{
@@ -71,6 +73,7 @@ namespace fm{
 			_processandoInput = true;
 			await HandleNavigation();
 			_processandoInput = false;
+			AtualizarPosicaoIndicador();
 		}
 		
 		private async Task HandleNavigation()
@@ -372,7 +375,7 @@ namespace fm{
 			nodoAlvo.FlipCard(IsFaceDown);
 			
 			var instancia = CriarSetaPersonalizada(screenCenter + new Vector2(100,-20));
-			var instancia2 = CriarSetaPersonalizada(screenCenter + new Vector2(-100,-20));
+			var instancia2 = CriarSetaPersonalizada(screenCenter + new Vector2(-100,-20), true);
 			
 			while(!_tcsFaceDown.Task.IsCompleted) 
 			{
@@ -390,8 +393,7 @@ namespace fm{
 					}
 					if(Input.IsActionJustPressed("ui_cancel")){
 						instancia.Visible = false;
-						instancia2.Visible = false;
-						nodoAlvo.Reparent(MaoControl.Hbox);
+						instancia2.Visible = false;						
 						_tcsFaceDown?.TrySetCanceled();		
 					}
 				}
@@ -404,12 +406,14 @@ namespace fm{
 		private void DevolveCartaParaMao(int ID, string name, bool cancel = false)
 		{			
 			var nodoAlvo = MaoControl.GetCartaBase(_indiceSelecionado); //_cartasNaMao.FirstOrDefault(x => x.CurrentID == ID && x.Name == name);
+			var nodoMao = MaoControl.GetCarta(_indiceSelecionado);
+			nodoMao.ReparentCard(nodoAlvo);			
 			if(cancel)
 				nodoAlvo.FlipCard(false);
-			Tween tween = GetTree().CreateTween();
-			tween.TweenProperty(nodoAlvo, "global_position", lastPos, 0.2f)
-				 .SetTrans(Tween.TransitionType.Sine)
-				 .SetEase(Tween.EaseType.Out);
+			// Tween tween = GetTree().CreateTween();
+			// tween.TweenProperty(nodoAlvo, "global_position", lastPos, 0.2f)
+			// 	 .SetTrans(Tween.TransitionType.Sine)
+			// 	 .SetEase(Tween.EaseType.Out);
 			if(cancel)
 				_cartasSelecionadasParaFusao.Clear();
 			//lastPos = Vector2.Zero;
@@ -509,77 +513,7 @@ namespace fm{
 			{			
 				IndicadorTriangulo.Visible = true;				
 				AtualizarPosicaoIndicador(); 
-			}
-
-			return;
-
-			// Limpa a mão atual
-			foreach (var carta in _cartasNaMao)
-			{
-				if (GodotObject.IsInstanceValid(carta)) 
-				{
-					carta.QueueFree();
-				}
-			}
-			_cartasNaMao.Clear();
-
-			Vector2 viewportSize = GetViewportRect().Size;
-			float larguraTela = viewportSize.X;
-			float alturaTela = viewportSize.Y;
-
-			int quantidade = idsCartasNoDeck.Count;
-			float margemInferior = alturaTela * 0.12f;
-			float alturaCarta = 500f; // adjust to your real card height
-			float yMao = alturaTela - alturaCarta * 0.6f;
-			float espacamentoHorizontal = (larguraTela / 10f) + 50;
-			float larguraTotal = (quantidade - 1) * espacamentoHorizontal;
-			float xInicial = (larguraTela - larguraTotal) / 2f;
-
-			Vector2 posicaoOffScreen = new Vector2(larguraTela + 200, yMao);
-
-			for (int i = 0; i < idsCartasNoDeck.Count; i++)
-			{
-				int id = idsCartasNoDeck[i];				
-				var novaCarta = CartaCena.Instantiate<CartasBase>();
-				novaCarta.Scale = new Vector2(1.35f, 1.35f);
-				AddChild(novaCarta);
-
-				// Define a posição manualmente (i * espaçamento faz o alinhamento)
-				// Isso não interfere no código interno da sua carta (DisplayCard)
-				novaCarta.Position = posicaoOffScreen;// + new Vector2(i * espacamentoHorizontal, 0);
-				novaCarta.DisplayCard(id);
-				_cartasNaMao.Add(novaCarta);
-				
-				// 2. Calcula a posição final dela na mão
-				Vector2 posicaoFinal = new Vector2(xInicial + i * espacamentoHorizontal, yMao);
-
-				// 3. Animação de entrada
-				Tween tween = GetTree().CreateTween();
-				float delay = i * 0.1f; 
-				
-				tween.TweenProperty(novaCarta, "position", posicaoFinal, 0.5f)
-					 .SetTrans(Tween.TransitionType.Cubic) 
-					 .SetEase(Tween.EaseType.Out)
-					 .SetDelay(delay);
-					if (i == 0 && IndicadorTriangulo != null)
-					{
-						IndicadorTriangulo.Visible = false;
-						tween.Finished += () => 
-						{
-							if (GodotObject.IsInstanceValid(IndicadorTriangulo))
-							{
-								IndicadorTriangulo.Visible = true;
-								AtualizarPosicaoIndicador();								
-							}
-						};
-					}
-			}
-			_indiceSelecionado = 0;
-			if (IndicadorTriangulo != null)
-			{			
-				IndicadorTriangulo.Visible = true;				
-				AtualizarPosicaoIndicador(); 
-			}
+			}			
 		}
 		
 		private void AtualizarPosicaoIndicador()
@@ -587,7 +521,7 @@ namespace fm{
 			if (IndicadorTriangulo != null)
 			{				
 				Vector2 cardPos = MaoControl.GetCarta(_indiceSelecionado)?.GlobalPosition ?? Vector2.Zero;
-				Vector2 targetPos = cardPos + new Vector2(-110, 70);
+				Vector2 targetPos = cardPos + new Vector2(-10, 210);
 				IndicadorTriangulo.ZIndex = 10;			
 				Tween tween = GetTree().CreateTween();
 				tween.TweenProperty(IndicadorTriangulo, "position", targetPos, 0.01f)
@@ -951,10 +885,26 @@ namespace fm{
 			}
 		}
 		
-		public IndicadorSeta CriarSetaPersonalizada(Vector2 alvo)
+		public IndicadorSeta CriarSetaPersonalizada(Vector2 alvo, bool direita = false)
 		{
+			if(indicadorSetaEsquerda != null && !direita)
+			{
+				indicadorSetaEsquerda.Visible = true;
+				return indicadorSetaEsquerda;
+			}
+			if(indicadorSetaDireita != null && direita)
+			{
+				indicadorSetaDireita.Visible = true;
+				return indicadorSetaDireita;
+			}
+			
 			var cenaSeta = GD.Load<PackedScene>("res://HUD/IndicadorSeta.tscn");
 			var instancia = cenaSeta.Instantiate<IndicadorSeta>();
+
+			if(!direita)
+				indicadorSetaEsquerda = instancia;
+			else
+				indicadorSetaDireita = instancia;
 
 			instancia.PosicaoDesejada = alvo;
 			instancia.OlharParaDireita = (alvo.X > GetViewportRect().Size.X / 2f); 

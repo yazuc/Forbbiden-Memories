@@ -2,6 +2,7 @@ using Godot;
 using System;
 namespace fm
 {	
+	//[Tool]
 	public partial class CartasBase : Node2D
 	{
 		// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -93,7 +94,7 @@ namespace fm
 			}));
 
 			// 4. Segundo Passo: "Abre" a carta (volta ao scale normal)
-			tween.TweenProperty(this, "scale:x", 1.35f, halfDuration)
+			tween.TweenProperty(this, "scale:x", 1f, halfDuration)
 				 .SetTrans(Tween.TransitionType.Quad)
 				 .SetEase(Tween.EaseType.Out);
 		}
