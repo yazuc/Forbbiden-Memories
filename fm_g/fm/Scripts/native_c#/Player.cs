@@ -49,7 +49,7 @@ namespace fm
 				LifePoints = 0;
 			}
 			if(LP != null){
-				LP.Text = LifePoints.ToString();				
+				LP.Text = LifePoints.ToString();		
 			}else{
 				GD.Print("LP está null");
 			}

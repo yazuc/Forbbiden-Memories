@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://bv4ktow0bh74g" path="res://Menu/Story/StoryControl.cs" id="1_rwlpc"]
 [ext_resource type="Texture2D" uid="uid://dl08tobkiwqk4" path="res://Assets/background/Background_01_Pointer_F7_05_01_00_.png" id="1_scxvy"]
 [ext_resource type="Texture2D" uid="uid://vr75oym7kyp2" path="res://Assets/dialog_box.png" id="3_arpam"]
-[ext_resource type="FontFile" uid="uid://hxr85wlns4c3" path="res://Assets/matrix-bold-small-caps-wisabo/FSEX302.ttf" id="3_o83nc"]
 [ext_resource type="Texture2D" uid="uid://c62odr4kgw2h4" path="res://Assets/background/Background_02_Pointer_F7_05_02_00_.png" id="3_vgcoi"]
 [ext_resource type="Texture2D" uid="uid://craq34i762ebg" path="res://Assets/background/Background_03_Pointer_F7_05_03_00_.png" id="4_8r4at"]
 [ext_resource type="SpriteFrames" uid="uid://b83rmn818joj6" path="res://Resources/button.res" id="4_61apo"]
@@ -46,10 +45,8 @@
 [ext_resource type="Texture2D" uid="uid://hexymylmhhr8" path="res://Assets/background/Background_39_Pointer_F7_05_39_00_.png" id="39_sobld"]
 [ext_resource type="Texture2D" uid="uid://cbinscvh7vcag" path="res://Assets/background/Background_40_Pointer_F7_05_40_00_.png" id="40_xiak7"]
 [ext_resource type="Texture2D" uid="uid://br5v4ho7u08js" path="res://Assets/background/Background_41_Pointer_F7_05_41_00_.png" id="41_cnq1u"]
-
-[sub_resource type="Theme" id="Theme_vgcoi"]
-default_font = ExtResource("3_o83nc")
-default_font_size = 64
+[ext_resource type="Theme" uid="uid://b5gqkrqhxqqk5" path="res://Resources/new_theme.tres" id="44_8r4at"]
+[ext_resource type="FontFile" uid="uid://h2kstwkj4ncp" path="res://Assets/matrix-bold-small-caps-wisabo/VL Gothic regular.ttf" id="45_8r4at"]
 
 [node name="StoryUI" type="Control" unique_id=898095359 node_paths=PackedStringArray("ChoiceContainer")]
 layout_mode = 3
@@ -122,9 +119,13 @@ anchor_right = 0.96000004
 anchor_bottom = 0.84800005
 offset_right = 0.79992676
 offset_bottom = 0.15600586
-theme_override_fonts/normal_font = ExtResource("3_o83nc")
+theme = ExtResource("44_8r4at")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 22
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+theme_override_fonts/normal_font = ExtResource("45_8r4at")
 theme_override_font_sizes/normal_font_size = 64
-text = "O Magro está em cativeiro"
 scroll_active = false
 scroll_following = true
 scroll_following_visible_characters = true
@@ -153,5 +154,5 @@ offset_right = -6.0
 offset_bottom = -10.367004
 grow_horizontal = 2
 grow_vertical = 2
-theme = SubResource("Theme_vgcoi")
+theme = ExtResource("44_8r4at")
 metadata/_edit_use_anchors_ = true

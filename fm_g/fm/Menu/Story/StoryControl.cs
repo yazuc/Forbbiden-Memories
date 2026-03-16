@@ -105,7 +105,7 @@ public partial class StoryControl : Control
 		// Estilização: Cor Amarela quando selecionado (Foco)
 		btn.AddThemeColorOverride("font_focus_color", Colors.Yellow);
 		btn.AddThemeColorOverride("font_hover_color", Colors.Yellow);
-		btn.AddThemeColorOverride("font_pressed_color", Colors.Gold);
+		btn.AddThemeColorOverride("font_pressed_color", Colors.Gold);		
 		
 		// Remove a borda de foco azul padrão do Godot para ficar mais limpo
 		btn.AddThemeStyleboxOverride("focus", new StyleBoxEmpty());

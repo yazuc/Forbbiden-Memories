@@ -63,7 +63,7 @@ namespace fm
 					CameraPivot
 				);
 				gL.Initialize();
-			}							
+			}					
 		}
 		
 		private Godot.Collections.Array<Marker3D> GetSlotsFromGroup(string groupName)

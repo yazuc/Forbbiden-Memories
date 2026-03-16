@@ -6,10 +6,13 @@ namespace fm
 	public partial class Helper : Node
 	{
 		[Export] public PackedScene carta3D {get;set;}
+		[Export] public TextureRect LifePoint{get;set;}
 		public List<Node3D> _cartasInstanciadas {get;set;}
+		public Texture2D texture {get;set;}
 		// Called when the node enters the scene tree for the first time.
 		public override void _Ready()
 		{
+			texture = GD.Load<Texture2D>("res://Assets/COM_active.png");
 		}
 
 		// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -164,5 +167,12 @@ namespace fm
 			
 			return tuple;
 		}	
+
+		public void SwitchTurn(MaoJogador mao)
+		{
+			var textureLocal = LifePoint.Texture;						
+			LifePoint.Texture = texture;			
+			texture = textureLocal;				
+		}
 	}	
 }

@@ -11,6 +11,7 @@ diffuse_texture = ExtResource("1_6bxph")
 [node name="Monstro" type="Node2D" unique_id=219028799]
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1517458919]
+position = Vector2(1, 0)
 texture = SubResource("CanvasTexture_brein")
 region_enabled = true
 region_rect = Rect2(151.76448, 35.846085, 147.0396, 209.04422)

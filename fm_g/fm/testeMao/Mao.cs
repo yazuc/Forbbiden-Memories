@@ -1,7 +1,6 @@
 using fm;
 using Godot;
 using System;
-using System.Numerics;
 
 public partial class Mao : Control
 {
@@ -9,16 +8,17 @@ public partial class Mao : Control
 	public PackedScene CartaControl = GD.Load<PackedScene>("res://testeMao/CartaControl.tscn");
 	public List<int> CartasNaMao = new List<int>();
 	private List<CartaControl> CartasInstanciadas = new();
+	[Export] private TextureRect InterfaceDuelo {get;set;}
 	public HBoxContainer Hbox {get;set;}
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		Hbox = GetNode<HBoxContainer>("HBoxContainer");
-		CartasNaMao.Add(1);
-		CartasNaMao.Add(1);
-		CartasNaMao.Add(1);
-		CartasNaMao.Add(1);
-		CartasNaMao.Add(1);
+		// CartasNaMao.Add(1);
+		// CartasNaMao.Add(1);
+		// CartasNaMao.Add(1);
+		// CartasNaMao.Add(1);
+		// CartasNaMao.Add(1);
 		if(CartasNaMao.Count > 0)
 			InstanciaMao(CartasNaMao);	
 	}
@@ -35,6 +35,64 @@ public partial class Mao : Control
 			CartasInstanciadas.Add(cartaControlada);
 		}
 	}
+	public async void InstanciaMaoAnimated(List<int> CartasNaMaoLocal, bool animate = true)
+	{
+		if(!animate) 
+		{
+			return;
+		}
+		GD.Print(CartasNaMaoLocal.Count());
+		LimpaMao(Hbox);
+		
+		float screenWidth = GetViewportRect().Size.X;
+		
+		for (int i = 0; i < CartasNaMaoLocal.Count; i++)
+		{
+			var carta = CartaControl.Instantiate<CartaControl>();
+			carta.ID = CartasNaMaoLocal[i];
+			
+			var mod = carta.Modulate;
+			mod.A = 0;
+			carta.Modulate = mod;
+
+			Hbox.AddChild(carta);
+			CartasInstanciadas.Add(carta);
+		}
+
+		if (!animate)
+			return;
+
+		// espera o HBox terminar layout
+		await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+
+		for (int i = 0; i < CartasInstanciadas.Count; i++)
+		{
+			var carta = CartasInstanciadas[i];
+
+			if (!IsInstanceValid(carta))
+				continue;
+
+			AnimateCard(carta, i, screenWidth);
+		}
+	}
+
+	private void AnimateCard(Control carta, int index, float screenWidth)
+	{
+		Vector2 posFinal = carta.Position;
+
+		carta.Position = posFinal + new Vector2(screenWidth, 0);
+
+
+		var tween = GetTree().CreateTween();
+
+		tween.Parallel().TweenProperty(carta, "position", posFinal, 0.45f)
+			.SetDelay(index * 0.15f)
+			.SetEase(Tween.EaseType.Out)
+			.SetTrans(Tween.TransitionType.Cubic);
+
+		tween.Parallel().TweenProperty(carta, "modulate:a", 1.0f, 0.45f);
+	}
+
 
 	public void LimpaMao(HBoxContainer Hbox)
 	{
@@ -61,7 +119,6 @@ public partial class Mao : Control
 		return CartasInstanciadas[index].GlobalPosition;
 	}
 
-
 	public CartaControl? GetCarta(int index)
     {
         if (index < 0 || index >= CartasInstanciadas.Count) return null;
@@ -73,6 +130,40 @@ public partial class Mao : Control
         return CartasInstanciadas[index].Carta;
     }
 
+	public void AnimateInterface(bool sobe = false)
+	{		
+		Vector2 target = MoveInterface(sobe);
+
+		var tween = GetTree().CreateTween();
+
+		tween.TweenProperty(
+			InterfaceDuelo,
+			"global_position",
+			target,
+			0.6f
+		)
+		.SetEase(Tween.EaseType.Out)
+		.SetTrans(Tween.TransitionType.Cubic);
+		ResetHand();
+		//await ToSignal(tween, Tween.SignalName.Finished);
+	}
+
+	public void ResetHand()
+	{
+		LimpaMao(Hbox);
+		CartasNaMao.Clear();
+		CartasInstanciadas.Clear();
+	}
+
+
+	public Vector2 MoveInterface(bool sobe = false)
+	{
+		//InterfaceDuelo é um texturerect
+		if (sobe)
+			return InterfaceDuelo.GlobalPosition - new Vector2(0f, InterfaceDuelo.Size.Y + 500);
+				
+		return InterfaceDuelo.GlobalPosition + new Vector2(0f, InterfaceDuelo.Size.Y + 500);				
+	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)

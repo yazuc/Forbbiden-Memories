@@ -32,8 +32,6 @@ namespace fm{
 		private bool _processandoInput = false;		
 		public List<int> IDFusao = new List<int>();
 		public Vector2 lastPos = Vector2.Zero;
-		public Sprite2D ComActive;
-		public Sprite2D YouActive;
 		public string LogicalPosition {get;set;}
 		public Mao MaoControl {get;set;}
 		public IndicadorSeta indicadorSetaEsquerda{get;set;}
@@ -44,7 +42,7 @@ namespace fm{
 		public override void _Ready()
 		{
 			_transitionCam = new Camera3D();
-			MaoControl = GetNode<Mao>("../CameraPivot/CameraHand/Control/TextureRect/Mao");		
+			MaoControl = GetNode<Mao>("../CameraPivot/CameraHand/Control/InterfaceDuelo/Mao");		
 			AddChild(_transitionCam);
 			if (Seletor != null)
 			{
@@ -52,9 +50,6 @@ namespace fm{
 				GetTree().CurrentScene.CallDeferred("add_child", _instanciaSeletor);
 				_instanciaSeletor.Visible = false;
 			}
-			ComActive = GetNode<Sprite2D>($"../CameraPivot/ComActive");
-			YouActive = GetNode<Sprite2D>($"../CameraPivot/YouActive");
-			ComActive.Visible = false;					
 			_anim = GetNode<AnimationP>("../AnimationP");
 			_anim._cartasSelecionadasParaFusao = _cartasSelecionadasParaFusao;
 			Tools = GetNode<Helper>("../Helper");
@@ -279,10 +274,10 @@ namespace fm{
 			if (_instanciaSeletor != null) _instanciaSeletor.Visible = false;
 		}
 
-		public void AtualizarMao(List<int> idsCartasNoDeck)
+		public void AtualizarMao(List<int> idsCartasNoDeck, bool animate = true)
 		{
 			GD.Print(idsCartasNoDeck.Count());	
-			MaoControl.InstanciaMao(idsCartasNoDeck);
+			MaoControl.InstanciaMaoAnimated(idsCartasNoDeck, animate);
 			_indiceSelecionado = 0;
 			if (IndicadorTriangulo != null)
 			{			
@@ -572,11 +567,7 @@ namespace fm{
 			return resultado;
 		}
 		
-		public void SwitchTurn()
-		{
-			YouActive.Visible = !YouActive.Visible;
-			ComActive.Visible = !ComActive.Visible;
-		}
+
 			
 	}
 }

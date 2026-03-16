@@ -77,8 +77,8 @@ namespace fm
 			{
 				GD.Print("Game is already over after while loop!");
 				await MaoDoJogador.Tools.TransitionTo(CameraHand, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);
-				RotateCameraPivot180Slow();
-				//return;
+				//RotateCameraPivot180Slow();				
+				GlobalUsings.Instance.SceneTransition(GlobalUsings.Instance.Story);		
 			}
 		}
 
@@ -94,7 +94,6 @@ namespace fm
 				if (_gameState.CurrentPlayer.HasCards() && _gameState.CurrentPlayer.Hand.Count < HAND_SIZE)
 				{
 					DrawCard(_gameState.CurrentPlayer);
-					MaoDoJogador.AtualizarMao(_gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList());
 				}
 				else
 				{
@@ -121,7 +120,7 @@ namespace fm
 				_gameState.CurrentPlayer.DiscardCard(cardData.Id);
 				i++;
 			}					
-			MaoDoJogador.AtualizarMao(_gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList());  
+			MaoDoJogador.AtualizarMao(_gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList(), false);  
 			await MaoDoJogador.Tools.TransitionTo(CameraField, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);			
 			_gameState.Player1.Field.DrawFieldState();
 			_gameState.Player2.Field.DrawFieldState();	
@@ -274,8 +273,8 @@ namespace fm
 		{			
 			MaoDoJogador.DefineVisibilidade(false);
 			await MaoDoJogador.Tools.TransitionTo(CameraHand, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);
+			MaoDoJogador.MaoControl.AnimateInterface(false);
 			var tween = CameraPivot.CreateTween();
-			
 			tween.TweenProperty(
 				CameraPivot,
 				"rotation",
@@ -283,7 +282,8 @@ namespace fm
 				1f
 			);
 			await ToSignal(tween, Tween.SignalName.Finished);
-			MaoDoJogador.SwitchTurn();
+			MaoDoJogador.MaoControl.AnimateInterface(true);
+			MaoDoJogador.Tools.SwitchTurn(MaoDoJogador);
 			MaoDoJogador.DefineVisibilidade(true);
 		}
 		
@@ -294,7 +294,7 @@ namespace fm
 			{
 				_gameState.Player1.Field.BotaDeLadinho(item.carta, item.defesa);
 				_gameState.Player2.Field.BotaDeLadinho(item.carta, item.defesa);
-				GD.Print($"carta: {item.carta} - de ladinho? {item.defesa}");
+				//GD.Print($"carta: {item.carta} - de ladinho? {item.defesa}");
 			}
 		}
 		

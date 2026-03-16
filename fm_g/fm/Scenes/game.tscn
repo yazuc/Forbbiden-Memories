@@ -9,7 +9,6 @@
 [ext_resource type="PackedScene" uid="uid://dpjrxybf4pcvc" path="res://HUD/IndicadorTriangulo.tscn" id="5_wowpa"]
 [ext_resource type="PackedScene" uid="uid://c3fy4s3sps4kh" path="res://Carta/Carta3D.tscn" id="6_i6g32"]
 [ext_resource type="PackedScene" uid="uid://b2f4acrh1ecd2" path="res://HUD/seletor.tscn" id="7_1l0tm"]
-[ext_resource type="Texture2D" uid="uid://dxh4uocct2t3t" path="res://Assets/COM_active.png" id="8_ldgsr"]
 [ext_resource type="PackedScene" uid="uid://keibpphv5dyc" path="res://Scenes/Guardian/SeletorGuardian.tscn" id="8_o5yvi"]
 [ext_resource type="LabelSettings" uid="uid://crt0cwlxu1bjj" path="res://Assets/new_label_settings.tres" id="9_h4fw4"]
 [ext_resource type="PackedScene" uid="uid://b38xoflgh70ea" path="res://board.tscn" id="9_ldgsr"]
@@ -31,19 +30,20 @@ CameraHand = NodePath("CameraPivot/CameraHand")
 CameraField = NodePath("CameraPivot/CameraField")
 CameraInimigo = NodePath("CameraPivot/CameraInimigo")
 CameraPivot = NodePath("CameraPivot")
-LP_You = NodePath("CameraPivot/YOU/LP")
-LP_Com = NodePath("CameraPivot/COM/LP")
-You = NodePath("CameraPivot/YOU")
-Com = NodePath("CameraPivot/COM")
+LP_You = NodePath("CameraPivot/CameraHand/Control/LifePoints/YOU/LP")
+LP_Com = NodePath("CameraPivot/CameraHand/Control/LifePoints/COM/LP")
+You = NodePath("CameraPivot/CameraHand/Control/LifePoints/YOU")
+Com = NodePath("CameraPivot/CameraHand/Control/LifePoints/COM")
 
-[node name="Helper" type="Node" parent="." unique_id=665815536]
+[node name="Helper" type="Node" parent="." unique_id=665815536 node_paths=PackedStringArray("LifePoint")]
 script = ExtResource("2_ewbju")
 carta3D = ExtResource("6_i6g32")
+LifePoint = NodePath("../CameraPivot/CameraHand/Control/LifePoints")
 
 [node name="AnimationP" type="Node" parent="." unique_id=1698799105 node_paths=PackedStringArray("CameraHand", "MaoControl")]
 script = ExtResource("2_nnt18")
 CameraHand = NodePath("../CameraPivot/CameraHand")
-MaoControl = NodePath("../CameraPivot/CameraHand/Control/TextureRect/Mao")
+MaoControl = NodePath("../CameraPivot/CameraHand/Control/InterfaceDuelo/Mao")
 
 [node name="MaoJogador" type="Node2D" parent="." unique_id=222280098 node_paths=PackedStringArray("IndicadorTriangulo", "CameraHand", "CameraField", "CameraInimigo")]
 process_mode = 3
@@ -90,10 +90,12 @@ metadata/_edit_use_anchors_ = true
 visible = false
 show_behind_parent = true
 layout_mode = 1
-anchor_top = 0.5555556
-anchor_bottom = 0.73425925
+anchor_left = 0.34583333
+anchor_top = 0.525
+anchor_right = 0.60625
+anchor_bottom = 0.7037037
 
-[node name="TextureRect" type="TextureRect" parent="CameraPivot/CameraHand/Control" unique_id=1688364586]
+[node name="InterfaceDuelo" type="TextureRect" parent="CameraPivot/CameraHand/Control" unique_id=1688364586]
 z_index = 1
 texture_filter = 5
 layout_mode = 1
@@ -107,7 +109,7 @@ grow_vertical = 2
 texture = ExtResource("9_rku1e")
 metadata/_edit_use_anchors_ = true
 
-[node name="Mao" parent="CameraPivot/CameraHand/Control/TextureRect" unique_id=1223634621 instance=ExtResource("2_nb51f")]
+[node name="Mao" parent="CameraPivot/CameraHand/Control/InterfaceDuelo" unique_id=1223634621 node_paths=PackedStringArray("InterfaceDuelo") instance=ExtResource("2_nb51f")]
 z_index = 2
 custom_minimum_size = Vector2(830, 197)
 layout_mode = 1
@@ -121,8 +123,9 @@ offset_top = 354.07016
 offset_right = -145.39941
 offset_bottom = -675.3684
 scale = Vector2(1.2, 1.2)
+InterfaceDuelo = NodePath("..")
 
-[node name="Panel" type="HBoxContainer" parent="CameraPivot/CameraHand/Control/TextureRect" unique_id=913294017]
+[node name="Panel" type="HBoxContainer" parent="CameraPivot/CameraHand/Control/InterfaceDuelo" unique_id=913294017]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.052083332
@@ -134,7 +137,7 @@ grow_vertical = 2
 scale = Vector2(1, 0.83999753)
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="CameraPivot/CameraHand/Control/TextureRect/Panel" unique_id=966190396]
+[node name="Label" type="Label" parent="CameraPivot/CameraHand/Control/InterfaceDuelo/Panel" unique_id=966190396]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -142,7 +145,7 @@ text = "Element"
 label_settings = ExtResource("10_1phco")
 vertical_alignment = 1
 
-[node name="Nome" type="Label" parent="CameraPivot/CameraHand/Control/TextureRect/Panel" unique_id=1488297630]
+[node name="Nome" type="Label" parent="CameraPivot/CameraHand/Control/InterfaceDuelo/Panel" unique_id=1488297630]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Lava Battleguard"
@@ -150,7 +153,7 @@ label_settings = ExtResource("10_1phco")
 vertical_alignment = 1
 text_overrun_behavior = 1
 
-[node name="Status" type="Label" parent="CameraPivot/CameraHand/Control/TextureRect/Panel" unique_id=551837902]
+[node name="Status" type="Label" parent="CameraPivot/CameraHand/Control/InterfaceDuelo/Panel" unique_id=551837902]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -159,66 +162,87 @@ label_settings = ExtResource("10_1phco")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="CardSign" parent="CameraPivot/CameraHand/Control/TextureRect/Panel" unique_id=1028875994 instance=ExtResource("10_rfjv2")]
+[node name="CardSign" parent="CameraPivot/CameraHand/Control/InterfaceDuelo/Panel" unique_id=1028875994 instance=ExtResource("10_rfjv2")]
 custom_minimum_size = Vector2(120.64, 10)
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 1
 color = Color(0.03137255, 0.03137255, 0.03137255, 1)
 
+[node name="LifePoints" type="TextureRect" parent="CameraPivot/CameraHand/Control" unique_id=687389407]
+z_index = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.8546875
+anchor_top = 0.007407407
+anchor_right = 0.9791667
+anchor_bottom = 0.16111112
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("9_o5yvi")
+metadata/_edit_use_anchors_ = true
+
+[node name="YOU" type="Label" parent="CameraPivot/CameraHand/Control/LifePoints" unique_id=2037219627]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.6359831
+anchor_top = 0.5539964
+anchor_right = 0.9386776
+anchor_bottom = 0.7286952
+grow_horizontal = 2
+grow_vertical = 2
+text = "40"
+label_settings = ExtResource("9_h4fw4")
+horizontal_alignment = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="LP" type="Label" parent="CameraPivot/CameraHand/Control/LifePoints/YOU" unique_id=1494126795]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -2.2677267
+anchor_top = 0.770115
+anchor_right = 0.9822732
+anchor_bottom = 1.770115
+text = "8000"
+label_settings = ExtResource("9_h4fw4")
+horizontal_alignment = 2
+autowrap_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="COM" type="Label" parent="CameraPivot/CameraHand/Control/LifePoints" unique_id=1462741771]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.62713784
+anchor_top = 0.25609756
+anchor_right = 0.94042325
+anchor_bottom = 0.55487806
+offset_left = 0.11399841
+offset_bottom = -1.0
+text = "40"
+label_settings = ExtResource("9_h4fw4")
+horizontal_alignment = 2
+autowrap_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="LP" type="Label" parent="CameraPivot/CameraHand/Control/LifePoints/COM" unique_id=1861115219]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -2.1716611
+anchor_top = -0.58384573
+anchor_right = 0.9950071
+anchor_bottom = 0.082821
+text = "8000"
+label_settings = ExtResource("9_h4fw4")
+horizontal_alignment = 2
+vertical_alignment = 1
+autowrap_mode = 2
+metadata/_edit_use_anchors_ = true
+
 [node name="CameraInimigo" type="Camera3D" parent="CameraPivot" unique_id=707581232]
 transform = Transform3D(-0.0025830662, -0.99966085, 0.025913427, -3.52031e-11, 0.025913512, 0.9996642, -0.99999666, 0.0025821987, -6.693636e-05, -2.565, 5.273, 0.025)
 
 [node name="CameraField" type="Camera3D" parent="CameraPivot" unique_id=573948242]
 transform = Transform3D(-0.003431812, -0.99970734, 0.023950191, 0.0049127783, 0.023933189, 0.9997015, -0.999982, 0.0035484433, 0.0048292056, 2.631, 5.466, 0)
-
-[node name="ComActive" type="Sprite2D" parent="CameraPivot" unique_id=1013509322]
-texture_filter = 5
-position = Vector2(1742.0001, 106)
-scale = Vector2(2.1599998, 2.4399993)
-texture = ExtResource("8_ldgsr")
-
-[node name="YouActive" type="Sprite2D" parent="CameraPivot" unique_id=1654907783]
-texture_filter = 5
-position = Vector2(1742, 106)
-scale = Vector2(2.16, 2.44)
-texture = ExtResource("9_o5yvi")
-
-[node name="YOU" type="Label" parent="CameraPivot" unique_id=2037219627]
-offset_left = 1779.9999
-offset_top = 101.0
-offset_right = 1812.9999
-offset_bottom = 138.0
-text = "40"
-label_settings = ExtResource("9_h4fw4")
-
-[node name="LP" type="Label" parent="CameraPivot/YOU" unique_id=1494126795]
-layout_mode = 0
-offset_left = -44.0
-offset_top = 20.0
-offset_right = 25.0
-offset_bottom = 62.0
-text = "8000"
-label_settings = ExtResource("9_h4fw4")
-horizontal_alignment = 2
-
-[node name="COM" type="Label" parent="CameraPivot" unique_id=1462741771]
-offset_left = 1779.9999
-offset_top = 78.0
-offset_right = 1814.9999
-offset_bottom = 115.0
-text = "40"
-label_settings = ExtResource("9_h4fw4")
-
-[node name="LP" type="Label" parent="CameraPivot/COM" unique_id=1861115219]
-layout_mode = 0
-offset_left = -41.0
-offset_top = -19.0
-offset_right = 25.0
-offset_bottom = 23.0
-text = "8000"
-label_settings = ExtResource("9_h4fw4")
-horizontal_alignment = 2
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1668532810]
 environment = SubResource("Environment_v158k")
