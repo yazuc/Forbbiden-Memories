@@ -14,8 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://b38xoflgh70ea" path="res://board.tscn" id="9_ldgsr"]
 [ext_resource type="Texture2D" uid="uid://bf2s664bwkruy" path="res://Assets/you_activee.png" id="9_o5yvi"]
 [ext_resource type="Texture2D" uid="uid://c1dlsol8iui1w" path="res://Assets/hand_ui.png" id="9_rku1e"]
-[ext_resource type="LabelSettings" uid="uid://dtcgekw5j12i2" path="res://Resources/ui_label.tres" id="10_1phco"]
-[ext_resource type="PackedScene" uid="uid://cciasjsny55ra" path="res://Menu/DeckEditor/card_sign.tscn" id="10_rfjv2"]
+[ext_resource type="PackedScene" uid="uid://bc5wbl4amrc7m" path="res://HUD/informacao_carta.tscn" id="13_nb51f"]
 
 [sub_resource type="Environment" id="Environment_v158k"]
 background_mode = 2
@@ -125,50 +124,16 @@ offset_bottom = -675.3684
 scale = Vector2(1.2, 1.2)
 InterfaceDuelo = NodePath("..")
 
-[node name="Panel" type="HBoxContainer" parent="CameraPivot/CameraHand/Control/InterfaceDuelo" unique_id=913294017]
-visible = false
+[node name="InformacaoCarta" parent="CameraPivot/CameraHand/Control/InterfaceDuelo" unique_id=1872225480 instance=ExtResource("13_nb51f")]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.052083332
-anchor_top = 0.52755904
-anchor_right = 0.9520833
-anchor_bottom = 0.8978262
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(1, 0.83999753)
-metadata/_edit_use_anchors_ = true
-
-[node name="Label" type="Label" parent="CameraPivot/CameraHand/Control/InterfaceDuelo/Panel" unique_id=966190396]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-text = "Element"
-label_settings = ExtResource("10_1phco")
-vertical_alignment = 1
-
-[node name="Nome" type="Label" parent="CameraPivot/CameraHand/Control/InterfaceDuelo/Panel" unique_id=1488297630]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Lava Battleguard"
-label_settings = ExtResource("10_1phco")
-vertical_alignment = 1
-text_overrun_behavior = 1
-
-[node name="Status" type="Label" parent="CameraPivot/CameraHand/Control/InterfaceDuelo/Panel" unique_id=551837902]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-text = "Warrior"
-label_settings = ExtResource("10_1phco")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="CardSign" parent="CameraPivot/CameraHand/Control/InterfaceDuelo/Panel" unique_id=1028875994 instance=ExtResource("10_rfjv2")]
-custom_minimum_size = Vector2(120.64, 10)
-layout_mode = 2
-size_flags_horizontal = 10
-size_flags_vertical = 1
-color = Color(0.03137255, 0.03137255, 0.03137255, 1)
+anchor_left = 0.048463795
+anchor_top = 0.57308984
+anchor_right = 0.95362216
+anchor_bottom = 0.8523843
+offset_right = 0.00012207031
+offset_bottom = -2.1430664
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="LifePoints" type="TextureRect" parent="CameraPivot/CameraHand/Control" unique_id=687389407]
 z_index = 1

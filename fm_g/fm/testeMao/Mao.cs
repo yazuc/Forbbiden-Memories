@@ -10,15 +10,12 @@ public partial class Mao : Control
 	private List<CartaControl> CartasInstanciadas = new();
 	[Export] private TextureRect InterfaceDuelo {get;set;}
 	public HBoxContainer Hbox {get;set;}
+	public InformacaoCarta HboxCardInfo {get;set;}
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		Hbox = GetNode<HBoxContainer>("HBoxContainer");
-		// CartasNaMao.Add(1);
-		// CartasNaMao.Add(1);
-		// CartasNaMao.Add(1);
-		// CartasNaMao.Add(1);
-		// CartasNaMao.Add(1);
+		HboxCardInfo = GetNode<InformacaoCarta>("../InformacaoCarta");
 		if(CartasNaMao.Count > 0)
 			InstanciaMao(CartasNaMao);	
 	}
@@ -117,6 +114,11 @@ public partial class Mao : Control
 			return Godot.Vector2.Zero;
 
 		return CartasInstanciadas[index].GlobalPosition;
+	}
+	
+	public void DefineInfo(CartasBase carta)
+	{
+		HboxCardInfo.DefineRegion(carta.Type, carta.sign, carta.sign1, carta.nome);
 	}
 
 	public CartaControl? GetCarta(int index)

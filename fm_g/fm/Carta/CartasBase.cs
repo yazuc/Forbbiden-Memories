@@ -17,6 +17,8 @@ namespace fm
 		public Label? _nome, _atk, _def, label;
 		public CardTypeEnum Type;
 		public Sprite2D FusionUp;
+		public int sign, sign1;
+		public string nome;
 		public bool Facedown;
 
 		// Caminhos para as suas cenas de frame
@@ -46,6 +48,10 @@ namespace fm
 			Facedown = isFaceDown;
 			var cardData = CardDatabase.Instance.GetCardById(id);
 			if (cardData == null) return;
+			Type = cardData.Type;
+			sign = (int)cardData.GuardianStarA;
+			sign1 = (int)cardData.GuardianStarB;
+			nome = cardData.Name;
 			
 			CurrentID = id;
 

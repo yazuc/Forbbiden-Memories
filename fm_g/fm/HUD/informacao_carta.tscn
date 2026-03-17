@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://bc5wbl4amrc7m"]
+
+[ext_resource type="Script" uid="uid://dw1smd5kdjmwd" path="res://HUD/InformacaoCarta.cs" id="1_3qbil"]
+[ext_resource type="LabelSettings" uid="uid://dtcgekw5j12i2" path="res://Resources/ui_label.tres" id="1_en1xq"]
+[ext_resource type="PackedScene" uid="uid://da2ccups5bqrx" path="res://Menu/DeckEditor/card_type.tscn" id="2_3qbil"]
+[ext_resource type="PackedScene" uid="uid://cciasjsny55ra" path="res://Menu/DeckEditor/card_sign.tscn" id="2_m1o0c"]
+
+[node name="InformacaoCarta" type="HBoxContainer" unique_id=1872225480]
+custom_minimum_size = Vector2(0, 80)
+anchors_preset = -1
+anchor_left = 0.04973955
+anchor_top = 0.52755904
+anchor_right = 0.95442706
+anchor_bottom = 0.60163313
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1, 0.83999753)
+script = ExtResource("1_3qbil")
+metadata/_edit_use_anchors_ = true
+
+[node name="Nome" type="Label" parent="." unique_id=1606290880]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Lava Battleguard"
+label_settings = ExtResource("1_en1xq")
+text_overrun_behavior = 1
+
+[node name="Panel" type="HBoxContainer" parent="." unique_id=740122294]
+custom_minimum_size = Vector2(92.44, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_constants/separation = 2
+
+[node name="CardType2" parent="Panel" unique_id=2105141240 instance=ExtResource("2_3qbil")]
+layout_direction = 0
+layout_mode = 2
+color = Color(0.03137255, 0.03137255, 0.03137255, 1)
+
+[node name="CardSign" parent="Panel" unique_id=1028875994 instance=ExtResource("2_m1o0c")]
+custom_minimum_size = Vector2(120.64, 10)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 1
+color = Color(0.03137255, 0.03137255, 0.03137255, 1)

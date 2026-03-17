@@ -292,13 +292,16 @@ namespace fm{
 		{
 			if (IndicadorTriangulo != null)
 			{				
-				Vector2 cardPos = MaoControl.GetCarta(_indiceSelecionado)?.GlobalPosition ?? Vector2.Zero;
+				var carta = MaoControl.GetCarta(_indiceSelecionado);
+				Vector2 cardPos = carta?.GlobalPosition ?? Vector2.Zero;
 				Vector2 targetPos = cardPos + new Vector2(-10, 210);
 				IndicadorTriangulo.ZIndex = 10;			
 				Tween tween = GetTree().CreateTween();
 				tween.TweenProperty(IndicadorTriangulo, "position", targetPos, 0.01f)
 					 .SetTrans(Tween.TransitionType.Quad)
 					 .SetEase(Tween.EaseType.Out);
+				if(carta != null)
+					MaoControl.DefineInfo(carta.Carta);
 			}
 		}
 
