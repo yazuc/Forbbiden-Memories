@@ -120,12 +120,11 @@ namespace fm
 				_gameState.CurrentPlayer.DiscardCard(cardData.Id);
 				i++;
 			}					
-			MaoDoJogador.AtualizarMao(_gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList(), false);  
+			//MaoDoJogador.AtualizarMao(_gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList(), false);  
 			await MaoDoJogador.Tools.TransitionTo(CameraField, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);			
 			_gameState.Player1.Field.DrawFieldState();
 			_gameState.Player2.Field.DrawFieldState();	
 			SincronizaField();
-			MaoDoJogador.Tools.PrintTodasInstancias();
 			_gameState.AdvancePhase();
 		}
 		
@@ -134,6 +133,7 @@ namespace fm
 			_gameState.CurrentPhase = TurnPhase.Battle;
 			GD.Print("--- Battle Phase Iniciada ---");
 			MaoDoJogador.DefineVisibilidade(false);
+			MaoDoJogador.MaoControl.AnimateInterface(false);
 			bool BP_Ativa = true;
 			while (BP_Ativa)
 			{
@@ -153,8 +153,8 @@ namespace fm
 					break;
 				}
 				
-				GD.Print("Escolha um atacante...");
-				int slotAtacante = await MaoDoJogador.SelecionarSlotAsync(MaoDoJogador.FiltraSlot(_gameState.CurrentPlayer.IsEnemy, true), _gameState.CurrentTurn == 1);								
+				GD.Print("Escolha um atacante...");				
+				int slotAtacante = await MaoDoJogador.SelecionarSlotTAsync(MaoDoJogador.FiltraSlot(_gameState.CurrentPlayer.IsEnemy, true), _gameState.CurrentTurn == 1);
 				var meuMonstro = _gameState.CurrentPlayer.Field.GetMonsterInZone(MaoDoJogador.LogicalPosition);
 				GD.Print("Logical pos meu monstro: " + MaoDoJogador.LogicalPosition);
 				if(meuMonstro != null && meuMonstro.HasAttackedThisTurn && slotAtacante != -2)
@@ -170,7 +170,7 @@ namespace fm
 				await MaoDoJogador.Tools.TransitionTo(CameraInimigo, 0.4f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);
 				
 				GD.Print("Escolha o alvo...");
-				int slotAlvo = await MaoDoJogador.SelecionarSlotAsync(MaoDoJogador.SlotsCampoIni, _gameState.CurrentTurn == 1, true);
+				int slotAlvo = await MaoDoJogador.SelecionarSlotTAsync(MaoDoJogador.SlotsCampoIni, _gameState.CurrentTurn == 1, true);
 				GD.Print("slotalvo: "+ slotAlvo +" Logical pos inimigo monstro: " + MaoDoJogador.LogicalPosition);
 				if (slotAlvo != -1 && slotAlvo != -2)
 				{
@@ -273,7 +273,6 @@ namespace fm
 		{			
 			MaoDoJogador.DefineVisibilidade(false);
 			await MaoDoJogador.Tools.TransitionTo(CameraHand, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);
-			MaoDoJogador.MaoControl.AnimateInterface(false);
 			var tween = CameraPivot.CreateTween();
 			tween.TweenProperty(
 				CameraPivot,

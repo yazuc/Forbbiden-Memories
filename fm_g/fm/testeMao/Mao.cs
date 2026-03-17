@@ -134,13 +134,13 @@ public partial class Mao : Control
 	{		
 		Vector2 target = MoveInterface(sobe);
 
-		var tween = GetTree().CreateTween();
+		var tween = GetTree().CreateTween().Parallel();
 
 		tween.TweenProperty(
 			InterfaceDuelo,
 			"global_position",
 			target,
-			0.6f
+			1.2f
 		)
 		.SetEase(Tween.EaseType.Out)
 		.SetTrans(Tween.TransitionType.Cubic);

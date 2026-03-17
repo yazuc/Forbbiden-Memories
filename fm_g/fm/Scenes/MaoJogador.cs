@@ -32,6 +32,8 @@ namespace fm{
 		private bool _processandoInput = false;		
 		public List<int> IDFusao = new List<int>();
 		public Vector2 lastPos = Vector2.Zero;
+		private Godot.Collections.Array<Marker3D> _slots;
+		public bool _camIni, PrimeiroTurno;
 		public string LogicalPosition {get;set;}
 		public Mao MaoControl {get;set;}
 		public IndicadorSeta indicadorSetaEsquerda{get;set;}
@@ -299,118 +301,48 @@ namespace fm{
 					 .SetEase(Tween.EaseType.Out);
 			}
 		}
-		
-		public async Task<int> SelecionarSlotAsync(Godot.Collections.Array<Marker3D> slots, bool PrimeiroTurno = false, bool camIni = false)
+
+		public Task<int> SelecionarSlotTAsync(
+			Godot.Collections.Array<Marker3D> slots,
+			bool primeiroTurno = false,
+			bool camIni = false)
 		{
-			_tcsSlot = new TaskCompletionSource<int>();
+			_slots = slots;
 			_indiceCampoSelecionado = 0;
+			PrimeiroTurno = primeiroTurno;
+			_camIni = camIni;
+
+			_tcsSlot = new TaskCompletionSource<int>();
+
 			_instanciaSeletor.Visible = true;
-			_bloquearNavegaçãoManual = true; // Impede que o seletor 2D da mão se mova junto
+			_bloquearNavegaçãoManual = true;
 
-			// Primeiro posicionamento sem delay
 			AtualizarPosicaoSeletorParaSlots(slots);
-			while (!_tcsSlot.Task.IsCompleted)
-			{
-				int anterior = _indiceCampoSelecionado;			
-				ProcessarNavegacao3D(slots, camIni);
 
-				if (anterior != _indiceCampoSelecionado)
-				{
-					AtualizarPosicaoSeletorParaSlots(slots);
-				}
-				if (!STOP)
-				{
-					if(Input.IsActionJustPressed("ui_lb") || Input.IsActionJustPressed("ui_rb"))
-					{
-						if (!camIni)
-						{
-							var slotDestino = slots[_indiceCampoSelecionado];									
-							var isEnemy = slotDestino.Name.ToString().Contains("Ini");
-							var pegou = Tools.PegaNodoCarta3d(slotDestino.Name);
-							if(pegou != null)
-							{						
-								var rotacao = pegou.Rotation;			
-								if(pegou != null && pegou is Carta3d nodo)
-								{
-									nodo.Defesa = !nodo.Defesa;
-								}		
-								if(!isEnemy){
-									if(rotacao == new Vector3(0,0,0)){
-										pegou.Rotation = new Vector3(-0, 1.5707964f, 0);
-									}else{
-										pegou.Rotation = new Vector3(-0, 0.0f,0);						
-									}						
-								}else{
-									if(rotacao == new Vector3(0,3.14f,0)){
-										pegou.Rotation = new Vector3(-0, -1.5707964f, 0);
-									}else{							
-										pegou.Rotation = new Vector3(0,3.14f,0);						
-									}	
-								}						
-								
-							}						
-						}
-					}				
-				}
-				
-				if(!STOP){
-					if (Input.IsActionJustPressed("ui_accept") && !PrimeiroTurno)
-					{
-						var slotDestino = camIni ? SlotsCampoIni[_indiceCampoSelecionado] : SlotsCampo[_indiceCampoSelecionado];
-						GD.Print($"{slotDestino.Name} Slot confirmado: " + _indiceCampoSelecionado);
-						var nodo = Tools.PegaNodoCarta3d(slotDestino.Name);
-						if(Tools.PegaNodoNoSlot(slotDestino))
-						{
-							if (!camIni)
-							{
-								if (!nodo.Defesa)
-								{									
-									LogicalPosition = slotDestino.Name;
-									_tcsSlot.TrySetResult(_indiceCampoSelecionado);
-								}
-							}
-							else
-							{
-								LogicalPosition = slotDestino.Name;
-								_tcsSlot.TrySetResult(_indiceCampoSelecionado);
-							}
-						}
-						else if(Tools.PodeBate(SlotsCampoIni.ToList()))
-						{
-							if (!camIni)
-							{
-								if (nodo != null && !nodo.Defesa)
-								{									
-									_tcsSlot.TrySetResult(_indiceCampoSelecionado);
-								}
-							}
-							else
-							{
-								_tcsSlot.TrySetResult(_indiceCampoSelecionado);
-							}
-						}
-					}
-									
-					if (Input.IsActionJustPressed("ui_cancel"))
-					{
-						await CancelarSelecaoNoCampo();						
-						_tcsSlot.TrySetResult(-1);
-					}
-					
-					if (Input.IsActionJustPressed("ui_end_phase")) // Mapeie a tecla 'V' no Input Map como "ui_end_phase"
-					{
-						_tcsSlot.TrySetResult(-2); // Usamos -2 para indicar "Sair da Fase"					
-					}				
-				}
-				// Aguarda o próximo frame para o Godot não travar
-				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-			}
-
-			_instanciaSeletor.Visible = false;
-			_bloquearNavegaçãoManual = false;
-			
-			return await _tcsSlot.Task;
+			return _tcsSlot.Task;
 		}
+		public override void _UnhandledInput(InputEvent @event)
+		{
+			if (_tcsSlot == null || _tcsSlot.Task.IsCompleted)
+				return;
+
+			ProcessarNavegacao();
+
+			if (STOP)
+				return;
+
+			if (@event.IsActionPressed("ui_lb") || @event.IsActionPressed("ui_rb"))
+				AlternarDefesa();
+
+			if (@event.IsActionPressed("ui_accept"))
+				ConfirmarSlot();
+
+			if (@event.IsActionPressed("ui_cancel"))
+				FinalizarSelecao(-1);
+
+			if (@event.IsActionPressed("ui_end_phase"))
+				FinalizarSelecao(-2);
+		}				
 						
 		// Método auxiliar para mover o seletor entre diferentes arrays de markers
 		private void AtualizarPosicaoSeletorParaSlots(Godot.Collections.Array<Marker3D> slots)
@@ -459,8 +391,103 @@ namespace fm{
 				
 			return new Godot.Collections.Array<Marker3D>(markers);
 		}
-		
-		
+
+		void ConfirmarSlot()
+		{
+			if (PrimeiroTurno)
+				return;
+
+			var slotDestino = _camIni
+				? SlotsCampoIni[_indiceCampoSelecionado]
+				: SlotsCampo[_indiceCampoSelecionado];
+
+			GD.Print($"{slotDestino.Name} Slot confirmado: {_indiceCampoSelecionado}");
+
+			var nodo = Tools.PegaNodoCarta3d(slotDestino.Name);
+
+			if (Tools.PegaNodoNoSlot(slotDestino))
+			{
+				if (!_camIni)
+				{
+					if (!nodo.Defesa)
+					{
+						LogicalPosition = slotDestino.Name;
+						FinalizarSelecao(_indiceCampoSelecionado);
+					}
+				}
+				else
+				{
+					LogicalPosition = slotDestino.Name;
+					FinalizarSelecao(_indiceCampoSelecionado);
+				}
+			}
+			else if (Tools.PodeBate(SlotsCampoIni.ToList()))
+			{
+				if (!_camIni)
+				{
+					if (nodo != null && !nodo.Defesa)
+						FinalizarSelecao(_indiceCampoSelecionado);
+				}
+				else
+				{
+					FinalizarSelecao(_indiceCampoSelecionado);
+				}
+			}
+		}
+		void FinalizarSelecao(int resultado)
+		{
+			_instanciaSeletor.Visible = false;
+			_bloquearNavegaçãoManual = false;
+
+			_tcsSlot.TrySetResult(resultado);
+		}
+
+		void AlternarDefesa()
+		{
+			if (_camIni)
+				return;
+
+			var slotDestino = _slots[_indiceCampoSelecionado];
+
+			var isEnemy = slotDestino.Name.ToString().Contains("Ini");
+
+			var pegou = Tools.PegaNodoCarta3d(slotDestino.Name);
+
+			if (pegou == null)
+				return;
+
+			var rotacao = pegou.Rotation;
+
+			if (pegou is Carta3d nodo)
+				nodo.Defesa = !nodo.Defesa;
+
+			if (!isEnemy)
+			{
+				if (rotacao == new Vector3(0,0,0))
+					pegou.Rotation = new Vector3(0, 1.5707964f, 0);
+				else
+					pegou.Rotation = Vector3.Zero;
+			}
+			else
+			{
+				if (rotacao == new Vector3(0,3.14f,0))
+					pegou.Rotation = new Vector3(0, -1.5707964f, 0);
+				else
+					pegou.Rotation = new Vector3(0,3.14f,0);
+			}
+		}
+
+
+		void ProcessarNavegacao()
+		{
+			int anterior = _indiceCampoSelecionado;
+
+			ProcessarNavegacao3D(_slots, _camIni);
+
+			if (anterior != _indiceCampoSelecionado)
+				AtualizarPosicaoSeletorParaSlots(_slots);
+		}
+				
 		public void ProcessarNavegacao3D(Godot.Collections.Array<Marker3D> slots, bool camIni){
 			int dir = camIni ? -1 : 1;		
 			if(!STOP){
