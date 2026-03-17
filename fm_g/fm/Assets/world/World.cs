@@ -28,8 +28,8 @@ public partial class World : Node3D
 		changePos(index);
 		if (Input.IsActionJustPressed("ui_accept"))
 		{
-			//GetTree().ChangeSceneToFile("res://HUD/story.tscn");
-			GlobalUsings.Instance.currentBackGround = 0;
+			//GetTree().ChangeSceneToFile("res://HUD/story.tscn");			
+			DefineBackground(points[index].Name);
 			GetTree().ChangeSceneToPacked(scene);			
 		}
 		
@@ -87,5 +87,19 @@ public partial class World : Node3D
 		Vector3 pos3D = points[pos].GlobalPosition;
 		pos3D += new Vector3(0,3,0);
 		Seletor.Position = pos3D;
+	}
+
+	public void DefineBackground(string markerName)
+	{		
+		if(markerName == "DuelGround")
+			GlobalUsings.Instance.currentBackGround = 1;
+		if(markerName == "DarkShrine")
+			GlobalUsings.Instance.currentBackGround = 34;
+		if(markerName == "CardShop")
+			GlobalUsings.Instance.currentBackGround = 3;
+		if(markerName == "Tower")
+			GlobalUsings.Instance.currentBackGround = 2;
+		if(markerName == "Pharaoh")
+			GlobalUsings.Instance.currentBackGround = 0;
 	}
 }

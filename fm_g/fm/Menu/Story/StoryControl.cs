@@ -13,7 +13,7 @@ public partial class StoryControl : Control
 	private bool _isTyping = false;
 	private bool _waitingForChoice = false;
 	[Export] public Control ChoiceContainer; 
-	public List<string> dialogue = new List<string>();
+	public List<string> dialogue {get;set; } 
 	public PackedScene scene = GD.Load<PackedScene>("res://Scenes/game.tscn");
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -22,10 +22,7 @@ public partial class StoryControl : Control
 		_background = GetNode<TextureRect>("Cena/Background");
 		_textLabel = GetNode<RichTextLabel>("Cena/Dialogo/RichTextLabel");
 		SetBackgroundByIndex(GlobalUsings.Instance.currentBackGround);
-		dialogue.Add("A wasted effort, boy!");
-		dialogue.Add("You lack the power to defeat me!");
-		dialogue.Add("<Duel>");
-
+		dialogue = GlobalUsings.Instance.Dialogue;
 		if(sprite != null)		
 			boneco = sprite;								
 	}

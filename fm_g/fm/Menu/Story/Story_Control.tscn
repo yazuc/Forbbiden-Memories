@@ -47,6 +47,11 @@
 [ext_resource type="Texture2D" uid="uid://br5v4ho7u08js" path="res://Assets/background/Background_41_Pointer_F7_05_41_00_.png" id="41_cnq1u"]
 [ext_resource type="Theme" uid="uid://b5gqkrqhxqqk5" path="res://Resources/new_theme.tres" id="44_8r4at"]
 [ext_resource type="FontFile" uid="uid://h2kstwkj4ncp" path="res://Assets/matrix-bold-small-caps-wisabo/VL Gothic regular.ttf" id="45_8r4at"]
+[ext_resource type="FontFile" uid="uid://b5stkpyor5ut0" path="res://Assets/matrix-bold-small-caps-wisabo/Gravtrac Bd Comp.otf" id="48_r4f5f"]
+
+[sub_resource type="Theme" id="Theme_uie33"]
+default_font = ExtResource("48_r4f5f")
+default_font_size = 64
 
 [node name="StoryUI" type="Control" unique_id=898095359 node_paths=PackedStringArray("ChoiceContainer")]
 layout_mode = 3
@@ -78,7 +83,7 @@ texture_filter = 5
 position = Vector2(352.00003, 341.52347)
 scale = Vector2(3.9333336, 3.9613724)
 sprite_frames = ExtResource("7_rwlpc")
-animation = &"simon"
+animation = &"villager1"
 
 [node name="Cena" type="VBoxContainer" parent="." unique_id=539279739]
 layout_mode = 1
@@ -154,5 +159,5 @@ offset_right = -6.0
 offset_bottom = -10.367004
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("44_8r4at")
+theme = SubResource("Theme_uie33")
 metadata/_edit_use_anchors_ = true
