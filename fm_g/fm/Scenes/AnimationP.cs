@@ -216,6 +216,7 @@ namespace fm{
 
 		public async Task AnimaFusao(MaoJogador maoJogador)
 		{
+			maoJogador.STOP = true;
 			if (_cartasSelecionadasParaFusao.Count < 2) return;
 
 			var viewport = GetViewport();
@@ -327,6 +328,7 @@ namespace fm{
 			}
 
 			await MoverParaPosicao(cartaPrincipal, screenCenter, 0f);
+			maoJogador.STOP = false;
 		}
 
 		private async Task MoverParaPosicao(Node2D node, Vector2 targetPos, float targetRotation = 0f)

@@ -5,3 +5,5 @@
 [resource]
 font = ExtResource("1_tp2b0")
 font_size = 28
+shadow_size = 8
+shadow_color = Color(0, 0, 0, 1)

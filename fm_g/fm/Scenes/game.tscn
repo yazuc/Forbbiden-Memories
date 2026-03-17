@@ -126,6 +126,7 @@ scale = Vector2(1.2, 1.2)
 InterfaceDuelo = NodePath("..")
 
 [node name="Panel" type="HBoxContainer" parent="CameraPivot/CameraHand/Control/InterfaceDuelo" unique_id=913294017]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.052083332
