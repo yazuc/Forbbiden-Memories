@@ -6,6 +6,7 @@ global using System.Threading.Tasks;
 global using Newtonsoft.Json;
 global using Newtonsoft.Json.Converters;
 global using System.Text.Json;
+using fm;
 public partial class GlobalUsings : Node
 {
 	public static GlobalUsings Instance { get; private set; }
@@ -17,6 +18,10 @@ public partial class GlobalUsings : Node
 	public string Mundo = "res://world.tscn";
 	public string Duelo = "res://Scenes/game.tscn";
 	public string Story = "res://Menu/Story/Story_Control.tscn";
+	public string Freeduel = "res://Menu/FreeDuel/FreeDuel.tscn";
+	public string Deckeditor = "res://Menu/DeckEditor/DeckEditor.tscn";
+	public string UserDeck = "res://starter_deck.txt";
+	public Deck Deck = new Deck();
 	public List<string> Dialogue = new List<string>();
 	public bool stop = false;
 	// Called when the node enters the scene tree for the first time.
@@ -24,7 +29,9 @@ public partial class GlobalUsings : Node
 	{
 		Instance = this;
 		DeckIndex = 8;
-		PopulateDialogue();
+		PopulateDialogue();		
+		Deck.LoadDeck(Funcoes.LoadUserDeck(ProjectSettings.GlobalizePath(UserDeck)));
+		GD.Print(Deck.Cards.Count());
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -38,14 +45,36 @@ public partial class GlobalUsings : Node
 			tween.TweenProperty(obj,"modulate", Colors.Black, tempo);		
 			tween.Finished += () =>
 			{
+				// obj.SetProcess(false);
+				// obj.SetProcessInput(false);
+				// obj.SetProcessUnhandledInput(false);
+				if(obj is MainMenu menu)
+					menu.Visible = false;
 				SceneTransition(path);
 			};
+	}
+	public void FadeToWhite(float tempo, Node obj)
+	{
+		// obj.SetProcess(true);
+		// obj.SetProcessInput(true);
+		// obj.SetProcessUnhandledInput(true);
+		if(obj is MainMenu menu)
+		{
+			menu.Visible = true;
+			menu.textureButtons[0].GrabFocus();
+		}
+		var tween = CreateTween();
+			tween.TweenProperty(obj,"modulate", Colors.White, tempo);		
 	}
 
 	public void SceneTransition(string path)
 	{
-		GetTree().ChangeSceneToFile(path);
+		var scene = GD.Load<PackedScene>(path);
+		var instance = scene.Instantiate();
+
+		GetTree().Root.AddChild(instance);
 	}
+
 
 	public void PopulateDialogue()
 	{

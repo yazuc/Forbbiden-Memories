@@ -20,6 +20,11 @@ public partial class FreeDuel : Control
 		{
 			GetTree().ChangeSceneToFile("res://Scenes/game.tscn");
 		}
+		if (@event.IsActionReleased("ui_cancel"))
+		{
+			GlobalUsings.Instance.FadeToWhite(0.3f, GetTree().CurrentScene);
+			Free();
+		}
 	}
 
 	public override void _Ready()

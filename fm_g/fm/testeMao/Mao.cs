@@ -9,6 +9,7 @@ public partial class Mao : Control
 	public List<int> CartasNaMao = new List<int>();
 	private List<CartaControl> CartasInstanciadas = new();
 	[Export] private TextureRect InterfaceDuelo {get;set;}
+	[Export] private AnimationP animationPlayer {get;set;}
 	public HBoxContainer Hbox {get;set;}
 	public InformacaoCarta HboxCardInfo {get;set;}
 	// Called when the node enters the scene tree for the first time.
@@ -69,27 +70,9 @@ public partial class Mao : Control
 			if (!IsInstanceValid(carta))
 				continue;
 
-			AnimateCard(carta, i, screenWidth);
+			animationPlayer.AnimateCard(carta, i, screenWidth);
 		}
 	}
-
-	private void AnimateCard(Control carta, int index, float screenWidth)
-	{
-		Vector2 posFinal = carta.Position;
-
-		carta.Position = posFinal + new Vector2(screenWidth, 0);
-
-
-		var tween = GetTree().CreateTween();
-
-		tween.Parallel().TweenProperty(carta, "position", posFinal, 0.45f)
-			.SetDelay(index * 0.15f)
-			.SetEase(Tween.EaseType.Out)
-			.SetTrans(Tween.TransitionType.Cubic);
-
-		tween.Parallel().TweenProperty(carta, "modulate:a", 1.0f, 0.45f);
-	}
-
 
 	public void LimpaMao(HBoxContainer Hbox)
 	{
@@ -111,7 +94,7 @@ public partial class Mao : Control
 	public Godot.Vector2 GetSlotPosition(int index)
 	{
 		if (index < 0 || index >= CartasInstanciadas.Count)
-			return Godot.Vector2.Zero;
+			return Vector2.Zero;
 
 		return CartasInstanciadas[index].GlobalPosition;
 	}

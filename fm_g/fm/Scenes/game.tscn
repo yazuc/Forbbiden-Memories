@@ -108,7 +108,7 @@ grow_vertical = 2
 texture = ExtResource("9_rku1e")
 metadata/_edit_use_anchors_ = true
 
-[node name="Mao" parent="CameraPivot/CameraHand/Control/InterfaceDuelo" unique_id=1223634621 node_paths=PackedStringArray("InterfaceDuelo") instance=ExtResource("2_nb51f")]
+[node name="Mao" parent="CameraPivot/CameraHand/Control/InterfaceDuelo" unique_id=1223634621 node_paths=PackedStringArray("InterfaceDuelo", "animationPlayer") instance=ExtResource("2_nb51f")]
 z_index = 2
 custom_minimum_size = Vector2(830, 197)
 layout_mode = 1
@@ -123,6 +123,7 @@ offset_right = -145.39941
 offset_bottom = -675.3684
 scale = Vector2(1.2, 1.2)
 InterfaceDuelo = NodePath("..")
+animationPlayer = NodePath("../../../../../AnimationP")
 
 [node name="InformacaoCarta" parent="CameraPivot/CameraHand/Control/InterfaceDuelo" unique_id=1872225480 instance=ExtResource("13_nb51f")]
 layout_mode = 1

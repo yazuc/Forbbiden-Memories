@@ -349,5 +349,22 @@ namespace fm{
 				node.GetParent().RemoveChild(node);
 			novoPai.AddChild(node);
 		}
+
+		public void AnimateCard(Control carta, int index, float screenWidth)
+		{
+			Vector2 posFinal = carta.Position;
+
+			carta.Position = posFinal + new Vector2(screenWidth, 0);
+
+
+			var tween = GetTree().CreateTween();
+
+			tween.Parallel().TweenProperty(carta, "position", posFinal, 0.45f)
+				.SetDelay(index * 0.15f)
+				.SetEase(Tween.EaseType.Out)
+				.SetTrans(Tween.TransitionType.Cubic);
+
+			tween.Parallel().TweenProperty(carta, "modulate:a", 1.0f, 0.45f);
+		}
 	}
 }

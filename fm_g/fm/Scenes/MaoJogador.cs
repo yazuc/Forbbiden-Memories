@@ -49,7 +49,8 @@ namespace fm{
 			if (Seletor != null)
 			{
 				_instanciaSeletor = Seletor.Instantiate<Node3D>();
-				GetTree().CurrentScene.CallDeferred("add_child", _instanciaSeletor);
+				GetParent().CallDeferred("add_child", _instanciaSeletor);
+				//GetTree().CurrentScene.CallDeferred("add_child", _instanciaSeletor);
 				_instanciaSeletor.Visible = false;
 			}
 			_anim = GetNode<AnimationP>("../AnimationP");

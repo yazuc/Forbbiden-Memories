@@ -28,9 +28,10 @@ public partial class World : Node3D
 		changePos(index);
 		if (Input.IsActionJustPressed("ui_accept"))
 		{
-			//GetTree().ChangeSceneToFile("res://HUD/story.tscn");			
-			DefineBackground(points[index].Name);
-			GetTree().ChangeSceneToPacked(scene);			
+			SetProcess(false);
+			Visible = false;
+			DefineBackground(points[index].Name);			
+			GetTree().ChangeSceneToPacked(scene);
 		}
 		
 		if (Input.IsActionJustPressed("ui_up"))
@@ -43,7 +44,13 @@ public partial class World : Node3D
 			Move(Vector3.Right);
 
 		if (Input.IsActionJustPressed("ui_left"))
-			Move(Vector3.Left);				
+			Move(Vector3.Left);
+
+		if (Input.IsActionJustPressed("ui_cancel"))
+		{
+			GlobalUsings.Instance.FadeToWhite(0.3f, GetTree().CurrentScene);
+			Free();			
+		}
 	}
 
 	void Move(Vector3 direction)

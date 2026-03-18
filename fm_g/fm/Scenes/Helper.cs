@@ -108,7 +108,7 @@ namespace fm
 			//nao achou
 			var novaCarta3d = carta3D.Instantiate<Node3D>();
 			novaCarta3d.AddToGroup("cartas");
-			GetTree().CurrentScene.AddChild(novaCarta3d);
+			GetParent().AddChild(novaCarta3d);
 			novaCarta3d.GlobalPosition = slotDestino.GlobalPosition;
 			novaCarta3d.GlobalRotation = slotDestino.GlobalRotation;
 			_cartasInstanciadas.Add(novaCarta3d);

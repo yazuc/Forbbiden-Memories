@@ -23,6 +23,7 @@ public partial class StoryControl : Control
 		_textLabel = GetNode<RichTextLabel>("Cena/Dialogo/RichTextLabel");
 		SetBackgroundByIndex(GlobalUsings.Instance.currentBackGround);
 		dialogue = GlobalUsings.Instance.Dialogue;
+		GrabFocus();
 		if(sprite != null)		
 			boneco = sprite;								
 	}
@@ -55,7 +56,8 @@ public partial class StoryControl : Control
 		else
 		{	
 			GlobalUsings.Instance.FadeToBlack(0.8f, "res://Scenes/game.tscn", this);
-			GlobalUsings.Instance.DeckIndex = 8;					
+			GlobalUsings.Instance.DeckIndex = 8;	
+			QueueFree();				
 		}
 	}
 

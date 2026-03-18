@@ -17,6 +17,9 @@ namespace fm
 		[Export] public TextureRect Sign2;
 		[Export] public Godot.Label CardSign;
 		[Export] public Godot.ColorRect CardSigns;		
+		private static Dictionary<int, AtlasTexture> _typeCache = new();
+		private static Dictionary<int, AtlasTexture> _signCache = new();
+
 		private static readonly AtlasTexture AtlasBase = GD.Load<AtlasTexture>("res://Resources/types.res");
 		private static readonly AtlasTexture AtlasBaseSign = GD.Load<AtlasTexture>("res://Resources/signs.res");
 		public Cards item {get;set;}
@@ -25,15 +28,10 @@ namespace fm
 		// Called when the node enters the scene tree for the first time.
 		public override void _Ready()
 		{
-			string srcGodot = "res://starter_deck.txt";
-			string srcPath = ProjectSettings.GlobalizePath(srcGodot);
 			Sign = GetNode<TextureRect>("CardSign/TextureRect");
 			Sign2 = GetNode<TextureRect>("CardSign/TextureRect2");
 			Type = GetNode<TextureRect>("CardType2/Type");
-			CardSign = GetNode<Godot.Label>("CardSign/Label");
-			var deck = new Deck();					
-			var deckList = Funcoes.LoadUserDeck(srcPath);
-			deck.LoadDeck(deckList);									
+			CardSign = GetNode<Godot.Label>("CardSign/Label");								
 		}
 
 		// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -75,32 +73,36 @@ namespace fm
 			SetAtlasRegionSign((int)CardSign2 - 1, Sign2);
 		}
 
-		public void SetAtlasRegion(CardTypeEnum CardType)
+		public void SetAtlasRegion(CardTypeEnum cardType)
 		{
-			if(Type == null) return;
-			Type.Texture = (AtlasTexture)AtlasBase.Duplicate();
-			if (Type.Texture is not AtlasTexture atlas) return;			
+			if (Type == null) return;
 
-			if(atlas == null) return;
+			int key = (int)cardType;
 
-			atlas.Region = new Rect2((int)CardType * 16, 0, 16, 16);
+			if (!_typeCache.ContainsKey(key))
+			{
+				var atlas = (AtlasTexture)AtlasBase.Duplicate();
+				atlas.Region = new Rect2(key * 16, 0, 16, 16);
+				_typeCache[key] = atlas;
+			}
 
-			if(Type != null)
-				Type.Texture = atlas;
+			Type.Texture = _typeCache[key];
 		}
 
-		public void SetAtlasRegionSign(int Sign, TextureRect TypeSign)
+
+		public void SetAtlasRegionSign(int sign, TextureRect target)
 		{
-			if(TypeSign == null) return;
-			TypeSign.Texture = (AtlasTexture)AtlasBaseSign.Duplicate();
-			if (TypeSign.Texture is not AtlasTexture atlas) return;			
+			if (target == null) return;
 
-			if(atlas == null) return;
+			if (!_signCache.ContainsKey(sign))
+			{
+				var atlas = (AtlasTexture)AtlasBaseSign.Duplicate();
+				atlas.Region = new Rect2(sign * 64, 0, 64, 64);
+				_signCache[sign] = atlas;
+			}
 
-			atlas.Region = new Rect2(Sign * 64, 0, 64, 64);
-
-			if(TypeSign != null)
-				TypeSign.Texture = atlas;
+			target.Texture = _signCache[sign];
 		}
+
 	}	
 }

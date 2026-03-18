@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://cxynt20ovgxib"]
+
+[ext_resource type="Texture2D" uid="uid://dkod2tl14v8px" path="res://Assets/butoons.png" id="1_rsemu"]
+
+[resource]
+atlas = ExtResource("1_rsemu")
+region = Rect2(130.00034, 9.14856, 92.44446, 27.111115)

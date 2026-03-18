@@ -8,20 +8,15 @@ namespace fm
 	{
 		public Panel selector;
 		public ScrollContainer scroll;    		
-		public TextureRect Type => new TextureRect();
 		public int j = 0;
 		// Called when the node enters the scene tree for the first time.
 		public override void _Ready()
 		{
-			string srcGodot = "res://starter_deck.txt";
-			string srcPath = ProjectSettings.GlobalizePath(srcGodot);	
-			var deck = new Deck();					
-			var deckList = Funcoes.LoadUserDeck(srcPath);
-			deck.LoadDeck(deckList);
 			var scene1 = "res://Menu/DeckEditor/slot_carta.scn";
 			var scene = GD.Load<PackedScene>(scene1);
 			int i = 1;
-			foreach(var item in deck.Cards)
+			GD.Print("cards " + GlobalUsings.Instance.Deck.Cards.Count());
+			foreach(var item in GlobalUsings.Instance.Deck.Cards)
 			{
 				var cell = scene.Instantiate();				
 				if(cell is SlotCarta slot)
@@ -32,7 +27,7 @@ namespace fm
 				}
 			}		
 			
-			
+						
 			selector = GetParent().GetParent().GetNode<Panel>("CardSeletor");
 			scroll = GetParent<ScrollContainer>();		
 			MoveSelector(j);
@@ -51,6 +46,14 @@ namespace fm
 			{
 				if(j > 0)
 					j--;							
+			}
+			if (Input.IsActionJustReleased("ui_cancel"))
+			{
+				GlobalUsings.Instance.FadeToWhite(0.3f, GetTree().CurrentScene);
+				var node = GetTree().Root.FindChild("DeckEditor", true, false);
+
+				if (node != null)
+					node.QueueFree();
 			}
 		}	
 
