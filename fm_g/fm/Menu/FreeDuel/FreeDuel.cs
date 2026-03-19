@@ -18,7 +18,9 @@ public partial class FreeDuel : Control
 	{
 		if (@event.IsActionPressed("ui_accept"))
 		{
-			GetTree().ChangeSceneToFile("res://Scenes/game.tscn");
+			GlobalUsings.Instance.DeckIndex = _currentIndex;
+			GlobalUsings.Instance.FadeToBlack(0.3f, GlobalUsings.Instance.Duelo, this);
+			//GetTree().ChangeSceneToFile("res://Scenes/game.tscn");
 		}
 		if (@event.IsActionReleased("ui_cancel"))
 		{

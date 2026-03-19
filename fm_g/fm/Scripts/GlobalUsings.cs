@@ -45,11 +45,14 @@ public partial class GlobalUsings : Node
 			tween.TweenProperty(obj,"modulate", Colors.Black, tempo);		
 			tween.Finished += () =>
 			{
-				// obj.SetProcess(false);
-				// obj.SetProcessInput(false);
-				// obj.SetProcessUnhandledInput(false);
-				if(obj is MainMenu menu)
+				if(obj is Control menu)
+				{
+					
+					obj.SetProcess(false);
+					obj.SetProcessInput(false);
+					obj.SetProcessUnhandledInput(false);
 					menu.Visible = false;
+				}
 				SceneTransition(path);
 			};
 	}
@@ -60,6 +63,9 @@ public partial class GlobalUsings : Node
 		// obj.SetProcessUnhandledInput(true);
 		if(obj is MainMenu menu)
 		{
+			obj.SetProcess(true);
+			obj.SetProcessInput(true);
+			obj.SetProcessUnhandledInput(true);
 			menu.Visible = true;
 			menu.textureButtons[0].GrabFocus();
 		}

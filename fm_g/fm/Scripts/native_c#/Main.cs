@@ -36,25 +36,19 @@ namespace fm
 			//db.SyncJsonToDatabase("cards.json"); // Load cards from JSON into the database if not already loaded
 			//db.ImportAllNpcs("res://Assets/npcs");
 			// 2. Carregar Deck e Carta
-			var deck = new Deck();
 			var deckIni = new Deck();
 			// Certifique-se que o caminho do arquivo está acessível pelo Godot
 			//FmStarterDeckGenerator generator = new FmStarterDeckGenerator();
 			//List<QuickType.Cards> starterDeck = generator.GenerateStarterDeck(db.GetAllCards());          
 			//Funcoes.WriteCardsToFile(starterDeck, "starter_deck_ini.txt");
-			string srcGodot = "res://starter_deck.txt";
-			string srcPath = ProjectSettings.GlobalizePath(srcGodot);
-						
-			var deckList = Funcoes.LoadUserDeck(srcPath);
-			deck.LoadDeck(deckList);
-			
+	
 			deckIni.LoadDeck(db.GetDeckByNpcId(index_deck));
 			// 3. Inicializar o GameLoop
 			// Passando Alice e Bob como os duelistas
 			if (MaoVisual != null)
 			{				
 				gL = new GameLoop(
-					new Player("Alice", deck.Cards, SlotsCampo, SlotsCampoST, LP_You, You, 8000), 
+					new Player("Alice", GlobalUsings.Instance.Deck.Cards, SlotsCampo, SlotsCampoST, LP_You, You, 8000), 
 					new Player("Bob", deckIni.Cards, SlotsCampoIni, SlotsCampoSTIni, LP_Com, Com, 8000),
 					MaoVisual,
 					CameraHand,
