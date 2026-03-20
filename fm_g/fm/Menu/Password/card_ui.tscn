@@ -1,0 +1,76 @@
+[gd_scene format=3 uid="uid://bojhfcwtxih7"]
+
+[ext_resource type="Script" uid="uid://docrd0yx1ny1u" path="res://Menu/Password/CardUi.cs" id="1_hclkh"]
+[ext_resource type="Texture2D" uid="uid://b72wrskajswiv" path="res://Assets/PlayStation - Yu-Gi-Oh! Forbidden Memories - Cards - Cards Frames.png" id="1_l7plw"]
+[ext_resource type="Texture2D" uid="uid://k5dvfn1mkylv" path="res://Assets/database.png" id="2_hvpyv"]
+[ext_resource type="LabelSettings" uid="uid://1v5ma6ea5fi2" path="res://Resources/label_card_ui.tres" id="3_f0iew"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hvpyv"]
+atlas = ExtResource("1_l7plw")
+region = Rect2(156.297, 41.5, 139, 197)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f0iew"]
+atlas = ExtResource("2_hvpyv")
+region = Rect2(5.7052994, 5.757942, 100.100075, 94.49647)
+
+[node name="CardUI" type="Control" unique_id=831441233]
+layout_mode = 3
+anchor_right = 0.39427084
+anchor_bottom = 0.9953704
+offset_right = -42.5
+offset_bottom = -112.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_hclkh")
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=748390909]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.99285716
+anchor_bottom = 1.005102
+texture = SubResource("AtlasTexture_hvpyv")
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect" type="TextureRect" parent="TextureRect" unique_id=708698920]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.13669065
+anchor_top = 0.2538071
+anchor_right = 0.8489208
+anchor_bottom = 0.7461929
+texture = SubResource("AtlasTexture_f0iew")
+metadata/_edit_use_anchors_ = true
+
+[node name="Name" type="Label" parent="." unique_id=1885622622]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.107142866
+anchor_top = 0.06773612
+anchor_right = 0.8642857
+anchor_bottom = 0.13471286
+label_settings = ExtResource("3_f0iew")
+text_overrun_behavior = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="ATK" type="Label" parent="." unique_id=770192525]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.51428574
+anchor_top = 0.79591835
+anchor_right = 0.6785714
+anchor_bottom = 0.8622449
+theme_override_font_sizes/font_size = 12
+label_settings = ExtResource("3_f0iew")
+metadata/_edit_use_anchors_ = true
+
+[node name="DEF" type="Label" parent="." unique_id=2039478112]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.51428574
+anchor_top = 0.8520408
+anchor_right = 0.6785714
+anchor_bottom = 0.9183673
+theme_override_font_sizes/font_size = 12
+label_settings = ExtResource("3_f0iew")
+metadata/_edit_use_anchors_ = true

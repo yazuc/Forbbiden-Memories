@@ -23,6 +23,7 @@ public partial class GlobalUsings : Node
 	public string UserDeck = "res://starter_deck.txt";
 	public Deck Deck = new Deck();
 	public List<string> Dialogue = new List<string>();
+	public CardDatabase db = CardDatabase.Instance;
 	public bool stop = false;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()

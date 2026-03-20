@@ -40,7 +40,7 @@ namespace fm
 
 			// TESTE: Carrega a carta de ID 1 assim que der Play na cena
 			// Se o seu banco estiver vazio, certifique-se de rodar o SyncJson antes!
-			//DisplayCard(1);
+			DisplayCard(1);
 		}
 
 		public void DisplayCard(int id, bool isFaceDown = false)
