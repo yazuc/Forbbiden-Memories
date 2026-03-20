@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d2lfmtd5kj5jb"
-path="res://.godot/imported/PlayStation - Yu-Gi-Oh! Forbidden Memories - Miscellaneous - Name Input Screen & Font.png-7f1d40727ffdf6bceea898bb61a242f7.ctex"
+uid="uid://c6x51uimrigu0"
+path="res://.godot/imported/fontbitmap_ex.png-6a02e96701f767aa6ad028e41329caca.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/PlayStation - Yu-Gi-Oh! Forbidden Memories - Miscellaneous - Name Input Screen & Font.png"
-dest_files=["res://.godot/imported/PlayStation - Yu-Gi-Oh! Forbidden Memories - Miscellaneous - Name Input Screen & Font.png-7f1d40727ffdf6bceea898bb61a242f7.ctex"]
+source_file="res://Assets/fontbitmap_ex.png"
+dest_files=["res://.godot/imported/fontbitmap_ex.png-6a02e96701f767aa6ad028e41329caca.ctex"]
 
 [params]
 

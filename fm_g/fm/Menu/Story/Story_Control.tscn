@@ -46,11 +46,10 @@
 [ext_resource type="Texture2D" uid="uid://cbinscvh7vcag" path="res://Assets/background/Background_40_Pointer_F7_05_40_00_.png" id="40_xiak7"]
 [ext_resource type="Texture2D" uid="uid://br5v4ho7u08js" path="res://Assets/background/Background_41_Pointer_F7_05_41_00_.png" id="41_cnq1u"]
 [ext_resource type="Theme" uid="uid://b5gqkrqhxqqk5" path="res://Resources/new_theme.tres" id="44_8r4at"]
-[ext_resource type="FontFile" uid="uid://h2kstwkj4ncp" path="res://Assets/matrix-bold-small-caps-wisabo/VL Gothic regular.ttf" id="45_8r4at"]
-[ext_resource type="FontFile" uid="uid://b5stkpyor5ut0" path="res://Assets/matrix-bold-small-caps-wisabo/Gravtrac Bd Comp.otf" id="48_r4f5f"]
+[ext_resource type="FontFile" uid="uid://leuwbw2cg0ck" path="res://Assets/fontbitmap.png" id="45_r4f5f"]
 
 [sub_resource type="Theme" id="Theme_uie33"]
-default_font = ExtResource("48_r4f5f")
+default_font = ExtResource("45_r4f5f")
 default_font_size = 64
 
 [node name="StoryUI" type="Control" unique_id=898095359 node_paths=PackedStringArray("ChoiceContainer")]
@@ -130,7 +129,7 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_outline_size = 22
 theme_override_constants/shadow_offset_x = 0
 theme_override_constants/shadow_offset_y = 0
-theme_override_fonts/normal_font = ExtResource("45_8r4at")
+theme_override_fonts/normal_font = ExtResource("45_r4f5f")
 theme_override_font_sizes/normal_font_size = 64
 scroll_active = false
 scroll_following = true

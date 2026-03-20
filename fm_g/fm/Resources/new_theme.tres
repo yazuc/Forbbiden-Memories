@@ -1,6 +1,6 @@
 [gd_resource type="Theme" format=3 uid="uid://b5gqkrqhxqqk5"]
 
-[ext_resource type="FontFile" uid="uid://b5stkpyor5ut0" path="res://Assets/matrix-bold-small-caps-wisabo/Gravtrac Bd Comp.otf" id="1_e6kqw"]
+[ext_resource type="FontFile" uid="uid://leuwbw2cg0ck" path="res://Assets/fontbitmap.png" id="1_e6kqw"]
 
 [resource]
 default_font = ExtResource("1_e6kqw")
