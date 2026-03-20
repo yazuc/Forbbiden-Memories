@@ -68,7 +68,12 @@ namespace fm
 				_nome.Text = cardData.Name;
 				if(FixType(cardData.Type) == "Monstro"){
 					_atk.Text = "ATK " + cardData.Attack.ToString();
-					_def.Text = "DEF " + cardData.Defense.ToString();				
+					_def.Text = "DEF " + cardData.Defense.ToString();
+				}
+				else
+				{
+					_atk.Text = "";
+					_def.Text = "";		
 				}
 			}else{
 				_nome.Text = "";			

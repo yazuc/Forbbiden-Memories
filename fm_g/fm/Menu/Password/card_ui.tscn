@@ -15,10 +15,8 @@ region = Rect2(5.7052994, 5.757942, 100.100075, 94.49647)
 
 [node name="CardUI" type="Control" unique_id=831441233]
 layout_mode = 3
-anchor_right = 0.39427084
-anchor_bottom = 0.9953704
-offset_right = -42.5
-offset_bottom = -112.0
+anchor_right = 0.37213543
+anchor_bottom = 0.89166665
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_hclkh")
