@@ -5,6 +5,5 @@
 [node name="IndicadorTriangulo" type="Node2D" unique_id=360567357]
 
 [node name="Equilatero" type="Sprite2D" parent="." unique_id=1460562223]
-position = Vector2(14.250034, 20.50003)
 scale = Vector2(0.05826819, 0.06542963)
 texture = ExtResource("1_dsucw")

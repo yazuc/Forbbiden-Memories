@@ -5121,8 +5121,10 @@ scale = Vector2(0.042410713, 0.045797408)
 texture = ExtResource("4_ewkrm")
 
 [node name="LabelNumero" type="Label" parent="." unique_id=1902003804]
+visible = false
 offset_left = -57.0
 offset_top = -121.0
 offset_right = -17.0
 offset_bottom = -95.0
+text = "1"
 label_settings = SubResource("LabelSettings_28wyl")

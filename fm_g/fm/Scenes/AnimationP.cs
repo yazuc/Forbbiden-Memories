@@ -7,7 +7,7 @@ namespace fm{
 	{
 		[Export] public Camera3D CameraHand;
 		[Export] public Mao MaoControl;
-		public List<CartasBase> _cartasSelecionadasParaFusao {get;set;}
+		public List<CardUi> _cartasSelecionadasParaFusao {get;set;}
 
 		public override void _Ready()
 		{
@@ -178,7 +178,7 @@ namespace fm{
 						nodoAlvo.FlipCard(IsFaceDown);
 					}
 					if(Input.IsActionJustPressed("ui_accept")){			
-						maoJogador.IDFusao = _cartasSelecionadasParaFusao.Select(x => x.CurrentID).ToList();												
+						maoJogador.IDFusao = _cartasSelecionadasParaFusao.Select(x => x.carta.Id).ToList();												
 						maoJogador._tcsFaceDown?.TrySetResult(IsFaceDown);
 						instancia.Visible = false;
 						instancia2.Visible = false;			
@@ -195,7 +195,7 @@ namespace fm{
 			instancia2.Visible = false;
 			return await maoJogador._tcsFaceDown.Task;
 		}	
-		public void AlternarSelecaoFusao(CartasBase carta)
+		public void AlternarSelecaoFusao(CardUi carta)
 		{
 			if (_cartasSelecionadasParaFusao.Contains(carta))
 			{
@@ -230,20 +230,23 @@ namespace fm{
 
 			var list3d = selecionadasOrdenadas.ToList();
 
-			var idsOrdenados = list3d.Select(x => x.CurrentID).ToList();
+			var idsOrdenados = list3d.Select(x => x.carta.Id).ToList();
 			maoJogador.IDFusao = idsOrdenados;
 
 			var cartaPrincipal = list3d[0];
 			float sideOffset = 250f; 
 			float stackOffset = 30f;  
 
-			var taskPrincipal = MoverParaPosicao(cartaPrincipal, screenCenter + new Vector2(-sideOffset, 0), 0f);
+			Vector2 halfSize = cartaPrincipal.Size * cartaPrincipal.Scale / 2f;
+			Vector2 targetGlobalPos = screenCenter - halfSize;
+
+			var taskPrincipal = MoverParaPosicao(cartaPrincipal, targetGlobalPos + new Vector2(-sideOffset, 0), 0f);
 			List<Task> tarefasIniciais = new List<Task> { taskPrincipal };
 			
 			list3d.FirstOrDefault().EscondeLabel();
 			for (int i = 1; i < list3d.Count; i++)
 			{				
-				Vector2 posPilha = screenCenter + new Vector2(sideOffset + (i * stackOffset), 0);
+				Vector2 posPilha = targetGlobalPos + new Vector2(sideOffset + (i * stackOffset), 0);
 				tarefasIniciais.Add(MoverParaPosicao(list3d[i], posPilha, 0f));
 				list3d[i].EscondeLabel();
 			}
@@ -255,14 +258,14 @@ namespace fm{
 			{
 				var cartaSacrificio = list3d[i];
 
-				await MoverParaPosicao(cartaSacrificio, screenCenter + new Vector2(sideOffset, 0), 0f);
-				string idsString = $"{cartaPrincipal.CurrentID},{cartaSacrificio.CurrentID}";							
+				await MoverParaPosicao(cartaSacrificio, targetGlobalPos + new Vector2(sideOffset, 0), 0f);
+				string idsString = $"{cartaPrincipal.carta.Id},{cartaSacrificio.carta.Id}";							
 				var resultadoFusao = Function.Fusion(idsString);						
 				await Task.Delay(200);
 
 				Node2D pivot = new Node2D();
 				AddChild(pivot);
-				pivot.GlobalPosition = screenCenter;
+				pivot.GlobalPosition = targetGlobalPos;
 
 				Reparentar(cartaPrincipal, pivot);
 				Reparentar(cartaSacrificio, pivot);
@@ -272,7 +275,7 @@ namespace fm{
 				cartaPrincipal.Position = new Vector2(-sideOffset, 0);
 				cartaSacrificio.Position = new Vector2(sideOffset, 0);
 
-				if(cartaSacrificio.CurrentID != resultadoFusao.Id)
+				if(cartaSacrificio.carta.Id != resultadoFusao.Id)
 				{
 					Tween spiralTween = CreateTween().SetParallel(true);
 					float duration = 1.2f;
@@ -293,7 +296,7 @@ namespace fm{
 					Tween impact = CreateTween();
 					impact.TweenProperty(cartaPrincipal, "scale", new Vector2(1.5f, 1.5f), 0.1f);
 					impact.TweenProperty(cartaPrincipal, "scale", new Vector2(1.0f, 1.0f), 0.1f);				
-					cartaPrincipal.DisplayCard(resultadoFusao.Id);					
+					cartaPrincipal.Display(resultadoFusao.Id);					
 				}else
 				{
 					float durationSaida = 0.5f;
@@ -312,7 +315,7 @@ namespace fm{
 					cartaPrincipal.Position = Vector2.Zero; // Reseta pro futuro					
 					
 					// Agora a carta de sacrifício assume o posto de principal visualmente
-					cartaPrincipal.DisplayCard(resultadoFusao.Id);
+					cartaPrincipal.Display(resultadoFusao.Id);
 				}
 				
 				Vector2 globalPos = cartaPrincipal.GlobalPosition;
@@ -324,16 +327,16 @@ namespace fm{
 
 				if (i < list3d.Count - 1)
 				{
-					await MoverParaPosicao(cartaPrincipal, screenCenter + new Vector2(-sideOffset, 0), 0f);
+					await MoverParaPosicao(cartaPrincipal, targetGlobalPos + new Vector2(-sideOffset, 0), 0f);
 					await Task.Delay(200);
 				}
 			}
 
-			await MoverParaPosicao(cartaPrincipal, screenCenter, 0f);
+			await MoverParaPosicao(cartaPrincipal, targetGlobalPos, 0f);
 			maoJogador.STOP = false;
 		}
 
-		private async Task MoverParaPosicao(Node2D node, Vector2 targetPos, float targetRotation = 0f)
+		private async Task MoverParaPosicao(Control node, Vector2 targetPos, float targetRotation = 0f)
 		{
 			// var glob = node.GlobalPosition;
 			// node.GlobalPosition = MaoControl.GetHboxPosition(); 
@@ -346,7 +349,7 @@ namespace fm{
 			 .SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.Out);
 			await ToSignal(t, "finished");
 		}
-		private void Reparentar(Node2D node, Node novoPai)
+		private void Reparentar(Control node, Node novoPai)
 		{
 			if (node.GetParent() != null) 
 				node.GetParent().RemoveChild(node);

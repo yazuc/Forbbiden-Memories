@@ -4,7 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://b72wrskajswiv" path="res://Assets/PlayStation - Yu-Gi-Oh! Forbidden Memories - Cards - Cards Frames.png" id="1_l7plw"]
 [ext_resource type="Theme" uid="uid://bqwaean0x2fh3" path="res://Resources/tema_carta_hand.tres" id="1_y1xwf"]
 [ext_resource type="Texture2D" uid="uid://k5dvfn1mkylv" path="res://Assets/database.png" id="2_hvpyv"]
-[ext_resource type="PackedScene" uid="uid://uys23mmogslm" path="res://Carta/CartasBase.tscn" id="5_7u4g5"]
+[ext_resource type="FontFile" uid="uid://leuwbw2cg0ck" path="res://Assets/fontbitmap.png" id="6_2vhmk"]
+[ext_resource type="Texture2D" uid="uid://t6gdeijlbism" path="res://Assets/fusionuptext.png" id="6_y1xwf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hvpyv"]
 atlas = ExtResource("1_l7plw")
@@ -13,6 +14,11 @@ region = Rect2(156.297, 41.5, 139, 197)
 [sub_resource type="AtlasTexture" id="AtlasTexture_f0iew"]
 atlas = ExtResource("2_hvpyv")
 region = Rect2(5.7052994, 5.757942, 100.100075, 94.49647)
+
+[sub_resource type="LabelSettings" id="LabelSettings_tci2w"]
+font = ExtResource("6_2vhmk")
+font_size = 18
+font_color = Color(0.3647059, 0.5137255, 1, 1)
 
 [node name="CardUI" type="Control" unique_id=831441233 node_paths=PackedStringArray("instanciaBase")]
 custom_minimum_size = Vector2(140, 0)
@@ -23,7 +29,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_y1xwf")
 script = ExtResource("1_hclkh")
-instanciaBase = NodePath("CartasBase")
+instanciaBase = NodePath("")
 metadata/_edit_use_anchors_ = true
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=748390909]
@@ -73,5 +79,26 @@ anchor_right = 0.69402397
 anchor_bottom = 0.9539083
 metadata/_edit_use_anchors_ = true
 
-[node name="CartasBase" parent="." unique_id=242195520 instance=ExtResource("5_7u4g5")]
+[node name="FusionUp" type="TextureRect" parent="." unique_id=645418307]
 visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.03512015
+anchor_top = -0.10937501
+anchor_right = 0.2939002
+anchor_bottom = 0.1065341
+texture = ExtResource("6_y1xwf")
+expand_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="LabelNumero" type="Label" parent="." unique_id=1094904586]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.075785585
+anchor_top = -0.07102273
+anchor_right = 0.14972274
+anchor_bottom = 0.011363637
+text = "1"
+label_settings = SubResource("LabelSettings_tci2w")
+metadata/_edit_use_anchors_ = true

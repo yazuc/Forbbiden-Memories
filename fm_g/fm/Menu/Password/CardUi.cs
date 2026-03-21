@@ -7,10 +7,10 @@ public partial class CardUi : Control
 {
 
 	public PackedScene Cartasbase = GD.Load<PackedScene>("res://Carta/CartasBase.tscn");
-	[Export] public CartasBase instanciaBase;
 	public Godot.Label ATK {get;set;}
 	public Godot.Label DEF {get;set;}
 	public Godot.Label Name {get;set;}
+	public Label label {get;set;}
 	public int index = -1;
 	public int lastIndex = 0;
 	int framePos = 1;
@@ -22,7 +22,7 @@ public partial class CardUi : Control
 	float offSetX = 107;
 	float offSetY = 101;
 	public Cards carta {get;set;}
-
+	public TextureRect FusionUp {get;set;}
 	public TextureRect CartaArte {get;set;}
 	public TextureRect CartaFrame {get;set;}
 	// Called when the node enters the scene tree for the first time.
@@ -35,18 +35,11 @@ public partial class CardUi : Control
 		DEF = GetNode<Label>("DEF");
 		Name = GetNode<Label>("Name");
 		Display(index);
-		if(IsInstanceValid(instanciaBase))
-			instanciaBase.DisplayCard(index);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-	}
-
-	public void GenerateBase()
-	{
-		instanciaBase.DisplayCard(lastIndex);
 	}
 
 	public void DisplayByCode(string code)
@@ -85,8 +78,8 @@ public partial class CardUi : Control
 			//GenerateBase();
 			if(framePos == 1)
 			{
-				DEF.Text = "DEF: " + card.Defense.ToString();
-				ATK.Text = "ATK: " + card.Attack.ToString();				
+				DEF.Text = "DEF " + card.Defense.ToString();
+				ATK.Text = "ATK " + card.Attack.ToString();				
 			}
 
 			CartaArte.Visible = true;
@@ -118,6 +111,21 @@ public partial class CardUi : Control
 			CartaArteLocal.Texture = atlas;
 		}		
 	}
+
+	public void SetNumeroFusao(int numero) 
+	{
+		label = GetNode<Label>("LabelNumero"); 
+		FusionUp = GetNode<TextureRect>("FusionUp");
+		label.Text = numero > 0 ? numero.ToString() : "";
+		label.Visible = numero > 0;			
+		FusionUp.Visible = label.Visible;	
+	}
+	public void EscondeLabel()
+	{
+		label.Visible = false;
+		FusionUp.Visible = false;
+	}
+
 	public void CalculaFlip(bool flip)
 	{
 		var framelocal = !flip ? framePos : 0;		

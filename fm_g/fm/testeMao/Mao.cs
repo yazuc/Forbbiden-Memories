@@ -113,11 +113,6 @@ public partial class Mao : Control
         if (index < 0 || index >= CartasInstanciadas.Count) return null;
         return CartasInstanciadas[index];
     }
-	public CartasBase? GetCartaBase(int index)
-    {
-        if (index < 0 || index >= CartasInstanciadas.Count) return null;		
-        return CartasInstanciadas[index].instanciaBase;
-    }
 
 	public void AnimateInterface(bool sobe = false)
 	{		

@@ -27,7 +27,7 @@ namespace fm{
 		public int _indiceSelecionado = 0;	
 		public int _indiceCampoSelecionado = 0;		
 		private bool _selecionandoLocal = false; // Estado para saber se estamos escolhendo onde colocar a carta
-		private List<CartasBase> _cartasSelecionadasParaFusao = new List<CartasBase>();
+		private List<CardUi> _cartasSelecionadasParaFusao = new List<CardUi>();
 		private List<Node3D> _cartasInstanciadas = new List<Node3D>();
 		private bool _processandoInput = false;		
 		public List<int> IDFusao = new List<int>();
@@ -61,7 +61,11 @@ namespace fm{
 
 		public async override void _Process(double delta)
 		{			
-			 if (!_processandoInput && !STOP)
+			float speed = 8.0f;
+			Vector2 newScale = Scale;
+			newScale.Y = Mathf.Sin(Time.GetTicksMsec() * 0.001f * speed);
+			IndicadorTriangulo.Scale = newScale;
+			if (!_processandoInput && !STOP)
 			{
 				ExecutarNavegacao();
 			}			
@@ -101,20 +105,20 @@ namespace fm{
 				if(!STOP){
 					if (Input.IsActionJustPressed("ui_up")) 
 					{
-						_anim.AlternarSelecaoFusao(MaoControl.GetCartaBase(_indiceSelecionado));
+						_anim.AlternarSelecaoFusao(MaoControl.GetCarta(_indiceSelecionado));
 					}					
 					if (Input.IsActionJustPressed("ui_accept")) 
 					{
 						await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 						if (_cartasSelecionadasParaFusao.Count == 0)
 						{
-							_cartasSelecionadasParaFusao.Add(MaoControl.GetCartaBase(_indiceSelecionado));
+							_cartasSelecionadasParaFusao.Add(MaoControl.GetCarta(_indiceSelecionado));
 						}
 						try 
 						{
 							// O await vai "explodir" aqui se TrySetCanceled for chamado
 							var alvo = _cartasSelecionadasParaFusao.FirstOrDefault();
-							IsFaceDown = await _anim.AnimaCartaParaCentro(this,alvo.CurrentID, alvo.Name, _indiceSelecionado);							
+							IsFaceDown = await _anim.AnimaCartaParaCentro(this,alvo.carta.Id, alvo.carta.Name, _indiceSelecionado);							
 							GD.Print("Facedown confirmado: " + IsFaceDown);
 							await EntrarModoSelecaoCampo();
 						}
@@ -124,7 +128,7 @@ namespace fm{
 							GD.Print("Ação cancelada pelo usuário.");
 							
 							if (_cartasSelecionadasParaFusao.Any()) {
-								await _anim.AnimaCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID, _cartasSelecionadasParaFusao.FirstOrDefault().Name, _indiceSelecionado, true);
+								await _anim.AnimaCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().carta.Id, _cartasSelecionadasParaFusao.FirstOrDefault().carta.Name, _indiceSelecionado, true);
 							}
 						}
 					}
@@ -153,12 +157,12 @@ namespace fm{
 		private async Task EntrarModoSelecaoCampo()
 		{
 			if(_cartasSelecionadasParaFusao.Count() == 1)
-				await _anim.AnimaCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID, _cartasSelecionadasParaFusao.FirstOrDefault().Name, _indiceSelecionado);
+				await _anim.AnimaCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().carta.Id, _cartasSelecionadasParaFusao.FirstOrDefault().carta.Name, _indiceSelecionado);
 			_selecionandoLocal = true;
 			_indiceCampoSelecionado = 0; // Começa no primeiro slot								
 			if (_instanciaSeletor != null)
 			{				
-				AtualizarPosicaoSeletor3D(SlotsCampo, _cartasSelecionadasParaFusao.FirstOrDefault().CurrentID);
+				AtualizarPosicaoSeletor3D(SlotsCampo, _cartasSelecionadasParaFusao.FirstOrDefault().carta.Id);
 				_instanciaSeletor.Visible = true;
 				await Tools.TransitionTo(CameraField, 0.5f, _transitionCam, STOP);
 			}
@@ -168,7 +172,7 @@ namespace fm{
 		{
 						
 			if (_cartasSelecionadasParaFusao.Any() && _cartasSelecionadasParaFusao.Count() == 1) {
-				await _anim.AnimaCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID, _cartasSelecionadasParaFusao.FirstOrDefault().Name, _indiceSelecionado, true);
+				await _anim.AnimaCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().carta.Id, _cartasSelecionadasParaFusao.FirstOrDefault().carta.Name, _indiceSelecionado, true);
 			}			
 						
 			_cartasSelecionadasParaFusao.Clear();
@@ -188,7 +192,7 @@ namespace fm{
 
 			if (anterior != _indiceCampoSelecionado)
 			{
-				AtualizarPosicaoSeletor3D(SlotsCampo, _cartasSelecionadasParaFusao.FirstOrDefault().CurrentID);
+				AtualizarPosicaoSeletor3D(SlotsCampo, _cartasSelecionadasParaFusao.FirstOrDefault().carta.Id);
 			}
 		}		
 						
@@ -229,11 +233,11 @@ namespace fm{
 				
 				var slotDestino = SlotsCampo[_indiceCampoSelecionado];
 				if(_cartasSelecionadasParaFusao.Count() == 1){
-					slotDestino = DefineSlotagem(PegaTipoPorId(_cartasSelecionadasParaFusao.FirstOrDefault().CurrentID))[_indiceCampoSelecionado];				
+					slotDestino = DefineSlotagem(PegaTipoPorId(_cartasSelecionadasParaFusao.FirstOrDefault().carta.Id))[_indiceCampoSelecionado];				
 				}				
 				if(_cartasSelecionadasParaFusao.Count() > 1)
 				{
-					var tipo = PegaTipoPorId(_cartasSelecionadasParaFusao.LastOrDefault().CurrentID);
+					var tipo = PegaTipoPorId(_cartasSelecionadasParaFusao.LastOrDefault().carta.Id);
 					slotDestino = DefineSlotagem(tipo)[_indiceCampoSelecionado];				
 					summon = tipo != CardTypeEnum.Spell && tipo != CardTypeEnum.Trap && tipo != CardTypeEnum.Equipment;
 				}
@@ -295,7 +299,7 @@ namespace fm{
 			{				
 				var carta = MaoControl.GetCarta(_indiceSelecionado);
 				Vector2 cardPos = carta?.GlobalPosition ?? Vector2.Zero;
-				Vector2 targetPos = cardPos + new Vector2(-10, 210);
+				Vector2 targetPos = cardPos + new Vector2(-10, 180);
 				IndicadorTriangulo.ZIndex = 10;			
 				Tween tween = GetTree().CreateTween();
 				tween.TweenProperty(IndicadorTriangulo, "position", targetPos, 0.01f)

@@ -9,4 +9,4 @@ Label/colors/font_outline_color = Color(0, 0, 0, 1)
 Label/constants/outline_size = 3
 Label/constants/shadow_offset_x = 0
 Label/constants/shadow_outline_size = 6
-Label/font_sizes/font_size = 16
+Label/font_sizes/font_size = 15
