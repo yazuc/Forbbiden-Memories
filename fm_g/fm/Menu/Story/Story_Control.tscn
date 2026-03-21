@@ -83,7 +83,7 @@ texture_filter = 5
 position = Vector2(352.00003, 341.52347)
 scale = Vector2(3.9333336, 3.9613724)
 sprite_frames = ExtResource("7_rwlpc")
-animation = &"villager1"
+animation = &"simon"
 
 [node name="Cena" type="VBoxContainer" parent="." unique_id=539279739]
 layout_mode = 1

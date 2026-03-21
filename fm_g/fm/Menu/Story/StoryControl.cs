@@ -55,9 +55,9 @@ public partial class StoryControl : Control
 		}
 		else
 		{	
-			GlobalUsings.Instance.FadeToBlack(0.8f, "res://Scenes/game.tscn", this);
+			GlobalUsings.Instance.FadeToBlack(0.8f, GlobalUsings.Instance.Duelo, this);
 			GlobalUsings.Instance.DeckIndex = 8;	
-			QueueFree();				
+			//QueueFree();				
 		}
 	}
 
