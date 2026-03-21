@@ -62,8 +62,11 @@ namespace fm
 			int frameIndex = cardData.Id - 1; 
 
 			// Define a animação (geralmente "default") e o frame correto
-			_arteSprite.Animation = "default";
-			_arteSprite.Frame = frameIndex;
+			if(_arteSprite != null)
+			{
+				_arteSprite.Animation = "default";
+				_arteSprite.Frame = frameIndex;				
+			}
 			if(!Facedown){
 				_nome.Text = cardData.Name;
 				if(FixType(cardData.Type) == "Monstro"){

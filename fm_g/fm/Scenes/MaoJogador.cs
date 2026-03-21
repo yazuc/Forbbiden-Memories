@@ -301,8 +301,8 @@ namespace fm{
 				tween.TweenProperty(IndicadorTriangulo, "position", targetPos, 0.01f)
 					 .SetTrans(Tween.TransitionType.Quad)
 					 .SetEase(Tween.EaseType.Out);
-				if(carta != null)
-					MaoControl.DefineInfo(carta.Carta);
+				if(carta != null && carta.carta != null)
+					MaoControl.DefineInfo(carta.carta);
 			}
 		}
 

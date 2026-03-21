@@ -79,6 +79,7 @@ namespace fm
 
 		// Fetch a specific card by ID (Much faster than LINQ on a List)
 		public Cards? GetCardById(int id) => _database?.Table<Cards>().FirstOrDefault(c => c.Id == id);
+		public Cards? GetCardByCode(string Code) => _database?.Table<Cards>().FirstOrDefault(c => c.CardCode == Code);
 		public new List<Cards> GetDeckByNpcId(int id)
 		{
 			var list_card = _database?.Table<NpcDeck>().Where(c => c.NpcId == id).Take(40).Select(x => x.CardId).ToList();
