@@ -8,6 +8,7 @@ character: ...Have you no shame!? Quite frankly, I'm embarrassed!
 - Run away
 	do GlobalUsings.GoBackOverworld(0.8)
 	[clear time="1.0"]
+	[end_timeline]
 - Keep listening
 	jump timeline/KeepL
 label KeepL
@@ -15,6 +16,7 @@ character: I realize I'm to blame for teaching you the card game... But you over
 - Run away
 	do GlobalUsings.GoBackOverworld(0.8)
 	[clear time="1.0"]
+	[end_timeline]
 - Keep listening
 	jump timeline/KeepL2
 label KeepL2
@@ -22,6 +24,7 @@ character: It is high time you put aside this ridiculous pastime and focus on yo
 - Run away
 	do GlobalUsings.GoBackOverworld(0.8)
 	[clear time="1.0"]
+	[end_timeline]
 - Keep listening
 	jump timeline/KeepL3
 label KeepL3

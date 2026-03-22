@@ -26,7 +26,7 @@ public partial class World : Node3D
 	{
 		if(points.Count == 0) return;
 		changePos(index);
-		if (Input.IsActionJustPressed("ui_accept"))
+		if (Input.IsActionJustReleased("ui_accept"))
 		{
 			// SetProcess(false);
 			// Visible = false;
