@@ -58,11 +58,11 @@ public partial class World : Node3D
 	private async Task HandleAccept()
 	{
 		SetProcess(false);
-		//Visible = false;
 
 		DefineBackground(points[index].Name);
 
 		await GlobalUsings.Instance.FadeToBlack(0.5f, GlobalUsings.Instance.Story, this);
+		Visible = false;
 	}
 
 

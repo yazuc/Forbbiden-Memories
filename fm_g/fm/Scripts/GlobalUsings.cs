@@ -124,25 +124,25 @@ public partial class GlobalUsings : Node
 
 	public void PopulateDialogue()
 	{
-		Dialogue.Add("My dear prince! Are you going to the city to play cards again!?");		
-		Dialogue.Add("You are of royal blood! Walking the city streets dressed as a commoner......Have you no shame!?");
-		Dialogue.Add("Quite frankly, I'm embarrassed!");
-		Dialogue.Add("<Run away>");
-		Dialogue.Add("<Keep listening>");
-		Dialogue.Add("The Pharaoh has gotten wind of your activities...And he's quite concerned!");
-		Dialogue.Add("<Run away>");
-		Dialogue.Add("<Keep listening>");
-		Dialogue.Add("I realize I'm to blame for teaching you the card game...But you overindulge, my prince!");
-		Dialogue.Add("<Run away>");
-		Dialogue.Add("<Keep listening>");
-		Dialogue.Add("It is high time you put aside this ridiculous pastime and focus on your studies.");
-		Dialogue.Add("<Run away>");
-		Dialogue.Add("<Keep listening>");
-		Dialogue.Add("It is wrong to worry the Pharaoh and the Queen so much! Please, dear Prince... Return to your room.");
-		Dialogue.Add("Wait! Stop, my prince!");
-		Dialogue.Add("Drat!");
-		Dialogue.Add("He's gone...");
-		Dialogue.Add("Prince Username.");
+		// Dialogue.Add("My dear prince! Are you going to the city to play cards again!?");		
+		// Dialogue.Add("You are of royal blood! Walking the city streets dressed as a commoner......Have you no shame!?");
+		// Dialogue.Add("Quite frankly, I'm embarrassed!");
+		// Dialogue.Add("<Run away>");
+		// Dialogue.Add("<Keep listening>");
+		// Dialogue.Add("The Pharaoh has gotten wind of your activities...And he's quite concerned!");
+		// Dialogue.Add("<Run away>");
+		// Dialogue.Add("<Keep listening>");
+		// Dialogue.Add("I realize I'm to blame for teaching you the card game...But you overindulge, my prince!");
+		// Dialogue.Add("<Run away>");
+		// Dialogue.Add("<Keep listening>");
+		// Dialogue.Add("It is high time you put aside this ridiculous pastime and focus on your studies.");
+		// Dialogue.Add("<Run away>");
+		// Dialogue.Add("<Keep listening>");
+		// Dialogue.Add("It is wrong to worry the Pharaoh and the Queen so much! Please, dear Prince... Return to your room.");
+		// Dialogue.Add("Wait! Stop, my prince!");
+		// Dialogue.Add("Drat!");
+		// Dialogue.Add("He's gone...");
+		Dialogue.Add("Prince Leozin.");
 		Dialogue.Add("You've returned...");
 		Dialogue.Add("It is well into the night...");
 		Dialogue.Add("Please return to the palace.");
