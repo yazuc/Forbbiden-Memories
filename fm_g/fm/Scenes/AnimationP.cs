@@ -132,6 +132,7 @@ namespace fm{
 				 .SetEase(Tween.EaseType.Out);
 			await ToSignal(tween, "finished");
 			nodoAlvo.Reparent(MaoControl.Hbox);
+			MaoControl.Hbox.MoveChild(nodoAlvo, _indiceSelecionado);
 			if(cancel)
 				_cartasSelecionadasParaFusao.Clear();
 			//lastPos = Vector2.Zero;
