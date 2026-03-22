@@ -21,6 +21,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+ratio = 1.1
 stretch_mode = 1
 alignment_horizontal = 0
 alignment_vertical = 0

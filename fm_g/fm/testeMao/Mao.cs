@@ -6,15 +6,18 @@ public partial class Mao : Control
 {
 	public PackedScene CartaCena = GD.Load<PackedScene>("res://Carta/CartasBase.tscn");
 	public PackedScene CartaControl = GD.Load<PackedScene>("res://testeMao/CartaControl.tscn");
+	public PackedScene CardUI = GD.Load<PackedScene>("res://Menu/Password/card_ui.tscn");
 	public List<int> CartasNaMao = new List<int>();
-	private List<CartaControl> CartasInstanciadas = new();
+	private List<CardUi> CartasInstanciadas = new();
 	[Export] private TextureRect InterfaceDuelo {get;set;}
 	[Export] private AnimationP animationPlayer {get;set;}
 	public HBoxContainer Hbox {get;set;}
 	public InformacaoCarta HboxCardInfo {get;set;}
+	public CartasBase PreloadedCard;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		PreloadedCard = CartaCena.Instantiate<CartasBase>();
 		Hbox = GetNode<HBoxContainer>("HBoxContainer");
 		HboxCardInfo = GetNode<InformacaoCarta>("../InformacaoCarta");
 		if(CartasNaMao.Count > 0)
@@ -27,8 +30,9 @@ public partial class Mao : Control
 		LimpaMao(Hbox);
 		foreach(var item in CartasNaMaoLocal)
 		{
-			var cartaControlada = CartaControl.Instantiate<CartaControl>();
-			cartaControlada.ID = item;
+			var cartaControlada = CardUI.Instantiate<CardUi>();
+			cartaControlada.index = item;
+			cartaControlada.Theme = GD.Load<Theme>("res://Resources/tema_carta_hand.tres");
 			Hbox.AddChild(cartaControlada);	
 			CartasInstanciadas.Add(cartaControlada);
 		}
@@ -46,8 +50,8 @@ public partial class Mao : Control
 		
 		for (int i = 0; i < CartasNaMaoLocal.Count; i++)
 		{
-			var carta = CartaControl.Instantiate<CartaControl>();
-			carta.ID = CartasNaMaoLocal[i];
+			var carta = CardUI.Instantiate<CardUi>();
+			carta.index = CartasNaMaoLocal[i];
 			
 			var mod = carta.Modulate;
 			mod.A = 0;
@@ -99,20 +103,15 @@ public partial class Mao : Control
 		return CartasInstanciadas[index].GlobalPosition;
 	}
 	
-	public void DefineInfo(CartasBase carta)
+	public void DefineInfo(QuickType.Cards carta)
 	{
-		HboxCardInfo.DefineRegion(carta.Type, carta.sign, carta.sign1, carta.nome);
+		HboxCardInfo.DefineRegion(carta.Type, (int)carta.GuardianStarA, (int)carta.GuardianStarB, carta.Name);
 	}
 
-	public CartaControl? GetCarta(int index)
+	public CardUi? GetCarta(int index)
     {
         if (index < 0 || index >= CartasInstanciadas.Count) return null;
         return CartasInstanciadas[index];
-    }
-	public CartasBase? GetCartaBase(int index)
-    {
-        if (index < 0 || index >= CartasInstanciadas.Count) return null;
-        return CartasInstanciadas[index].Carta;
     }
 
 	public void AnimateInterface(bool sobe = false)

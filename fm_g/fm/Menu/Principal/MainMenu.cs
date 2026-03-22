@@ -42,6 +42,8 @@ public partial class MainMenu : Control
 			return GlobalUsings.Instance.Freeduel;
 		if(pos == 2)	
 			return GlobalUsings.Instance.Deckeditor;
+		if(pos == 3)
+			return GlobalUsings.Instance.Password;
 
 		return GlobalUsings.Instance.Duelo;
 	}
