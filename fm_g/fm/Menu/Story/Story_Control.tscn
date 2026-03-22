@@ -53,6 +53,7 @@ default_font = ExtResource("45_r4f5f")
 default_font_size = 64
 
 [node name="StoryUI" type="Control" unique_id=898095359 node_paths=PackedStringArray("ChoiceContainer")]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -76,7 +77,7 @@ offset_bottom = 693.0
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(1091, 791)
-render_target_update_mode = 4
+render_target_update_mode = 0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="SubViewportContainer/SubViewport" unique_id=112446890]
 texture_filter = 5
@@ -118,10 +119,9 @@ expand_mode = 2
 [node name="RichTextLabel" type="RichTextLabel" parent="Cena/Dialogo" unique_id=906215223]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.0390625
-anchor_top = 0.23670213
-anchor_right = 0.96000004
-anchor_bottom = 0.84800005
+anchor_top = -0.01025645
+anchor_right = 1.0016667
+anchor_bottom = 0.99703586
 offset_right = 0.79992676
 offset_bottom = 0.15600586
 theme = ExtResource("44_8r4at")
@@ -140,17 +140,18 @@ metadata/_edit_use_anchors_ = true
 texture_filter = 5
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.9231204
-anchor_top = 0.57267416
-anchor_right = 0.9949124
-anchor_bottom = 1.0770217
+anchor_left = 0.89401436
+anchor_top = 0.44290325
+anchor_right = 0.96580637
+anchor_bottom = 0.9472507
 script = ExtResource("4_63kk2")
 Sprite = ExtResource("4_61apo")
 metadata/_edit_use_anchors_ = true
 
 [node name="HBoxContainer" type="VBoxContainer" parent="Cena/Dialogo/RichTextLabel" unique_id=2115899601]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
+anchor_top = 0.04419085
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -6.0

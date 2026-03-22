@@ -25,6 +25,7 @@ public partial class GlobalUsings : Node
 	public Deck Deck = new Deck();
 	public List<string> Dialogue = new List<string>();
 	public CardDatabase db = CardDatabase.Instance;
+	public DialogicSingleton dialogic;
 	public bool stop = false;
 	private Stack<Node> _sceneStack = new();
 
@@ -32,6 +33,8 @@ public partial class GlobalUsings : Node
 	public override void _Ready()
 	{
 		Instance = this;
+		dialogic = new DialogicSingleton();
+    	AddChild(dialogic);
 		DeckIndex = 8;
 		PopulateDialogue();		
 		Deck.LoadDeck(Funcoes.LoadUserDeck(ProjectSettings.GlobalizePath(UserDeck)));
@@ -67,12 +70,12 @@ public partial class GlobalUsings : Node
 	}
 
 	public void SceneTransition(string path, Node from = null)
-	{
+	{		
 		var scene = GD.Load<PackedScene>(path);
 		var instance = scene.Instantiate();
 
 		// Hide current scene and push to stack
-		if (from != null && !_sceneStack.Contains(from))
+		if (from != null)
 		{
 			_sceneStack.Push(from);
 
@@ -83,13 +86,13 @@ public partial class GlobalUsings : Node
 			if (from is Control c)
 				c.Visible = false;
 		}
-
+		PrintStackState();
 		GetTree().Root.AddChild(instance);
 		GetTree().CurrentScene = instance;
 		
 	}
 
-	public async Task GoBack()
+	public async Task GoBack(bool pop = false)
 	{
 		GD.Print(_sceneStack.Count());
 		if (_sceneStack.Count == 0)
@@ -101,7 +104,8 @@ public partial class GlobalUsings : Node
 		if (current != null)
 			current.QueueFree();
 
-		var previous = _sceneStack.Pop();
+		PrintStackState();
+		var previous = pop ? _sceneStack.Peek() : _sceneStack.Pop();
 		GD.Print(previous.Name);
 
 		if (previous != null)
@@ -119,8 +123,42 @@ public partial class GlobalUsings : Node
 		}
 	}
 
+	public void PrintStackState()
+	{
+		GD.Print("--- ESTADO DA PILHA (Topo para Fundo) ---");
+		if (_sceneStack.Count == 0)
+		{
+			GD.Print("Pilha Vazia");
+			return;
+		}
 
+		int index = 0;
+		foreach (Node node in _sceneStack)
+		{
+			// Imprime o índice, o nome do nó e o tipo da classe
+			GD.Print($"{index}: Nome: {node.Name} | Tipo: {node.GetType().Name}");
+			index++;
+		}
+		GD.Print("---------------------------------------");
+	}
 
+	public void IniciarDialogoNoMundo(string timelinePath)
+	{
+		// 1. Pegamos o World (Cena de exploração)
+		var worldNode = GetTree().CurrentScene;
+		
+		// 2. Salvamos o World na Stack e carregamos a cena de Story/Dialogic
+		// Isso garante que o 'World' esteja no topo da pilha
+		SceneTransition(Story, worldNode);
+
+		// 3. Iniciamos a conversa dentro da nova cena carregada
+		dialogic.StartConversation(timelinePath);
+	}
+
+	public void GoBackOverworld(float tempo)
+	{
+		_ = GoBack(true);
+	}
 
 	public void PopulateDialogue()
 	{

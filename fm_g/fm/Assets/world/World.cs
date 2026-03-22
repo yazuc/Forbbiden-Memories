@@ -61,8 +61,9 @@ public partial class World : Node3D
 
 		DefineBackground(points[index].Name);
 
-		await GlobalUsings.Instance.FadeToBlack(0.5f, GlobalUsings.Instance.Story, this);
-		Visible = false;
+		GlobalUsings.Instance.IniciarDialogoNoMundo("res://Resources/dialogo-simon.dtl");
+		//await GlobalUsings.Instance.FadeToBlack(0.5f, GlobalUsings.Instance.Story, this);
+		//Visible = false;
 	}
 
 

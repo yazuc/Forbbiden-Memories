@@ -1,0 +1,109 @@
+[gd_scene format=3 uid="uid://3wp2qqd6sxe5"]
+
+[ext_resource type="Script" uid="uid://c8d470kti274h" path="res://addons/dialogic/Resources/dialogic_layout_layer.gd" id="1_drexw"]
+[ext_resource type="Script" uid="uid://djbg8sc0q67ow" path="res://addons/dialogic/Modules/Character/dialogic_portrait.gd" id="2_3vr2h"]
+[ext_resource type="Script" uid="uid://blsjcvm6gvd78" path="res://addons/dialogic/Modules/Background/dialogic_background.gd" id="2_4xtja"]
+[ext_resource type="Script" uid="uid://drhfq6rmdeuri" path="res://addons/dialogic/Modules/Text/node_dialog_text.gd" id="2_hwnuo"]
+[ext_resource type="Script" uid="uid://cbwisirnxfqtm" path="res://addons/dialogic/Editor/Events/event_field.gd" id="2_qs0ig"]
+[ext_resource type="Script" uid="uid://oxcjhq2817c7" path="res://addons/dialogic/Modules/Background/node_background_holder.gd" id="2_ye81g"]
+[ext_resource type="Script" uid="uid://d0ptqnbudhkyj" path="res://addons/dialogic/Modules/Character/node_portrait_container.gd" id="3_qwbwh"]
+[ext_resource type="FontFile" uid="uid://leuwbw2cg0ck" path="res://Assets/fontbitmap.png" id="3_yx0on"]
+[ext_resource type="Texture2D" uid="uid://vr75oym7kyp2" path="res://Assets/dialog_box.png" id="5_nhywd"]
+[ext_resource type="Script" uid="uid://ckblurnjla80i" path="res://addons/dialogic/Editor/CharacterEditor/character_editor_portrait_settings_section.gd" id="6_qwbwh"]
+[ext_resource type="Script" uid="uid://20ocg0kp27tv" path="res://HUD/ButtonText.cs" id="6_ye81g"]
+[ext_resource type="SpriteFrames" uid="uid://b83rmn818joj6" path="res://Resources/button.res" id="7_4xtja"]
+
+[node name="Control" type="Node" unique_id=815227644]
+editor_description = "texte"
+script = ExtResource("1_drexw")
+metadata/_custom_type_script = "uid://c8d470kti274h"
+
+[node name="DialogicBackground" type="Node" parent="." unique_id=1148351405]
+script = ExtResource("2_4xtja")
+metadata/_custom_type_script = "uid://blsjcvm6gvd78"
+
+[node name="DialogicNode_BackgroundHolder" type="ColorRect" parent="DialogicBackground" unique_id=24329229]
+z_index = -5
+anchors_preset = -1
+anchor_right = 1.003125
+anchor_bottom = 0.65092593
+script = ExtResource("2_ye81g")
+metadata/_custom_type_script = "uid://oxcjhq2817c7"
+metadata/_edit_use_anchors_ = true
+
+[node name="DialogicPortrait" type="Node" parent="." unique_id=227007919]
+script = ExtResource("2_3vr2h")
+metadata/_custom_type_script = "uid://djbg8sc0q67ow"
+
+[node name="DialogicNode_PortraitContainer" type="Control" parent="DialogicPortrait" unique_id=976139167]
+z_index = 5
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_qwbwh")
+container_ids = PackedStringArray("1")
+metadata/_custom_type_script = "uid://d0ptqnbudhkyj"
+
+[node name="DialogicCharacterEditorPortraitSection" type="Control" parent="DialogicPortrait" unique_id=152379952]
+z_index = 5
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("6_qwbwh")
+metadata/_custom_type_script = "uid://ckblurnjla80i"
+
+[node name="DialogicVisualEditorField" type="Control" parent="." unique_id=359867836]
+layout_mode = 3
+anchor_right = 0.33
+anchor_bottom = 0.40100002
+offset_right = 15.399963
+offset_bottom = 1.9199829
+script = ExtResource("2_qs0ig")
+metadata/_custom_type_script = "uid://cbwisirnxfqtm"
+
+[node name="Dialogo" type="TextureRect" parent="." unique_id=553540098]
+texture_filter = 5
+clip_contents = true
+layout_direction = 1
+anchors_preset = -1
+anchor_top = 0.6481481
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+texture = ExtResource("5_nhywd")
+expand_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="ButtonText" type="TextureRect" parent="Dialogo" unique_id=963086507]
+texture_filter = 5
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.89401436
+anchor_top = 0.44290325
+anchor_right = 0.96580637
+anchor_bottom = 0.9472507
+offset_left = 0.89401436
+offset_top = 0.0690955
+offset_right = 0.89401436
+offset_bottom = 0.0690955
+script = ExtResource("6_ye81g")
+Sprite = ExtResource("7_4xtja")
+metadata/_edit_use_anchors_ = true
+
+[node name="DialogicNode_DialogText" type="RichTextLabel" parent="." unique_id=2145779501]
+anchors_preset = -1
+anchor_left = 0.047395833
+anchor_top = 0.73425925
+anchor_right = 0.95416665
+anchor_bottom = 0.9222222
+offset_top = 10.0
+offset_bottom = 10.0
+theme_override_fonts/normal_font = ExtResource("3_yx0on")
+theme_override_font_sizes/normal_font_size = 48
+script = ExtResource("2_hwnuo")
+metadata/_custom_type_script = "uid://drhfq6rmdeuri"
+metadata/_edit_use_anchors_ = true
