@@ -34,7 +34,7 @@ public partial class Password : Control
 		}
 	}
 
-	public override void _Input(InputEvent e)
+	public override async void _Input(InputEvent e)
 	{
 		if (e.IsActionPressed("ui_right"))
 		{
@@ -60,8 +60,7 @@ public partial class Password : Control
 				ResetPassword();
 			else
 			{
-				GlobalUsings.Instance.FadeToWhite(0.3f, GetTree().CurrentScene);
-				QueueFree();
+				await GlobalUsings.Instance.GoBack();				
 			}
 
 		}

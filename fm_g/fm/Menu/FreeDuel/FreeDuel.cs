@@ -10,22 +10,27 @@ public partial class FreeDuel : Control
 	private int _currentIndex = 0;
 	private int _columns;
 	private float _inputTimer = 0.0f;
+	public string Creator;
 	[Export] public float InputDelay = 0.15f; // Velocidade da repetição
 
 	private Tween _selectorTween;
 	
-	public override void _Input(InputEvent @event)
+	public override async void _Input(InputEvent @event)
 	{
-		if (@event.IsActionPressed("ui_accept"))
+		if (@event.IsActionReleased("ui_accept"))
 		{
 			GlobalUsings.Instance.DeckIndex = _currentIndex;
-			GlobalUsings.Instance.FadeToBlack(0.3f, GlobalUsings.Instance.Duelo, this);
+			if(GlobalUsings.Instance.DeckIndex > 0)
+				await GlobalUsings.Instance.FadeToBlack(0.3f, GlobalUsings.Instance.Duelo, GetTree().CurrentScene);			
+			else
+				await GlobalUsings.Instance.FadeToBlack(0.3f, GlobalUsings.Instance.Deckeditor, GetTree().CurrentScene);
 			//GetTree().ChangeSceneToFile("res://Scenes/game.tscn");
 		}
 		if (@event.IsActionReleased("ui_cancel"))
 		{
-			GlobalUsings.Instance.FadeToWhite(0.3f, GetTree().CurrentScene);
-			Free();
+			await GlobalUsings.Instance.GoBack();
+			// GlobalUsings.Instance.FadeToWhite(0.3f, GetTree().CurrentScene);
+			// Free();
 		}
 	}
 

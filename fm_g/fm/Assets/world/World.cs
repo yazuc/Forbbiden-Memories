@@ -22,16 +22,17 @@ public partial class World : Node3D
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	public override async void _Process(double delta)
 	{
 		if(points.Count == 0) return;
 		changePos(index);
 		if (Input.IsActionJustPressed("ui_accept"))
 		{
-			SetProcess(false);
-			Visible = false;
-			DefineBackground(points[index].Name);			
-			GetTree().ChangeSceneToPacked(scene);
+			// SetProcess(false);
+			// Visible = false;
+			// DefineBackground(points[index].Name);	
+			// GlobalUsings.Instance.FadeToBlack(0.3f, GlobalUsings.Instance.Story, this);					
+			await HandleAccept();			
 		}
 		
 		if (Input.IsActionJustPressed("ui_up"))
@@ -48,10 +49,22 @@ public partial class World : Node3D
 
 		if (Input.IsActionJustPressed("ui_cancel"))
 		{
-			GlobalUsings.Instance.FadeToWhite(0.3f, GetTree().CurrentScene);
-			Free();			
+			await GlobalUsings.Instance.GoBack();
+			// GlobalUsings.Instance.FadeToWhite(0.3f, GetTree().CurrentScene);
+			// Free();			
 		}
 	}
+
+	private async Task HandleAccept()
+	{
+		SetProcess(false);
+		//Visible = false;
+
+		DefineBackground(points[index].Name);
+
+		await GlobalUsings.Instance.FadeToBlack(0.5f, GlobalUsings.Instance.Story, this);
+	}
+
 
 	void Move(Vector3 direction)
 	{

@@ -34,7 +34,7 @@ namespace fm
 		}
 
 		// Called every frame. 'delta' is the elapsed time since the previous frame.
-		public override void _Process(double delta)
+		public override async void _Process(double delta)
 		{
 			MoveSelector(j);
 			if(Input.IsActionJustPressed("ui_down"))
@@ -49,11 +49,12 @@ namespace fm
 			}
 			if (Input.IsActionJustReleased("ui_cancel"))
 			{
-				GlobalUsings.Instance.FadeToWhite(0.3f, GetTree().CurrentScene);
-				var node = GetTree().Root.FindChild("DeckEditor", true, false);
+				await GlobalUsings.Instance.GoBack();
+				// GlobalUsings.Instance.FadeToWhite(0.3f, GetTree().CurrentScene);
+				// var node = GetTree().Root.FindChild("DeckEditor", true, false);
 
-				if (node != null)
-					node.QueueFree();
+				// if (node != null)
+				// 	node.QueueFree();
 			}
 		}	
 

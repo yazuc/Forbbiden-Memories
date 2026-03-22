@@ -26,6 +26,8 @@ public partial class GlobalUsings : Node
 	public List<string> Dialogue = new List<string>();
 	public CardDatabase db = CardDatabase.Instance;
 	public bool stop = false;
+	private Stack<Node> _sceneStack = new();
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -41,22 +43,11 @@ public partial class GlobalUsings : Node
 	{
 	}
 
-	public void FadeToBlack(float tempo, string path, Node obj)
+	public async Task FadeToBlack(float tempo, string path, Node obj)
 	{
-		var tween = CreateTween();
-			tween.TweenProperty(obj,"modulate", Colors.Black, tempo);		
-			tween.Finished += () =>
-			{
-				if(obj is Control menu)
-				{
-					
-					obj.SetProcess(false);
-					obj.SetProcessInput(false);
-					obj.SetProcessUnhandledInput(false);
-					menu.Visible = false;					
-				}
-				SceneTransition(path);
-			};
+		await ScreenTransition.Instance.FadeOut(0.5f);
+		SceneTransition(path, obj);
+		await ScreenTransition.Instance.FadeIn(0.5f);
 	}
 	public void FadeToWhite(float tempo, Node obj)
 	{
@@ -75,13 +66,60 @@ public partial class GlobalUsings : Node
 			tween.TweenProperty(obj,"modulate", Colors.White, tempo);		
 	}
 
-	public void SceneTransition(string path)
+	public void SceneTransition(string path, Node from = null)
 	{
 		var scene = GD.Load<PackedScene>(path);
 		var instance = scene.Instantiate();
 
+		// Hide current scene and push to stack
+		if (from != null && !_sceneStack.Contains(from))
+		{
+			_sceneStack.Push(from);
+
+			from.SetProcess(false);
+			from.SetProcessInput(false);
+			from.SetProcessUnhandledInput(false);
+
+			if (from is Control c)
+				c.Visible = false;
+		}
+
 		GetTree().Root.AddChild(instance);
+		GetTree().CurrentScene = instance;
+		
 	}
+
+	public async Task GoBack()
+	{
+		GD.Print(_sceneStack.Count());
+		if (_sceneStack.Count == 0)
+			return;
+		await ScreenTransition.Instance.FadeOut(0.5f);
+
+		var current = GetTree().CurrentScene;
+
+		if (current != null)
+			current.QueueFree();
+
+		var previous = _sceneStack.Pop();
+		GD.Print(previous.Name);
+
+		if (previous != null)
+		{
+			previous.SetProcess(true);
+			previous.SetProcessInput(true);
+			previous.SetProcessUnhandledInput(true);
+
+			if (previous is Control c)
+				c.Visible = true;
+			if (previous is MainMenu menu)
+				menu.textureButtons[0].GrabFocus();
+			
+			await ScreenTransition.Instance.FadeIn(0.5f);
+		}
+	}
+
+
 
 
 	public void PopulateDialogue()

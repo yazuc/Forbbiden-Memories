@@ -77,8 +77,8 @@ namespace fm
 			{
 				GD.Print("Game is already over after while loop!");
 				await MaoDoJogador.Tools.TransitionTo(CameraHand, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);
-				//RotateCameraPivot180Slow();				
-				GlobalUsings.Instance.SceneTransition(GlobalUsings.Instance.Story);		
+				RotateCameraPivot180Slow();				
+				//GlobalUsings.Instance.SceneTransition(GlobalUsings.Instance.Story);		
 			}
 		}
 
