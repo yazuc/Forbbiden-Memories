@@ -12,7 +12,7 @@ namespace fm
 		// Called when the node enters the scene tree for the first time.
 		public override void _Ready()
 		{
-			texture = GD.Load<Texture2D>("res://Assets/COM_active.png");
+			texture = GD.Load<Texture2D>("res://assets/COM_active.png");
 		}
 
 		// Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -34,7 +34,7 @@ namespace fm
 			// 1. Instanciar Database
 			var db = CardDatabase.Instance;
 			//db.SyncJsonToDatabase("cards.json"); // Load cards from JSON into the database if not already loaded
-			//db.ImportAllNpcs("res://Assets/npcs");
+			//db.ImportAllNpcs("res://assets/npcs");
 			// 2. Carregar Deck e Carta
 			var deckIni = new Deck();
 			// Certifique-se que o caminho do arquivo está acessível pelo Godot

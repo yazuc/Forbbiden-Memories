@@ -15,7 +15,7 @@
 script = ExtResource("2_dtxva")
 scene = ExtResource("1_ocssk")
 overrides = {
-"global_font": "\"res://Assets/fontbitmap.png\""
+"global_font": "\"res://assets/fontbitmap.png\""
 }
 
 [sub_resource type="Resource" id="Resource_r5pdx"]
@@ -33,10 +33,16 @@ scene = ExtResource("10_ocssk")
 [sub_resource type="Resource" id="Resource_i57oh"]
 script = ExtResource("2_dtxva")
 scene = ExtResource("7_ytojx")
+overrides = {
+"font_custom": "\"res://assets/fontbitmap.png\""
+}
 
 [sub_resource type="Resource" id="Resource_cbyiq"]
 script = ExtResource("2_dtxva")
 scene = ExtResource("8_7nql7")
+overrides = {
+"font_custom": "\"res://assets/fontbitmap.png\""
+}
 
 [sub_resource type="Resource" id="Resource_ffjel"]
 script = ExtResource("2_dtxva")
@@ -60,4 +66,4 @@ layer_info = {
 "16": SubResource("Resource_ffjel"),
 "17": SubResource("Resource_u6smq")
 }
-metadata/_latest_layer = "15"
+metadata/_latest_layer = "14"

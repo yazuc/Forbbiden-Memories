@@ -1,6 +1,6 @@
 [style name="New_File"]
 <Empty Text Event>
-[background arg="res://Assets/background/Background_01_Pointer_F7_05_01_00_.png" fade="0.0"]
+[background arg="res://assets/background/Background_01_Pointer_F7_05_01_00_.png" fade="0.0"]
 join character left [animation="Slide From Left" length="0.7" wait="true" z_index="5"]
 character: My dear prince! Are you going to the city to play cards again!?
 character: You are of royal blood! Walking the city streets dressed as a commoner...
