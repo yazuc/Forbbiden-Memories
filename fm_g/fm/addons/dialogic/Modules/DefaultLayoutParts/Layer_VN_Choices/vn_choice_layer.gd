@@ -82,6 +82,7 @@ func _apply_export_overrides() -> void:
 	layer_theme.set_color(&'font_focus_color', &'Button', text_color_focused)
 
 
+
 	# apply box settings
 	if ResourceLoader.exists(boxes_stylebox_normal):
 		var style_box: StyleBox = load(boxes_stylebox_normal)
@@ -119,6 +120,7 @@ func _apply_export_overrides() -> void:
 
 	for i in range(0, maximum_choices):
 		var new_choice : DialogicNode_ChoiceButton
+
 		if choices_button != null:
 			new_choice = (choices_button.instantiate() as DialogicNode_ChoiceButton)
 		else:

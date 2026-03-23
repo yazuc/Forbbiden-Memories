@@ -160,6 +160,14 @@ public partial class GlobalUsings : Node
 		dialogic.StartConversation(timelinePath);
 	}
 
+	public void IniciarDuelo()
+	{
+		int index = (int)dialogic.GetVariable("DeckIndex");
+		GD.Print(index);
+		DeckIndex = index;
+		_ = FadeToBlack(0.5f, Duelo, this);
+	}
+
 	public void GoBackOverworld(float tempo)
 	{
 		_ = FadeToBlack(0.5f, Mundo, this);		

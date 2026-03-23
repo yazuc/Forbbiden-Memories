@@ -28,9 +28,11 @@ Dialogic="*uid://ds2q0uclmolvu"
 directories/dch_directory={
 "bakura": "res://assets/personagens/bakura.dch",
 "character": "res://assets/character.dch",
-"simon": "res://assets/personagens/simon.dch"
+"simon": "res://assets/personagens/simon.dch",
+"teana": "res://assets/personagens/teana.dch"
 }
 directories/dtl_directory={
+"dueling_grounds_1": "res://Resources/timelines/dueling_grounds_1.dtl",
 "introseq": "res://Resources/timelines/introseq.dtl",
 "timeline": "res://Resources/timeline.dtl"
 }
@@ -74,6 +76,7 @@ audio/channel_defaults={
 }
 }
 variables={
+"DeckIndex": 2,
 "SimonOnce": false
 }
 save/autosave=false

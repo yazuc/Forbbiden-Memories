@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://cot2kdf4fixfw"]
+
+[ext_resource type="Script" uid="uid://bldt7xlfum7ov" path="res://addons/dialogic/Modules/Choice/node_choice_button.gd" id="1_kg023"]
+
+[node name="DialogicNode_ChoiceButton" type="Button" unique_id=610350945]
+alignment = 0
+script = ExtResource("1_kg023")
+metadata/_custom_type_script = "uid://bldt7xlfum7ov"

@@ -28,4 +28,15 @@ public partial class DialogicSingleton : Node
         // variablePath is the name you gave it in the Dialogic Editor
         varSubsystem.Call("set_variable", variablePath, value);
     }
+
+   public Variant GetVariable(string variablePath)
+    {
+        var tree = (SceneTree)Engine.GetMainLoop();
+        var dialogic = tree.Root.GetNode("Dialogic");
+        
+        var varSubsystem = dialogic.GetNode("VAR");
+
+        return varSubsystem.Call("get_variable", variablePath);
+    }
+
 }

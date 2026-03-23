@@ -44,7 +44,7 @@ func _ready() -> void:
 	add_to_group('dialogic_choice_button')
 	shortcut_in_tooltip = false
 	hide()
-	
+		
 	# For players who use a mouse to make choices, mouse hover should grab focus.
 	# Otherwise the auto-focused button will always show a highlighted color when
 	# the mouse cursor is hovering on another button.
