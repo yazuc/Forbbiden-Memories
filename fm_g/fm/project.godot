@@ -32,7 +32,7 @@ directories/dch_directory={
 }
 directories/dtl_directory={
 "introseq": "res://Resources/timelines/introseq.dtl",
-"timeline": "res://Resources/dialogo-simon.dtl"
+"timeline": "res://Resources/timeline.dtl"
 }
 layout/style_directory={
 "New_File": "res://Resources/New_File.tres"
