@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://jlimqnocalmf"]
 
-[ext_resource type="Texture2D" uid="uid://b72wrskajswiv" path="res://Assets/PlayStation - Yu-Gi-Oh! Forbidden Memories - Cards - Cards Frames.png" id="1_ftedm"]
+[ext_resource type="Texture2D" uid="uid://b72wrskajswiv" path="res://assets/PlayStation - Yu-Gi-Oh! Forbidden Memories - Cards - Cards Frames.png" id="1_ftedm"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_csnav"]
 diffuse_texture = ExtResource("1_ftedm")

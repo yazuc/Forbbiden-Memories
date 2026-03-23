@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://3rrjuiy5rlam"]
 
-[ext_resource type="Texture2D" uid="uid://dt60y1yob8ey3" path="res://Assets/ABB976C8E24F701281CADEAF36BD0CA7.png" id="1_4y5bi"]
+[ext_resource type="Texture2D" uid="uid://dt60y1yob8ey3" path="res://assets/ABB976C8E24F701281CADEAF36BD0CA7.png" id="1_4y5bi"]
 [ext_resource type="Script" uid="uid://nlav868d0dsx" path="res://Menu/Principal/MainMenu.cs" id="1_iuxk1"]
-[ext_resource type="Texture2D" uid="uid://b2s6inqjy7av7" path="res://Assets/logo.png" id="2_70xcs"]
+[ext_resource type="Texture2D" uid="uid://b2s6inqjy7av7" path="res://assets/logo.png" id="2_70xcs"]
 [ext_resource type="Texture2D" uid="uid://b1eylsdmq8hka" path="res://Resources/buttons_inside.tres" id="3_ankwi"]
-[ext_resource type="Texture2D" uid="uid://dkod2tl14v8px" path="res://Assets/butoons.png" id="3_jxdky"]
-[ext_resource type="Texture2D" uid="uid://k5wxdm2u12od" path="res://Assets/buttons_insave.png" id="5_iuxk1"]
+[ext_resource type="Texture2D" uid="uid://dkod2tl14v8px" path="res://assets/butoons.png" id="3_jxdky"]
+[ext_resource type="Texture2D" uid="uid://k5wxdm2u12od" path="res://assets/buttons_insave.png" id="5_iuxk1"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_76pjc"]
 atlas = ExtResource("3_jxdky")

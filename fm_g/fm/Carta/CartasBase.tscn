@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://uys23mmogslm"]
 
 [ext_resource type="Script" uid="uid://651cxcolva5f" path="res://Carta/CartasBase.cs" id="1_jsbh3"]
-[ext_resource type="Texture2D" uid="uid://k5dvfn1mkylv" path="res://Assets/database.png" id="2_jsbh3"]
-[ext_resource type="LabelSettings" uid="uid://bqriaacb412fv" path="res://Assets/matrix-bold-small-caps-wisabo/new_label_settings.tres" id="3_28wyl"]
-[ext_resource type="Texture2D" uid="uid://csvs46sixcavp" path="res://Assets/Fusion_up.png" id="4_ewkrm"]
+[ext_resource type="Texture2D" uid="uid://k5dvfn1mkylv" path="res://assets/database.png" id="2_jsbh3"]
+[ext_resource type="LabelSettings" uid="uid://bqriaacb412fv" path="res://assets/matrix-bold-small-caps-wisabo/new_label_settings.tres" id="3_28wyl"]
+[ext_resource type="Texture2D" uid="uid://csvs46sixcavp" path="res://assets/Fusion_up.png" id="4_ewkrm"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jsbh3"]
 atlas = ExtResource("2_jsbh3")

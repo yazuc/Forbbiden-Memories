@@ -10,10 +10,10 @@
 [ext_resource type="PackedScene" uid="uid://c3fy4s3sps4kh" path="res://Carta/Carta3D.tscn" id="6_i6g32"]
 [ext_resource type="PackedScene" uid="uid://b2f4acrh1ecd2" path="res://HUD/seletor.tscn" id="7_1l0tm"]
 [ext_resource type="PackedScene" uid="uid://keibpphv5dyc" path="res://Scenes/Guardian/SeletorGuardian.tscn" id="8_o5yvi"]
-[ext_resource type="LabelSettings" uid="uid://crt0cwlxu1bjj" path="res://Assets/new_label_settings.tres" id="9_h4fw4"]
+[ext_resource type="LabelSettings" uid="uid://crt0cwlxu1bjj" path="res://assets/new_label_settings.tres" id="9_h4fw4"]
 [ext_resource type="PackedScene" uid="uid://b38xoflgh70ea" path="res://board.tscn" id="9_ldgsr"]
-[ext_resource type="Texture2D" uid="uid://bf2s664bwkruy" path="res://Assets/you_activee.png" id="9_o5yvi"]
-[ext_resource type="Texture2D" uid="uid://c1dlsol8iui1w" path="res://Assets/hand_ui.png" id="9_rku1e"]
+[ext_resource type="Texture2D" uid="uid://bf2s664bwkruy" path="res://assets/you_activee.png" id="9_o5yvi"]
+[ext_resource type="Texture2D" uid="uid://c1dlsol8iui1w" path="res://assets/hand_ui.png" id="9_rku1e"]
 [ext_resource type="PackedScene" uid="uid://bc5wbl4amrc7m" path="res://HUD/informacao_carta.tscn" id="13_nb51f"]
 
 [sub_resource type="Environment" id="Environment_v158k"]

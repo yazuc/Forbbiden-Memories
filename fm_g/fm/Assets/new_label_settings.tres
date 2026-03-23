@@ -1,8 +1,0 @@
-[gd_resource type="LabelSettings" format=3 uid="uid://crt0cwlxu1bjj"]
-
-[ext_resource type="FontFile" uid="uid://leuwbw2cg0ck" path="res://Assets/fontbitmap.png" id="1_tp2b0"]
-
-[resource]
-font = ExtResource("1_tp2b0")
-font_size = 28
-shadow_color = Color(0, 0, 0, 1)

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://by74ydn30efkb"]
 
 [ext_resource type="Script" uid="uid://cl4m7ldi5pac3" path="res://HUD/IndicadorSeta.cs" id="1_2rssi"]
-[ext_resource type="Texture2D" uid="uid://bh8pnyeij42ts" path="res://Assets/arrow.png" id="1_r0ojs"]
+[ext_resource type="Texture2D" uid="uid://bh8pnyeij42ts" path="res://assets/arrow.png" id="1_r0ojs"]
 
 [node name="IndicadorSeta" type="Node2D" unique_id=985170695]
 script = ExtResource("1_2rssi")

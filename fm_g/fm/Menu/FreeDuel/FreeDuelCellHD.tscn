@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cblr5g0ykskg"]
 
-[ext_resource type="Texture2D" uid="uid://s6uwklgpaeuw" path="res://Assets/mugshots_4.png" id="1_dh5oj"]
+[ext_resource type="Texture2D" uid="uid://s6uwklgpaeuw" path="res://assets/mugshots_4.png" id="1_dh5oj"]
 [ext_resource type="Script" uid="uid://b2fvlh0ojm24f" path="res://Menu/FreeDuel/FreeDuelCellHd.cs" id="2_dh5oj"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dh5oj"]

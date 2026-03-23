@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://7a6cxyxm0dhp"]
 
-[ext_resource type="Texture2D" uid="uid://cejd0qfh25o4s" path="res://Assets/tijolo_frederico.jpg" id="1_0crxi"]
+[ext_resource type="Texture2D" uid="uid://cejd0qfh25o4s" path="res://assets/tijolo_frederico.jpg" id="1_0crxi"]
 [ext_resource type="Script" uid="uid://bey2pwuy0swjw" path="res://Menu/DeckEditor/VBoxContainer.cs" id="1_dmf6v"]
-[ext_resource type="FontFile" uid="uid://dvaju2cffkn2i" path="res://Assets/matrix-bold-small-caps-wisabo/MatrixBoldSmallCaps.otf" id="2_0crxi"]
+[ext_resource type="FontFile" uid="uid://dvaju2cffkn2i" path="res://assets/matrix-bold-small-caps-wisabo/MatrixBoldSmallCaps.otf" id="2_0crxi"]
 [ext_resource type="PackedScene" uid="uid://lc8gchaw7gis" path="res://Menu/DeckEditor/card_seletor.tscn" id="4_p0pxx"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_p0pxx"]

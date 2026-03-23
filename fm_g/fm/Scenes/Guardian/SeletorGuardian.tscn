@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://keibpphv5dyc"]
 
 [ext_resource type="Texture2D" uid="uid://ba6hmhsyfrs4p" path="res://Resources/signs.tres" id="1_ayjil"]
-[ext_resource type="Texture2D" uid="uid://uga52g13bsiu" path="res://Assets/gd_selector.png" id="1_l4jlr"]
+[ext_resource type="Texture2D" uid="uid://uga52g13bsiu" path="res://assets/gd_selector.png" id="1_l4jlr"]
 [ext_resource type="LabelSettings" uid="uid://c25w33a2xsn05" path="res://Menu/DeckEditor/new_label_settings.tres" id="2_l4jlr"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tcltv"]

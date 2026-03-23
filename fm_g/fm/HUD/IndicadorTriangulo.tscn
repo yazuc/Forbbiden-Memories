@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dpjrxybf4pcvc"]
 
-[ext_resource type="Texture2D" uid="uid://dam0iw00bpmqb" path="res://Assets/equilatero.png" id="1_dsucw"]
+[ext_resource type="Texture2D" uid="uid://dam0iw00bpmqb" path="res://assets/equilatero.png" id="1_dsucw"]
 
 [node name="IndicadorTriangulo" type="Node2D" unique_id=360567357]
 

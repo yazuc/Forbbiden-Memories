@@ -1,6 +1,6 @@
 [gd_resource type="LabelSettings" format=3 uid="uid://1v5ma6ea5fi2"]
 
-[ext_resource type="FontFile" uid="uid://dvaju2cffkn2i" path="res://Assets/matrix-bold-small-caps-wisabo/MatrixBoldSmallCaps.otf" id="1_dmri6"]
+[ext_resource type="FontFile" uid="uid://dvaju2cffkn2i" path="res://assets/matrix-bold-small-caps-wisabo/MatrixBoldSmallCaps.otf" id="1_dmri6"]
 
 [resource]
 font = ExtResource("1_dmri6")

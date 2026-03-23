@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dw41tebwcaxiv"]
 
-[ext_resource type="Texture2D" uid="uid://ppit13cjasxp" path="res://Assets/SeletorFD_waifu2x_scale2x.png" id="1_n1ik8"]
+[ext_resource type="Texture2D" uid="uid://ppit13cjasxp" path="res://assets/SeletorFD_waifu2x_scale2x.png" id="1_n1ik8"]
 [ext_resource type="Script" uid="uid://detqnlee6oxty" path="res://Menu/FreeDuel/FreeDuelCell.cs" id="2_n1ik8"]
 
 [node name="FreeDuelCell" type="TextureButton" unique_id=763741244]
