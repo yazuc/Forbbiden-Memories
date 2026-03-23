@@ -23,7 +23,6 @@ script = ExtResource("2_4xtja")
 metadata/_custom_type_script = "uid://blsjcvm6gvd78"
 
 [node name="DialogicNode_BackgroundHolder" type="ColorRect" parent="DialogicBackground" unique_id=24329229]
-visible = false
 z_index = -5
 anchors_preset = -1
 anchor_right = 1.003125
