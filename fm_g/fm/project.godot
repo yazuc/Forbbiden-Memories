@@ -31,6 +31,7 @@ directories/dch_directory={
 "simon": "res://assets/personagens/simon.dch"
 }
 directories/dtl_directory={
+"introseq": "res://Resources/timelines/introseq.dtl",
 "timeline": "res://Resources/dialogo-simon.dtl"
 }
 layout/style_directory={

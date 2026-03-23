@@ -27,15 +27,24 @@ var speed_counter: float = 0
 
 func _set(property: StringName, what: Variant) -> bool:
 	if property == 'text' and typeof(what) == TYPE_STRING:
-
 		text = what
 
 		if hide_when_empty:
-			textbox_root.visible = !what.is_empty()
+			# 1. First, handle the existing textbox_root logic
+			if textbox_root:
+				textbox_root.visible = !what.is_empty()
+			
+			# 2. Specifically find and hide the node named "Dialogo"
+			# We search the owner (the root of your custom dialog scene) 
+			# to find "Dialogo" anywhere inside it.
+			var dialogo_node = get_tree().current_scene.find_child("Dialogo", true, false)
+			
+			if dialogo_node:
+				dialogo_node.visible = !what.is_empty()
 
 		return true
 	return false
-
+	
 
 func _ready() -> void:
 	# add to necessary

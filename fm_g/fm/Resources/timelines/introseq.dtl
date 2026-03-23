@@ -1,0 +1,15 @@
+[style name="New_File"]
+[background arg="res://assets/background-story/Background_01_Pointer_F7_05_00_01_.png" fade="0.0"]
+<Empty Text Event>
+[wait_input]
+[background arg="res://assets/background-story/Background_02_Pointer_F7_05_01_01_.png" fade="1.5" wait="true"]
+This is it...
+I've found it at last...
+The forbidden treasure of the ancient sorcerers...
+[background arg="res://assets/background-story/bg_wall.png" fade="1.0"]
+Hahahahaha!
+hAHAHAHAHAHHAHA!
+[clear time="1.0" step="false" portraits="false" music="false" background="false" positions="false"]
+[background arg="res://assets/background-story/title_drop.png" fade="3.0"]
+[wait time="3.0"]
+jump timeline/

@@ -8,7 +8,6 @@
 [ext_resource type="Texture2D" uid="uid://vr75oym7kyp2" path="res://assets/dialog_box.png" id="5_nhywd"]
 [ext_resource type="Script" uid="uid://20ocg0kp27tv" path="res://HUD/ButtonText.cs" id="6_ye81g"]
 [ext_resource type="SpriteFrames" uid="uid://b83rmn818joj6" path="res://Resources/button.res" id="7_4xtja"]
-[ext_resource type="StyleBox" uid="uid://b5wytncwofeev" path="res://Resources/style_box_texture.tres" id="9_4xtja"]
 
 [node name="Control" type="Node" unique_id=815227644]
 editor_description = "texte"
@@ -60,21 +59,15 @@ script = ExtResource("6_ye81g")
 Sprite = ExtResource("7_4xtja")
 metadata/_edit_use_anchors_ = true
 
-[node name="DialogicNode_DialogText" type="RichTextLabel" parent="." unique_id=2145779501]
+[node name="DialogicNode_DialogText" type="RichTextLabel" parent="Dialogo" unique_id=2145779501]
+layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.047395833
-anchor_top = 0.73425925
+anchor_top = 0.27105275
 anchor_right = 0.95416665
-anchor_bottom = 0.9222222
-offset_top = 10.0
-offset_bottom = 10.0
+anchor_bottom = 0.8131579
 theme_override_fonts/normal_font = ExtResource("3_yx0on")
 theme_override_font_sizes/normal_font_size = 48
 script = ExtResource("2_hwnuo")
 metadata/_custom_type_script = "uid://drhfq6rmdeuri"
 metadata/_edit_use_anchors_ = true
-
-[node name="Button" type="Button" parent="." unique_id=817247059]
-offset_right = 8.0
-offset_bottom = 8.0
-theme_override_styles/normal = ExtResource("9_4xtja")

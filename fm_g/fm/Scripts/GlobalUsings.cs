@@ -48,6 +48,11 @@ public partial class GlobalUsings : Node
 
 	public async Task FadeToBlack(float tempo, string path, Node obj)
 	{
+		if(path == "introseq")
+		{
+			IniciarDialogoNoMundo("res://Resources/timelines/introseq.dtl");
+			return;
+		}
 		await ScreenTransition.Instance.FadeOut(0.5f);
 		SceneTransition(path, obj);
 		await ScreenTransition.Instance.FadeIn(0.5f);
@@ -157,7 +162,7 @@ public partial class GlobalUsings : Node
 
 	public void GoBackOverworld(float tempo)
 	{
-		_ = GoBack(true);
+		_ = FadeToBlack(0.5f, Mundo, this);		
 	}
 
 	public void PopulateDialogue()

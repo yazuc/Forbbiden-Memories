@@ -7,6 +7,7 @@ public partial class MainMenu : Control
 	[Export] public VBoxContainer InsideMenu {get;set;}
 	public List<TextureButton> textureButtons{get;set;} = new List<TextureButton>();
 	public int index = 0;
+	public bool CampaignBegin = false;
 	public override void _Ready()
 	{
 		foreach(Node button in InsideMenu.GetChildren())
@@ -37,7 +38,12 @@ public partial class MainMenu : Control
 	public string DefineRedirect(int pos)
 	{
 		if(pos == 0)
-			return GlobalUsings.Instance.Mundo;
+		{
+			if(CampaignBegin)
+				return GlobalUsings.Instance.Mundo;
+			else
+				return "introseq";
+		}
 		if(pos == 1)
 			return GlobalUsings.Instance.Freeduel;
 		if(pos == 2)	
