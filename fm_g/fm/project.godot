@@ -73,6 +73,7 @@ audio/channel_defaults={
 }
 variables={}
 save/autosave=false
+animations/leave_default="Slide To Left"
 
 [display]
 
