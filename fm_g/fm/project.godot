@@ -26,7 +26,8 @@ Dialogic="*uid://ds2q0uclmolvu"
 [dialogic]
 
 directories/dch_directory={
-"character": "res://assets/character.dch"
+"character": "res://assets/character.dch",
+"simon": "res://assets/personagens/simon.dch"
 }
 directories/dtl_directory={
 "timeline": "res://Resources/dialogo-simon.dtl"

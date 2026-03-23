@@ -2,8 +2,8 @@
 <Empty Text Event>
 [background arg="res://assets/background/Background_01_Pointer_F7_05_01_00_.png" fade="0.0"]
 join character left [animation="Slide From Left" length="0.7" wait="true" z_index="5"]
-character: My dear prince! Are you going to the city to play cards again!?
-character: You are of royal blood! Walking the city streets dressed as a commoner...
+simon: My dear prince! Are you going to the city to play cards again!?
+simon: You are of royal blood! Walking the city streets dressed as a commoner...
 character: ...Have you no shame!? Quite frankly, I'm embarrassed!
 - Run away
 	do GlobalUsings.GoBackOverworld(0.8)
@@ -12,7 +12,7 @@ character: ...Have you no shame!? Quite frankly, I'm embarrassed!
 - Keep listening
 	jump timeline/KeepL
 label KeepL
-character: I realize I'm to blame for teaching you the card game... But you overindulge, my prince
+simon: I realize I'm to blame for teaching you the card game... But you overindulge, my prince
 - Run away
 	do GlobalUsings.GoBackOverworld(0.8)
 	[clear time="1.0"]
@@ -20,7 +20,7 @@ character: I realize I'm to blame for teaching you the card game... But you over
 - Keep listening
 	jump timeline/KeepL2
 label KeepL2
-character: It is high time you put aside this ridiculous pastime and focus on your studies.
+simon: It is high time you put aside this ridiculous pastime and focus on your studies.
 - Run away
 	do GlobalUsings.GoBackOverworld(0.8)
 	[clear time="1.0"]
@@ -28,5 +28,5 @@ character: It is high time you put aside this ridiculous pastime and focus on yo
 - Keep listening
 	jump timeline/KeepL3
 label KeepL3
-character: It is wrong to worry the Pharaoh and the Queen so much!
-character: Please, dear Prince... Return to your room.
+simon: It is wrong to worry the Pharaoh and the Queen so much!
+simon: Please, dear Prince... Return to your room.
