@@ -50,7 +50,7 @@ jobs:
       # -------------------------
       - name: Restore C# project
         run: |
-          dotnet restore fm_g/fm/*.csproj
+          dotnet build fm_g/fm/*.csproj
 
       # -------------------------
       # Linux export
