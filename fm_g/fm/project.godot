@@ -26,6 +26,7 @@ Dialogic="*uid://ds2q0uclmolvu"
 [dialogic]
 
 directories/dch_directory={
+"bakura": "res://assets/personagens/bakura.dch",
 "character": "res://assets/character.dch",
 "simon": "res://assets/personagens/simon.dch"
 }
@@ -74,6 +75,7 @@ audio/channel_defaults={
 variables={}
 save/autosave=false
 animations/leave_default="Slide To Left"
+portraits/default_portrait="res://Scenes/character_portrait.tscn"
 
 [display]
 

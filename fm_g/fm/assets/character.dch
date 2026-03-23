@@ -10,14 +10,14 @@
 "style": "New_File",
 "suffix": ""
 },
-&"default_portrait": "Simon",
+&"default_portrait": "simon",
 &"description": "",
-&"display_name": "Simon",
+&"display_name": "simon",
 &"mirror": false,
-&"nicknames": ["Simon"],
+&"nicknames": ["simon"],
 &"offset": Vector2(0, 0),
 &"portraits": {
-"Simon": {
+"simon": {
 "export_overrides": {
 "image": "\"res://assets/personagens/simon_sheet.png\""
 },

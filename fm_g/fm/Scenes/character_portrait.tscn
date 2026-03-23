@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://bh3gu415w7bx1"]
+
+[ext_resource type="Script" uid="uid://dlc7qi75ebbh5" path="res://Scenes/CharacterPortrait.cs" id="1_26lmt"]
+[ext_resource type="SpriteFrames" uid="uid://c1qeb0mxx8wh3" path="res://Resources/personagens.res" id="2_o2dp4"]
+
+[node name="CharacterPortrait" type="Control" unique_id=2040750642 node_paths=PackedStringArray("Sprite")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_26lmt")
+Sprite = NodePath("AnimatedSprite2D")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1848739461]
+sprite_frames = ExtResource("2_o2dp4")
+animation = &"bakura"
+frame = 1
+frame_progress = 0.061131056
