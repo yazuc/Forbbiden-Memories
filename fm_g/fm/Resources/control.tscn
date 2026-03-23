@@ -38,30 +38,32 @@ metadata/_custom_type_script = "uid://djbg8sc0q67ow"
 [node name="DialogicNode_PortraitContainer" type="Control" parent="DialogicPortrait" unique_id=976139167]
 z_index = 5
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchor_right = 0.39166668
+anchor_bottom = 0.6472222
 script = ExtResource("3_qwbwh")
 container_ids = PackedStringArray("1")
 metadata/_custom_type_script = "uid://d0ptqnbudhkyj"
+metadata/_edit_use_anchors_ = true
 
 [node name="DialogicCharacterEditorPortraitSection" type="Control" parent="DialogicPortrait" unique_id=152379952]
 z_index = 5
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchor_right = 0.38229167
+anchor_bottom = 0.6481481
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("6_qwbwh")
 metadata/_custom_type_script = "uid://ckblurnjla80i"
+metadata/_edit_use_anchors_ = true
 
 [node name="DialogicVisualEditorField" type="Control" parent="." unique_id=359867836]
+z_index = 5
 layout_mode = 3
-anchor_right = 0.33
-anchor_bottom = 0.40100002
-offset_right = 15.399963
-offset_bottom = 1.9199829
+anchor_right = 0.3640625
+anchor_bottom = 0.6435185
 script = ExtResource("2_qs0ig")
 metadata/_custom_type_script = "uid://cbwisirnxfqtm"
+metadata/_edit_use_anchors_ = true
 
 [node name="Dialogo" type="TextureRect" parent="." unique_id=553540098]
 texture_filter = 5
