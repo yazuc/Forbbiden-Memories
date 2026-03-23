@@ -52,6 +52,10 @@ jobs:
         run: |
           dotnet build fm_g/fm/*.csproj
 
+      - name: Godot Import/Check
+        run: |
+          $GODOT_DIR/Godot_v4.6.1-stable_mono_linux_x86_64/Godot_v4.6.1-stable_mono_linux.x86_64 \
+            --headless --path fm_g/fm --editor --quit || true
       # -------------------------
       # Linux export
       # -------------------------
