@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cy04qp2trk4up"
-path="res://.godot/imported/simon_-Sheet1.png-6e93bf9668f209102b36da29ba619298.ctex"
+uid="uid://bh2xfmkyunep6"
+path="res://.godot/imported/simon_-Sheet3.png-c273fddd4db86b512cafc82aacaa9a80.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/personagens/Simon/simon_-Sheet1.png"
-dest_files=["res://.godot/imported/simon_-Sheet1.png-6e93bf9668f209102b36da29ba619298.ctex"]
+source_file="res://Assets/personagens/simon/simon_-Sheet3.png"
+dest_files=["res://.godot/imported/simon_-Sheet3.png-c273fddd4db86b512cafc82aacaa9a80.ctex"]
 
 [params]
 
