@@ -1,14 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://dhk6j6eb6e3q"]
+[gd_scene format=3 uid="uid://dhk6j6eb6e3q"]
 
 [ext_resource type="Script" uid="uid://ij0qm2ew6plv" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_VN_Choices/vn_choice_layer.gd" id="1_kurgw"]
-[ext_resource type="Script" uid="uid://bldt7xlfum7ov" path="res://addons/dialogic/Modules/Choice/node_choice_button.gd" id="1_w632k"]
 [ext_resource type="Script" uid="uid://b1stj4ljd2vo7" path="res://addons/dialogic/Modules/Choice/node_button_sound.gd" id="2_mgko6"]
 [ext_resource type="AudioStream" uid="uid://b6c1p14bc20p1" path="res://addons/dialogic/Example Assets/sound-effects/typing1.wav" id="3_mql8i"]
 [ext_resource type="AudioStream" uid="uid://c2viukvbub6v6" path="res://addons/dialogic/Example Assets/sound-effects/typing4.wav" id="4_420fr"]
 
 [sub_resource type="AudioStream" id="AudioStream_pe27w"]
 
-[node name="VN_ChoiceLayer" type="Control"]
+[node name="VN_ChoiceLayer" type="Control" unique_id=2043755332]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -18,7 +17,7 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_kurgw")
 
-[node name="Choices" type="VBoxContainer" parent="."]
+[node name="Choices" type="VBoxContainer" parent="." unique_id=1610821461]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -35,7 +34,7 @@ mouse_filter = 2
 alignment = 1
 metadata/_edit_layout_mode = 1
 
-[node name="DialogicNode_ButtonSound" type="AudioStreamPlayer" parent="Choices"]
+[node name="DialogicNode_ButtonSound" type="AudioStreamPlayer" parent="Choices" unique_id=1181566365]
 unique_name_in_owner = true
 script = ExtResource("2_mgko6")
 sound_pressed = ExtResource("3_mql8i")

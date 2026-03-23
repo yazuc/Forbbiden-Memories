@@ -17,7 +17,30 @@ public partial class CharacterPortrait : Control
 		
 		// Connect to 'text_finished' (Stops talking)
 		textSubsystem.Connect("text_finished", Callable.From<Godot.Collections.Dictionary>(OnTextFinished));
+        Variant eventVariant = dialogic.Get("Events");
+        if (eventVariant.VariantType != Variant.Type.Nil)
+        {
+            Node eventBus = eventVariant.As<Node>();
+            eventBus.Connect("event_started", Callable.From<Godot.Collections.Dictionary>(OnEventStarted));
+            // Note: Check if your Dialogic version uses 'event_finished' or 'timeline_ended'
+            if (eventBus.HasSignal("event_finished"))
+                eventBus.Connect("event_finished", Callable.From<Godot.Collections.Dictionary>(OnEventFinished));
+        }
 	}
+
+    private void OnEventStarted(Godot.Collections.Dictionary info)
+    {
+        // info["event"] contains the full Event Resource (TextEvent, CharacterEvent, etc.)
+        Resource eventObj = info["event"].As<Resource>();
+        
+        GD.Print($"--- [TIMELINE EVENT] {eventObj.GetClass()} ---");
+
+        // If you want to see the specific text being spoken:
+        if (eventObj.HasMethod("get_text")) {
+            string text = eventObj.Call("get_text").AsString();
+            GD.Print($"   Content: \"{text}\"");
+        }
+    }
 	private void OnEventFinished(Godot.Collections.Dictionary info)
 	{
 		// This fires when the text event is TRULY over (after the click)

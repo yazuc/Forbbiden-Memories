@@ -72,7 +72,9 @@ audio/channel_defaults={
 "volume": 0.0
 }
 }
-variables={}
+variables={
+"SimonOnce": false
+}
 save/autosave=false
 animations/leave_default="Slide To Left"
 portraits/default_portrait="res://Scenes/character_portrait.tscn"
