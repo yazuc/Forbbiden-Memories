@@ -11,6 +11,7 @@ public partial class CharacterPortrait : Control
 		// In Godot 4 / Dialogic 2, the Text Subsystem handles these signals
 		Node dialogic = GetNode("/root/Dialogic");
 		Node textSubsystem = dialogic.Get("Text").As<Node>();
+        Sprite = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
 
 		// Connect to 'about_to_show_text' (Starts talking)
 		textSubsystem.Connect("about_to_show_text", Callable.From<Godot.Collections.Dictionary>(OnAboutToShowText));
@@ -68,6 +69,8 @@ public partial class CharacterPortrait : Control
     public void _update_portrait(Resource character, string portraitName)
     {
 		GD.Print(portraitName);
+        if (Sprite == null)
+            Sprite = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
         // If you have different animations for different characters:
         if (Sprite.SpriteFrames.HasAnimation(portraitName))
         {

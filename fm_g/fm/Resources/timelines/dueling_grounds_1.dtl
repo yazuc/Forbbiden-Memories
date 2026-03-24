@@ -9,5 +9,6 @@ teana: How about a duel?
 	teana: Okay, let's play! Hope you're not a sore loser!
 	set {DeckIndex} = 2.0
 	do GlobalUsings.IniciarDuelo()
+	[end_timeline]
 - <Talk to somone else>
 - <Go outside>

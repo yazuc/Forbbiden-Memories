@@ -62,7 +62,7 @@ public partial class World : Node3D
 		DefineBackground(points[index].Name);
 
 		//aqui vai virar .dtl do index
-		GlobalUsings.Instance.IniciarDialogoNoMundo("res://Resources/dialogo-simon.dtl");
+		//GlobalUsings.Instance.IniciarDialogoNoMundo("res://Resources/dialogo-simon.dtl");
 		//await GlobalUsings.Instance.FadeToBlack(0.5f, GlobalUsings.Instance.Story, this);
 		//Visible = false;
 	}
@@ -114,7 +114,10 @@ public partial class World : Node3D
 	public void DefineBackground(string markerName)
 	{		
 		if(markerName == "DuelGround")
-			GlobalUsings.Instance.currentBackGround = 1;
+		{
+			GlobalUsings.Instance.IniciarDialogoNoMundo("res://Resources/timelines/dueling_grounds_1.dtl");
+			GlobalUsings.Instance.currentBackGround = 1;			
+		}
 		if(markerName == "DarkShrine")
 			GlobalUsings.Instance.currentBackGround = 34;
 		if(markerName == "CardShop")
