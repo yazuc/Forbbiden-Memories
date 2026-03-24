@@ -1,5 +1,5 @@
 [style name="New_File"]
-[background arg="res://assets/background-story/Background_01_Pointer_F7_05_00_01_.png" fade="0.0"]
+[background arg="res://assets/background-story/Background_01_Pointer_F7_05_00_01_2_.png" fade="0.0"]
 <Empty Text Event>
 [wait_input]
 [background arg="res://assets/background-story/Background_02_Pointer_F7_05_01_01_.png" fade="1.5" wait="true"]
