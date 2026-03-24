@@ -8,7 +8,7 @@ public partial class DialogicSingleton : Node
         // Usamos Engine.GetMainLoop() para chegar na SceneTree 
         // mesmo se este node não estiver na árvore.
         var tree = (SceneTree)Engine.GetMainLoop();
-        var dialogic = tree.Root.GetNode("Dialogic");
+        var dialogic = tree.Root.GetNode("Dialogic");    
                 
         dialogic.Call("start", timelinepath);
     }
@@ -37,6 +37,16 @@ public partial class DialogicSingleton : Node
         var varSubsystem = dialogic.GetNode("VAR");
 
         return varSubsystem.Call("get_variable", variablePath);
+    }
+
+    public void PausaCena()
+    {
+        var tree = (SceneTree)Engine.GetMainLoop();
+        var dialogic = tree.Root.GetNode("Dialogic");
+    
+        var styleSubSystem = dialogic.GetNode("Styles");
+        styleSubSystem.Call("hide_layout");
+        //styleSubSystem.Call("show_layout");
     }
 
 }

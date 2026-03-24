@@ -116,6 +116,7 @@ public partial class World : Node3D
 		if(markerName == "DuelGround")
 		{
 			GlobalUsings.Instance.IniciarDialogoNoMundo("res://Resources/timelines/dueling_grounds_1.dtl");
+			Visible = false;
 			GlobalUsings.Instance.currentBackGround = 1;			
 		}
 		if(markerName == "DarkShrine")

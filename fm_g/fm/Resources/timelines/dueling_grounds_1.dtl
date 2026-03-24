@@ -4,14 +4,55 @@ join teana left [animation="Slide From Left" length="0.7" wait="true"]
 teana: I've been waiting for you...
 teana: Jono was also here a few minutes ago. But he's gone now...
 teana: How about a duel?
-[clear time="1.0" step="false" portraits="false" music="false" background="false" positions="false" style="false" node=""]
+[clear time="0.1" step="false" portraits="false" music="false" background="false" positions="false" style="false" node=""]
 - <Duel>
-	teana: Okay, let's play! Hope you're not a sore loser!
 	set {DeckIndex} = 2.0
+	teana: Okay, let's play! Hope you're not a sore loser!
 	leave teana [animation="Slide To Left" length="0.7" wait="true"]
-	[background arg="#000000ff" fade="0.5" wait="true"]
-	[clear time="1.0" step="false" background="false" style="false" node="/root/DialogicLayout_NewFile/Control/Dialogo"]
-	do GlobalUsings.IniciarDuelo()
-	[end_timeline]
+	jump StartDuel
 - <Talk to somone else>
+	leave teana
+	join villager1 left [animation="Slide From Left" length="0.7" wait="true"]
+	villager1: Y'know, there's some kinda festival goin' on in the town plaza.
+	villager1: But we'd rather play games right here, like we always do.
+	villager1: Wanna take me on?
+	villager1: C'mon... let's play a game.
+	[clear time="0.1" step="false" portraits="false" music="false" background="false" positions="false" style="false" node=""]
+	- <Duel>
+		villager1: Okay, let's play!
+		leave villager1 [animation="Slide To Left" length="0.7" wait="true"]
+		jump StartDuel
+	- <Talk to someone else>
+		leave villager1
+		join villager2 left [animation="Slide From Left" length="0.7" wait="true"]
+		villager2: Hey. Did you find yourself any rare cards?
+		villager2: I managed to find a pretty good card myself!
+		villager2: If you want it, you'll have to beat me.
+		villager2: but if you lose, you'll have to give me one of yours.
+		[clear time="0.1" step="false" portraits="false" music="false" background="false" positions="false" style="false" node=""]
+		- <Duel>
+			set {DeckIndex} = 4.0
+			villager2: All right, let's play!
+			leave villager2 [animation="Slide To Left" length="0.7" wait="true"]
+			jump StartDuel
+		- <Talk to someone else>
+			leave --All--
+			join villager3 left [animation="Slide From Left" length="0.7" wait="true"]
+			villager3: You talkin' to me, boy? I got better things to do.
+			villager3: Unless ya wanna challenge me...
+			[clear time="0.1" step="false" portraits="false" music="false" background="false" positions="false" style="false" node=""]
+			- <Duel>
+				villager3: Okay, boy. Let's play!
+				set {DeckIndex} = 5.0
+				jump StartDuel
+			- <Talk to someone else>
+			- <Go outside>
+		- <Go outside>
+	- <Go outside>
 - <Go outside>
+label StartDuel
+leave --All--
+[background arg="#000000ff" fade="0.5" wait="true"]
+[clear time="0.7" step="false" portraits="false" background="false" positions="false" style="false" node="/root/DialogicLayout_NewFile/Control/Dialogo"]
+do GlobalUsings.IniciarDuelo()
+[end_timeline]

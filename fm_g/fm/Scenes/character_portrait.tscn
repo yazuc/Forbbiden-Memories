@@ -15,6 +15,5 @@ Sprite = NodePath("AnimatedSprite2D")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1848739461]
 sprite_frames = ExtResource("2_o2dp4")
-animation = &"bakura"
-frame = 1
-frame_progress = 0.061131056
+animation = &"villager2"
+frame_progress = 0.66752666

@@ -172,6 +172,21 @@ public partial class GlobalUsings : Node
 			_dueloIniciado = true;
 		}
 	}
+	public void PrintTree(Node node = null, string indent = "")
+	{
+		if (node == null)
+		{
+			node = ((SceneTree)Engine.GetMainLoop()).Root;
+		}
+
+		GD.Print($"{indent}- {node.Name} ({node.GetType()})");
+
+		foreach (Node child in node.GetChildren())
+		{
+			PrintTree(child, indent + "  ");
+		}
+	}
+
 
 	public async void GoBackOverworld(float tempo)
 	{

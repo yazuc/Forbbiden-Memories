@@ -163,7 +163,14 @@ func get_layout_node() -> DialogicLayoutBase:
 	if has_active_layout_node():
 		return get_tree().get_meta('dialogic_layout_node')
 	return null
-
+	
+func show_layout() -> void:
+	var node = get_layout_node()
+	node.show()
+	
+func hide_layout() -> void:
+	var node = get_layout_node()
+	node.hide()
 
 ## Similar to get_tree().get_first_node_in_group('group_name') but filtered to the active layout node subtree
 func get_first_node_in_layout(group_name: String) -> Node:

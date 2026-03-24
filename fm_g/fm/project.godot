@@ -29,7 +29,10 @@ directories/dch_directory={
 "bakura": "res://assets/personagens/bakura.dch",
 "character": "res://assets/character.dch",
 "simon": "res://assets/personagens/simon.dch",
-"teana": "res://assets/personagens/teana.dch"
+"teana": "res://assets/personagens/teana.dch",
+"villager1": "res://assets/personagens/villager1.dch",
+"villager2": "res://assets/personagens/villager2.dch",
+"villager3": "res://assets/personagens/villager3.dch"
 }
 directories/dtl_directory={
 "dueling_grounds_1": "res://Resources/timelines/dueling_grounds_1.dtl",
@@ -82,7 +85,7 @@ variables={
 save/autosave=false
 animations/leave_default="Slide To Left"
 portraits/default_portrait="res://Scenes/character_portrait.tscn"
-layout/end_behaviour=0
+layout/end_behaviour=1
 
 [display]
 

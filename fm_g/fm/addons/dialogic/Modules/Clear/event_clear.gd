@@ -22,7 +22,9 @@ var clear_node_path: String = ""
 
 func _execute() -> void:
 	var final_time := time
+	
 
+			
 	if dialogic.Inputs.auto_skip.enabled:
 		var time_per_event: float = dialogic.Inputs.auto_skip.time_per_event
 		final_time = min(time, time_per_event)
@@ -34,6 +36,19 @@ func _execute() -> void:
 		else:
 			dialogic.Text.hide_textbox(final_time == 0)
 		dialogic.current_state = dialogic.States.IDLE
+	
+	if clear_node_path != "":
+		var node = dialogic.get_node_or_null(clear_node_path)
+		if node:
+			var tween = dialogic.get_tree().create_tween()
+			tween.tween_property(node, "modulate:a", 0.0, 0.7)
+			await tween.finished			
+			node.hide()
+			dialogic.Styles.change_style()
+			# 👇 reseta alpha pra próxima vez
+			var mod = node.modulate
+			mod.a = 1.0
+			node.modulate = mod
 
 	if clear_portraits and dialogic.has_subsystem('Portraits') and len(dialogic.Portraits.get_joined_characters()) != 0:
 		if final_time == 0:
@@ -63,18 +78,7 @@ func _execute() -> void:
 	
 	print("tentou excluir algum nodo")
 	print(clear_node_path)
-	if clear_node_path != "":
-		var node = dialogic.get_node_or_null(clear_node_path)
-		if node:
-			var tween = dialogic.get_tree().create_tween()
-			tween.tween_property(node, "modulate:a", 0.0, final_time)
-			await tween.finished			
-			node.hide()
-			dialogic.Styles.change_style()
-			# 👇 reseta alpha pra próxima vez
-			var mod = node.modulate
-			mod.a = 1.0
-			node.modulate = mod
+
 
 	finish()
 
