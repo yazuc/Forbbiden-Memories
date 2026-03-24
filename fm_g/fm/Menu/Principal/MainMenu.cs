@@ -19,14 +19,14 @@ public partial class MainMenu : Control
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	public override async void _Process(double delta)
 	{
 		var focused = GetViewport().GuiGetFocusOwner();
 		int index = textureButtons.IndexOf(focused as TextureButton);
 
 		if (Input.IsActionJustReleased("ui_accept"))
 		{
-			GlobalUsings.Instance.FadeToBlack(0.5f, DefineRedirect(index), this);
+			await GlobalUsings.Instance.FadeToBlack(0.5f, DefineRedirect(index), this);
 		}
 	}
 

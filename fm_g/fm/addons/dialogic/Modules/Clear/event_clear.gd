@@ -14,6 +14,8 @@ var clear_style := true
 var clear_music := true
 var clear_portrait_positions := true
 var clear_background := true
+var clear_node_path: String = ""
+
 
 #region EXECUTE
 ################################################################################
@@ -58,6 +60,21 @@ func _execute() -> void:
 
 	if not step_by_step:
 		await dialogic.get_tree().create_timer(final_time).timeout
+	
+	print("tentou excluir algum nodo")
+	print(clear_node_path)
+	if clear_node_path != "":
+		var node = dialogic.get_node_or_null(clear_node_path)
+		if node:
+			var tween = dialogic.get_tree().create_tween()
+			tween.tween_property(node, "modulate:a", 0.0, final_time)
+			await tween.finished			
+			node.hide()
+			dialogic.Styles.change_style()
+			# 👇 reseta alpha pra próxima vez
+			var mod = node.modulate
+			mod.a = 1.0
+			node.modulate = mod
 
 	finish()
 
@@ -95,6 +112,7 @@ func get_shortcode_parameters() -> Dictionary:
 		"background": {"property": "clear_background", 	"default": true},
 		"positions"	: {"property": "clear_portrait_positions", 	"default": true},
 		"style"		: {"property": "clear_style", 		"default": true},
+		"node": {"property": "clear_node_path", "default": "Control/Dialogo"}
 	}
 
 #endregion

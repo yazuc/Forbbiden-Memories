@@ -82,6 +82,7 @@ variables={
 save/autosave=false
 animations/leave_default="Slide To Left"
 portraits/default_portrait="res://Scenes/character_portrait.tscn"
+layout/end_behaviour=0
 
 [display]
 

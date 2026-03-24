@@ -4,10 +4,13 @@ join teana left [animation="Slide From Left" length="0.7" wait="true"]
 teana: I've been waiting for you...
 teana: Jono was also here a few minutes ago. But he's gone now...
 teana: How about a duel?
-[clear time="1.0" step="false" portraits="false" music="false" background="false" positions="false" style="false"]
+[clear time="1.0" step="false" portraits="false" music="false" background="false" positions="false" style="false" node=""]
 - <Duel>
 	teana: Okay, let's play! Hope you're not a sore loser!
 	set {DeckIndex} = 2.0
+	leave teana [animation="Slide To Left" length="0.7" wait="true"]
+	[background arg="#000000ff" fade="0.5" wait="true"]
+	[clear time="1.0" step="false" background="false" style="false" node="/root/DialogicLayout_NewFile/Control/Dialogo"]
 	do GlobalUsings.IniciarDuelo()
 	[end_timeline]
 - <Talk to somone else>

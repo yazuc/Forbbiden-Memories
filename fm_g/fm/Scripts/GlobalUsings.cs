@@ -27,6 +27,7 @@ public partial class GlobalUsings : Node
 	public CardDatabase db = CardDatabase.Instance;
 	public DialogicSingleton dialogic;
 	public bool stop = false;
+	private static bool _dueloIniciado = false;
 	private Stack<Node> _sceneStack = new();
 
 	// Called when the node enters the scene tree for the first time.
@@ -160,17 +161,21 @@ public partial class GlobalUsings : Node
 		dialogic.StartConversation(timelinePath);
 	}
 
-	public void IniciarDuelo()
+	public async void IniciarDuelo()
 	{
-		int index = (int)dialogic.GetVariable("DeckIndex");
-		GD.Print(index);
-		DeckIndex = index;
-		_ = FadeToBlack(0.5f, Duelo, this);
+		if (!_dueloIniciado)
+		{
+			int index = (int)dialogic.GetVariable("DeckIndex");
+			GD.Print(index);
+			DeckIndex = index;
+			await FadeToBlack(2.5f, Duelo, this);			
+			_dueloIniciado = true;
+		}
 	}
 
-	public void GoBackOverworld(float tempo)
+	public async void GoBackOverworld(float tempo)
 	{
-		_ = FadeToBlack(0.5f, Mundo, this);		
+		await FadeToBlack(0.5f, Mundo, this);		
 	}
 
 	public void PopulateDialogue()

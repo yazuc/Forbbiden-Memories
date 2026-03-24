@@ -9,7 +9,7 @@ The forbidden treasure of the ancient sorcerers...
 [background arg="res://assets/background-story/bg_wall.png" fade="1.0"]
 Hahahahaha!
 hAHAHAHAHAHHAHA!
-[clear time="1.0" step="false" portraits="false" music="false" background="false" positions="false"]
+[clear time="1.0" step="false" portraits="false" music="false" positions="false" style="false" node="/root/DialogicLayout_NewFile/Control/Dialogo"]
 [background arg="res://assets/background-story/title_drop.png" fade="3.0"]
 [wait time="3.0"]
 jump timeline/

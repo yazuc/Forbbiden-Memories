@@ -14,6 +14,16 @@ editor_description = "texte"
 script = ExtResource("1_drexw")
 metadata/_custom_type_script = "uid://c8d470kti274h"
 
+[node name="ColorRect" type="ColorRect" parent="." unique_id=255065758]
+z_index = -6
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
 [node name="DialogicBackground" type="Node" parent="." unique_id=1148351405]
 script = ExtResource("2_4xtja")
 metadata/_custom_type_script = "uid://blsjcvm6gvd78"

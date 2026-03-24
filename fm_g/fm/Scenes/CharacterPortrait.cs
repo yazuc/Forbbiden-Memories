@@ -22,32 +22,40 @@ public partial class CharacterPortrait : Control
         if (eventVariant.VariantType != Variant.Type.Nil)
         {
             Node eventBus = eventVariant.As<Node>();
-            eventBus.Connect("event_started", Callable.From<Godot.Collections.Dictionary>(OnEventStarted));
             // Note: Check if your Dialogic version uses 'event_finished' or 'timeline_ended'
             if (eventBus.HasSignal("event_finished"))
-                eventBus.Connect("event_finished", Callable.From<Godot.Collections.Dictionary>(OnEventFinished));
+            {
+                eventBus.Connect("event_started", Callable.From<Resource>(OnEventStarted));
+                eventBus.Connect("event_finished", Callable.From<Resource>(OnEventFinished));                
+            }
+
         }
 	}
 
-    private void OnEventStarted(Godot.Collections.Dictionary info)
+  private void OnEventStarted(Resource eventObj)
     {
-        // info["event"] contains the full Event Resource (TextEvent, CharacterEvent, etc.)
-        Resource eventObj = info["event"].As<Resource>();
-        
-        GD.Print($"--- [TIMELINE EVENT] {eventObj.GetClass()} ---");
+        GD.Print($"EVENT: {eventObj.GetClass()}");
 
-        // If you want to see the specific text being spoken:
-        if (eventObj.HasMethod("get_text")) {
-            string text = eventObj.Call("get_text").AsString();
-            GD.Print($"   Content: \"{text}\"");
+        if (eventObj.GetClass().Contains("Clear"))
+        {
+            GD.Print("CLEAR DETECTED");
+            OnClear();
         }
     }
-	private void OnEventFinished(Godot.Collections.Dictionary info)
-	{
-		// This fires when the text event is TRULY over (after the click)
-		// Useful for resetting poses or ending specific 'barks'
-		GD.Print("timeline ended");
-	}
+
+    private void OnEventFinished(Resource eventObj)
+    {
+        GD.Print($"FINISHED: {eventObj.GetClass()}");
+    }
+    private void OnClear()
+    {
+        GD.Print("Fade trigger aqui!");
+
+        // exemplo:
+        //GlobalUsings.Instance.FadeToBlack();
+    }
+
+
 	private void OnAboutToShowText(Godot.Collections.Dictionary info)
 	{
 		// info["character"] contains the Resource of who is speaking
