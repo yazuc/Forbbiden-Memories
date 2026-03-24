@@ -1,3 +1,4 @@
+[background arg="#000000ff" fade="1.0" wait="true"]
 [style name="New_File"]
 <Empty Text Event>
 [background arg="res://assets/background/Background_01_Pointer_F7_05_01_00_.png" fade="0.0"]
@@ -5,25 +6,28 @@ join simon left [animation="Slide From Left" length="0.7" wait="true" z_index="5
 simon: My dear prince! Are you going to the city to play cards again!?
 simon: You are of royal blood! Walking the city streets dressed as a commoner...
 simon: ...Have you no shame!? Quite frankly, I'm embarrassed!
-[clear time="1.0" portraits="false" music="false" background="false" positions="false" style="false"]
+[clear time="1.0" portraits="false" music="false" background="false" positions="false" style="false" node=""]
 - <Run away>
 	label run_away
 	simon: Wait! Stop, my prince!
 	simon: Drat! He's gone...
+	leave simon
+	[background arg="#000000ff" fade="0.5" wait="true"]
+	[clear time="1.0" step="false" portraits="false" music="false" background="false" style="false" node="/root/DialogicLayout_NewFile/Control/Dialogo"]
 	do GlobalUsings.GoBackOverworld(0.8)
 	[end_timeline]
 - <Keep listening>
 	jump timeline/KeepL
 label KeepL
 simon: I realize I'm to blame for teaching you the card game... But you overindulge, my prince
-[clear time="1.0" portraits="false" music="false" background="false" positions="false" style="false"]
+[clear time="1.0" portraits="false" music="false" background="false" positions="false" style="false" node=""]
 - Run away
 	jump run_away
 - Keep listening
 	jump timeline/KeepL2
 label KeepL2
 simon: It is high time you put aside this ridiculous pastime and focus on your studies.
-[clear time="1.0" portraits="false" music="false" background="false" positions="false" style="false"]
+[clear time="1.0" portraits="false" music="false" background="false" positions="false" style="false" node=""]
 - Run away
 	jump run_away
 - Keep listening
