@@ -21,7 +21,7 @@ public partial class GlobalUsings : Node
 	public string Freeduel = "res://Menu/FreeDuel/FreeDuel.tscn";
 	public string Deckeditor = "res://Menu/DeckEditor/DeckEditor.tscn";
 	public string Password = "res://Menu/Password/Password.tscn";
-	public string UserDeck = "res://starter_deck.txt";
+	public string UserDeck = "res://test_copy.txt";
 	public Deck Deck = new Deck();
 	public List<string> Dialogue = new List<string>();
 	public CardDatabase db = CardDatabase.Instance;

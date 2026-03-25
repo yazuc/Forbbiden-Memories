@@ -1,12 +1,13 @@
 using fm;
 using Godot;
+using QuickType;
 using System;
 
 public partial class CartaControl : Godot.Control
 {
 	public CartasBase Carta {get;set;}
 	public SubViewport Viewport {get;set;}
-	public int ID {get;set;}
+	public Cards ID {get;set;}
 	public Vector2 originalPosition;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()

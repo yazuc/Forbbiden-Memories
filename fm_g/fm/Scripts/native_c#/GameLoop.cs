@@ -1,5 +1,6 @@
 using QuickType;
 using Godot;
+using static fm.Function;
 
 namespace fm
 {
@@ -108,16 +109,14 @@ namespace fm
  			MaoDoJogador.AtualizarMao(_gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList());   
 			
 			GD.Print("Aguardando jogador selecionar uma carta...");
-			Godot.Collections.Array<int> idEscolhido = await MaoDoJogador.AguardarConfirmacaoJogadaAsync(); 			
+			FusionResult idEscolhido = await MaoDoJogador.AguardarConfirmacaoJogadaAsync(); 			
 			int i = 1;
-			foreach(var item in idEscolhido){
-				var cardData = CardDatabase.Instance.GetCardById((int)item);	
-				if(i == idEscolhido.Count()){
-					//arrumar quando colocar um nodo por cima de outro, deletar o anterior sempre
-					var car = MaoDoJogador.Tools.PegaSlotByMarker(MaoDoJogador.LogicalPosition);
-					_gameState.CurrentPlayer.Field.placeCard(car, cardData, true, false, _gameState.CurrentPlayer.IsEnemy);					
-				}
-				_gameState.CurrentPlayer.DiscardCard(cardData.Id);
+			var cardData = idEscolhido.MainCard;	
+			//arrumar quando colocar um nodo por cima de outro, deletar o anterior sempre
+			var car = MaoDoJogador.Tools.PegaSlotByMarker(MaoDoJogador.LogicalPosition);
+			_gameState.CurrentPlayer.Field.placeCard(car, cardData, true, false, _gameState.CurrentPlayer.IsEnemy);								
+			foreach(var item in idEscolhido.CardsUsed){
+				_gameState.CurrentPlayer.DiscardCard(item.Id);
 				i++;
 			}					
 			//MaoDoJogador.AtualizarMao(_gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList(), false);  

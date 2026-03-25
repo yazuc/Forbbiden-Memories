@@ -92,7 +92,7 @@ namespace fm
 			return false;
 		}		
 
-		public Node3D InstanciaNodo(Marker3D slotDestino, bool criarNovo = true){
+		public Carta3d InstanciaNodo(Marker3D slotDestino, bool criarNovo = true){
 			var nodes = GetTree().GetNodesInGroup("cartas");
 			foreach(var item in nodes){
 				if(item is Carta3d meuNode){
@@ -106,7 +106,7 @@ namespace fm
 				return null;
 			
 			//nao achou
-			var novaCarta3d = carta3D.Instantiate<Node3D>();
+			var novaCarta3d = carta3D.Instantiate<Carta3d>();
 			novaCarta3d.AddToGroup("cartas");
 			GetParent().AddChild(novaCarta3d);
 			novaCarta3d.GlobalPosition = slotDestino.GlobalPosition;

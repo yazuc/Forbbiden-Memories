@@ -1,4 +1,5 @@
 using Godot;
+using QuickType;
 using System;
 namespace fm{	
 	public partial class Carta3d : Node3D
@@ -9,7 +10,7 @@ namespace fm{
 		private float _alturaDaCarta = 5f; // Ajuste para o tamanho real da sua carta em metros
 		private float _velocidadeDeQueima = 1.5f; // segundos
 		public bool SouCarta = true;
-		public int carta = -1;
+		public Cards carta = new Cards();
 		public string markerName = "";
 		public bool Defesa = false;
 		public string instance = "";
@@ -35,13 +36,14 @@ namespace fm{
 		
 		}
 
-		public void Setup(int cardId, int slot, bool IsEnemy, bool Facedown, string markerName)
+		public void Setup(Cards cardId, int slot, bool IsEnemy, bool Facedown, string markerName)
 		{
 			if (Visual != null)
 			{
 				IsFaceDown = Facedown;
 				Visual.DisplayCard(cardId, IsFaceDown);
 				this.carta = cardId;
+				GD.Print(carta.Id);
 				this.slotPlaced = slot;
 				this.IsEnemy = IsEnemy;
 				this.markerName = markerName;

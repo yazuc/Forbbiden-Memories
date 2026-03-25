@@ -11,8 +11,99 @@ namespace fm
 {
 	public class Function
 	{
+		public class FusionResult
+		{
+			public Cards MainCard { get; set; }
+			public List<Cards> AppliedEquips { get; set; } = new List<Cards>();
+			public List<Cards> CardsUsed {get;set;} = new List<Cards>();
+		}
+
+		public static FusionResult ProcessChain(string args)
+		{
+			var cards = CardDatabase.Instance.GetAllCards();
+			var cardIds = args.Split(',').Select(int.Parse).ToList();
+			var queue = new Queue<int>(cardIds);
+
+			if (queue.Count == 0) return null;
+
+			var result = new FusionResult();
+			int currentCardId = queue.Dequeue();
+			result.MainCard = cards.FirstOrDefault(x => x.Id == currentCardId);
+			if(result.MainCard != null)
+				result.CardsUsed.Add(result.MainCard);
+
+			while (queue.Count > 0)
+			{
+				int nextId = queue.Dequeue();
+				var nextCard = cards.FirstOrDefault(x => x.Id == nextId);
+				if(nextCard != null)
+					result.CardsUsed.Add(nextCard);
+
+				// 1. Tenta Fusão de Monstro primeiro (Transformação)
+				if (TryGetFusion(currentCardId, nextId, cards, out int fusedId))
+				{
+					currentCardId = fusedId;
+					result.MainCard = cards.FirstOrDefault(x => x.Id == currentCardId);
+					// Ao fundir, tecnicamente os equips antigos costumam ser perdidos no FM
+					result.AppliedEquips.Clear(); 
+					GD.Print($"Fusão: {nextId} transformou a carta em {fusedId}");
+				}
+				// 2. Se não fundiu, tenta Equipar
+				else if (CanEquip(result.MainCard, nextCard))
+				{
+					result.AppliedEquips.Add(nextCard);
+					GD.Print($"Equipou {nextCard.Name} em {result.MainCard.Name}");
+				}
+				// Caso B: MainCard é Equipamento e Next é Monstro (INVERSÃO)
+				else if (CanEquip(nextCard, result.MainCard))
+				{
+					var equipParaGuardar = result.MainCard; // O antigo 'main' era o equip
+					
+					// O monstro novo assume o posto de MainCard
+					result.MainCard = nextCard;
+					currentCardId = nextCard.Id;
+					
+					result.AppliedEquips.Clear(); // Limpa o que tinha antes
+					result.AppliedEquips.Add(equipParaGuardar); // Adiciona o equip que estava esperando
+					
+					GD.Print($"Inversão: {nextCard.Name} assumiu como Main e recebeu {equipParaGuardar.Name}");
+				}
+				// 3. Se nada funcionou, a carta anterior é descartada e a nova vira a principal
+				else
+				{
+					currentCardId = nextId;
+					result.MainCard = nextCard;
+					result.AppliedEquips.Clear();
+					GD.Print($"Nada aconteceu, nova carta base: {nextId}");
+				}
+			}
+
+			foreach(var item in result.AppliedEquips)
+			{
+				if(result.MainCard != null)
+				{
+					GD.Print(item.Attack);
+					result.MainCard.Attack += item.Attack;			
+					result.MainCard.Defense += item.Defense;		
+				}
+			}
+
+			return result;
+		}
+
+		public static bool CanEquip(Cards monster, Cards equip)
+		{
+			if (monster == null || equip == null) return false;
+
+			// Verifica se a carta vinda da fila é do tipo Equipamento
+			// E se o ID dela está na lista de equipamentos aceitos pelo monstro
+			return equip.Type == CardTypeEnum.Equipment && monster.Equips.Contains(equip.Id);
+		}
 		public static Cards Fusion(string args)
 		{
+			foreach(var item in ProcessChain(args).CardsUsed)
+				GD.Print(item.Id);
+
 			CardDatabase.Instance.GetAllCards();
 			var cards = CardDatabase.Instance.GetAllCards();
 
@@ -48,14 +139,16 @@ namespace fm
 		
 		public static bool TryGetFusion(int card1ID, int card2ID, List<Cards> cards, out int result)
 		{
+			int card1 = Math.Min(card1ID, card2ID);
+			int card2 = Math.Max(card1ID, card2ID);
 			result = -1;
-			var fusion = cards.FirstOrDefault(x => x.Id == card1ID);
+			var fusion = cards.FirstOrDefault(x => x.Id == card1);
 
 			if(fusion != null && fusion.Fusions.Any())
 			{
 				foreach(var item in fusion.Fusions)
 				{
-					if(item.Card2 == card2ID)
+					if(item.Card2 == card2)
 					{
 						result = item.Result;
 						return true;

@@ -1,4 +1,5 @@
 using Godot;
+using QuickType;
 using System;
 namespace fm
 {	
@@ -20,6 +21,7 @@ namespace fm
 		public int sign, sign1;
 		public string nome;
 		public bool Facedown;
+		public Cards CurrentCard;
 
 		// Caminhos para as suas cenas de frame
 		private readonly Dictionary<string, string> _framePaths = new()
@@ -40,20 +42,20 @@ namespace fm
 
 			// TESTE: Carrega a carta de ID 1 assim que der Play na cena
 			// Se o seu banco estiver vazio, certifique-se de rodar o SyncJson antes!
-			DisplayCard(1);
+			//DisplayCard(1);
 		}
 
-		public void DisplayCard(int id, bool isFaceDown = false)
+		public void DisplayCard(Cards id, bool isFaceDown = false)
 		{
 			Facedown = isFaceDown;
-			var cardData = CardDatabase.Instance.GetCardById(id);
+			var cardData = id;
 			if (cardData == null) return;
 			Type = cardData.Type;
 			sign = (int)cardData.GuardianStarA;
 			sign1 = (int)cardData.GuardianStarB;
 			nome = cardData.Name;
 			
-			CurrentID = id;
+			CurrentCard = id;
 
 			// Atualiza o frame da moldura (Monster, Spell, Trap, Equip, Ritual)
 			UpdateFrame(FixType(cardData.Type));
@@ -104,7 +106,7 @@ namespace fm
 
 			// 3. O Callback: Troca os dados e a moldura quando a carta está invisível
 			tween.TweenCallback(Callable.From(() => {
-				DisplayCard(CurrentID, targetFaceDown);
+				DisplayCard(CurrentCard, targetFaceDown);
 			}));
 
 			// 4. Segundo Passo: "Abre" a carta (volta ao scale normal)

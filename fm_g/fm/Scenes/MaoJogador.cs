@@ -1,5 +1,7 @@
 using Godot;
+using QuickType;
 using System;
+using static fm.Function;
 
 namespace fm{	
 	public partial class MaoJogador : Node2D
@@ -18,7 +20,7 @@ namespace fm{
 		public Godot.Collections.Array<Marker3D> SlotsCampoSTIni = new ();
 		public Godot.Collections.Array<Marker3D> Slots = new ();	
 		public bool STOP {get;set;}		
-		private TaskCompletionSource<Godot.Collections.Array<int>> _tcsCarta;
+		private TaskCompletionSource<FusionResult> _tcsCarta;
 		private TaskCompletionSource<int> _tcsSlot;
 		public TaskCompletionSource<bool> _tcsFaceDown;
 		bool IsFaceDown = false;
@@ -220,16 +222,12 @@ namespace fm{
 				await _anim.AnimaFusao(this);
 			
 			string idsString = string.Join(",", IDFusao);									
-			var resultadoFusao = Function.Fusion(idsString);		
+			var resultadoFusao = ProcessChain(idsString);		
 			bool summon = true;	
 			
 			if (resultadoFusao != null)
 			{				
 				var idsMateriais = IDFusao;
-				var retorno = new Godot.Collections.Array<int>(idsMateriais)
-                {
-                    resultadoFusao.Id
-                };
 				
 				var slotDestino = SlotsCampo[_indiceCampoSelecionado];
 				if(_cartasSelecionadasParaFusao.Count() == 1){
@@ -237,36 +235,33 @@ namespace fm{
 				}				
 				if(_cartasSelecionadasParaFusao.Count() > 1)
 				{
-					var tipo = PegaTipoPorId(_cartasSelecionadasParaFusao.LastOrDefault().carta.Id);
+					var tipo = resultadoFusao.MainCard.Type;
 					slotDestino = DefineSlotagem(tipo)[_indiceCampoSelecionado];				
 					summon = tipo != CardTypeEnum.Spell && tipo != CardTypeEnum.Trap && tipo != CardTypeEnum.Equipment;
 				}
 
 				if (summon)
 				{
-					await Instancia3D(slotDestino, (int)resultadoFusao.Id);			
+					await Instancia3D(slotDestino, resultadoFusao.MainCard);			
 					LogicalPosition = slotDestino.Name.ToString();
 				}
 				
 				_cartasSelecionadasParaFusao.Clear();
 				await SairModoSelecaoCampo();
 				_bloquearNavegaçãoManual = false;
-				_tcsCarta?.TrySetResult(retorno);
+				_tcsCarta?.TrySetResult(resultadoFusao);
 			}
 		}
 		
-		public async Task Instancia3D(Marker3D slotDestino, int fusao){
+		public async Task Instancia3D(Marker3D slotDestino, Cards fusao){
 			bool IsEnemy = slotDestino.Name.ToString().Contains("Ini");
-			Node3D novaCarta3d = Tools.InstanciaNodo(slotDestino);			
+			var novaCarta3d = Tools.InstanciaNodo(slotDestino);			
 			if(IsEnemy){
 				GD.Print(slotDestino.GlobalRotation.ToString());
 				Vector3 rota = new Vector3(-0, 1.5707964f, 0);
 				novaCarta3d.GlobalRotation += slotDestino.GlobalRotation + rota;
-			}
-
-			if (novaCarta3d.HasMethod("Setup")){
-				novaCarta3d.Call("Setup", fusao, (int)_indiceCampoSelecionado, IsEnemy, IsFaceDown, slotDestino.Name);
-			} 
+			}			
+			novaCarta3d.Setup(fusao, (int)_indiceCampoSelecionado, IsEnemy, IsFaceDown, slotDestino.Name);			
 			foreach (var carta in _cartasSelecionadasParaFusao)
 			{
 				if(IsInstanceValid(carta))
@@ -592,9 +587,9 @@ namespace fm{
 			GD.Print("MaoJogador: Slots redefinidos com sucesso via GameLoop.");
 		}
 		
-		public async Task<Godot.Collections.Array<int>> AguardarConfirmacaoJogadaAsync()
+		public async Task<FusionResult> AguardarConfirmacaoJogadaAsync()
 		{
-			_tcsCarta = new TaskCompletionSource<Godot.Collections.Array<int>>();
+			_tcsCarta = new TaskCompletionSource<FusionResult>();
 			
 			// O código aqui fica "parado" até que ConfirmarInvocacaoNoCampo() seja chamado
 			var resultado = await _tcsCarta.Task;
