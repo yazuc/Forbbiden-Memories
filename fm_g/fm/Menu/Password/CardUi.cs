@@ -58,6 +58,13 @@ public partial class CardUi : Control
 			Display(-1);
 	}
 
+	public void StatusUp(Cards card)
+	{
+		ATK.Text = "ATK " + card.Attack.ToString();
+		DEF.Text = "DEF " + card.Defense.ToString();
+	}
+
+
 	public void Display(int id)
 	{
 		if(id < 0)

@@ -1,4 +1,5 @@
 using Godot;
+using QuickType;
 using System.Threading.Tasks;
 
 namespace fm{
@@ -261,7 +262,7 @@ namespace fm{
 
 				await MoverParaPosicao(cartaSacrificio, targetGlobalPos + new Vector2(sideOffset, 0), 0f);
 				string idsString = $"{cartaPrincipal.carta.Id},{cartaSacrificio.carta.Id}";							
-				var resultadoFusao = Function.Fusion(idsString);						
+				var resultadoFusao = Function.ProcessChain(idsString);						
 				await Task.Delay(200);
 
 				Node2D pivot = new Node2D();
@@ -275,48 +276,18 @@ namespace fm{
 				cartaSacrificio.RotationDegrees = 0;
 				cartaPrincipal.Position = new Vector2(-sideOffset, 0);
 				cartaSacrificio.Position = new Vector2(sideOffset, 0);
-
-				if(cartaSacrificio.carta.Id != resultadoFusao.Id)
+				if(resultadoFusao.AppliedEquips.Count() > 0)
 				{
-					Tween spiralTween = CreateTween().SetParallel(true);
-					float duration = 1.2f;
-					float voltas = 1080f; 
-
-					spiralTween.TweenProperty(pivot, "rotation_degrees", voltas, duration)
-						.SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);								
-					spiralTween.TweenProperty(cartaPrincipal, "rotation_degrees", -voltas, duration)
-						.SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);
-					spiralTween.TweenProperty(cartaSacrificio, "rotation_degrees", -voltas, duration)
-						.SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);
-					spiralTween.TweenProperty(cartaPrincipal, "position", Vector2.Zero, duration);
-					spiralTween.TweenProperty(cartaSacrificio, "position", Vector2.Zero, duration);
-					
-					await ToSignal(spiralTween, "finished");				
-					cartaSacrificio.Visible = false;
-									
-					Tween impact = CreateTween();
-					impact.TweenProperty(cartaPrincipal, "scale", new Vector2(1.5f, 1.5f), 0.1f);
-					impact.TweenProperty(cartaPrincipal, "scale", new Vector2(1.0f, 1.0f), 0.1f);				
-					cartaPrincipal.Display(resultadoFusao.Id);					
+					await AnimarEquipamento(cartaPrincipal, cartaSacrificio, pivot.GlobalPosition, resultadoFusao.MainCard);
+				}
+				else if(cartaSacrificio.carta.Id != resultadoFusao.MainCard.Id)
+				{					
+					await AnimaEspiral(pivot, cartaPrincipal, cartaSacrificio);
+					cartaPrincipal.Display(resultadoFusao.MainCard.Id);					
 				}else
 				{
-					float durationSaida = 0.5f;
-					Vector2 foraDaTela = new Vector2(-500, 500); 					
-					Tween yeetTween = CreateTween().SetParallel(true);
-					
-					yeetTween.TweenProperty(cartaPrincipal, "position", foraDaTela, durationSaida)
-						.SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);
-					
-					yeetTween.TweenProperty(cartaSacrificio, "position", Vector2.Zero, durationSaida)
-						.SetTrans(Tween.TransitionType.Quad);
-					
-					await ToSignal(yeetTween, "finished");
-					
-					// Cleanup
-					cartaPrincipal.Position = Vector2.Zero; // Reseta pro futuro					
-					
-					// Agora a carta de sacrifício assume o posto de principal visualmente
-					cartaPrincipal.Display(resultadoFusao.Id);
+					await AnimaPraFora(cartaPrincipal, cartaSacrificio);
+					cartaPrincipal.Display(resultadoFusao.MainCard.Id);
 				}
 				
 				Vector2 globalPos = cartaPrincipal.GlobalPosition;
@@ -335,6 +306,77 @@ namespace fm{
 
 			await MoverParaPosicao(cartaPrincipal, targetGlobalPos, 0f);
 			maoJogador.STOP = false;
+		}
+
+		private async Task AnimarEquipamento(CardUi monstro, CardUi equip, Vector2 centro, Cards res)
+		{
+			// 1. Move o equipamento para cima do monstro com um pequeno offset vertical (estilo FM)
+			Tween equipTween = CreateTween().SetParallel(true);
+			equipTween.TweenProperty(equip, "global_position", monstro.GlobalPosition, 0.4f)
+				.SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out);
+			equipTween.TweenProperty(equip, "modulate:a", 1.0f, 0.4f);
+			
+			await ToSignal(equipTween, "finished");
+			await Task.Delay(100);
+
+			// 2. "Impacto" do equipamento descendo sobre o monstro
+			Tween impactTween = CreateTween().SetParallel(true);
+			impactTween.TweenProperty(equip, "global_position", monstro.GlobalPosition, 0.2f);
+			//impactTween.TweenProperty(equip, "scale", new Vector2(1.0f, 1.0f), 0.2f);
+			impactTween.TweenProperty(equip, "modulate:a", 0.0f, 0.1f); // Desaparece ao "entrar" no monstro
+			monstro.StatusUp(res);
+			
+			// O monstro pulsa para indicar que recebeu o bônus
+			impactTween.TweenProperty(monstro, "scale", new Vector2(1.1f, 1.1f), 0.1f);
+			monstro.Modulate = new Color(2f, 2f, 2f); // flash branco
+			Tween flashTween = CreateTween();
+			flashTween.TweenProperty(monstro, "modulate", Colors.White, 0.8f);
+			
+			await ToSignal(impactTween, "finished");
+			
+			monstro.Scale = Vector2.One;
+			equip.Visible = false;
+		}
+
+		public async Task AnimaPraFora(CardUi cartaPrincipal, CardUi cartaSacrificio)
+		{
+			float durationSaida = 0.5f;
+			Vector2 foraDaTela = new Vector2(-500, 500); 					
+			Tween yeetTween = CreateTween().SetParallel(true);
+			
+			yeetTween.TweenProperty(cartaPrincipal, "position", foraDaTela, durationSaida)
+				.SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);
+			
+			yeetTween.TweenProperty(cartaSacrificio, "position", Vector2.Zero, durationSaida)
+				.SetTrans(Tween.TransitionType.Quad);
+			
+			await ToSignal(yeetTween, "finished");
+			
+			// Cleanup
+			cartaPrincipal.Position = Vector2.Zero; // Reseta pro futuro								
+		}
+
+		public async Task AnimaEspiral(Node2D pivot, CardUi cartaPrincipal, CardUi cartaSacrificio)
+		{
+			Tween spiralTween = CreateTween().SetParallel(true);
+			float duration = 1.2f;
+			float voltas = 1080f; 
+
+			spiralTween.TweenProperty(pivot, "rotation_degrees", voltas, duration)
+				.SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);								
+			spiralTween.TweenProperty(cartaPrincipal, "rotation_degrees", -voltas, duration)
+				.SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);
+			spiralTween.TweenProperty(cartaSacrificio, "rotation_degrees", -voltas, duration)
+				.SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);
+			spiralTween.TweenProperty(cartaPrincipal, "position", Vector2.Zero, duration);
+			spiralTween.TweenProperty(cartaSacrificio, "position", Vector2.Zero, duration);
+			
+			await ToSignal(spiralTween, "finished");				
+			cartaSacrificio.Visible = false;
+							
+			Tween impact = CreateTween();
+			impact.TweenProperty(cartaPrincipal, "scale", new Vector2(1.5f, 1.5f), 0.1f);
+			impact.TweenProperty(cartaPrincipal, "scale", new Vector2(1.0f, 1.0f), 0.1f);	
 		}
 
 		private async Task MoverParaPosicao(Control node, Vector2 targetPos, float targetRotation = 0f)
