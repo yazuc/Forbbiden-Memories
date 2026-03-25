@@ -64,7 +64,48 @@ namespace fm
 		 	return cardsdeck;
 		}
 			
-		
+		public void SyncEquipsJsonToDatabase(string jsonFilePath = "/mnt/Nvme/fm-db/equip.json")
+		{
+			if (_database == null) return;
+
+			string globalPath = ProjectSettings.GlobalizePath(jsonFilePath);
+			if (!File.Exists(globalPath))
+			{
+				GD.PrintErr($"Arquivo de Equipamentos não encontrado em: {globalPath}");
+				return;
+			}
+
+			try
+			{
+				string json = File.ReadAllText(globalPath);
+				// O Newtonsoft entende chaves numéricas em string como int para o Dictionary
+				var equipsMap = JsonConvert.DeserializeObject<Dictionary<int, int[]>>(json);
+
+				if (equipsMap == null) return;
+
+				// Iniciamos uma transação para performance máxima
+				_database.BeginTransaction();
+
+				foreach (var entry in equipsMap)
+				{
+					int cardId = entry.Key;
+					// Serializamos o array de int para string JSON
+					string blob = JsonConvert.SerializeObject(entry.Value);
+
+					// Update procedural apenas na coluna EquipsBlob
+					_database.Execute("UPDATE Cards SET EquipsBlob = ? WHERE Id = ?", blob, cardId);
+				}
+
+				_database.Commit();
+				GD.Print($"Sincronização de {equipsMap.Count} equipamentos concluída!");
+			}
+			catch (System.Exception e)
+			{
+				_database.Rollback();
+				GD.PrintErr($"Erro ao sincronizar equipamentos: {e.Message}");
+			}
+		}
+
 		public void SyncJsonToDatabase(string jsonFilePath)
 		{
 			// 1. Check if we already have data to avoid duplicates

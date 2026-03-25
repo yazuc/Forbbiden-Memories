@@ -53,6 +53,16 @@ namespace QuickType
 		[JsonProperty("CardCode")]
 		public string CardCode { get; set; }
 
+		[JsonProperty("Equips")]
+		[Ignore] // O SQLite ignora o array original
+		public int[] Equips { get; set; }
+		public string EquipsBlob
+		{
+			get => Equips != null ? JsonConvert.SerializeObject(Equips) : "[]";
+			set => Equips = string.IsNullOrEmpty(value) 
+					? Array.Empty<int>() 
+					: JsonConvert.DeserializeObject<int[]>(value);
+		}
 		[JsonProperty("Fusions")]
 		[Ignore]
 		public Fusion[] Fusions { get; set; }
@@ -78,6 +88,8 @@ namespace QuickType
 		public float AtlasX { get; set; }
 		public float AtlasY { get; set; }
 	}
+
+
 
 	public partial class Fusion
 	{

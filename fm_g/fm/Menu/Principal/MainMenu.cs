@@ -15,6 +15,7 @@ public partial class MainMenu : Control
 			textureButtons.Add(button as TextureButton);
 		}
 		textureButtons[0].GrabFocus();
+
 		//LightUpButton(0);
 	}
 
