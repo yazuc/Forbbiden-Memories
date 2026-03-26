@@ -261,11 +261,12 @@ namespace fm{
 			{
 				var cartaSacrificio = list3d[i];
 
-				await MoverParaPosicao(cartaSacrificio, targetGlobalPos + new Vector2(sideOffset, 0), 0f);
 				string idsString = $"{cartaPrincipal.carta.Id},{cartaSacrificio.carta.Id}";							
 				var resultadoFusao = Function.ProcessChain(idsString);			
 				bool sacrificioVirouMain = cartaSacrificio.carta.Id == resultadoFusao.MainCard.Id;
-				bool principalContinua = cartaPrincipal.carta.Id == resultadoFusao.MainCard.Id;			
+				bool principalContinua = cartaPrincipal.carta.Id == resultadoFusao.MainCard.Id;		
+
+				await MoverParaPosicao(cartaSacrificio, targetGlobalPos + new Vector2(sideOffset, 0), 0f);
 				await Task.Delay(200);
 
 				Node2D pivot = new Node2D();
@@ -283,13 +284,21 @@ namespace fm{
 				{
 					await AnimarEquipamento(cartaPrincipal, cartaSacrificio, pivot.GlobalPosition, resultadoFusao.MainCard);
 				}
-				else if(cartaSacrificio.carta.Id != resultadoFusao.MainCard.Id)
-				{					
+				else if(resultadoFusao.FusaoAconteceu)
+				{		
+					GD.Print($"principalcontinua: {cartaPrincipal.carta.Name} - {principalContinua} sacrificiomain: {cartaSacrificio.carta.Name} - {sacrificioVirouMain}");			
 					await AnimaEspiral(pivot, cartaPrincipal, cartaSacrificio);
 					cartaPrincipal.Display(resultadoFusao.MainCard.Id);					
 				}else
 				{
-					await AnimaPraFora(cartaPrincipal, cartaSacrificio);
+					if (resultadoFusao.FalhaEquip)
+					{
+						await AnimaPraForaDramaticamente(cartaPrincipal, cartaSacrificio);
+					}
+					else
+					{
+						await AnimaPraFora(cartaPrincipal, cartaSacrificio);
+					}
 					cartaPrincipal.Display(resultadoFusao.MainCard.Id);
 				}
 				
@@ -344,20 +353,62 @@ namespace fm{
 		public async Task AnimaPraFora(CardUi cartaPrincipal, CardUi cartaSacrificio)
 		{
 			float durationSaida = 0.5f;
-			Vector2 foraDaTela = new Vector2(-500, 500); 					
+			Vector2 foraDaTela = new Vector2(-500, 500);
+
+			Vector2 alvo = cartaPrincipal.Position;
+
 			Tween yeetTween = CreateTween().SetParallel(true);
 			
 			yeetTween.TweenProperty(cartaPrincipal, "position", foraDaTela, durationSaida)
-				.SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);
+				.SetTrans(Tween.TransitionType.Quad)
+				.SetEase(Tween.EaseType.In);
 			
-			yeetTween.TweenProperty(cartaSacrificio, "position", Vector2.Zero, durationSaida)
-				.SetTrans(Tween.TransitionType.Quad);
-			
-			await ToSignal(yeetTween, "finished");
+			yeetTween.TweenProperty(cartaSacrificio, "position", alvo, durationSaida)
+				.SetTrans(Tween.TransitionType.Quad)
+				.SetEase(Tween.EaseType.Out);
+
+			await ToSignal(yeetTween, Tween.SignalName.Finished);
 			
 			// Cleanup
-			cartaPrincipal.Position = Vector2.Zero; // Reseta pro futuro								
+			cartaPrincipal.Position = Vector2.Zero;
 		}
+
+		public async Task AnimaPraForaDramaticamente(CardUi cartaPrincipal, CardUi cartaSacrificio)
+		{
+			float duracaoEntrada = 0.25f;
+			float duracaoAtravessar = 0.2f;
+			float duracaoQueda = 0.35f;
+
+			Vector2 posInicial = cartaSacrificio.Position;
+			Vector2 centro = cartaPrincipal.Position;
+			Vector2 posAtravessada = centro + new Vector2(0, 100);
+			Vector2 posQueda = posAtravessada + new Vector2(0, 300);
+
+			Tween tween = CreateTween();
+
+			tween.TweenProperty(cartaSacrificio, "position", posAtravessada, duracaoEntrada + duracaoAtravessar)
+				.SetTrans(Tween.TransitionType.Quad)
+				.SetEase(Tween.EaseType.In);
+
+			tween.TweenProperty(cartaSacrificio, "position", posQueda, duracaoQueda)
+				.SetTrans(Tween.TransitionType.Bounce)
+				.SetEase(Tween.EaseType.Out);
+
+			tween.Parallel().TweenProperty(
+				cartaSacrificio,
+				"rotation",
+				Mathf.DegToRad(30),
+				duracaoQueda
+			);
+
+			await ToSignal(tween, Tween.SignalName.Finished);
+
+			// Cleanup
+			cartaSacrificio.Position = posInicial;
+			cartaSacrificio.Scale = Vector2.One;
+			cartaSacrificio.Rotation = 0;
+		}
+
 
 		public async Task AnimaEspiral(Node2D pivot, CardUi cartaPrincipal, CardUi cartaSacrificio)
 		{
@@ -417,6 +468,13 @@ namespace fm{
 				.SetTrans(Tween.TransitionType.Cubic);
 
 			tween.Parallel().TweenProperty(carta, "modulate:a", 1.0f, 0.45f);
+		}
+
+		public Vector2 ScrenCenter()
+		{
+			var viewport = GetViewport();
+			Vector2 screenCenter = viewport.GetVisibleRect().Size / 2f;
+			return screenCenter;
 		}
 	}
 }

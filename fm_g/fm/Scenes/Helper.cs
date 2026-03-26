@@ -92,6 +92,8 @@ namespace fm
 			return false;
 		}		
 
+
+
 		public Carta3d InstanciaNodo(Marker3D slotDestino, bool criarNovo = true){
 			var nodes = GetTree().GetNodesInGroup("cartas");
 			foreach(var item in nodes){

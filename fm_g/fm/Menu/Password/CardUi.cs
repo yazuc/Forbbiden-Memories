@@ -172,20 +172,18 @@ public partial class CardUi : Control
 		GD.Print("estou flipandooooooo");
 	}
 
-	public async Task AtivaSpellAnimation()
+	public async Task AtivaSpellAnimation(Vector2 Screencenter)
 	{	
 		// Create a tween that runs on this node
 		Tween tween = GetTree().CreateTween();
+		Vector2 targetScale = Scale * 2f;
 		
 		// Set the transition type (Cubic/Expo look "magical")
 		tween.SetTrans(Tween.TransitionType.Cubic);
-		tween.SetEase(Tween.EaseType.Out);
-
-		// Animate the scale property to 3x its current value over 0.6 seconds
-		Vector2 targetScale = Scale * 3f;
-		
-		// Use Property syntax: (Object, "property_path", final_value, duration)
-		tween.TweenProperty(this, "scale", targetScale, 0.6f);		
+		tween.SetEase(Tween.EaseType.Out);	
+		tween.Parallel().TweenProperty(this, "global_position", Screencenter - this.Size, 0.5f);				
+		tween.Parallel().TweenProperty(this, "scale", targetScale, 0.6f);	
+		tween.TweenProperty(this, "modulate:a", 0f, 0.45f);			
 
 		// Wait for the animation to finish before proceeding
 		await ToSignal(tween, Tween.SignalName.Finished);

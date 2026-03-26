@@ -14,6 +14,8 @@ namespace fm
 		public class FusionResult
 		{
 			public Cards MainCard { get; set; }
+			public bool FusaoAconteceu {get;set;}
+			public bool FalhaEquip {get;set;}
 			public List<Cards> AppliedEquips { get; set; } = new List<Cards>();
 			public List<Cards> CardsUsed {get;set;} = new List<Cards>();
 		}
@@ -43,6 +45,7 @@ namespace fm
 				if (TryGetFusion(currentCardId, nextId, cards, out int fusedId))
 				{
 					currentCardId = fusedId;
+					result.FusaoAconteceu = true;
 					result.MainCard = cards.FirstOrDefault(x => x.Id == currentCardId);
 					// Ao fundir, tecnicamente os equips antigos costumam ser perdidos no FM
 					result.AppliedEquips.Clear(); 
@@ -71,10 +74,17 @@ namespace fm
 				// 3. Se nada funcionou, a carta anterior é descartada e a nova vira a principal
 				else
 				{
-					currentCardId = nextId;
-					result.MainCard = nextCard;
-					result.AppliedEquips.Clear();
-					GD.Print($"Nada aconteceu, nova carta base: {nextId}");
+					if (!nextCard.IsSpellTrap())
+					{
+						currentCardId = nextId;
+						result.MainCard = nextCard;
+						result.AppliedEquips.Clear();
+						GD.Print($"Nada aconteceu, nova carta base: {nextId}");
+					}
+					else
+					{
+						result.FalhaEquip = true;
+					}
 				}
 			}
 

@@ -122,14 +122,14 @@ namespace fm{
 							// O await vai "explodir" aqui se TrySetCanceled for chamado
 							var alvo = _cartasSelecionadasParaFusao.FirstOrDefault();
 							IsFaceDown = await _anim.AnimaCartaParaCentro(this, alvo.carta.Id, alvo.carta.Name, _indiceSelecionado);							
-							// if(alvo.carta.Type == CardTypeEnum.Spell && !IsFaceDown)
-							// {
-							// 	GD.Print("usando spell");		
-							// 	ConfirmarInvocacaoNoCampo(true, alvo);		
-							// 	return;
-							// }								
-							// else			
-							await EntrarModoSelecaoCampo();
+							if(alvo.carta.IsSpellTrap() && !IsFaceDown)
+							{
+								GD.Print("usando spell");		
+								ConfirmarInvocacaoNoCampo(true, alvo);		
+								return;
+							}								
+							else			
+								await EntrarModoSelecaoCampo();
 						}
 						catch (OperationCanceledException) 
 						{
@@ -238,9 +238,11 @@ namespace fm{
 				{
 					_bloquearNavegaçãoManual = true;
 
-					// Se for uma carta vinda da mão, executa a animação de "Crescer"
 					if(card != null)
-						await card.AtivaSpellAnimation();
+					{
+						
+						await card.AtivaSpellAnimation(_anim.ScrenCenter());
+					}
 
 					_cartasSelecionadasParaFusao.Clear();
 					_tcsCarta?.TrySetResult(resultadoFusao);

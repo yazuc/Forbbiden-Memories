@@ -87,6 +87,11 @@ namespace QuickType
 		
 		public float AtlasX { get; set; }
 		public float AtlasY { get; set; }
+
+		public bool IsSpellTrap()
+		{
+			return Type == CardTypeEnum.Spell || Type == CardTypeEnum.Trap || Type == CardTypeEnum.Ritual || Type == CardTypeEnum.Equipment;	
+		}
 	}
 
 
@@ -119,6 +124,7 @@ namespace QuickType
 
 		[JsonProperty("Result")]
 		public long Result { get; set; }
+
 	}
 
 	public partial class Cards
@@ -130,6 +136,7 @@ namespace QuickType
 	{
 		public static string ToJson(this Cards[] self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
 	}
+
 
 	internal static class Converter
 	{
