@@ -20,10 +20,10 @@ namespace fm{
 		public Godot.Collections.Array<Marker3D> SlotsCampoSTIni = new ();
 		public Godot.Collections.Array<Marker3D> Slots = new ();	
 		public bool STOP {get;set;}		
-		private TaskCompletionSource<FusionResult> _tcsCarta;
+		private TaskCompletionSource<List<int>> _tcsCartaIntents;
 		private TaskCompletionSource<int> _tcsSlot;
 		public TaskCompletionSource<bool> _tcsFaceDown;
-		bool IsFaceDown = false;
+		public bool IsFaceDown = false;
 		private bool _bloquearNavegaçãoManual = false;
 		private Node3D _instanciaSeletor = null;
 		public int _indiceSelecionado = 0;	
@@ -124,7 +124,7 @@ namespace fm{
 							if(alvo.carta.Type == CardTypeEnum.Spell && !IsFaceDown)
 							{
 								GD.Print("usando spell");		
-								ConfirmarInvocacaoNoCampo(true, alvo);		
+								await EmitirIntencaoJogada(true, alvo);
 								return;
 							}								
 							else			
@@ -138,6 +138,8 @@ namespace fm{
 							if (_cartasSelecionadasParaFusao.Any()) {
 								await _anim.AnimaCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().carta.Id, _cartasSelecionadasParaFusao.FirstOrDefault().carta.Name, _indiceSelecionado, true);
 							}
+
+							_cartasSelecionadasParaFusao.Clear();
 						}
 					}
 				}
@@ -149,7 +151,7 @@ namespace fm{
 					if (Input.IsActionJustPressed("ui_accept")) 
 					{
 						await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-						ConfirmarInvocacaoNoCampo();						
+						await EmitirIntencaoJogada();
 					}
 					
 					if (Input.IsActionJustPressed("ui_cancel")) 
@@ -222,54 +224,37 @@ namespace fm{
 			_instanciaSeletor.GlobalRotation = slotDestino.GlobalRotation;
 		}
 		
-		private async void ConfirmarInvocacaoNoCampo(bool ativaDireto = false, CardUi? card = null)
-		{			
-			if(_cartasSelecionadasParaFusao.Count() > 1)
-				await _anim.AnimaFusao(this);
-			
-			string idsString = string.Join(",", IDFusao);									
-			var resultadoFusao = ProcessChain(idsString);		
-			bool summon = true;	
-			
-			if (resultadoFusao != null)
-			{								
-				if(ativaDireto)
-				{
-					_bloquearNavegaçãoManual = true;
-
-					// Se for uma carta vinda da mão, executa a animação de "Crescer"
-					if(card != null)
-						await card.AtivaSpellAnimation();
-
-					_cartasSelecionadasParaFusao.Clear();
-					_tcsCarta?.TrySetResult(resultadoFusao);
-					_bloquearNavegaçãoManual = false;
-					return;
-				}
-
-				var slotDestino = SlotsCampo[_indiceCampoSelecionado];
-				if(_cartasSelecionadasParaFusao.Count() == 1){
-					slotDestino = DefineSlotagem(PegaTipoPorId(_cartasSelecionadasParaFusao.FirstOrDefault().carta.Id))[_indiceCampoSelecionado];				
-				}				
-				if(_cartasSelecionadasParaFusao.Count() > 1)
-				{
-					var tipo = resultadoFusao.MainCard.Type;
-					slotDestino = DefineSlotagem(tipo)[_indiceCampoSelecionado];				
-					summon = tipo != CardTypeEnum.Spell && tipo != CardTypeEnum.Trap && tipo != CardTypeEnum.Equipment;
-				}
-
-
-				if (summon)
-				{
-					await Instancia3D(slotDestino, resultadoFusao.MainCard);			
-					LogicalPosition = slotDestino.Name.ToString();
-				}
+		private async Task EmitirIntencaoJogada(bool ativaDireto = false, CardUi? card = null)
+		{
+			if (ativaDireto)
+			{
+				_bloquearNavegaçãoManual = true;
+				if (card != null)
+					await card.AtivaSpellAnimation();
 				
+				var listaIntencao = _cartasSelecionadasParaFusao.Select(c => c.carta.Id).ToList();
 				_cartasSelecionadasParaFusao.Clear();
-				await SairModoSelecaoCampo();
+				_tcsCartaIntents?.TrySetResult(listaIntencao);
 				_bloquearNavegaçãoManual = false;
-				_tcsCarta?.TrySetResult(resultadoFusao);
+				return;
 			}
+
+			var slotDestino = SlotsCampo[_indiceCampoSelecionado];
+			if (_cartasSelecionadasParaFusao.Count() == 1) {
+				slotDestino = DefineSlotagem(PegaTipoPorId(_cartasSelecionadasParaFusao.FirstOrDefault().carta.Id))[_indiceCampoSelecionado];
+			} else {
+				// Precisamos mandar isso pro GameLoop para que ELE julgue o tipo depois da fusão.
+				// Aqui assumimos temporariamente Monstros/ST baseado numa heurística boba ou deixamos o GameLoop setar a LogicalPosition
+				LogicalPosition = slotDestino.Name.ToString();
+			}
+
+			LogicalPosition = slotDestino.Name.ToString();
+
+			var intencao = _cartasSelecionadasParaFusao.Select(c => c.carta.Id).ToList();
+			_cartasSelecionadasParaFusao.Clear();
+			await SairModoSelecaoCampo();
+			_bloquearNavegaçãoManual = false;
+			_tcsCartaIntents?.TrySetResult(intencao);
 		}
 		
 		public async Task Instancia3D(Marker3D slotDestino, Cards fusao){
@@ -609,14 +594,12 @@ namespace fm{
 			GD.Print("MaoJogador: Slots redefinidos com sucesso via GameLoop.");
 		}
 		
-		public async Task<FusionResult> AguardarConfirmacaoJogadaAsync()
+		public async Task<List<int>> AguardarConfirmacaoJogadaAsync()
 		{
-			_tcsCarta = new TaskCompletionSource<FusionResult>();
+			_tcsCartaIntents = new TaskCompletionSource<List<int>>();
 			
-			// O código aqui fica "parado" até que ConfirmarInvocacaoNoCampo() seja chamado
-			var resultado = await _tcsCarta.Task;
-			//depois de confirmado, setamos a task, e aqui precisamos começar as animações de mover para o centro novamente e em sequência definir qual a guardian star
-			return resultado;
+			var intencao = await _tcsCartaIntents.Task;
+			return intencao;
 		}
 		
 

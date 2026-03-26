@@ -109,21 +109,52 @@ namespace fm
  			MaoDoJogador.AtualizarMao(_gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList());   
 			
 			GD.Print("Aguardando jogador selecionar uma carta...");
-			FusionResult idEscolhido = await MaoDoJogador.AguardarConfirmacaoJogadaAsync(); 			
-			int i = 1;
-			var cardData = idEscolhido.MainCard;	
-			//arrumar quando colocar um nodo por cima de outro, deletar o anterior sempre
-			var car = MaoDoJogador.Tools.PegaSlotByMarker(MaoDoJogador.LogicalPosition);
-			_gameState.CurrentPlayer.Field.placeCard(car, cardData, true, false, _gameState.CurrentPlayer.IsEnemy);								
-			foreach(var item in idEscolhido.CardsUsed){
-				_gameState.CurrentPlayer.DiscardCard(item.Id);
-				i++;
-			}					
-			//MaoDoJogador.AtualizarMao(_gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList(), false);  
-			await MaoDoJogador.Tools.TransitionTo(CameraField, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);			
-			_gameState.Player1.Field.DrawFieldState();
-			_gameState.Player2.Field.DrawFieldState();	
-			SincronizaField();
+
+			List<int> intencaoDeJogada = await MaoDoJogador.AguardarConfirmacaoJogadaAsync();
+
+			if (intencaoDeJogada != null && intencaoDeJogada.Count > 0)
+			{
+				MaoDoJogador.IDFusao = intencaoDeJogada;
+
+				if (intencaoDeJogada.Count > 1) {
+					await MaoDoJogador._anim.AnimaFusao(MaoDoJogador);
+				}
+
+				string idsString = string.Join(",", intencaoDeJogada);
+				var resultadoFusao = Function.ProcessChain(idsString);
+
+				if (resultadoFusao != null)
+				{
+					bool summon = true;
+					var tipo = resultadoFusao.MainCard.Type;
+					var slotDestino = MaoDoJogador.DefineSlotagem(tipo)[MaoDoJogador._indiceCampoSelecionado];
+
+					summon = tipo != CardTypeEnum.Spell && tipo != CardTypeEnum.Trap && tipo != CardTypeEnum.Equipment;
+
+					if (summon)
+					{
+						await MaoDoJogador.Instancia3D(slotDestino, resultadoFusao.MainCard);
+						MaoDoJogador.LogicalPosition = slotDestino.Name.ToString();
+					}
+
+					int i = 1;
+					var cardData = resultadoFusao.MainCard;
+					var car = MaoDoJogador.Tools.PegaSlotByMarker(MaoDoJogador.LogicalPosition);
+
+					_gameState.CurrentPlayer.Field.placeCard(car, cardData, true, false, _gameState.CurrentPlayer.IsEnemy);
+
+					foreach(var item in resultadoFusao.CardsUsed){
+						_gameState.CurrentPlayer.DiscardCard(item.Id);
+						i++;
+					}
+
+					await MaoDoJogador.Tools.TransitionTo(CameraField, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);
+					_gameState.Player1.Field.DrawFieldState();
+					_gameState.Player2.Field.DrawFieldState();
+					SincronizaField();
+				}
+			}
+
 			_gameState.AdvancePhase();
 		}
 		
