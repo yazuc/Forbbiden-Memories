@@ -121,8 +121,14 @@ namespace fm{
 							// O await vai "explodir" aqui se TrySetCanceled for chamado
 							var alvo = _cartasSelecionadasParaFusao.FirstOrDefault();
 							IsFaceDown = await _anim.AnimaCartaParaCentro(this,alvo.carta.Id, alvo.carta.Name, _indiceSelecionado);							
-							GD.Print("Facedown confirmado: " + IsFaceDown);
-							await EntrarModoSelecaoCampo();
+							if(alvo.carta.Type == CardTypeEnum.Spell && !IsFaceDown)
+							{
+								GD.Print("usando spell");		
+								ConfirmarInvocacaoNoCampo(true, alvo);		
+								return;
+							}								
+							else			
+								await EntrarModoSelecaoCampo();
 						}
 						catch (OperationCanceledException) 
 						{
@@ -157,7 +163,7 @@ namespace fm{
 		}		
 
 		private async Task EntrarModoSelecaoCampo()
-		{
+		{			
 			if(_cartasSelecionadasParaFusao.Count() == 1)
 				await _anim.AnimaCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().carta.Id, _cartasSelecionadasParaFusao.FirstOrDefault().carta.Name, _indiceSelecionado);
 			_selecionandoLocal = true;
@@ -216,7 +222,7 @@ namespace fm{
 			_instanciaSeletor.GlobalRotation = slotDestino.GlobalRotation;
 		}
 		
-		private async void ConfirmarInvocacaoNoCampo()
+		private async void ConfirmarInvocacaoNoCampo(bool ativaDireto = false, CardUi? card = null)
 		{			
 			if(_cartasSelecionadasParaFusao.Count() > 1)
 				await _anim.AnimaFusao(this);
@@ -226,9 +232,21 @@ namespace fm{
 			bool summon = true;	
 			
 			if (resultadoFusao != null)
-			{				
-				var idsMateriais = IDFusao;
-				
+			{								
+				if(ativaDireto)
+				{
+					_bloquearNavegaçãoManual = true;
+
+					// Se for uma carta vinda da mão, executa a animação de "Crescer"
+					if(card != null)
+						await card.AtivaSpellAnimation();
+
+					_cartasSelecionadasParaFusao.Clear();
+					_tcsCarta?.TrySetResult(resultadoFusao);
+					_bloquearNavegaçãoManual = false;
+					return;
+				}
+
 				var slotDestino = SlotsCampo[_indiceCampoSelecionado];
 				if(_cartasSelecionadasParaFusao.Count() == 1){
 					slotDestino = DefineSlotagem(PegaTipoPorId(_cartasSelecionadasParaFusao.FirstOrDefault().carta.Id))[_indiceCampoSelecionado];				
@@ -239,6 +257,7 @@ namespace fm{
 					slotDestino = DefineSlotagem(tipo)[_indiceCampoSelecionado];				
 					summon = tipo != CardTypeEnum.Spell && tipo != CardTypeEnum.Trap && tipo != CardTypeEnum.Equipment;
 				}
+
 
 				if (summon)
 				{
@@ -293,15 +312,18 @@ namespace fm{
 			if (IndicadorTriangulo != null)
 			{				
 				var carta = MaoControl.GetCarta(_indiceSelecionado);
-				Vector2 cardPos = carta?.GlobalPosition ?? Vector2.Zero;
-				Vector2 targetPos = cardPos + new Vector2(-10, 180);
-				IndicadorTriangulo.ZIndex = 10;			
-				Tween tween = GetTree().CreateTween();
-				tween.TweenProperty(IndicadorTriangulo, "position", targetPos, 0.01f)
-					 .SetTrans(Tween.TransitionType.Quad)
-					 .SetEase(Tween.EaseType.Out);
-				if(carta != null && carta.carta != null)
-					MaoControl.DefineInfo(carta.carta);
+				if (IsInstanceValid(carta))
+				{
+					Vector2 cardPos = carta?.GlobalPosition ?? Vector2.Zero;
+					Vector2 targetPos = cardPos + new Vector2(-10, 180);
+					IndicadorTriangulo.ZIndex = 10;			
+					Tween tween = GetTree().CreateTween();
+					tween.TweenProperty(IndicadorTriangulo, "position", targetPos, 0.01f)
+						.SetTrans(Tween.TransitionType.Quad)
+						.SetEase(Tween.EaseType.Out);
+					if(carta != null && carta.carta != null)
+						MaoControl.DefineInfo(carta.carta);					
+				}
 			}
 		}
 

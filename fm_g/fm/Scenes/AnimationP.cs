@@ -154,7 +154,8 @@ namespace fm{
 				GD.PrintErr("Não foi possível encontrar a carta selecionada na mão!");
 				return false;
 			}
-			maoJogador.lastPos = MaoControl.GetCarta(_indiceSelecionado).GlobalPosition;
+			var carta = MaoControl.GetCarta(_indiceSelecionado);
+			maoJogador.lastPos = IsInstanceValid(carta) ? carta.GlobalPosition : new Vector2();
 			nodoAlvo.Visible = true;
 			nodoAlvo.Reparent(this,true);
 			nodoAlvo.Position = maoJogador.lastPos;

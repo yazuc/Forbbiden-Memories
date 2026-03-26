@@ -168,6 +168,29 @@ public partial class CardUi : Control
 		tween.TweenProperty(this, "scale:x", customScale, halfDuration)
 				.SetTrans(Tween.TransitionType.Quad)
 				.SetEase(Tween.EaseType.Out);
+
+		GD.Print("estou flipandooooooo");
+	}
+
+	public async Task AtivaSpellAnimation()
+	{	
+		// Create a tween that runs on this node
+		Tween tween = GetTree().CreateTween();
+		
+		// Set the transition type (Cubic/Expo look "magical")
+		tween.SetTrans(Tween.TransitionType.Cubic);
+		tween.SetEase(Tween.EaseType.Out);
+
+		// Animate the scale property to 3x its current value over 0.6 seconds
+		Vector2 targetScale = Scale * 3f;
+		
+		// Use Property syntax: (Object, "property_path", final_value, duration)
+		tween.TweenProperty(this, "scale", targetScale, 0.6f);		
+
+		// Wait for the animation to finish before proceeding
+		await ToSignal(tween, Tween.SignalName.Finished);
+		
+		GD.Print("Spell animation completed!");
 	}
 
 	public int TipoFrame(CardTypeEnum tipo)
