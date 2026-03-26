@@ -263,7 +263,9 @@ namespace fm{
 
 				await MoverParaPosicao(cartaSacrificio, targetGlobalPos + new Vector2(sideOffset, 0), 0f);
 				string idsString = $"{cartaPrincipal.carta.Id},{cartaSacrificio.carta.Id}";							
-				var resultadoFusao = Function.ProcessChain(idsString);						
+				var resultadoFusao = Function.ProcessChain(idsString);			
+				bool sacrificioVirouMain = cartaSacrificio.carta.Id == resultadoFusao.MainCard.Id;
+				bool principalContinua = cartaPrincipal.carta.Id == resultadoFusao.MainCard.Id;			
 				await Task.Delay(200);
 
 				Node2D pivot = new Node2D();

@@ -105,30 +105,31 @@ namespace fm{
 				
 				// MECÂNICA DE FUSÃO (Cima/Baixo)
 				if(!STOP){
+					var carta = MaoControl.GetCarta(_indiceSelecionado);
 					if (Input.IsActionJustPressed("ui_up")) 
 					{
-						_anim.AlternarSelecaoFusao(MaoControl.GetCarta(_indiceSelecionado));
+						_anim.AlternarSelecaoFusao(carta);
 					}					
 					if (Input.IsActionJustPressed("ui_accept")) 
 					{
 						await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 						if (_cartasSelecionadasParaFusao.Count == 0)
 						{
-							_cartasSelecionadasParaFusao.Add(MaoControl.GetCarta(_indiceSelecionado));
+							_cartasSelecionadasParaFusao.Add(carta);
 						}
 						try 
 						{
 							// O await vai "explodir" aqui se TrySetCanceled for chamado
 							var alvo = _cartasSelecionadasParaFusao.FirstOrDefault();
-							IsFaceDown = await _anim.AnimaCartaParaCentro(this,alvo.carta.Id, alvo.carta.Name, _indiceSelecionado);							
-							if(alvo.carta.Type == CardTypeEnum.Spell && !IsFaceDown)
-							{
-								GD.Print("usando spell");		
-								ConfirmarInvocacaoNoCampo(true, alvo);		
-								return;
-							}								
-							else			
-								await EntrarModoSelecaoCampo();
+							IsFaceDown = await _anim.AnimaCartaParaCentro(this, alvo.carta.Id, alvo.carta.Name, _indiceSelecionado);							
+							// if(alvo.carta.Type == CardTypeEnum.Spell && !IsFaceDown)
+							// {
+							// 	GD.Print("usando spell");		
+							// 	ConfirmarInvocacaoNoCampo(true, alvo);		
+							// 	return;
+							// }								
+							// else			
+							await EntrarModoSelecaoCampo();
 						}
 						catch (OperationCanceledException) 
 						{
@@ -483,8 +484,9 @@ namespace fm{
 
 			var rotacao = pegou.Rotation;
 
-			if (pegou is Carta3d nodo)
+			if (pegou is Carta3d nodo){
 				nodo.Defesa = !nodo.Defesa;
+			}
 
 			if (!isEnemy)
 			{
