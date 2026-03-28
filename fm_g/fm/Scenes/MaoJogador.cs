@@ -230,7 +230,7 @@ namespace fm{
 			var carta3dfield = Tools.PegaNodoCarta3d(slotDestino.Name);
 
 			var scene = GD.Load<PackedScene>("res://Menu/Password/card_ui.tscn");
-			if(carta3dfield != null)
+			if(carta3dfield != null && _selecionandoLocal)
 			{
 				RefFusao = CriarCartaFusao(carta3dfield);
 				_cartasSelecionadasParaFusao.Insert(0, RefFusao);
