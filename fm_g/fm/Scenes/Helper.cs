@@ -1,4 +1,5 @@
 using Godot;
+using QuickType;
 using System;
 
 namespace fm
@@ -76,6 +77,19 @@ namespace fm
 				}
 			}			
 			return true;
+		}
+
+		public PlayerIntentEnum DefineIntentCampo(Cards carta)
+		{
+			// if (carta != null && carta.IsEquip())
+			// {
+			// 	return PlayerIntentEnum.SelectEquip;
+			// }
+			if(carta == null)
+			{
+				return PlayerIntentEnum.SelectMonster;
+			}
+			return carta.IsSpellTrap() ? PlayerIntentEnum.SelectSpell : PlayerIntentEnum.SelectMonster;
 		}
 
 		public bool PegaNodoNoSlot(Marker3D slotDestino){

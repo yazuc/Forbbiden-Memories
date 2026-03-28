@@ -61,7 +61,7 @@ namespace fm
 				var spellTrap = SpellTrapZones[i];
 				if (spellTrap != null)
 				{
-					GD.Print($"- Zone {i + 1}: {(spellTrap.IsFaceDown ? "Face-down" : spellTrap.Card.Name)}");
+					GD.Print($"- Zone {i + 1}: {spellTrap.Card.Name}");
 				}
 				else
 				{
@@ -114,7 +114,7 @@ namespace fm
 			return true;
 		}
 
-		public bool PlaceSpellTrap(int idField, Cards card, bool isFaceDown = false)
+		public bool PlaceSpellTrap(int idField, Cards card, bool isFaceDown = false, bool ini = false)
 		{
 			int zoneIndex = idField;
 			if (zoneIndex < 0 || zoneIndex >= SPELL_TRAP_ZONES  )
@@ -122,6 +122,7 @@ namespace fm
 
 			SpellTrapZones[zoneIndex] = new FieldSpellTrap 
 			{ 
+				zoneName = ini ?  $"Carta{zoneIndex + 1}IniS" : $"Carta{zoneIndex + 1}S",
 				Card = card, 
 				IsFaceDown = isFaceDown
 			};
@@ -134,8 +135,9 @@ namespace fm
 			MonsterZones[index] = null;						
 			return true;
 		}
-
-		public FieldMonster? GetMonsterInZone(string zoneName) => 	MonsterZones.FirstOrDefault(x => x != null && x.zoneName == zoneName);		
+		
+		public FieldMonster? GetMonsterInZone(string zoneName) => MonsterZones.FirstOrDefault(x => x != null && x.zoneName == zoneName);		
+		public FieldSpellTrap? GetFieldSpellTrap(string zoneName) => SpellTrapZones.FirstOrDefault(x => x != null && x.zoneName == zoneName);
 
 		public FieldMonster? GetMonsterInZone(
 			int zoneIndex) => 

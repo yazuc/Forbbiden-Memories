@@ -2,8 +2,8 @@ using QuickType;
 
 namespace fm
 {
-		public class BattleSystem
-	{
+	public class BattleSystem
+	{		
 		public class BattleResult
 		{
 			public int DamageDealt { get; set; }

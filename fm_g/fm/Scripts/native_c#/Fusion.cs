@@ -17,6 +17,7 @@ namespace fm
 			public bool IsFaceDown {get;set;}
 			public bool FusaoAconteceu {get;set;}
 			public bool FalhaEquip {get;set;}
+			public string WorldPos {get;set;} = string.Empty;
 			public List<Cards> AppliedEquips { get; set; } = new List<Cards>();
 			public List<Cards> CardsUsed {get;set;} = new List<Cards>();
 		}

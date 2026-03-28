@@ -69,5 +69,8 @@ namespace fm
 		}
 
 		public bool HasCards() => Deck.Count > 0;
+
+		public PlayerIntention PlayerIntent {get;set;}
+
 	}
 }

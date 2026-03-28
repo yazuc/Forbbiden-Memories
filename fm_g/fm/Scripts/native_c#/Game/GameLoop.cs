@@ -113,7 +113,8 @@ namespace fm
 			int i = 1;
 			var cardData = idEscolhido.MainCard;	
 			//arrumar quando colocar um nodo por cima de outro, deletar o anterior sempre
-			var car = MaoDoJogador.Tools.PegaSlotByMarker(MaoDoJogador.LogicalPosition);
+			var car = MaoDoJogador.Tools.PegaSlotByMarker(idEscolhido.WorldPos);
+			GD.Print("Logical pos meu monstro: " + idEscolhido.WorldPos);
 			_gameState.CurrentPlayer.Field.placeCard(car, cardData, true, idEscolhido.IsFaceDown, _gameState.CurrentPlayer.IsEnemy);								
 			foreach(var item in idEscolhido.CardsUsed){
 				_gameState.CurrentPlayer.DiscardCard(item.Id);
@@ -151,14 +152,38 @@ namespace fm
 				}
 				
 				GD.Print("Escolha um atacante...");				
-				int slotAtacante = await MaoDoJogador.SelecionarSlotTAsync(MaoDoJogador.FiltraSlot(_gameState.CurrentPlayer.IsEnemy, true), _gameState.CurrentTurn == 1);
-				var meuMonstro = _gameState.CurrentPlayer.Field.GetMonsterInZone(MaoDoJogador.LogicalPosition);
-				GD.Print("Logical pos meu monstro: " + MaoDoJogador.LogicalPosition);
-				if(meuMonstro != null && meuMonstro.HasAttackedThisTurn && slotAtacante != -2)
+				PlayerIntention slotAtacante = await MaoDoJogador.SelecionarSlotTAsync(MaoDoJogador.FiltraSlot(inimigo: _gameState.CurrentPlayer.IsEnemy, aliado: true), _gameState.CurrentTurn == 1);
+
+				var meuMonstro = _gameState.CurrentPlayer.Field.GetMonsterInZone(slotAtacante.WorldPos);
+				var minhaSpell = _gameState.CurrentPlayer.Field.GetFieldSpellTrap(slotAtacante.WorldPos);
+
+				GD.Print("Logical pos meu monstro: " + slotAtacante.WorldPos);
+				if(meuMonstro != null && meuMonstro.HasAttackedThisTurn && slotAtacante.ValidIntention())
 				{
 					continue;
 				}
-				if (slotAtacante == -2 || slotAtacante == -1) 
+				if(minhaSpell != null && slotAtacante.SelectSpell())
+				{
+					GD.Print("no mundo perfeito ativamos spell do campo aqui");
+					GD.Print("Selecionando alvo da spell...");
+
+					if (minhaSpell.Card.IsEquip())
+					{
+						var slotsValidos = MaoDoJogador.FiltraSlot(aliadoM: true);
+						var alvoSpell = await MaoDoJogador.SelecionarSlotTAsync(slotsValidos);
+
+						if (alvoSpell.ValidIntention())
+						{
+							GD.Print($"Spell ativada em: {alvoSpell.WorldPos}");				
+							// Aqui tu chama tua lógica de efeito
+							//await ResolverSpell(minhaSpell, target);
+							// var equipSelecionado = MaoDoJogador.CriarCartaFusao(MaoDoJogador.Tools.PegaNodoCarta3d(slotAtacante.WorldPos));
+						    // MaoDoJogador.ConfirmarInvocacaoNoCampo(card:equipSelecionado);
+						}						
+					}
+					continue;
+				}
+				if (slotAtacante.EndTurn()) 
 				{
 					BP_Ativa = false; // Sai do loop se apertar V ou Cancelar na seleção de ataque
 					continue;
@@ -167,13 +192,13 @@ namespace fm
 				await MaoDoJogador.Tools.TransitionTo(CameraInimigo, 0.4f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);
 				
 				GD.Print("Escolha o alvo...");
-				int slotAlvo = await MaoDoJogador.SelecionarSlotTAsync(MaoDoJogador.SlotsCampoIni, _gameState.CurrentTurn == 1, true);
+				PlayerIntention slotAlvo = await MaoDoJogador.SelecionarSlotTAsync(MaoDoJogador.SlotsCampoIni, _gameState.CurrentTurn == 1, true);
 				GD.Print("slotalvo: "+ slotAlvo +" Logical pos inimigo monstro: " + MaoDoJogador.LogicalPosition);
-				if (slotAlvo != -1 && slotAlvo != -2)
+				if (slotAlvo.ValidIntention())
 				{
 					try
 					{
-						var monstroInimigo = _gameState.OpponentPlayer.Field.GetMonsterInZone(MaoDoJogador.LogicalPosition);
+						var monstroInimigo = _gameState.OpponentPlayer.Field.GetMonsterInZone(slotAlvo.WorldPos);
 						await ResolverBatalha(meuMonstro, monstroInimigo);
 						
 					}catch(Exception e)

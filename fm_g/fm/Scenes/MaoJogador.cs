@@ -21,15 +21,15 @@ namespace fm{
 		public Godot.Collections.Array<Marker3D> Slots = new ();	
 		public bool STOP {get;set;}		
 		private TaskCompletionSource<FusionResult> _tcsCarta;
-		private TaskCompletionSource<int> _tcsSlot;
+		private TaskCompletionSource<PlayerIntention> _tcsSlot;
 		public TaskCompletionSource<bool> _tcsFaceDown;
 		bool IsFaceDown = false;
 		private bool _bloquearNavegaçãoManual = false;
 		private Node3D _instanciaSeletor = null;
 		public int _indiceSelecionado = 0;	
-		public int _indiceCampoSelecionado = 0;		
+		public int _indiceCampoSelecionado = 0;
 		private bool _selecionandoLocal = false; // Estado para saber se estamos escolhendo onde colocar a carta
-		private List<CardUi> _cartasSelecionadasParaFusao = new List<CardUi>();
+		public List<CardUi> _cartasSelecionadasParaFusao = new List<CardUi>();
 		private List<Node3D> _cartasInstanciadas = new List<Node3D>();
 		private bool _processandoInput = false;		
 		public List<int> IDFusao = new List<int>();
@@ -223,7 +223,7 @@ namespace fm{
 			_instanciaSeletor.GlobalRotation = slotDestino.GlobalRotation;
 		}
 		
-		private async void ConfirmarInvocacaoNoCampo(bool ativaDireto = false, CardUi? card = null)
+		public async void ConfirmarInvocacaoNoCampo(bool ativaDireto = false, CardUi? card = null)
 		{			
 			
 			var slotDestino = SlotsCampo[_indiceCampoSelecionado];
@@ -251,23 +251,9 @@ namespace fm{
 			if (resultadoFusao != null)
 			{								
 				var tipo = resultadoFusao.MainCard.Type;
-				if(ativaDireto || resultadoFusao.MainCard.IsSpellTrap() && !ativaDireto)
+				if(ativaDireto || resultadoFusao.MainCard.IsSpellTrap() && !ativaDireto && !IsFaceDown)
 				{
-					_bloquearNavegaçãoManual = true;
-
-					card = _anim.GetChildCount() > 0 ? _anim.GetChild<CardUi>(0) : card;
-
-					if(card != null)
-					{						
-						await card.AtivaSpellAnimation(_anim.ScrenCenter());						
-						_bloquearNavegaçãoManual = false;
-						_selecionandoLocal = false;
-						_cartasSelecionadasParaFusao.Clear();
-						card.QueueFree();
-						_tcsCarta?.TrySetResult(resultadoFusao);
-					}
-					_bloquearNavegaçãoManual = false;
-
+					CartaSTAction(card, resultadoFusao);
 					return;
 				}
 
@@ -280,6 +266,7 @@ namespace fm{
 					summon = tipo != CardTypeEnum.Spell && tipo != CardTypeEnum.Trap && tipo != CardTypeEnum.Equipment;
 				}
 
+				resultadoFusao.WorldPos = slotDestino.Name;
 
 				if (summon)
 				{
@@ -303,7 +290,25 @@ namespace fm{
 			}
 		}
 
-		private CardUi CriarCartaFusao(Carta3d carta3dfield)
+		public async void CartaSTAction(CardUi card, FusionResult resultadoFusao)
+		{
+			_bloquearNavegaçãoManual = true;
+
+			card = _anim.GetChildCount() > 0 ? _anim.GetChild<CardUi>(0) : card;
+
+			if(card != null)
+			{						
+				await card.AtivaSpellAnimation(_anim.ScrenCenter());						
+				_bloquearNavegaçãoManual = false;
+				_selecionandoLocal = false;
+				_cartasSelecionadasParaFusao.Clear();
+				card.QueueFree();
+				_tcsCarta?.TrySetResult(resultadoFusao);
+			}
+			_bloquearNavegaçãoManual = false;
+		}
+
+		public CardUi CriarCartaFusao(Carta3d carta3dfield)
 		{
 			if (carta3dfield == null)
 				return null;
@@ -410,7 +415,7 @@ namespace fm{
 			}
 		}
 
-		public Task<int> SelecionarSlotTAsync(
+		public Task<PlayerIntention> SelecionarSlotTAsync(
 			Godot.Collections.Array<Marker3D> slots,
 			bool primeiroTurno = false,
 			bool camIni = false)
@@ -420,7 +425,7 @@ namespace fm{
 			PrimeiroTurno = primeiroTurno;
 			_camIni = camIni;
 
-			_tcsSlot = new TaskCompletionSource<int>();
+			_tcsSlot = new TaskCompletionSource<PlayerIntention>();
 
 			_instanciaSeletor.Visible = true;
 			_bloquearNavegaçãoManual = true;
@@ -446,10 +451,10 @@ namespace fm{
 				ConfirmarSlot();
 
 			if (@event.IsActionPressed("ui_cancel"))
-				FinalizarSelecao(-1);
+				FinalizarSelecao(PlayerIntentEnum.InvalidIntent);
 
 			if (@event.IsActionPressed("ui_end_phase"))
-				FinalizarSelecao(-2);
+				FinalizarSelecao(PlayerIntentEnum.EndTurn);
 		}				
 						
 		// Método auxiliar para mover o seletor entre diferentes arrays de markers
@@ -475,7 +480,7 @@ namespace fm{
 		
 		public Godot.Collections.Array<Marker3D> DefineSlotagem(CardTypeEnum tipo)
 		{
-			if(tipo == CardTypeEnum.Spell || 
+			if(tipo == CardTypeEnum.Equipment && IsFaceDown || tipo == CardTypeEnum.Spell || 
 			tipo == CardTypeEnum.Trap || tipo == CardTypeEnum.Ritual){
 				return SlotsCampoST;
 			}
@@ -486,10 +491,8 @@ namespace fm{
 		public Godot.Collections.Array<Marker3D> FiltraSlot(bool inimigo = false, bool aliado = false, bool aliadoM = false, bool inimigoM = false, bool spell = false, bool trap = false)
 		{
 			var markers = new List<Marker3D>();
-			if(inimigo)	
-			{				
-				markers.AddRange(Slots.Where(x => x.Name.ToString().Contains("Ini")).ToList());				
-			}			
+			if(inimigo)								
+				markers.AddRange(Slots.Where(x => x.Name.ToString().Contains("Ini")).ToList());								
 			if(inimigoM)
 				markers.AddRange(Slots.Where(x => x.Name.ToString().Contains("Ini") && x.Name.ToString().Contains("M")).ToList());			
 			if(aliado)				
@@ -502,16 +505,19 @@ namespace fm{
 
 		void ConfirmarSlot()
 		{
-			if (PrimeiroTurno)
-				return;
-
 			var slotDestino = _camIni
 				? SlotsCampoIni[_indiceCampoSelecionado]
-				: SlotsCampo[_indiceCampoSelecionado];
-
-			GD.Print($"{slotDestino.Name} Slot confirmado: {_indiceCampoSelecionado}");
+				: _slots[_indiceCampoSelecionado];
 
 			var nodo = Tools.PegaNodoCarta3d(slotDestino.Name);
+			var Intent = Tools.DefineIntentCampo(nodo?.carta);
+
+			if (PrimeiroTurno && Intent != PlayerIntentEnum.SelectSpell)
+			{
+				return;
+			}
+
+			GD.Print($"{slotDestino.Name} Slot confirmado: {_indiceCampoSelecionado}");
 
 			if (Tools.PegaNodoNoSlot(slotDestino))
 			{
@@ -520,13 +526,13 @@ namespace fm{
 					if (!nodo.Defesa)
 					{
 						LogicalPosition = slotDestino.Name;
-						FinalizarSelecao(_indiceCampoSelecionado);
+						FinalizarSelecao(Intent);
 					}
 				}
 				else
 				{
 					LogicalPosition = slotDestino.Name;
-					FinalizarSelecao(_indiceCampoSelecionado);
+					FinalizarSelecao(Intent);
 				}
 			}
 			else if (Tools.PodeBate(SlotsCampoIni.ToList()))
@@ -534,20 +540,21 @@ namespace fm{
 				if (!_camIni)
 				{
 					if (nodo != null && !nodo.Defesa)
-						FinalizarSelecao(_indiceCampoSelecionado);
+						FinalizarSelecao(Intent);
 				}
 				else
 				{
-					FinalizarSelecao(_indiceCampoSelecionado);
+					FinalizarSelecao(Intent);
 				}
 			}
 		}
-		void FinalizarSelecao(int resultado)
+		void FinalizarSelecao(PlayerIntentEnum intent)
 		{
 			_instanciaSeletor.Visible = false;
 			_bloquearNavegaçãoManual = false;
+			PlayerIntention np = new PlayerIntention(_slots[_indiceCampoSelecionado].Name, intent);
 
-			_tcsSlot.TrySetResult(resultado);
+			_tcsSlot.TrySetResult(np);
 		}
 
 		void AlternarDefesa()
