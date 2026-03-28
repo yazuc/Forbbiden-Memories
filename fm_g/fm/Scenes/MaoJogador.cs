@@ -40,6 +40,7 @@ namespace fm{
 		public Mao MaoControl {get;set;}
 		public IndicadorSeta indicadorSetaEsquerda{get;set;}
 		public IndicadorSeta indicadorSetaDireita{get;set;}
+		private InputState _inputState = InputState.HandSelection;
 		public GameLoop gameLoop {get;set;}
 		public AnimationP _anim;
 		public Helper Tools;
@@ -171,7 +172,7 @@ namespace fm{
 			_indiceCampoSelecionado = 0; // Começa no primeiro slot								
 			if (_instanciaSeletor != null)
 			{				
-				AtualizarPosicaoSeletor3D(SlotsCampo, _cartasSelecionadasParaFusao.FirstOrDefault().carta.Id);
+				AtualizarPosicaoSeletor3D(SlotsCampo, _cartasSelecionadasParaFusao.FirstOrDefault().carta.Type);
 				_instanciaSeletor.Visible = true;
 				await Tools.TransitionTo(CameraField, 0.5f, _transitionCam, STOP);
 			}
@@ -201,12 +202,12 @@ namespace fm{
 
 			if (anterior != _indiceCampoSelecionado)
 			{
-				AtualizarPosicaoSeletor3D(SlotsCampo, _cartasSelecionadasParaFusao.FirstOrDefault().carta.Id);
+				AtualizarPosicaoSeletor3D(SlotsCampo, _cartasSelecionadasParaFusao.FirstOrDefault().carta.Type);
 			}
 		}		
 						
 
-		private void AtualizarPosicaoSeletor3D(Godot.Collections.Array<Marker3D> slots, int Id)
+		private void AtualizarPosicaoSeletor3D(Godot.Collections.Array<Marker3D> slots, CardTypeEnum tipo)
 		{
 			if (_instanciaSeletor == null || slots == null || slots.Count == 0)
 			{
@@ -215,7 +216,7 @@ namespace fm{
 			}
 				
 			if(_cartasSelecionadasParaFusao.Count() == 1){
-				slots = DefineSlotagem(PegaTipoPorId(Id));				
+				slots = DefineSlotagem(tipo);				
 			}
 			var slotDestino = slots[_indiceCampoSelecionado];			
 			Tween tween = GetTree().CreateTween();
@@ -434,6 +435,59 @@ namespace fm{
 
 			return _tcsSlot.Task;
 		}
+		private void HandleHandInput(InputEvent e)
+		{
+			if (e.IsActionPressed("ui_right"))
+				_indiceSelecionado++;
+
+			if (e.IsActionPressed("ui_left"))
+				_indiceSelecionado--;
+
+			if (e.IsActionPressed("ui_up"))
+			{
+				var carta = MaoControl.GetCarta(_indiceSelecionado);
+				_anim.AlternarSelecaoFusao(carta);
+			}
+
+			if (e.IsActionPressed("ui_accept"))
+			{
+				//IniciarSelecaoCampo();
+			}
+		}
+
+		private async void IniciarSelecaoCampo()
+		{
+			_inputState = InputState.FieldSelection;
+
+			_selecionandoLocal = true;
+			_indiceCampoSelecionado = 0;
+
+			_instanciaSeletor.Visible = true;
+
+			await Tools.TransitionTo(CameraField, 0.5f, _transitionCam, STOP);
+		}
+
+		private void HandleFieldInput(InputEvent e)
+		{
+			ProcessarNavegacao3D(_slots, _camIni);
+
+			if (e.IsActionPressed("ui_accept"))
+				ConfirmarInvocacaoNoCampo();
+
+			if (e.IsActionPressed("ui_cancel"))
+				SairDoCampo();
+		}
+
+		private async void SairDoCampo()
+		{
+			_inputState = InputState.HandSelection;
+
+			await Tools.TransitionTo(CameraHand, 0.5f, _transitionCam, STOP);
+
+			await CancelarSelecaoNoCampo();
+		}
+
+
 		public override void _UnhandledInput(InputEvent @event)
 		{
 			if (_tcsSlot == null || _tcsSlot.Task.IsCompleted)
