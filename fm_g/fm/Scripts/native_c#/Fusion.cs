@@ -33,7 +33,7 @@ namespace fm
 			int currentCardId = card == null ? queue.Dequeue() : card.Id;
 			result.MainCard = card != null ? card  : cards.FirstOrDefault(x => x.Id == currentCardId);
 
-			if(result.MainCard != null && card != null)
+			if(result.MainCard != null && card == null)
 				result.CardsUsed.Add(result.MainCard);
 
 			while (queue.Count > 0)
