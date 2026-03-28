@@ -21,8 +21,8 @@ public partial class GlobalUsings : Node
 	public string Freeduel = "res://Menu/FreeDuel/FreeDuel.tscn";
 	public string Deckeditor = "res://Menu/DeckEditor/DeckEditor.tscn";
 	public string Password = "res://Menu/Password/Password.tscn";
-	//public string UserDeck = "res://test_copy.txt";
 	public string UserDeck =  "res://starter_deck.txt";
+
 	public Deck Deck = new Deck();
 	public List<string> Dialogue = new List<string>();
 	public CardDatabase db = CardDatabase.Instance;
@@ -39,6 +39,9 @@ public partial class GlobalUsings : Node
     	AddChild(dialogic);
 		DeckIndex = 8;
 		PopulateDialogue();		
+		// #if DEBUG
+		// 	UserDeck = "res://test_copy.txt";
+		// #endif
 		Deck.LoadDeck(Funcoes.LoadUserDeck(ProjectSettings.GlobalizePath(UserDeck)));
 		GD.Print(Deck.Cards.Count());
 	}

@@ -2,6 +2,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
+    <CodeAnalysisRuleSet>/mnt/Nvme/fm/fm_g/fm/.vscode/ruleset.xml</CodeAnalysisRuleSet>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>

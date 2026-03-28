@@ -250,27 +250,32 @@ namespace fm{
 			
 			if (resultadoFusao != null)
 			{								
-				if(ativaDireto)
+				var tipo = resultadoFusao.MainCard.Type;
+				if(ativaDireto || resultadoFusao.MainCard.IsSpellTrap() && !ativaDireto)
 				{
 					_bloquearNavegaçãoManual = true;
+
+					card = _anim.GetChildCount() > 0 ? _anim.GetChild<CardUi>(0) : card;
 
 					if(card != null)
 					{						
 						await card.AtivaSpellAnimation(_anim.ScrenCenter());						
+						_bloquearNavegaçãoManual = false;
+						_selecionandoLocal = false;
+						_cartasSelecionadasParaFusao.Clear();
+						card.QueueFree();
+						_tcsCarta?.TrySetResult(resultadoFusao);
 					}
-
-					_cartasSelecionadasParaFusao.Clear();
-					_tcsCarta?.TrySetResult(resultadoFusao);
 					_bloquearNavegaçãoManual = false;
+
 					return;
 				}
 
 				if(_cartasSelecionadasParaFusao.Count() == 1){
-					slotDestino = DefineSlotagem(PegaTipoPorId(_cartasSelecionadasParaFusao.FirstOrDefault().carta.Id))[_indiceCampoSelecionado];				
+					slotDestino = DefineSlotagem(tipo)[_indiceCampoSelecionado];				
 				}				
 				if(_cartasSelecionadasParaFusao.Count() > 1)
 				{
-					var tipo = resultadoFusao.MainCard.Type;
 					slotDestino = DefineSlotagem(tipo)[_indiceCampoSelecionado];				
 					summon = tipo != CardTypeEnum.Spell && tipo != CardTypeEnum.Trap && tipo != CardTypeEnum.Equipment;
 				}
@@ -281,6 +286,7 @@ namespace fm{
 					if(carta3dfield != null)
 					{
 						carta3dfield.UpdateCard(resultadoFusao.MainCard);
+						gameLoop._gameState.CurrentPlayer.Field.UpdateMonster(resultadoFusao.MainCard, slotDestino.Name);
 					}
 					else
 					{

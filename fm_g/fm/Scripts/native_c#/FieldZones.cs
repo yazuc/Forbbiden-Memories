@@ -72,6 +72,7 @@ namespace fm
 		
 		public bool placeCard(int idField, Cards card, bool isAttackMode = true, bool isFaceDown = false, bool ini = false)
 		{
+			if(idField == -1) return false;
 			if (!card.IsSpellTrap())
 				return PlaceMonster(idField, card, isAttackMode, isFaceDown, ini);
 			else
@@ -141,6 +142,16 @@ namespace fm
 			(zoneIndex >= 0 && zoneIndex < MONSTER_ZONES) ? MonsterZones[zoneIndex] : null;
 
 		public bool HasAvailableMonsterZone() => MonsterZones.Any(z => z == null);
+		public bool UpdateMonster(Cards carta, string ZoneIndex)
+		{
+			var monster = GetMonsterInZone(ZoneIndex);
+			if(monster != null)
+			{
+				monster.Card = carta;
+				return true;
+			}
+			return false;
+		}
 	}
 		
 

@@ -76,9 +76,8 @@ current = true
 
 [node name="Control" type="Control" parent="CameraPivot/CameraHand" unique_id=511777160]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_right = 0.9984375
+anchor_bottom = 0.99722224
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
@@ -122,9 +121,9 @@ animationPlayer = NodePath("../../../../../AnimationP")
 [node name="InformacaoCarta" parent="CameraPivot/CameraHand/Control/InterfaceDuelo" unique_id=1872225480 instance=ExtResource("13_nb51f")]
 layout_mode = 1
 anchor_left = 0.048463795
-anchor_top = 0.57308984
+anchor_top = 0.5295497
 anchor_right = 0.95362216
-anchor_bottom = 0.8523843
+anchor_bottom = 0.9065971
 offset_right = 0.00012207031
 offset_bottom = -2.1430664
 grow_horizontal = 1

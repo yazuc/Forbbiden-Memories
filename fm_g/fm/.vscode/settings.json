@@ -1,0 +1,4 @@
+{
+  "dotnet.defaultSolution": "fm.sln",
+  "omnisharp.useModernNet": true,
+}

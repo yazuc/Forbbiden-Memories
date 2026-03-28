@@ -24,6 +24,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "Lava Battleguard"
 label_settings = ExtResource("1_en1xq")
+vertical_alignment = 1
 text_overrun_behavior = 1
 
 [node name="Panel" type="HBoxContainer" parent="." unique_id=740122294]

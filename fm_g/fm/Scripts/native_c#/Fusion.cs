@@ -76,7 +76,7 @@ namespace fm
 				// 3. Se nada funcionou, a carta anterior é descartada e a nova vira a principal
 				else
 				{
-					if (!nextCard.IsSpellTrap())
+					if (!nextCard.IsSpellTrap() || result.MainCard.IsSpellTrap() && nextCard.IsSpellTrap())
 					{
 						currentCardId = nextId;
 						result.MainCard = nextCard;
