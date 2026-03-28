@@ -14,13 +14,14 @@ namespace fm
 		public class FusionResult
 		{
 			public Cards MainCard { get; set; }
+			public bool IsFaceDown {get;set;}
 			public bool FusaoAconteceu {get;set;}
 			public bool FalhaEquip {get;set;}
 			public List<Cards> AppliedEquips { get; set; } = new List<Cards>();
 			public List<Cards> CardsUsed {get;set;} = new List<Cards>();
 		}
 
-		public static FusionResult ProcessChain(string args)
+		public static FusionResult ProcessChain(string args, Cards card = null)
 		{
 			var cards = CardDatabase.Instance.GetAllCards();
 			var cardIds = args.Split(',').Select(int.Parse).ToList();
@@ -29,9 +30,10 @@ namespace fm
 			if (queue.Count == 0) return null;
 
 			var result = new FusionResult();
-			int currentCardId = queue.Dequeue();
-			result.MainCard = cards.FirstOrDefault(x => x.Id == currentCardId);
-			if(result.MainCard != null)
+			int currentCardId = card == null ? queue.Dequeue() : card.Id;
+			result.MainCard = card != null ? card  : cards.FirstOrDefault(x => x.Id == currentCardId);
+
+			if(result.MainCard != null && card != null)
 				result.CardsUsed.Add(result.MainCard);
 
 			while (queue.Count > 0)

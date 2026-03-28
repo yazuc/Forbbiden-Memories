@@ -56,6 +56,7 @@ namespace fm
 			//nao achou
 			return -1;
 		}
+		
 
 		public bool PodeBate(List<Marker3D> SlotsCampoIni){
 			var nodes = GetTree().GetNodesInGroup("cartas");

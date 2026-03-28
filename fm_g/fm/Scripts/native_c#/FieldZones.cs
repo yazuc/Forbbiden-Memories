@@ -72,12 +72,10 @@ namespace fm
 		
 		public bool placeCard(int idField, Cards card, bool isAttackMode = true, bool isFaceDown = false, bool ini = false)
 		{
-			if (card.Type != CardTypeEnum.Trap && card.Type != CardTypeEnum.Spell && card.Type != CardTypeEnum.Equipment && card.Type != CardTypeEnum.Ritual)
+			if (!card.IsSpellTrap())
 				return PlaceMonster(idField, card, isAttackMode, isFaceDown, ini);
-			else if (card.Type == CardTypeEnum.Spell || card.Type == CardTypeEnum.Trap ||
-			 card.Type == CardTypeEnum.Equipment || card.Type == CardTypeEnum.Ritual)
-				return PlaceSpellTrap(idField, card, isFaceDown); // For simplicity, we place all spells/traps in the first zone
-			return false;
+			else
+				return PlaceSpellTrap(idField, card, isFaceDown); 		
 		}
 		
 		public void BotaDeLadinho(string ID, bool DeLadinho)
@@ -89,6 +87,7 @@ namespace fm
 				{
 					GD.Print("monstro zone name" + monstro.zoneName + " - " + ID);
 					monstro.IsAttackMode = !DeLadinho;
+					DrawFieldState();
 					break;	
 				}
 				
@@ -131,24 +130,7 @@ namespace fm
 		public bool RemoveMonster(string zoneName)
 		{
 			var index = MonsterZones.Where(x => x != null && x.zoneName == zoneName).Select(x => x.zoneIndex).FirstOrDefault();
-			MonsterZones[index] = null;
-			// if(MonsterZones != null && MonsterZones.Count() > 0)
-			// {
-			// 	foreach(var item in MonsterZones)
-			// 	{
-			// 		if(item != null)
-			// 		{
-			// 			GD.Print("enemyzone name" + item.zoneName);
-			// 			if(item.zoneName == zoneName){	
-			// 				GD.Print($"item {item.zoneName} e zonename {zoneName}");				
-			// 				break;
-			// 			}
-			// 			zoneIndex++;						
-			// 		}
-			// 	}				
-			// 	MonsterZones[zoneIndex] = null;
-			// }
-				
+			MonsterZones[index] = null;						
 			return true;
 		}
 

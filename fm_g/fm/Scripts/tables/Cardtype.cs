@@ -88,6 +88,14 @@ namespace QuickType
 		public float AtlasX { get; set; }
 		public float AtlasY { get; set; }
 
+		public bool IsSpell()
+		{
+			return Type == CardTypeEnum.Spell;
+		}
+		public bool IsEquip()
+		{
+			return Type == CardTypeEnum.Equipment;
+		}
 		public bool IsSpellTrap()
 		{
 			return Type == CardTypeEnum.Spell || Type == CardTypeEnum.Trap || Type == CardTypeEnum.Ritual || Type == CardTypeEnum.Equipment;	

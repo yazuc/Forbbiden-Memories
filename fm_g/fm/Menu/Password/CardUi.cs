@@ -34,7 +34,9 @@ public partial class CardUi : Control
 		ATK = GetNode<Label>("ATK");
 		DEF = GetNode<Label>("DEF");
 		Name = GetNode<Label>("Name");
+		label = GetNode<Label>("LabelNumero");
 		Display(index);
+		GD.Print("Ready da silva");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -64,6 +66,30 @@ public partial class CardUi : Control
 		DEF.Text = "DEF " + card.Defense.ToString();
 	}
 
+	public void DisplayCard(Cards card, string labelT = null)
+	{
+		if(card != null)
+		{
+			if(labelT != null)
+				label.Text = labelT;
+			carta = card;			
+			lastIndex = card.Id;
+			framePos = TipoFrame(card.Type);			
+			Name.Text = card.Name;
+			//GenerateBase();
+			if(framePos == 1)
+			{
+				DEF.Text = "DEF " + card.Defense.ToString();
+				ATK.Text = "ATK " + card.Attack.ToString();				
+			}
+
+			CartaArte.Visible = true;
+			CalculaArte(framePos, 9, baselineFrame, sizeFrame, 145f, 0f, CartaFrame);
+			CalculaArte(card.Id - 1, maxCol, baseline, size, offSetX, offSetY, CartaArte);
+			
+		}		
+	}
+
 
 	public void Display(int id)
 	{
@@ -78,24 +104,7 @@ public partial class CardUi : Control
 
 		lastIndex = id;
 		var card = GlobalUsings.Instance.db.GetCardById(id);
-		if(card != null)
-		{
-			carta = card;			
-			lastIndex = card.Id;
-			framePos = TipoFrame(card.Type);			
-			Name.Text = card.Name;
-			//GenerateBase();
-			if(framePos == 1)
-			{
-				DEF.Text = "DEF " + card.Defense.ToString();
-				ATK.Text = "ATK " + card.Attack.ToString();				
-			}
-
-			CartaArte.Visible = true;
-			CalculaArte(framePos, 9, baselineFrame, sizeFrame, 145f, 0f, CartaFrame);
-			CalculaArte(id - 1, maxCol, baseline, size, offSetX, offSetY, CartaArte);
-			
-		}
+		DisplayCard(card);
 	}
 
 	//atlas +107 x proxima carta na linha, +101y proxima carta na coluna
@@ -132,7 +141,8 @@ public partial class CardUi : Control
 	public void EscondeLabel()
 	{
 		label.Visible = false;
-		FusionUp.Visible = false;
+		if(FusionUp != null)
+			FusionUp.Visible = false;
 	}
 
 	public void CalculaFlip(bool flip)

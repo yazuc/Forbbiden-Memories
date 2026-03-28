@@ -40,9 +40,10 @@ namespace fm{
 		public Mao MaoControl {get;set;}
 		public IndicadorSeta indicadorSetaEsquerda{get;set;}
 		public IndicadorSeta indicadorSetaDireita{get;set;}
+		public GameLoop gameLoop {get;set;}
 		public AnimationP _anim;
 		public Helper Tools;
-
+		public CardUi RefFusao;
 		public override void _Ready()
 		{
 			_transitionCam = new Camera3D();
@@ -80,7 +81,6 @@ namespace fm{
 			_processandoInput = false;
 			AtualizarPosicaoIndicador();
 		}
-		
 		private async Task HandleNavigation()
 		{
 			if (_bloquearNavegaçãoManual) return;
@@ -122,7 +122,7 @@ namespace fm{
 							// O await vai "explodir" aqui se TrySetCanceled for chamado
 							var alvo = _cartasSelecionadasParaFusao.FirstOrDefault();
 							IsFaceDown = await _anim.AnimaCartaParaCentro(this, alvo.carta.Id, alvo.carta.Name, _indiceSelecionado);							
-							if(alvo.carta.IsSpellTrap() && !IsFaceDown)
+							if(_cartasSelecionadasParaFusao.Count() == 1 && alvo.carta.IsSpell() && !IsFaceDown)
 							{
 								GD.Print("usando spell");		
 								ConfirmarInvocacaoNoCampo(true, alvo);		
@@ -225,11 +225,27 @@ namespace fm{
 		
 		private async void ConfirmarInvocacaoNoCampo(bool ativaDireto = false, CardUi? card = null)
 		{			
-			if(_cartasSelecionadasParaFusao.Count() > 1)
-				await _anim.AnimaFusao(this);
 			
-			string idsString = string.Join(",", IDFusao);									
-			var resultadoFusao = ProcessChain(idsString);		
+			var slotDestino = SlotsCampo[_indiceCampoSelecionado];
+			var carta3dfield = Tools.PegaNodoCarta3d(slotDestino.Name);
+
+			var scene = GD.Load<PackedScene>("res://Menu/Password/card_ui.tscn");
+			if(carta3dfield != null)
+			{
+				RefFusao = CriarCartaFusao(carta3dfield);
+				_cartasSelecionadasParaFusao.Insert(0, RefFusao);
+			}
+
+			var ids = new List<int>();												
+			ids.AddRange(_cartasSelecionadasParaFusao.Select(x => x.carta.Id));
+			var resultadoFusao = ProcessChain(string.Join(",", ids), carta3dfield?.carta);		
+			
+			if(_cartasSelecionadasParaFusao.Count() > 1)
+			{
+				await _anim.AnimaFusao(this);
+			}
+				
+			resultadoFusao.IsFaceDown = IsFaceDown;
 			bool summon = true;	
 			
 			if (resultadoFusao != null)
@@ -239,9 +255,8 @@ namespace fm{
 					_bloquearNavegaçãoManual = true;
 
 					if(card != null)
-					{
-						
-						await card.AtivaSpellAnimation(_anim.ScrenCenter());
+					{						
+						await card.AtivaSpellAnimation(_anim.ScrenCenter());						
 					}
 
 					_cartasSelecionadasParaFusao.Clear();
@@ -250,7 +265,6 @@ namespace fm{
 					return;
 				}
 
-				var slotDestino = SlotsCampo[_indiceCampoSelecionado];
 				if(_cartasSelecionadasParaFusao.Count() == 1){
 					slotDestino = DefineSlotagem(PegaTipoPorId(_cartasSelecionadasParaFusao.FirstOrDefault().carta.Id))[_indiceCampoSelecionado];				
 				}				
@@ -264,8 +278,16 @@ namespace fm{
 
 				if (summon)
 				{
-					await Instancia3D(slotDestino, resultadoFusao.MainCard);			
-					LogicalPosition = slotDestino.Name.ToString();
+					if(carta3dfield != null)
+					{
+						carta3dfield.UpdateCard(resultadoFusao.MainCard);
+					}
+					else
+					{
+						await Instancia3D(slotDestino, resultadoFusao.MainCard);			
+						LogicalPosition = slotDestino.Name.ToString();						
+					}
+					CleanUpCrew();
 				}
 				
 				_cartasSelecionadasParaFusao.Clear();
@@ -274,6 +296,40 @@ namespace fm{
 				_tcsCarta?.TrySetResult(resultadoFusao);
 			}
 		}
+
+		private CardUi CriarCartaFusao(Carta3d carta3dfield)
+		{
+			if (carta3dfield == null)
+				return null;
+
+			var scene = GD.Load<PackedScene>("res://Menu/Password/card_ui.tscn");
+			var cartaUi = scene.Instantiate<CardUi>();
+
+			// Garantir anchors corretos (evita override de size)
+			cartaUi.AnchorLeft = 0;
+			cartaUi.AnchorTop = 0;
+			cartaUi.AnchorRight = 0;
+			cartaUi.AnchorBottom = 0;
+
+			AddChild(cartaUi);
+
+			var cartaOriginal = _cartasSelecionadasParaFusao.First();
+			cartaOriginal.FlipCard(false);
+			cartaUi.SetAnchorsPreset(Control.LayoutPreset.TopLeft);
+			// Evita warning do Godot
+			cartaUi.Size = cartaOriginal.Size;
+
+			cartaUi.Scale = Vector2.One;
+			cartaUi.Theme = GD.Load<Theme>("res://Resources/tema_carta_hand.tres");
+
+			GD.Print(carta3dfield.carta.Name);
+
+			cartaUi.DisplayCard(carta3dfield.carta, "1");
+			AtualizarNumerosFusao();
+
+			return cartaUi;
+		}
+
 		
 		public async Task Instancia3D(Marker3D slotDestino, Cards fusao){
 			bool IsEnemy = slotDestino.Name.ToString().Contains("Ini");
@@ -284,11 +340,29 @@ namespace fm{
 				novaCarta3d.GlobalRotation += slotDestino.GlobalRotation + rota;
 			}			
 			novaCarta3d.Setup(fusao, (int)_indiceCampoSelecionado, IsEnemy, IsFaceDown, slotDestino.Name);			
+		}
+
+		private void AtualizarNumerosFusao()
+		{
+			for (int i = 0; i < _cartasSelecionadasParaFusao.Count; i++)
+			{
+				var carta = _cartasSelecionadasParaFusao[i];
+				if (!IsInstanceValid(carta)) continue;
+
+				int numero = i + 1; // começa em 1
+
+				carta.SetNumeroFusao(numero);
+			}
+		}
+
+
+		public void CleanUpCrew()
+		{
 			foreach (var carta in _cartasSelecionadasParaFusao)
 			{
 				if(IsInstanceValid(carta))
 					carta.QueueFree();
-			}		
+			}	
 		}
 
 		public async Task SairModoSelecaoCampo()
@@ -395,7 +469,7 @@ namespace fm{
 		
 		public Godot.Collections.Array<Marker3D> DefineSlotagem(CardTypeEnum tipo)
 		{
-			if(tipo == CardTypeEnum.Equipment || tipo == CardTypeEnum.Spell || 
+			if(tipo == CardTypeEnum.Spell || 
 			tipo == CardTypeEnum.Trap || tipo == CardTypeEnum.Ritual){
 				return SlotsCampoST;
 			}
@@ -477,6 +551,8 @@ namespace fm{
 
 			var slotDestino = _slots[_indiceCampoSelecionado];
 
+			if(gameLoop.MonsterHasAttacked(slotDestino.Name)) return;
+
 			var isEnemy = slotDestino.Name.ToString().Contains("Ini");
 
 			var pegou = Tools.PegaNodoCarta3d(slotDestino.Name);
@@ -488,6 +564,7 @@ namespace fm{
 
 			if (pegou is Carta3d nodo){
 				nodo.Defesa = !nodo.Defesa;
+				gameLoop._gameState.CurrentPlayer.Field.BotaDeLadinho(nodo.markerName, nodo.Defesa);
 			}
 
 			if (!isEnemy)

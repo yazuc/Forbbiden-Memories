@@ -1,6 +1,7 @@
 using Godot;
 using QuickType;
 using System.Threading.Tasks;
+using static fm.Function;
 
 namespace fm{
 	
@@ -142,7 +143,6 @@ namespace fm{
 		public async Task<bool> AnimaCartaParaCentro(MaoJogador maoJogador, int ID, string name, int _indiceSelecionado)
 		{
 			if(_cartasSelecionadasParaFusao.Count() > 1) return false;
-			bool IsFaceDown = true;
 			maoJogador._tcsFaceDown = new TaskCompletionSource<bool>();
 			
 			var viewport = GetViewport();			
@@ -155,6 +155,7 @@ namespace fm{
 				return false;
 			}
 			var carta = MaoControl.GetCarta(_indiceSelecionado);
+			bool IsFaceDown = !carta.carta.IsSpellTrap();
 			maoJogador.lastPos = IsInstanceValid(carta) ? carta.GlobalPosition : new Vector2();
 			nodoAlvo.Visible = true;
 			nodoAlvo.Reparent(this,true);
@@ -166,7 +167,7 @@ namespace fm{
 			tween.TweenProperty(nodoAlvo, "global_position", targetGlobalPos, 0.2f)
 				 .SetTrans(Tween.TransitionType.Sine)
 				 .SetEase(Tween.EaseType.Out);
-			maoJogador.STOP = true;
+			maoJogador.STOP = true;			
 			nodoAlvo.FlipCard(IsFaceDown);
 			maoJogador.STOP = false;
 			var instancia = maoJogador.CriarSetaPersonalizada(screenCenter + new Vector2(100,-20));
@@ -263,6 +264,7 @@ namespace fm{
 
 				string idsString = $"{cartaPrincipal.carta.Id},{cartaSacrificio.carta.Id}";							
 				var resultadoFusao = Function.ProcessChain(idsString);			
+				cartaPrincipal.carta = resultadoFusao.MainCard;
 				bool sacrificioVirouMain = cartaSacrificio.carta.Id == resultadoFusao.MainCard.Id;
 				bool principalContinua = cartaPrincipal.carta.Id == resultadoFusao.MainCard.Id;		
 
@@ -313,7 +315,7 @@ namespace fm{
 				{
 					await MoverParaPosicao(cartaPrincipal, targetGlobalPos + new Vector2(-sideOffset, 0), 0f);
 					await Task.Delay(200);
-				}
+				}				
 			}
 
 			await MoverParaPosicao(cartaPrincipal, targetGlobalPos, 0f);

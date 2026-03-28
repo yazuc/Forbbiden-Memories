@@ -11,7 +11,7 @@ namespace fm
 		public Camera3D CameraField;
 		public Camera3D CameraInimigo;
 		public Node3D CameraPivot;
-		private GameState _gameState;
+		public GameState _gameState;
 		private CardEffectManager _effectManager;
 		private BattleSystem _battleSystem;
 		private const int HAND_SIZE = 5;
@@ -24,7 +24,7 @@ namespace fm
 			_gameState = new GameState(player1, player2, maoUI);
 			_effectManager = new CardEffectManager();
 			_battleSystem = new BattleSystem();
-			this.MaoDoJogador = maoUI;
+			this.MaoDoJogador = maoUI;			
 			this.CameraHand = CameraHand;
 			this.CameraField = CameraField;
 			this.CameraInimigo = CameraInimigo;
@@ -114,16 +114,14 @@ namespace fm
 			var cardData = idEscolhido.MainCard;	
 			//arrumar quando colocar um nodo por cima de outro, deletar o anterior sempre
 			var car = MaoDoJogador.Tools.PegaSlotByMarker(MaoDoJogador.LogicalPosition);
-			_gameState.CurrentPlayer.Field.placeCard(car, cardData, true, false, _gameState.CurrentPlayer.IsEnemy);								
+			_gameState.CurrentPlayer.Field.placeCard(car, cardData, true, idEscolhido.IsFaceDown, _gameState.CurrentPlayer.IsEnemy);								
 			foreach(var item in idEscolhido.CardsUsed){
 				_gameState.CurrentPlayer.DiscardCard(item.Id);
 				i++;
 			}					
-			//MaoDoJogador.AtualizarMao(_gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList(), false);  
 			await MaoDoJogador.Tools.TransitionTo(CameraField, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);			
 			_gameState.Player1.Field.DrawFieldState();
 			_gameState.Player2.Field.DrawFieldState();	
-			SincronizaField();
 			_gameState.AdvancePhase();
 		}
 		
@@ -186,12 +184,17 @@ namespace fm
 				}
 
 				await MaoDoJogador.Tools.TransitionTo(CameraField, 0.4f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);
-				SincronizaField();
 			}
 
 			GD.Print("--- Battle Phase Encerrada ---");
 			_gameState.AdvancePhase();
 		}			
+
+		public bool MonsterHasAttacked(string LogicalPos)
+		{
+			var meuMonstro = _gameState.CurrentPlayer.Field.GetMonsterInZone(LogicalPos);
+			return meuMonstro != null ? meuMonstro.HasAttackedThisTurn : false;
+		}
 
 		private async Task<bool> ResolverBatalha(FieldMonster meuMonstro, FieldMonster? monstroInimigo)
 		{
@@ -283,17 +286,6 @@ namespace fm
 			MaoDoJogador.MaoControl.AnimateInterface(true);
 			MaoDoJogador.Tools.SwitchTurn(MaoDoJogador);
 			MaoDoJogador.DefineVisibilidade(true);
-		}
-		
-		public void SincronizaField()
-		{
-			List<(string carta,bool defesa)> tuple = MaoDoJogador.Tools.DevolvePosicoes();
-			foreach(var item in tuple)
-			{
-				_gameState.Player1.Field.BotaDeLadinho(item.carta, item.defesa);
-				_gameState.Player2.Field.BotaDeLadinho(item.carta, item.defesa);
-				//GD.Print($"carta: {item.carta} - de ladinho? {item.defesa}");
-			}
 		}
 		
 		public void RotateCameraPivot180Slow()
