@@ -145,11 +145,6 @@ namespace fm{
 
 		public async Task<bool> AnimaCartaParaCentro(MaoJogador maoJogador, int ID, string name, int _indiceSelecionado, bool isEnemy = false)
 		{
-			if (isEnemy)
-			{
-				maoJogador._tcsFaceDown?.TrySetResult(isEnemy);
-				return true;
-			}
 			if(_cartasSelecionadasParaFusao.Count() > 1) return false;
 			maoJogador._tcsFaceDown = new TaskCompletionSource<bool>();
 			
@@ -182,6 +177,11 @@ namespace fm{
 			var instancia = maoJogador.CriarSetaPersonalizada(screenCenter + new Vector2(100,-20));
 			var instancia2 = maoJogador.CriarSetaPersonalizada(screenCenter + new Vector2(-100,-20), true);
 			
+			if (isEnemy)
+			{
+				maoJogador._tcsFaceDown?.TrySetResult(isEnemy);
+				return true;
+			}
 			while(!maoJogador._tcsFaceDown.Task.IsCompleted) 
 			{
 				await ToSignal(GetTree(), "process_frame");
