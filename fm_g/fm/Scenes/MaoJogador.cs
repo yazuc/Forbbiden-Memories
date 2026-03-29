@@ -452,7 +452,7 @@ namespace fm{
 			if (_instanciaSeletor != null) _instanciaSeletor.Visible = false;
 		}
 
-		public async Task AtualizarMao(List<int> idsCartasNoDeck, bool animate = true)
+		public async void AtualizarMao(List<int> idsCartasNoDeck, bool animate = true)
 		{
 			GD.Print(idsCartasNoDeck.Count());	
 			STOP = true;

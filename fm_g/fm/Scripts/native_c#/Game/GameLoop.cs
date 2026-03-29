@@ -104,12 +104,16 @@ namespace fm
 		private async Task ExecuteMainPhase()
 		{
 			GD.Print($"--- {_gameState.CurrentPlayer.Name}'s {_gameState.CurrentPhase} Enemy? {_gameState.CurrentPlayer.IsEnemy}---");					
-			await MaoDoJogador.AtualizarMao(_gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList());
+
+			MaoDoJogador.AtualizarMao(_gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList(), true);
 
 			FusionResult idEscolhido = null;
 
 			if (_gameState.CurrentPlayer.IsEnemy)
 			{
+				// Simulate AI thinking time to improve immersion
+				await Task.Delay(1500);
+
 				AIEngine aiEngine = new AIEngine();
 				AIDecision decision = aiEngine.GetBestMove(_gameState.CurrentPlayer.Hand, _gameState.OpponentPlayer.Field, _gameState.CurrentPlayer.Field);
 
@@ -128,16 +132,12 @@ namespace fm
 
 					MaoDoJogador._cartasSelecionadasParaFusao.Clear();
 
-					foreach (var cardId in decision.CardIds)
+					foreach (var handIndex in decision.HandIndices)
 					{
-						var handIndex = _gameState.CurrentPlayer.Hand.FindIndex(c => c.Id == cardId);
-						if (handIndex >= 0)
+						var uiCard = MaoDoJogador.MaoControl.GetCarta(handIndex);
+						if (uiCard != null)
 						{
-							var uiCard = MaoDoJogador.MaoControl.GetCarta(handIndex);
-							if (uiCard != null)
-							{
-								MaoDoJogador._cartasSelecionadasParaFusao.Add(uiCard);
-							}
+							MaoDoJogador._cartasSelecionadasParaFusao.Add(uiCard);
 						}
 					}
 
@@ -156,12 +156,16 @@ namespace fm
 							}
 						}
 
-						await MaoDoJogador._anim.AnimaCartaParaCentro(MaoDoJogador, firstCard.carta.Id, firstCard.carta.Name, handIdx, _gameState.CurrentPlayer.IsEnemy);
+						await MaoDoJogador._anim.AnimaCartaParaCentro(MaoDoJogador, firstCard.carta.Id, firstCard.carta.Name, handIdx);
 						MaoDoJogador._tcsFaceDown?.TrySetResult(idEscolhido.IsFaceDown);
+
+						// Additional delay to show cards on screen before continuing or fusing
+						await Task.Delay(500);
 
 						if (MaoDoJogador._cartasSelecionadasParaFusao.Count > 1)
 						{
 							await MaoDoJogador._anim.AnimaFusao(MaoDoJogador, idEscolhido);
+							await Task.Delay(500); // small delay after fusion finishes
 						}
 					}
 
@@ -218,7 +222,7 @@ namespace fm
 			_gameState.CurrentPhase = TurnPhase.Battle;
 			GD.Print("--- Battle Phase Iniciada ---");
 			MaoDoJogador.DefineVisibilidade(false);
-			await MaoDoJogador.MaoControl.AnimateInterface(false);
+			MaoDoJogador.MaoControl.AnimateInterface(false);
 			bool BP_Ativa = true;
 			while (BP_Ativa)
 			{
@@ -458,7 +462,7 @@ namespace fm
 				1f
 			);
 			await ToSignal(tween, Tween.SignalName.Finished);
-			await MaoDoJogador.MaoControl.AnimateInterface(true);
+			MaoDoJogador.MaoControl.AnimateInterface(true);
 			MaoDoJogador.Tools.SwitchTurn(MaoDoJogador);
 			MaoDoJogador.DefineVisibilidade(true);
 		}

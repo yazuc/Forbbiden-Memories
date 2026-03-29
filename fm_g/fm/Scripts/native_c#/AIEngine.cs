@@ -8,6 +8,7 @@ namespace fm
     public class AIDecision
     {
         public List<int> CardIds { get; set; } = new List<int>();
+        public List<int> HandIndices { get; set; } = new List<int>();
         public int TargetZoneIndex { get; set; } = -1;
         public bool IsFaceDown { get; set; } = false;
         public Function.FusionResult? FusionResult { get; set; }
@@ -48,9 +49,10 @@ namespace fm
             AIDecision? bestDecision = null;
             long bestScore = long.MinValue;
 
-            foreach (var sequence in GenerateOrderedSubsets(hand))
+            foreach (var sequence in GenerateOrderedSubsetsWithIndices(hand))
             {
-                var ids = sequence.Select(c => c.Id).ToList();
+                var ids = sequence.Select(c => c.card.Id).ToList();
+                var indices = sequence.Select(c => c.index).ToList();
                 var prediction = Function.ProcessChain(string.Join(",", ids), null, true);
                 if (prediction == null || prediction.MainCard == null)
                     continue;
@@ -74,6 +76,7 @@ namespace fm
                         bestDecision = new AIDecision
                         {
                             CardIds = ids,
+                            HandIndices = indices,
                             TargetZoneIndex = targetSpellTrapSlot,
                             IsFaceDown = true, // Play traps/spells face down by default for simplicity unless logic requires face up
                             FusionResult = prediction
@@ -103,6 +106,7 @@ namespace fm
                     bestDecision = new AIDecision
                     {
                         CardIds = ids,
+                        HandIndices = indices,
                         TargetZoneIndex = targetMonsterSlot,
                         IsFaceDown = false,
                         FusionResult = prediction
@@ -113,18 +117,20 @@ namespace fm
             if (bestDecision == null)
             {
                 var fallback = hand
-                    .Where(c => c != null && !c.IsSpellTrap())
-                    .OrderByDescending(c => c.Attack)
+                    .Select((card, index) => new { card, index })
+                    .Where(x => x.card != null && !x.card.IsSpellTrap())
+                    .OrderByDescending(x => x.card.Attack)
                     .FirstOrDefault();
 
                 if (fallback != null && targetMonsterSlot >= 0)
                 {
-                    var prediction = Function.ProcessChain(fallback.Id.ToString(), null, true);
+                    var prediction = Function.ProcessChain(fallback.card.Id.ToString(), null, true);
                     if (prediction?.MainCard != null)
                     {
                         bestDecision = new AIDecision
                         {
-                            CardIds = new List<int> { fallback.Id },
+                            CardIds = new List<int> { fallback.card.Id },
+                            HandIndices = new List<int> { fallback.index },
                             TargetZoneIndex = targetMonsterSlot,
                             IsFaceDown = false,
                             FusionResult = prediction
@@ -133,18 +139,19 @@ namespace fm
                 }
                 else
                 {
-                    var firstCard = hand.FirstOrDefault();
+                    var firstCard = hand.Select((card, index) => new { card, index }).FirstOrDefault();
                     if (firstCard != null)
                     {
-                        bool isSpellTrap = firstCard.IsSpellTrap();
+                        bool isSpellTrap = firstCard.card.IsSpellTrap();
                         int targetSlot = isSpellTrap ? targetSpellTrapSlot : targetMonsterSlot;
 
                         if (targetSlot >= 0)
                         {
-                            var prediction = Function.ProcessChain(firstCard.Id.ToString(), null, true);
+                            var prediction = Function.ProcessChain(firstCard.card.Id.ToString(), null, true);
                             bestDecision = new AIDecision
                             {
-                                CardIds = new List<int> { firstCard.Id },
+                                CardIds = new List<int> { firstCard.card.Id },
+                                HandIndices = new List<int> { firstCard.index },
                                 TargetZoneIndex = targetSlot,
                                 IsFaceDown = true, // Play face down as fallback
                                 FusionResult = prediction
@@ -247,21 +254,21 @@ namespace fm
             return -1;
         }
 
-        private static IEnumerable<List<Cards>> GenerateOrderedSubsets(List<Cards> hand)
+        private static IEnumerable<List<(Cards card, int index)>> GenerateOrderedSubsetsWithIndices(List<Cards> hand)
         {
-            var results = new List<List<Cards>>();
+            var results = new List<List<(Cards card, int index)>>();
             for (int size = 1; size <= hand.Count; size++)
             {
-                BuildPermutations(hand, size, new bool[hand.Count], new List<Cards>(), results);
+                BuildPermutations(hand, size, new bool[hand.Count], new List<(Cards card, int index)>(), results);
             }
             return results;
         }
 
-        private static void BuildPermutations(List<Cards> hand, int targetSize, bool[] used, List<Cards> current, List<List<Cards>> results)
+        private static void BuildPermutations(List<Cards> hand, int targetSize, bool[] used, List<(Cards card, int index)> current, List<List<(Cards card, int index)>> results)
         {
             if (current.Count == targetSize)
             {
-                results.Add(new List<Cards>(current));
+                results.Add(new List<(Cards card, int index)>(current));
                 return;
             }
 
@@ -271,7 +278,7 @@ namespace fm
                     continue;
 
                 used[i] = true;
-                current.Add(hand[i]);
+                current.Add((hand[i], i));
 
                 BuildPermutations(hand, targetSize, used, current, results);
 
