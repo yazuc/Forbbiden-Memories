@@ -183,10 +183,19 @@ namespace fm
 					if (carta3dfield == null && !isSpellTrap)
 					{
 						await MaoDoJogador.Instancia3D(slotDestino, idEscolhido.MainCard);
+						carta3dfield = MaoDoJogador.Tools.PegaNodoCarta3d(slotDestino.Name);
 					}
 					else if (carta3dfield != null)
 					{
 						carta3dfield.UpdateCard(idEscolhido.MainCard);
+					}
+
+					// Aplica a Rotação Visual de Defesa para cartas recém-invocadas pela IA
+					if (carta3dfield != null && idEscolhido.IsFaceDown && !isSpellTrap)
+					{
+						carta3dfield.Defesa = true;
+						_gameState.CurrentPlayer.Field.BotaDeLadinho(carta3dfield.markerName, true);
+						carta3dfield.Rotation = new Vector3(0, -1.5707964f, 0); // Defesa (inimigo)
 					}
 
 					MaoDoJogador.CleanUpCrew();
@@ -209,7 +218,7 @@ namespace fm
 			//arrumar quando colocar um nodo por cima de outro, deletar o anterior sempre
 			var car = MaoDoJogador.Tools.PegaSlotByMarker(idEscolhido.WorldPos);
 			GD.Print("Logical pos meu monstro: " + idEscolhido.WorldPos);
-			_gameState.CurrentPlayer.Field.placeCard(car, cardData, true, idEscolhido.IsFaceDown, _gameState.CurrentPlayer.IsEnemy);								
+			_gameState.CurrentPlayer.Field.placeCard(car, cardData, !idEscolhido.IsFaceDown, idEscolhido.IsFaceDown, _gameState.CurrentPlayer.IsEnemy);
 
 			if (idEscolhido.CardsUsed != null)
 			{
