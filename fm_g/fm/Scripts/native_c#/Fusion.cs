@@ -34,7 +34,33 @@ namespace fm
 		}
 
 
-		public static FusionResult ProcessChain(string args, Cards card = null)
+		private static Cards CloneCard(Cards card)
+		{
+			if (card == null) return null;
+			return new Cards
+			{
+				Id = card.Id,
+				Name = card.Name,
+				Description = card.Description,
+				Type = card.Type,
+				Attack = card.Attack,
+				Defense = card.Defense,
+				GuardianStarA = card.GuardianStarA,
+				GuardianStarB = card.GuardianStarB,
+				CardCode = card.CardCode,
+				Level = card.Level,
+				Equips = card.Equips != null ? (int[])card.Equips.Clone() : null,
+				Fusions = card.Fusions != null ? (Fusion[])card.Fusions.Clone() : null,
+				Ritual = card.Ritual != null ? (Ritual[])card.Ritual.Clone() : null,
+				Stars = card.Stars,
+				Attribute = card.Attribute,
+				IsFaceDown = card.IsFaceDown,
+				AtlasX = card.AtlasX,
+				AtlasY = card.AtlasY
+			};
+		}
+
+		public static FusionResult ProcessChain(string args, Cards card = null, bool isAI = false)
 		{
 			var cards = CardDatabase.Instance.GetAllCards();
 			var cardIds = args.Split(',').Select(int.Parse).ToList();
@@ -47,6 +73,8 @@ namespace fm
 			var result = new FusionResult();
 			int currentCardId = card == null ? queue.Dequeue() : card.Id;
 			result.MainCard = card != null ? card  : cards.FirstOrDefault(x => x.Id == currentCardId);
+			if(result.MainCard != null && isAI)
+				result.MainCard = CloneCard(result.MainCard);
 
 			if(result.MainCard != null && card == null)
 				result.CardsUsed.Add(result.MainCard);
@@ -70,12 +98,13 @@ namespace fm
 				{
 					currentCardId = fusedId;
 					result.FusaoAconteceu = true;
-					result.MainCard = cards.FirstOrDefault(x => x.Id == currentCardId);
+					var fusedCard = cards.FirstOrDefault(x => x.Id == currentCardId);
+					result.MainCard = isAI && fusedCard != null ? CloneCard(fusedCard) : fusedCard;
 					// Ao fundir, tecnicamente os equips antigos costumam ser perdidos no FM
 					result.AppliedEquips.Clear(); 
 					step.Action = FusionAction.Fusion;
 					step.ResultCard = result.MainCard;
-					GD.Print($"Fusão: {nextId} transformou a carta em {fusedId}");
+					if (!isAI) GD.Print($"Fusão: {nextId} transformou a carta em {fusedId}");
 				}
 				// 2. Se não fundiu, tenta Equipar
 				else if (CanEquip(result.MainCard, nextCard))
@@ -83,7 +112,7 @@ namespace fm
 					result.AppliedEquips.Add(nextCard);
 					step.Action = FusionAction.Equip;
 					step.ResultCard = result.MainCard;
-					GD.Print($"Equipou {nextCard.Name} em {result.MainCard.Name}");
+					if (!isAI) GD.Print($"Equipou {nextCard.Name} em {result.MainCard.Name}");
 				}
 				// Caso B: MainCard é Equipamento e Next é Monstro (INVERSÃO)
 				else if (CanEquip(nextCard, result.MainCard))
@@ -91,7 +120,7 @@ namespace fm
 					var equipParaGuardar = result.MainCard; // O antigo 'main' era o equip
 					
 					// O monstro novo assume o posto de MainCard
-					result.MainCard = nextCard;
+					result.MainCard = isAI ? CloneCard(nextCard) : nextCard;
 					currentCardId = nextCard.Id;
 					
 					step.Action = FusionAction.Inversion;
@@ -100,7 +129,7 @@ namespace fm
 					result.AppliedEquips.Clear(); // Limpa o que tinha antes
 					result.AppliedEquips.Add(equipParaGuardar); // Adiciona o equip que estava esperando
 					
-					GD.Print($"Inversão: {nextCard.Name} assumiu como Main e recebeu {equipParaGuardar.Name}");
+					if (!isAI) GD.Print($"Inversão: {nextCard.Name} assumiu como Main e recebeu {equipParaGuardar.Name}");
 				}
 				// 3. Se nada funcionou, a carta anterior é descartada e a nova vira a principal
 				else
@@ -108,11 +137,11 @@ namespace fm
 					if (!nextCard.IsSpellTrap() || result.MainCard.IsSpellTrap() && nextCard.IsSpellTrap())
 					{
 						currentCardId = nextId;
-						result.MainCard = nextCard;
+						result.MainCard = isAI ? CloneCard(nextCard) : nextCard;
 						result.AppliedEquips.Clear();
 						step.Action = FusionAction.Nothing;
 						step.ResultCard = result.MainCard;
-						GD.Print($"Nada aconteceu, nova carta base: {nextId}");
+						if (!isAI) GD.Print($"Nada aconteceu, nova carta base: {nextId}");
 					}
 					else
 					{
@@ -130,7 +159,7 @@ namespace fm
 			{
 				if(result.MainCard != null)
 				{
-					GD.Print(item.Attack);
+					if (!isAI) GD.Print(item.Attack);
 					result.MainCard.Attack += item.Attack;			
 					result.MainCard.Defense += item.Defense;		
 				}
