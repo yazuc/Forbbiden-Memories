@@ -140,7 +140,6 @@ namespace fm
 							MaoDoJogador._indiceSelecionado = handIndex;
 							MaoDoJogador.AtualizarPosicaoIndicador();
 
-							await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame); // Remove artificial delay, move immediately
 
 							MaoDoJogador._cartasSelecionadasParaFusao.Add(uiCard);
 							MaoDoJogador._anim.AlternarSelecaoFusao(uiCard);
@@ -164,9 +163,6 @@ namespace fm
 
 						await MaoDoJogador._anim.AnimaCartaParaCentro(MaoDoJogador, firstCard.carta.Id, firstCard.carta.Name, handIdx);
 						MaoDoJogador._tcsFaceDown?.TrySetResult(idEscolhido.IsFaceDown);
-
-						// Additional delay to show cards on screen before continuing or fusing
-						await Task.Delay(500);
 
 						if (MaoDoJogador._cartasSelecionadasParaFusao.Count > 1)
 						{
