@@ -20,18 +20,14 @@ namespace fm{
 		public Godot.Collections.Array<Marker3D> SlotsCampoSTIni = new ();
 		public Godot.Collections.Array<Marker3D> Slots = new ();	
 		public bool STOP {get;set;}		
-		private TaskCompletionSource<FusionResult> _tcsCarta;
-		private TaskCompletionSource<PlayerIntention> _tcsSlot;
+		private TaskCompletionSource<PlayerAction> _inputTcs;
 		public TaskCompletionSource<bool> _tcsFaceDown;
 		bool IsFaceDown = false;
-		private bool _bloquearNavegaçãoManual = false;
 		private Node3D _instanciaSeletor = null;
 		public int _indiceSelecionado = 0;	
 		public int _indiceCampoSelecionado = 0;
-		private bool _selecionandoLocal = false; // Estado para saber se estamos escolhendo onde colocar a carta
 		public List<CardUi> _cartasSelecionadasParaFusao = new List<CardUi>();
 		private List<Node3D> _cartasInstanciadas = new List<Node3D>();
-		private bool _processandoInput = false;		
 		public List<int> IDFusao = new List<int>();
 		public Vector2 lastPos = Vector2.Zero;
 		private Godot.Collections.Array<Marker3D> _slots;
@@ -40,7 +36,7 @@ namespace fm{
 		public Mao MaoControl {get;set;}
 		public IndicadorSeta indicadorSetaEsquerda{get;set;}
 		public IndicadorSeta indicadorSetaDireita{get;set;}
-		private InputState _inputState = InputState.HandSelection;
+		public InputState _inputState = InputState.HandSelection;
 		public GameLoop gameLoop {get;set;}
 		public AnimationP _anim;
 		public Helper Tools;
@@ -63,116 +59,37 @@ namespace fm{
 			Tools._cartasInstanciadas = _cartasInstanciadas;
 		}
 
-		public async override void _Process(double delta)
+		public override void _Process(double delta)
 		{			
 			float speed = 8.0f;
 			Vector2 newScale = Scale;
 			newScale.Y = Mathf.Sin(Time.GetTicksMsec() * 0.001f * speed);
 			IndicadorTriangulo.Scale = newScale;
-			if (!_processandoInput && !STOP)
-			{
-				ExecutarNavegacao();
-			}			
-		}
-		
-		private async void ExecutarNavegacao()
-		{
-			_processandoInput = true;
-			await HandleNavigation();
-			_processandoInput = false;
 			AtualizarPosicaoIndicador();
 		}
-		private async Task HandleNavigation()
+		
+		public Task<PlayerAction> AguardarAcaoAsync()
 		{
-			if (_bloquearNavegaçãoManual) return;
-			if (MaoControl.CartasNaMaoCount() == 0) return;
+			_inputTcs = new TaskCompletionSource<PlayerAction>();
+			return _inputTcs.Task;
+		}
 
-			if (!_selecionandoLocal) 
-			{				
-				// SELEÇÃO NA MÃO (2D)
-				int anterior = _indiceSelecionado;
-				if(_indiceSelecionado > 4){
-					_indiceSelecionado = 0;
-				}
-				if(_indiceSelecionado < 0){
-					_indiceSelecionado = 4;
-				}
-				if(!STOP){
-					if (Input.IsActionJustPressed("ui_right")) _indiceSelecionado = Mathf.Min(_indiceSelecionado + 1, MaoControl.CartasNaMaoCount() - 1);
-					else if (Input.IsActionJustPressed("ui_left")) _indiceSelecionado = Mathf.Max(_indiceSelecionado - 1, 0);					
-				}
-
-				if (anterior != _indiceSelecionado) AtualizarPosicaoIndicador();
-				
-				// MECÂNICA DE FUSÃO (Cima/Baixo)
-				if(!STOP){
-					var carta = MaoControl.GetCarta(_indiceSelecionado);
-					if (Input.IsActionJustPressed("ui_up")) 
-					{
-						_anim.AlternarSelecaoFusao(carta);
-					}					
-					if (Input.IsActionJustPressed("ui_accept")) 
-					{
-						await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-						if (_cartasSelecionadasParaFusao.Count == 0)
-						{
-							_cartasSelecionadasParaFusao.Add(carta);
-						}
-						try 
-						{
-							// O await vai "explodir" aqui se TrySetCanceled for chamado
-							var alvo = _cartasSelecionadasParaFusao.FirstOrDefault();
-							IsFaceDown = await _anim.AnimaCartaParaCentro(this, alvo.carta.Id, alvo.carta.Name, _indiceSelecionado);							
-							if(_cartasSelecionadasParaFusao.Count() == 1 && alvo.carta.IsSpell() && !IsFaceDown)
-							{
-								GD.Print("usando spell");		
-								ConfirmarInvocacaoNoCampo(true, alvo);		
-								return;
-							}								
-							else			
-								await EntrarModoSelecaoCampo();
-						}
-						catch (OperationCanceledException) 
-						{
-							// O código cai aqui IMEDIATAMENTE quando aperta ui_cancel
-							GD.Print("Ação cancelada pelo usuário.");
-							
-							if (_cartasSelecionadasParaFusao.Any()) {
-								await _anim.AnimaCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().carta.Id, _cartasSelecionadasParaFusao.FirstOrDefault().carta.Name, _indiceSelecionado, true);
-							}
-						}
-					}
-				}
+		public void FinalizarAcao(PlayerAction action)
+		{
+			if (_inputTcs != null && !_inputTcs.Task.IsCompleted)
+			{
+				_inputTcs.SetResult(action);
 			}
-			else 
-			{				
-				ControlarSelecaoDeCampo();
-				if(!STOP){
-					if (Input.IsActionJustPressed("ui_accept")) 
-					{
-						await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-						ConfirmarInvocacaoNoCampo();						
-					}
-					
-					if (Input.IsActionJustPressed("ui_cancel")) 
-					{					
-						await Tools.TransitionTo(CameraHand, 0.5f, _transitionCam, STOP);
-						await SairModoSelecaoCampo();
-					}					
-				}
-			}
-			return;
-		}		
+		}
 
-		private async Task EntrarModoSelecaoCampo()
+		public async Task EntrarModoSelecaoCampo()
 		{			
 			if(_cartasSelecionadasParaFusao.Count() == 1)
 				await _anim.AnimaCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().carta.Id, _cartasSelecionadasParaFusao.FirstOrDefault().carta.Name, _indiceSelecionado);
-			_selecionandoLocal = true;
 			_indiceCampoSelecionado = 0; // Começa no primeiro slot								
 			if (_instanciaSeletor != null)
 			{				
-				AtualizarPosicaoSeletor3D(SlotsCampo, _cartasSelecionadasParaFusao.FirstOrDefault().carta.Type);
+				AtualizarPosicaoSeletor3D(SlotsCampo, _cartasSelecionadasParaFusao.FirstOrDefault()?.carta?.Type ?? CardTypeEnum.Indefinido);
 				_instanciaSeletor.Visible = true;
 				await Tools.TransitionTo(CameraField, 0.5f, _transitionCam, STOP);
 			}
@@ -189,25 +106,7 @@ namespace fm{
 			// Desative aqui os highlights ou colisores que você ativou para a seleção
 			//GD.Print("Seleção de campo cancelada manualmente.");
 		}
-		private void ControlarSelecaoDeCampo()
-		{
-			int anterior = _indiceCampoSelecionado;
-			if(!STOP){			
-				if (Input.IsActionJustPressed("ui_right"))
-					_indiceCampoSelecionado = Mathf.Min(_indiceCampoSelecionado + 1, SlotsCampo.Count - 1);
-				
-				if (Input.IsActionJustPressed("ui_left"))
-					_indiceCampoSelecionado = Mathf.Max(_indiceCampoSelecionado - 1, 0);
-			}
-
-			if (anterior != _indiceCampoSelecionado)
-			{
-				AtualizarPosicaoSeletor3D(SlotsCampo, _cartasSelecionadasParaFusao.FirstOrDefault().carta.Type);
-			}
-		}		
-						
-
-		private void AtualizarPosicaoSeletor3D(Godot.Collections.Array<Marker3D> slots, CardTypeEnum tipo)
+		public void AtualizarPosicaoSeletor3D(Godot.Collections.Array<Marker3D> slots, CardTypeEnum tipo)
 		{
 			if (_instanciaSeletor == null || slots == null || slots.Count == 0)
 			{
@@ -224,14 +123,14 @@ namespace fm{
 			_instanciaSeletor.GlobalRotation = slotDestino.GlobalRotation;
 		}
 		
-		public async void ConfirmarInvocacaoNoCampo(bool ativaDireto = false, CardUi? card = null)
+		public async Task<FusionResult> ConfirmarInvocacaoNoCampo(bool ativaDireto = false, CardUi? card = null)
 		{			
 			
 			var slotDestino = SlotsCampo[_indiceCampoSelecionado];
 			var carta3dfield = Tools.PegaNodoCarta3d(slotDestino.Name);
 
 			var scene = GD.Load<PackedScene>("res://Menu/Password/card_ui.tscn");
-			if(carta3dfield != null && _selecionandoLocal)
+			if(carta3dfield != null)
 			{
 				RefFusao = CriarCartaFusao(carta3dfield);
 				_cartasSelecionadasParaFusao.Insert(0, RefFusao);
@@ -254,8 +153,8 @@ namespace fm{
 				var tipo = resultadoFusao.MainCard.Type;
 				if(ativaDireto || resultadoFusao.MainCard.IsSpellTrap() && !ativaDireto && !IsFaceDown)
 				{
-					CartaSTAction(card, resultadoFusao);
-					return;
+					await CartaSTAction(card, resultadoFusao);
+					return resultadoFusao;
 				}
 
 				if(_cartasSelecionadasParaFusao.Count() == 1){
@@ -286,27 +185,20 @@ namespace fm{
 				
 				_cartasSelecionadasParaFusao.Clear();
 				await SairModoSelecaoCampo();
-				_bloquearNavegaçãoManual = false;
-				_tcsCarta?.TrySetResult(resultadoFusao);
 			}
+			return resultadoFusao;
 		}
 
-		public async void CartaSTAction(CardUi card, FusionResult resultadoFusao)
+		public async Task CartaSTAction(CardUi card, FusionResult resultadoFusao)
 		{
-			_bloquearNavegaçãoManual = true;
-
 			card = _anim.GetChildCount() > 0 ? _anim.GetChild<CardUi>(0) : card;
 
 			if(card != null)
 			{						
 				await card.AtivaSpellAnimation(_anim.ScrenCenter());						
-				_bloquearNavegaçãoManual = false;
-				_selecionandoLocal = false;
 				_cartasSelecionadasParaFusao.Clear();
 				card.QueueFree();
-				_tcsCarta?.TrySetResult(resultadoFusao);
 			}
-			_bloquearNavegaçãoManual = false;
 		}
 
 		public CardUi CriarCartaFusao(Carta3d carta3dfield)
@@ -379,7 +271,6 @@ namespace fm{
 
 		public async Task SairModoSelecaoCampo()
 		{
-			_selecionandoLocal = false;			
 			await CancelarSelecaoNoCampo();
 			if (_instanciaSeletor != null) _instanciaSeletor.Visible = false;
 		}
@@ -416,7 +307,7 @@ namespace fm{
 			}
 		}
 
-		public Task<PlayerIntention> SelecionarSlotTAsync(
+		public void PrepararSelecaoSlot(
 			Godot.Collections.Array<Marker3D> slots,
 			bool primeiroTurno = false,
 			bool camIni = false)
@@ -426,95 +317,183 @@ namespace fm{
 			PrimeiroTurno = primeiroTurno;
 			_camIni = camIni;
 
-			_tcsSlot = new TaskCompletionSource<PlayerIntention>();
-
 			_instanciaSeletor.Visible = true;
-			_bloquearNavegaçãoManual = true;
-
 			AtualizarPosicaoSeletorParaSlots(slots);
-
-			return _tcsSlot.Task;
 		}
+
 		private void HandleHandInput(InputEvent e)
 		{
+			if (MaoControl.CartasNaMaoCount() == 0) return;
+
+			int anterior = _indiceSelecionado;
+
 			if (e.IsActionPressed("ui_right"))
-				_indiceSelecionado++;
+				_indiceSelecionado = Mathf.Min(_indiceSelecionado + 1, MaoControl.CartasNaMaoCount() - 1);
+			else if (e.IsActionPressed("ui_left"))
+				_indiceSelecionado = Mathf.Max(_indiceSelecionado - 1, 0);
 
-			if (e.IsActionPressed("ui_left"))
-				_indiceSelecionado--;
+			if (_indiceSelecionado > 4) _indiceSelecionado = 0;
+			if (_indiceSelecionado < 0) _indiceSelecionado = 4;
 
+			if (anterior != _indiceSelecionado)
+				AtualizarPosicaoIndicador();
+
+			var carta = MaoControl.GetCarta(_indiceSelecionado);
 			if (e.IsActionPressed("ui_up"))
 			{
-				var carta = MaoControl.GetCarta(_indiceSelecionado);
 				_anim.AlternarSelecaoFusao(carta);
 			}
 
 			if (e.IsActionPressed("ui_accept"))
 			{
-				//IniciarSelecaoCampo();
+				FinalizarAcao(new PlayerAction
+				{
+					Type = PlayerActionType.SelectCard,
+					Card = carta
+				});
 			}
-		}
-
-		private async void IniciarSelecaoCampo()
-		{
-			_inputState = InputState.FieldSelection;
-
-			_selecionandoLocal = true;
-			_indiceCampoSelecionado = 0;
-
-			_instanciaSeletor.Visible = true;
-
-			await Tools.TransitionTo(CameraField, 0.5f, _transitionCam, STOP);
+			else if (e.IsActionPressed("ui_cancel"))
+			{
+				FinalizarAcao(new PlayerAction
+				{
+					Type = PlayerActionType.Cancel
+				});
+			}
+			else if (e.IsActionPressed("ui_end_phase"))
+			{
+				FinalizarAcao(new PlayerAction
+				{
+					Type = PlayerActionType.EndTurn
+				});
+			}
 		}
 
 		private void HandleFieldInput(InputEvent e)
 		{
-			ProcessarNavegacao3D(_slots, _camIni);
+			int anterior = _indiceCampoSelecionado;
+			var slotsParaUsar = SlotsCampo;
+			int dir = 1;
+
+			if (e.IsActionPressed("ui_right"))
+				_indiceCampoSelecionado = Mathf.Clamp(_indiceCampoSelecionado + dir, 0, slotsParaUsar.Count - 1);
+			if (e.IsActionPressed("ui_left"))
+				_indiceCampoSelecionado = Mathf.Clamp(_indiceCampoSelecionado - dir, 0, slotsParaUsar.Count - 1);
+			if (e.IsActionPressed("ui_up"))
+				_indiceCampoSelecionado = Mathf.Clamp(_indiceCampoSelecionado - 5, 0, slotsParaUsar.Count - 1);
+			if (e.IsActionPressed("ui_down"))
+				_indiceCampoSelecionado = Mathf.Clamp(_indiceCampoSelecionado + 5, 0, slotsParaUsar.Count - 1);
+
+			if (anterior != _indiceCampoSelecionado)
+			{
+				AtualizarPosicaoSeletor3D(slotsParaUsar, _cartasSelecionadasParaFusao.FirstOrDefault()?.carta?.Type ?? CardTypeEnum.Indefinido);
+			}
 
 			if (e.IsActionPressed("ui_accept"))
-				ConfirmarInvocacaoNoCampo();
-
-			if (e.IsActionPressed("ui_cancel"))
-				SairDoCampo();
+			{
+				FinalizarAcao(new PlayerAction
+				{
+					Type = PlayerActionType.SelectSlot,
+					SlotIndex = _indiceCampoSelecionado
+				});
+			}
+			else if (e.IsActionPressed("ui_cancel"))
+			{
+				FinalizarAcao(new PlayerAction
+				{
+					Type = PlayerActionType.Cancel
+				});
+			}
 		}
 
-		private async void SairDoCampo()
+		private void HandleBattleInput(InputEvent e)
 		{
-			_inputState = InputState.HandSelection;
+			if (_slots == null || _slots.Count == 0) return;
 
-			await Tools.TransitionTo(CameraHand, 0.5f, _transitionCam, STOP);
+			int anterior = _indiceCampoSelecionado;
+			int dir = _camIni ? -1 : 1;
 
-			await CancelarSelecaoNoCampo();
+			if (e.IsActionPressed("ui_right"))
+				_indiceCampoSelecionado = Mathf.Clamp(_indiceCampoSelecionado + dir, 0, _slots.Count - 1);
+			if (e.IsActionPressed("ui_left"))
+				_indiceCampoSelecionado = Mathf.Clamp(_indiceCampoSelecionado - dir, 0, _slots.Count - 1);
+			if (e.IsActionPressed("ui_up"))
+				_indiceCampoSelecionado = Mathf.Clamp(_indiceCampoSelecionado - 5, 0, _slots.Count - 1);
+			if (e.IsActionPressed("ui_down"))
+				_indiceCampoSelecionado = Mathf.Clamp(_indiceCampoSelecionado + 5, 0, _slots.Count - 1);
+
+			if (anterior != _indiceCampoSelecionado)
+			{
+				AtualizarPosicaoSeletorParaSlots(_slots);
+			}
+
+			if (e.IsActionPressed("ui_lb") || e.IsActionPressed("ui_rb"))
+				AlternarDefesa();
+
+			if (e.IsActionPressed("ui_accept"))
+			{
+				var slotDestino = _camIni ? SlotsCampoIni[_indiceCampoSelecionado] : _slots[_indiceCampoSelecionado];
+				var nodo = Tools.PegaNodoCarta3d(slotDestino.Name);
+				var Intent = Tools.DefineIntentCampo(nodo?.carta);
+
+				if (PrimeiroTurno && Intent != PlayerIntentEnum.SelectSpell) return;
+
+				if (Tools.PegaNodoNoSlot(slotDestino))
+				{
+					if (!_camIni && !nodo.Defesa)
+					{
+						LogicalPosition = slotDestino.Name;
+						FinalizarAcao(new PlayerAction { Type = PlayerActionType.SelectSlot, SlotIndex = _indiceCampoSelecionado });
+					}
+					else if (_camIni)
+					{
+						LogicalPosition = slotDestino.Name;
+						FinalizarAcao(new PlayerAction { Type = PlayerActionType.SelectSlot, SlotIndex = _indiceCampoSelecionado });
+					}
+				}
+				else if (Tools.PodeBate(SlotsCampoIni.ToList()))
+				{
+					if (!_camIni && nodo != null && !nodo.Defesa)
+					{
+						FinalizarAcao(new PlayerAction { Type = PlayerActionType.SelectSlot, SlotIndex = _indiceCampoSelecionado });
+					}
+					else if (_camIni)
+					{
+						FinalizarAcao(new PlayerAction { Type = PlayerActionType.SelectSlot, SlotIndex = _indiceCampoSelecionado });
+					}
+				}
+			}
+			else if (e.IsActionPressed("ui_cancel"))
+			{
+				FinalizarAcao(new PlayerAction { Type = PlayerActionType.Cancel });
+			}
+			else if (e.IsActionPressed("ui_end_phase"))
+			{
+				FinalizarAcao(new PlayerAction { Type = PlayerActionType.EndTurn });
+			}
 		}
-
 
 		public override void _UnhandledInput(InputEvent @event)
 		{
-			if (_tcsSlot == null || _tcsSlot.Task.IsCompleted)
-				return;
+			if (STOP) return;
 
-			ProcessarNavegacao();
+			switch (_inputState)
+			{
+				case InputState.HandSelection:
+					HandleHandInput(@event);
+					break;
+				case InputState.FieldSelection:
+					HandleFieldInput(@event);
+					break;
+				case InputState.BattleSelection:
+					HandleBattleInput(@event);
+					break;
+			}
+		}
 
-			if (STOP)
-				return;
-
-			if (@event.IsActionPressed("ui_lb") || @event.IsActionPressed("ui_rb"))
-				AlternarDefesa();
-
-			if (@event.IsActionPressed("ui_accept"))
-				ConfirmarSlot();
-
-			if (@event.IsActionPressed("ui_cancel"))
-				FinalizarSelecao(PlayerIntentEnum.InvalidIntent);
-
-			if (@event.IsActionPressed("ui_end_phase"))
-				FinalizarSelecao(PlayerIntentEnum.EndTurn);
-		}				
-						
-		// Método auxiliar para mover o seletor entre diferentes arrays de markers
-		private void AtualizarPosicaoSeletorParaSlots(Godot.Collections.Array<Marker3D> slots)
+		public void AtualizarPosicaoSeletorParaSlots(Godot.Collections.Array<Marker3D> slots)
 		{
-			if (slots.Count > 0 && _indiceCampoSelecionado >= 0 && _indiceCampoSelecionado < slots.Count){
+			if (slots != null && slots.Count > 0 && _indiceCampoSelecionado >= 0 && _indiceCampoSelecionado < slots.Count)
+			{
 				var slotDestino = slots[_indiceCampoSelecionado];
 				Tween tween = GetTree().CreateTween();
 				tween.TweenProperty(_instanciaSeletor, "global_position", slotDestino.GlobalPosition + new Vector3(0, 0.05f, 0), 0.05f);
@@ -557,60 +536,6 @@ namespace fm{
 			return new Godot.Collections.Array<Marker3D>(markers);
 		}
 
-		void ConfirmarSlot()
-		{
-			var slotDestino = _camIni
-				? SlotsCampoIni[_indiceCampoSelecionado]
-				: _slots[_indiceCampoSelecionado];
-
-			var nodo = Tools.PegaNodoCarta3d(slotDestino.Name);
-			var Intent = Tools.DefineIntentCampo(nodo?.carta);
-
-			if (PrimeiroTurno && Intent != PlayerIntentEnum.SelectSpell)
-			{
-				return;
-			}
-
-			GD.Print($"{slotDestino.Name} Slot confirmado: {_indiceCampoSelecionado}");
-
-			if (Tools.PegaNodoNoSlot(slotDestino))
-			{
-				if (!_camIni)
-				{
-					if (!nodo.Defesa)
-					{
-						LogicalPosition = slotDestino.Name;
-						FinalizarSelecao(Intent);
-					}
-				}
-				else
-				{
-					LogicalPosition = slotDestino.Name;
-					FinalizarSelecao(Intent);
-				}
-			}
-			else if (Tools.PodeBate(SlotsCampoIni.ToList()))
-			{
-				if (!_camIni)
-				{
-					if (nodo != null && !nodo.Defesa)
-						FinalizarSelecao(Intent);
-				}
-				else
-				{
-					FinalizarSelecao(Intent);
-				}
-			}
-		}
-		void FinalizarSelecao(PlayerIntentEnum intent)
-		{
-			_instanciaSeletor.Visible = false;
-			_bloquearNavegaçãoManual = false;
-			PlayerIntention np = new PlayerIntention(_slots[_indiceCampoSelecionado].Name, intent);
-
-			_tcsSlot.TrySetResult(np);
-		}
-
 		void AlternarDefesa()
 		{
 			if (_camIni)
@@ -649,55 +574,6 @@ namespace fm{
 					pegou.Rotation = new Vector3(0,3.14f,0);
 			}
 		}
-
-
-		void ProcessarNavegacao()
-		{
-			int anterior = _indiceCampoSelecionado;
-
-			ProcessarNavegacao3D(_slots, _camIni);
-
-			if (anterior != _indiceCampoSelecionado)
-				AtualizarPosicaoSeletorParaSlots(_slots);
-		}
-				
-		public void ProcessarNavegacao3D(Godot.Collections.Array<Marker3D> slots, bool camIni){
-			int dir = camIni ? -1 : 1;		
-			if(!STOP){
-				if (Input.IsActionJustPressed("ui_right"))
-				{
-					_indiceCampoSelecionado = Mathf.Clamp(
-								_indiceCampoSelecionado + dir,
-								0,
-								slots.Count - 1
-							);
-				}
-				if (Input.IsActionJustPressed("ui_left"))
-				{
-					_indiceCampoSelecionado = Mathf.Clamp(
-							_indiceCampoSelecionado - dir,
-							0,
-							slots.Count - 1
-						);
-				}
-				if(Input.IsActionJustPressed("ui_up"))
-				{					
-					 _indiceCampoSelecionado = Mathf.Clamp(
-							_indiceCampoSelecionado - 5,
-							0,
-							slots.Count - 1
-						);
-				}
-				if(Input.IsActionJustPressed("ui_down"))
-				{
-					 _indiceCampoSelecionado = Mathf.Clamp(
-								_indiceCampoSelecionado + 5,
-								0,
-								slots.Count - 1
-							);												
-				}
-			}								
-		}			
 	
 		
 		public IndicadorSeta CriarSetaPersonalizada(Vector2 alvo, bool direita = false)
@@ -757,14 +633,10 @@ namespace fm{
 			GD.Print("MaoJogador: Slots redefinidos com sucesso via GameLoop.");
 		}
 		
-		public async Task<FusionResult> AguardarConfirmacaoJogadaAsync()
+		public void EsconderSeletor()
 		{
-			_tcsCarta = new TaskCompletionSource<FusionResult>();
-			
-			// O código aqui fica "parado" até que ConfirmarInvocacaoNoCampo() seja chamado
-			var resultado = await _tcsCarta.Task;
-			//depois de confirmado, setamos a task, e aqui precisamos começar as animações de mover para o centro novamente e em sequência definir qual a guardian star
-			return resultado;
+			if (_instanciaSeletor != null)
+				_instanciaSeletor.Visible = false;
 		}
 		
 
