@@ -25,7 +25,7 @@ public class PlayerIntention
 
     public bool ValidIntention()
     {
-        return this.Escolha != PlayerIntentEnum.InvalidIntent;
+        return this.Escolha != PlayerIntentEnum.InvalidIntent && this.Escolha != PlayerIntentEnum.EndTurn;
     }
 
 }

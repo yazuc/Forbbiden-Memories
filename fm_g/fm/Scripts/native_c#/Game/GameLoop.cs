@@ -156,6 +156,11 @@ namespace fm
 				var minhaSpell = _gameState.CurrentPlayer.Field.GetFieldSpellTrap(slotAtacante.WorldPos);
 
 				GD.Print("Logical pos meu monstro: " + slotAtacante.WorldPos);
+				if (slotAtacante.EndTurn()) 
+				{
+					BP_Ativa = false; // Sai do loop se apertar V ou Cancelar na seleção de ataque
+					continue;
+				}				
 				if(!slotAtacante.ValidIntention()) continue;
 				if(meuMonstro != null && meuMonstro.HasAttackedThisTurn && slotAtacante.ValidIntention())
 				{
@@ -182,11 +187,6 @@ namespace fm
 					}
 					continue;
 				}
-				if (slotAtacante.EndTurn()) 
-				{
-					BP_Ativa = false; // Sai do loop se apertar V ou Cancelar na seleção de ataque
-					continue;
-				}				
 
 				await MaoDoJogador.Tools.TransitionTo(CameraInimigo, 0.4f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);
 				
