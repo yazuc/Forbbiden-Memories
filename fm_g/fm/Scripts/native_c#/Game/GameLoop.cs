@@ -218,7 +218,7 @@ namespace fm
 			_gameState.CurrentPhase = TurnPhase.Battle;
 			GD.Print("--- Battle Phase Iniciada ---");
 			MaoDoJogador.DefineVisibilidade(false);
-			MaoDoJogador.MaoControl.AnimateInterface(false);
+			await MaoDoJogador.MaoControl.AnimateInterface(false);
 			bool BP_Ativa = true;
 			while (BP_Ativa)
 			{
@@ -458,7 +458,7 @@ namespace fm
 				1f
 			);
 			await ToSignal(tween, Tween.SignalName.Finished);
-			MaoDoJogador.MaoControl.AnimateInterface(true);
+			await MaoDoJogador.MaoControl.AnimateInterface(true);
 			MaoDoJogador.Tools.SwitchTurn(MaoDoJogador);
 			MaoDoJogador.DefineVisibilidade(true);
 		}
