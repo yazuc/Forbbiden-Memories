@@ -112,7 +112,6 @@ namespace fm
 			if (_gameState.CurrentPlayer.IsEnemy)
 			{
 				// Simulate AI thinking time to improve immersion
-				await Task.Delay(1500);
 
 				AIEngine aiEngine = new AIEngine();
 				AIDecision decision = aiEngine.GetBestMove(_gameState.CurrentPlayer.Hand, _gameState.OpponentPlayer.Field, _gameState.CurrentPlayer.Field);
@@ -156,16 +155,13 @@ namespace fm
 							}
 						}
 
-						await MaoDoJogador._anim.AnimaCartaParaCentro(MaoDoJogador, firstCard.carta.Id, firstCard.carta.Name, handIdx);
-						MaoDoJogador._tcsFaceDown?.TrySetResult(idEscolhido.IsFaceDown);
-
-						// Additional delay to show cards on screen before continuing or fusing
-						await Task.Delay(500);
+						//await MaoDoJogador._anim.AnimaCartaParaCentro(MaoDoJogador, firstCard.carta.Id, firstCard.carta.Name, handIdx, _gameState.CurrentPlayer.IsEnemy);
+						MaoDoJogador._tcsFaceDown?.TrySetResult(true);
+					
 
 						if (MaoDoJogador._cartasSelecionadasParaFusao.Count > 1)
 						{
 							await MaoDoJogador._anim.AnimaFusao(MaoDoJogador, idEscolhido);
-							await Task.Delay(500); // small delay after fusion finishes
 						}
 					}
 

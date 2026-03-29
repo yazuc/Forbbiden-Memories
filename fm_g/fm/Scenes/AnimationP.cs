@@ -143,7 +143,7 @@ namespace fm{
 			//lastPos = Vector2.Zero;
 		}
 
-		public async Task<bool> AnimaCartaParaCentro(MaoJogador maoJogador, int ID, string name, int _indiceSelecionado)
+		public async Task<bool> AnimaCartaParaCentro(MaoJogador maoJogador, int ID, string name, int _indiceSelecionado, bool isEnemy = false)
 		{
 			if(_cartasSelecionadasParaFusao.Count() > 1) return false;
 			maoJogador._tcsFaceDown = new TaskCompletionSource<bool>();
@@ -176,6 +176,12 @@ namespace fm{
 			maoJogador.STOP = false;
 			var instancia = maoJogador.CriarSetaPersonalizada(screenCenter + new Vector2(100,-20));
 			var instancia2 = maoJogador.CriarSetaPersonalizada(screenCenter + new Vector2(-100,-20), true);
+
+			if (isEnemy)
+			{				
+				maoJogador._tcsFaceDown?.TrySetResult(IsFaceDown);
+				return true;
+			}
 			
 			while(!maoJogador._tcsFaceDown.Task.IsCompleted) 
 			{
