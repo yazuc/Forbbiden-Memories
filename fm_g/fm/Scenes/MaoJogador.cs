@@ -805,6 +805,7 @@ namespace fm{
 		public async Task<FusionResult> AguardarConfirmacaoJogadaAsync()
 		{
 			_tcsCarta = new TaskCompletionSource<FusionResult>();
+			_slots = FiltraSlot(aliado: true);
 			
 			// O código aqui fica "parado" até que ConfirmarInvocacaoNoCampo() seja chamado
 			var resultado = await _tcsCarta.Task;
