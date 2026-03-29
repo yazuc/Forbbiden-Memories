@@ -72,9 +72,10 @@ namespace fm
 
 			var result = new FusionResult();
 			int currentCardId = card == null ? queue.Dequeue() : card.Id;
-			result.MainCard = card != null ? card  : cards.FirstOrDefault(x => x.Id == currentCardId);
-			if(result.MainCard != null && isAI)
-				result.MainCard = CloneCard(result.MainCard);
+
+			// Always clone to prevent modifying the database cache
+			var fetchedCard = card != null ? card : cards.FirstOrDefault(x => x.Id == currentCardId);
+			result.MainCard = CloneCard(fetchedCard);
 
 			if(result.MainCard != null && card == null)
 				result.CardsUsed.Add(result.MainCard);
@@ -99,7 +100,7 @@ namespace fm
 					currentCardId = fusedId;
 					result.FusaoAconteceu = true;
 					var fusedCard = cards.FirstOrDefault(x => x.Id == currentCardId);
-					result.MainCard = isAI && fusedCard != null ? CloneCard(fusedCard) : fusedCard;
+					result.MainCard = CloneCard(fusedCard);
 					// Ao fundir, tecnicamente os equips antigos costumam ser perdidos no FM
 					result.AppliedEquips.Clear(); 
 					step.Action = FusionAction.Fusion;
@@ -120,7 +121,7 @@ namespace fm
 					var equipParaGuardar = result.MainCard; // O antigo 'main' era o equip
 					
 					// O monstro novo assume o posto de MainCard
-					result.MainCard = isAI ? CloneCard(nextCard) : nextCard;
+					result.MainCard = CloneCard(nextCard);
 					currentCardId = nextCard.Id;
 					
 					step.Action = FusionAction.Inversion;
@@ -137,7 +138,7 @@ namespace fm
 					if (!nextCard.IsSpellTrap() || result.MainCard.IsSpellTrap() && nextCard.IsSpellTrap())
 					{
 						currentCardId = nextId;
-						result.MainCard = isAI ? CloneCard(nextCard) : nextCard;
+						result.MainCard = CloneCard(nextCard);
 						result.AppliedEquips.Clear();
 						step.Action = FusionAction.Nothing;
 						step.ResultCard = result.MainCard;

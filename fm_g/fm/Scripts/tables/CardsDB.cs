@@ -44,8 +44,17 @@ namespace fm
 		// Add a single card or a list of cards
 		public void InsertCards(List<Cards> cards) => _database?.InsertAll(cards);
 
-		// Fetch all cards
-		public List<Cards> GetAllCards() => _database?.Table<Cards>().ToList() ?? new List<Cards>();
+		private List<Cards>? _cachedCards;
+
+		// Fetch all cards (Cached for massive performance gains in AI calculations)
+		public List<Cards> GetAllCards()
+		{
+			if (_cachedCards == null)
+			{
+				_cachedCards = _database?.Table<Cards>().ToList() ?? new List<Cards>();
+			}
+			return _cachedCards;
+		}
 
 		// Fetch a specific card by ID (Much faster than LINQ on a List)
 		public Cards? GetCardById(int id) => _database?.Table<Cards>().FirstOrDefault(c => c.Id == id);

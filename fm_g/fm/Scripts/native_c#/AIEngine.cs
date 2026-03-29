@@ -257,7 +257,11 @@ namespace fm
         private static IEnumerable<List<(Cards card, int index)>> GenerateOrderedSubsetsWithIndices(List<Cards> hand)
         {
             var results = new List<List<(Cards card, int index)>>();
-            for (int size = 1; size <= hand.Count; size++)
+            // Optimization for the user's specific request: only look for raw cards or 2-card fusions.
+            // This cuts calculation loops from ~325 permutations to just 25 combinations max per hand.
+            int maxSize = Math.Min(2, hand.Count);
+
+            for (int size = 1; size <= maxSize; size++)
             {
                 BuildPermutations(hand, size, new bool[hand.Count], new List<(Cards card, int index)>(), results);
             }
