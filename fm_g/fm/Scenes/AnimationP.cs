@@ -143,8 +143,13 @@ namespace fm{
 			//lastPos = Vector2.Zero;
 		}
 
-		public async Task<bool> AnimaCartaParaCentro(MaoJogador maoJogador, int ID, string name, int _indiceSelecionado)
+		public async Task<bool> AnimaCartaParaCentro(MaoJogador maoJogador, int ID, string name, int _indiceSelecionado, bool isEnemy = false)
 		{
+			if (isEnemy)
+			{
+				maoJogador._tcsFaceDown?.TrySetResult(isEnemy);
+				return true;
+			}
 			if(_cartasSelecionadasParaFusao.Count() > 1) return false;
 			maoJogador._tcsFaceDown = new TaskCompletionSource<bool>();
 			

@@ -104,7 +104,7 @@ namespace fm
 		private async Task ExecuteMainPhase()
 		{
 			GD.Print($"--- {_gameState.CurrentPlayer.Name}'s {_gameState.CurrentPhase} Enemy? {_gameState.CurrentPlayer.IsEnemy}---");					
-			MaoDoJogador.AtualizarMao(_gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList(), !_gameState.CurrentPlayer.IsEnemy);
+			await MaoDoJogador.AtualizarMao(_gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList());
 
 			FusionResult idEscolhido = null;
 
@@ -156,7 +156,7 @@ namespace fm
 							}
 						}
 
-						await MaoDoJogador._anim.AnimaCartaParaCentro(MaoDoJogador, firstCard.carta.Id, firstCard.carta.Name, handIdx);
+						await MaoDoJogador._anim.AnimaCartaParaCentro(MaoDoJogador, firstCard.carta.Id, firstCard.carta.Name, handIdx, _gameState.CurrentPlayer.IsEnemy);
 						MaoDoJogador._tcsFaceDown?.TrySetResult(idEscolhido.IsFaceDown);
 
 						if (MaoDoJogador._cartasSelecionadasParaFusao.Count > 1)
@@ -218,7 +218,7 @@ namespace fm
 			_gameState.CurrentPhase = TurnPhase.Battle;
 			GD.Print("--- Battle Phase Iniciada ---");
 			MaoDoJogador.DefineVisibilidade(false);
-			MaoDoJogador.MaoControl.AnimateInterface(false);
+			await MaoDoJogador.MaoControl.AnimateInterface(false);
 			bool BP_Ativa = true;
 			while (BP_Ativa)
 			{
@@ -458,7 +458,7 @@ namespace fm
 				1f
 			);
 			await ToSignal(tween, Tween.SignalName.Finished);
-			MaoDoJogador.MaoControl.AnimateInterface(true);
+			await MaoDoJogador.MaoControl.AnimateInterface(true);
 			MaoDoJogador.Tools.SwitchTurn(MaoDoJogador);
 			MaoDoJogador.DefineVisibilidade(true);
 		}
