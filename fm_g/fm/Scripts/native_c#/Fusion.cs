@@ -20,7 +20,19 @@ namespace fm
 			public string WorldPos {get;set;} = string.Empty;
 			public List<Cards> AppliedEquips { get; set; } = new List<Cards>();
 			public List<Cards> CardsUsed {get;set;} = new List<Cards>();
+			public List<FusionStep> Steps { get; set; } = new();
 		}
+		public class FusionStep
+		{
+			public Cards PreviousMain { get; set; }
+			public Cards IncomingCard { get; set; }
+			public Cards ResultCard { get; set; }
+
+			public FusionAction Action { get; set; }
+
+			public List<Cards> EquipsAfterStep { get; set; } = new();
+		}
+
 
 		public static FusionResult ProcessChain(string args, Cards card = null)
 		{
@@ -29,6 +41,8 @@ namespace fm
 			var queue = new Queue<int>(cardIds);
 
 			if (queue.Count == 0) return null;
+			if(card != null)
+				queue.Dequeue();
 
 			var result = new FusionResult();
 			int currentCardId = card == null ? queue.Dequeue() : card.Id;
@@ -41,8 +55,15 @@ namespace fm
 			{
 				int nextId = queue.Dequeue();
 				var nextCard = cards.FirstOrDefault(x => x.Id == nextId);
+
 				if(nextCard != null)
 					result.CardsUsed.Add(nextCard);
+
+				var step = new FusionStep
+				{
+					PreviousMain = result.MainCard,
+					IncomingCard = nextCard
+				};
 
 				// 1. Tenta Fusão de Monstro primeiro (Transformação)
 				if (TryGetFusion(currentCardId, nextId, cards, out int fusedId))
@@ -52,12 +73,16 @@ namespace fm
 					result.MainCard = cards.FirstOrDefault(x => x.Id == currentCardId);
 					// Ao fundir, tecnicamente os equips antigos costumam ser perdidos no FM
 					result.AppliedEquips.Clear(); 
+					step.Action = FusionAction.Fusion;
+					step.ResultCard = result.MainCard;
 					GD.Print($"Fusão: {nextId} transformou a carta em {fusedId}");
 				}
 				// 2. Se não fundiu, tenta Equipar
 				else if (CanEquip(result.MainCard, nextCard))
 				{
 					result.AppliedEquips.Add(nextCard);
+					step.Action = FusionAction.Equip;
+					step.ResultCard = result.MainCard;
 					GD.Print($"Equipou {nextCard.Name} em {result.MainCard.Name}");
 				}
 				// Caso B: MainCard é Equipamento e Next é Monstro (INVERSÃO)
@@ -68,6 +93,9 @@ namespace fm
 					// O monstro novo assume o posto de MainCard
 					result.MainCard = nextCard;
 					currentCardId = nextCard.Id;
+					
+					step.Action = FusionAction.Inversion;
+					step.ResultCard = result.MainCard;
 					
 					result.AppliedEquips.Clear(); // Limpa o que tinha antes
 					result.AppliedEquips.Add(equipParaGuardar); // Adiciona o equip que estava esperando
@@ -82,14 +110,21 @@ namespace fm
 						currentCardId = nextId;
 						result.MainCard = nextCard;
 						result.AppliedEquips.Clear();
+						step.Action = FusionAction.Nothing;
+						step.ResultCard = result.MainCard;
 						GD.Print($"Nada aconteceu, nova carta base: {nextId}");
 					}
 					else
 					{
+						step.Action = FusionAction.EquipFail;
+						step.ResultCard = result.MainCard;
 						result.FalhaEquip = true;
 					}
 				}
+				step.EquipsAfterStep = result.AppliedEquips.ToList();
+				result.Steps.Add(step);
 			}
+
 
 			foreach(var item in result.AppliedEquips)
 			{

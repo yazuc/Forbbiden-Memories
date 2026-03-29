@@ -10,7 +10,7 @@ namespace fm{
 		private float _alturaDaCarta = 5f; // Ajuste para o tamanho real da sua carta em metros
 		private float _velocidadeDeQueima = 1.5f; // segundos
 		public bool SouCarta = true;
-		public Cards carta = new Cards();
+		public Cards carta {get;set;}
 		public string markerName = "";
 		public bool Defesa = false;
 		public string instance = "";
@@ -42,7 +42,7 @@ namespace fm{
 			{
 				IsFaceDown = Facedown;
 				Visual.DisplayCard(cardId, IsFaceDown);
-				this.carta = cardId;
+				this.carta = Visual.CurrentCard;
 				GD.Print(carta.Id);
 				this.slotPlaced = slot;
 				this.IsEnemy = IsEnemy;

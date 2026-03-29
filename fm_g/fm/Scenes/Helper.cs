@@ -37,11 +37,16 @@ namespace fm
 			}
 		}
 		
-		public Carta3d PegaNodoCarta3d(string ID)
+		public Carta3d PegaNodoCarta3d(string ID, Cards card = null)
 		{
 			GD.Print("Procurando carta3d com ID: " + ID);
 			GD.Print("Cartas instanciadas: " + _cartasInstanciadas.Count);
-			return _cartasInstanciadas.OfType<Carta3d>().FirstOrDefault(x => x.markerName == ID);
+			var cartas3d = GetTree().GetNodesInGroup("cartas").OfType<Carta3d>().FirstOrDefault(x => x.markerName == ID);
+			if(card != default && cartas3d != default && cartas3d.carta == null)
+			{
+				cartas3d.carta = card;
+			}
+			return cartas3d;
 		}	
 
 		public int PegaSlotByMarker(string marker){

@@ -138,7 +138,7 @@ namespace fm
 		
 		public FieldMonster? GetMonsterInZone(string zoneName) => MonsterZones.FirstOrDefault(x => x != null && x.zoneName == zoneName);		
 		public FieldSpellTrap? GetFieldSpellTrap(string zoneName) => SpellTrapZones.FirstOrDefault(x => x != null && x.zoneName == zoneName);
-
+		public Cards? GetCardInZone(string zoneName) => MonsterZones.FirstOrDefault(x => x != null && x.zoneName == zoneName)?.Card;
 		public FieldMonster? GetMonsterInZone(
 			int zoneIndex) => 
 			(zoneIndex >= 0 && zoneIndex < MONSTER_ZONES) ? MonsterZones[zoneIndex] : null;

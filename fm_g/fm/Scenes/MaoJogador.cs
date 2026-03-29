@@ -234,10 +234,9 @@ namespace fm{
 			var slotDestino = _slots[_indiceCampoSelecionado];
 			var carta3dfield = Tools.PegaNodoCarta3d(slotDestino.Name);
 
-			var scene = GD.Load<PackedScene>("res://Menu/Password/card_ui.tscn");
 			if(carta3dfield != null && _selecionandoLocal)
 			{
-				RefFusao = CriarCartaFusao(carta3dfield);
+				RefFusao = CriarCartaFusao(carta3dfield.carta);
 				_cartasSelecionadasParaFusao.Insert(0, RefFusao);
 			}
 
@@ -247,7 +246,7 @@ namespace fm{
 			
 			if(_cartasSelecionadasParaFusao.Count() > 1)
 			{
-				await _anim.AnimaFusao(this);
+				await _anim.AnimaFusao(this, resultadoFusao);
 			}
 				
 			resultadoFusao.IsFaceDown = IsFaceDown;
@@ -299,12 +298,12 @@ namespace fm{
 		{			
 			
 			var slotDestino = _slots[_indiceCampoSelecionado];
-			var carta3dfield = Tools.PegaNodoCarta3d(slotDestino.Name);
+			var carta3dfield = Tools.PegaNodoCarta3d(slotDestino.Name, gameLoop._gameState.CurrentPlayer.Field.GetCardInZone(slotDestino.Name));
 
 			var scene = GD.Load<PackedScene>("res://Menu/Password/card_ui.tscn");
 			if(carta3dfield != null)
 			{
-				RefFusao = CriarCartaFusao(carta3dfield);
+				RefFusao = CriarCartaFusao(carta3dfield.carta);
 				_cartasSelecionadasParaFusao.Insert(0, RefFusao);
 			}
 			if(card != null)
@@ -318,7 +317,7 @@ namespace fm{
 			
 			if(_cartasSelecionadasParaFusao.Count() > 1)
 			{
-				await _anim.AnimaFusao(this);
+				await _anim.AnimaFusao(this, resultadoFusao);
 			}
 				
 			resultadoFusao.IsFaceDown = IsFaceDown;
@@ -374,9 +373,9 @@ namespace fm{
 			_bloquearNavegaçãoManual = false;
 		}
 
-		public CardUi CriarCartaFusao(Carta3d carta3dfield)
+		public CardUi CriarCartaFusao(Cards carta)
 		{
-			if (carta3dfield == null)
+			if (carta == null)
 				return null;
 
 			var scene = GD.Load<PackedScene>("res://Menu/Password/card_ui.tscn");
@@ -399,9 +398,9 @@ namespace fm{
 			cartaUi.Scale = Vector2.One;
 			cartaUi.Theme = GD.Load<Theme>("res://Resources/tema_carta_hand.tres");
 
-			GD.Print(carta3dfield.carta.Name);
+			GD.Print(carta);
 
-			cartaUi.DisplayCard(carta3dfield.carta, "1");
+			cartaUi.DisplayCard(carta, "1");
 			AtualizarNumerosFusao();
 
 			return cartaUi;
