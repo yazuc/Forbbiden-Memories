@@ -135,8 +135,11 @@ namespace fm{
 			await ToSignal(tween, "finished");
 			nodoAlvo.Reparent(MaoControl.Hbox);
 			MaoControl.Hbox.MoveChild(nodoAlvo, _indiceSelecionado);
-			if(cancel)
+			if (cancel)
+			{
+				nodoAlvo.EscondeLabel();
 				_cartasSelecionadasParaFusao.Clear();
+			}
 			//lastPos = Vector2.Zero;
 		}
 
@@ -154,6 +157,7 @@ namespace fm{
 				GD.PrintErr("Não foi possível encontrar a carta selecionada na mão!");
 				return false;
 			}
+			nodoAlvo.EscondeLabel();
 			var carta = MaoControl.GetCarta(_indiceSelecionado);
 			bool IsFaceDown = !carta.carta.IsSpellTrap();
 			maoJogador.lastPos = IsInstanceValid(carta) ? carta.GlobalPosition : new Vector2();
@@ -279,7 +283,6 @@ namespace fm{
 				cartaPrincipal.Position = new Vector2(-sideOffset, 0);
 				cartaSacrificio.Position = new Vector2(sideOffset, 0);
 
-				// 🔥 DECISÃO baseada no STEP
 				switch (step.Action)
 				{
 					case FusionAction.Fusion:
@@ -291,7 +294,6 @@ namespace fm{
 						break;
 
 					case FusionAction.Inversion:
-						// se quiser melhorar depois: anima troca de lados
 						await AnimarEquipamento(cartaPrincipal, cartaSacrificio, pivot.GlobalPosition, step.ResultCard);
 						break;
 
@@ -461,7 +463,7 @@ namespace fm{
 			novoPai.AddChild(node);
 		}
 
-		public void AnimateCard(Control carta, int index, float screenWidth)
+		public async Task AnimateCard(Control carta, int index, float screenWidth)
 		{
 			Vector2 posFinal = carta.Position;
 
@@ -470,12 +472,12 @@ namespace fm{
 
 			var tween = GetTree().CreateTween();
 
-			tween.Parallel().TweenProperty(carta, "position", posFinal, 0.45f)
-				.SetDelay(index * 0.15f)
+			tween.Parallel().TweenProperty(carta, "position", posFinal, 0.15f)
 				.SetEase(Tween.EaseType.Out)
 				.SetTrans(Tween.TransitionType.Cubic);
 
-			tween.Parallel().TweenProperty(carta, "modulate:a", 1.0f, 0.45f);
+			tween.Parallel().TweenProperty(carta, "modulate:a", 1.0f, 0.15f);
+			await ToSignal(tween, "finished");
 		}
 
 		public Vector2 ScrenCenter()

@@ -138,7 +138,7 @@ namespace fm{
 							GD.Print("Ação cancelada pelo usuário.");
 							
 							if (_cartasSelecionadasParaFusao.Any()) {
-								await _anim.AnimaCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().carta.Id, _cartasSelecionadasParaFusao.FirstOrDefault().carta.Name, _indiceSelecionado, true);
+								await _anim.AnimaCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().carta.Id, _cartasSelecionadasParaFusao.FirstOrDefault().carta.Name, _indiceSelecionado, true);								
 							}
 						}
 					}
@@ -184,7 +184,11 @@ namespace fm{
 			if (_cartasSelecionadasParaFusao.Any() && _cartasSelecionadasParaFusao.Count() == 1) {
 				await _anim.AnimaCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().carta.Id, _cartasSelecionadasParaFusao.FirstOrDefault().carta.Name, _indiceSelecionado, true);
 			}			
-						
+			foreach(var item in _cartasSelecionadasParaFusao)
+			{
+				if(IsInstanceValid(item))
+				item.EscondeLabel();
+			}						
 			_cartasSelecionadasParaFusao.Clear();
 			// Desative aqui os highlights ou colisores que você ativou para a seleção
 			//GD.Print("Seleção de campo cancelada manualmente.");
@@ -448,10 +452,12 @@ namespace fm{
 			if (_instanciaSeletor != null) _instanciaSeletor.Visible = false;
 		}
 
-		public void AtualizarMao(List<int> idsCartasNoDeck, bool animate = true)
+		public async void AtualizarMao(List<int> idsCartasNoDeck, bool animate = true)
 		{
 			GD.Print(idsCartasNoDeck.Count());	
-			MaoControl.InstanciaMaoAnimated(idsCartasNoDeck, animate);
+			STOP = true;
+			await MaoControl.InstanciaMaoAnimated(idsCartasNoDeck, animate);
+			STOP = false;
 			_indiceSelecionado = 0;
 			if (IndicadorTriangulo != null)
 			{			

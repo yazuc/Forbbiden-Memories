@@ -37,7 +37,7 @@ public partial class Mao : Control
 			CartasInstanciadas.Add(cartaControlada);
 		}
 	}
-	public async void InstanciaMaoAnimated(List<int> CartasNaMaoLocal, bool animate = true)
+	public async Task InstanciaMaoAnimated(List<int> CartasNaMaoLocal, bool animate = true)
 	{
 		if(!animate) 
 		{
@@ -75,7 +75,7 @@ public partial class Mao : Control
 			if (!IsInstanceValid(carta))
 				continue;
 
-			animationPlayer.AnimateCard(carta, i, screenWidth);
+			await animationPlayer.AnimateCard(carta, i, screenWidth);
 		}
 	}
 

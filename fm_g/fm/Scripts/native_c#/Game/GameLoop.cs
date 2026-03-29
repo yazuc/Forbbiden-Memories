@@ -15,9 +15,7 @@ namespace fm
 		private CardEffectManager _effectManager;
 		private BattleSystem _battleSystem;
 		private const int HAND_SIZE = 5;
-		private const int STARTING_HAND = 5;
 		private bool _isBattlePhaseActive = false;
-		private TaskCompletionSource<bool> _battlePhaseEndSignal;
 
 		public GameLoop(Player player1, Player player2, MaoJogador maoUI, Camera3D CameraHand, Camera3D CameraField, Camera3D CameraInimigo, Node3D CameraPivot)
 		{
@@ -158,6 +156,7 @@ namespace fm
 				var minhaSpell = _gameState.CurrentPlayer.Field.GetFieldSpellTrap(slotAtacante.WorldPos);
 
 				GD.Print("Logical pos meu monstro: " + slotAtacante.WorldPos);
+				if(!slotAtacante.ValidIntention()) continue;
 				if(meuMonstro != null && meuMonstro.HasAttackedThisTurn && slotAtacante.ValidIntention())
 				{
 					continue;
@@ -213,7 +212,7 @@ namespace fm
 
 			GD.Print("--- Battle Phase Encerrada ---");
 			_gameState.AdvancePhase();
-		}			
+		}					
 
 		public bool MonsterHasAttacked(string LogicalPos)
 		{
