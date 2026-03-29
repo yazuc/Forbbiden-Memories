@@ -167,7 +167,7 @@ namespace fm
 					GD.Print("no mundo perfeito ativamos spell do campo aqui");
 					GD.Print("Selecionando alvo da spell...");
 
-					if (minhaSpell.Card.IsEquip())
+					if (minhaSpell.Card != null && minhaSpell.Card.IsEquip())
 					{
 						var slotsValidos = MaoDoJogador.FiltraSlot(aliadoM: true);
 						var alvoSpell = await MaoDoJogador.SelecionarSlotTAsync(slotsValidos);
@@ -175,10 +175,10 @@ namespace fm
 						if (alvoSpell.ValidIntention())
 						{
 							GD.Print($"Spell ativada em: {alvoSpell.WorldPos}");				
-							// Aqui tu chama tua lógica de efeito
-							//await ResolverSpell(minhaSpell, target);
-							// var equipSelecionado = MaoDoJogador.CriarCartaFusao(MaoDoJogador.Tools.PegaNodoCarta3d(slotAtacante.WorldPos));
-						    // MaoDoJogador.ConfirmarInvocacaoNoCampo(card:equipSelecionado);
+							var equip3d = MaoDoJogador.Tools.PegaNodoCarta3d(slotAtacante.WorldPos);
+							var equipSelecionado = MaoDoJogador.CriarCartaFusao(equip3d);
+						    await MaoDoJogador.ConfirmarSpellNoCampo(card:equipSelecionado);
+							equip3d.QueueFree();
 						}						
 					}
 					continue;

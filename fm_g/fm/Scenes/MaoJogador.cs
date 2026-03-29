@@ -216,9 +216,13 @@ namespace fm{
 			}
 				
 			if(_cartasSelecionadasParaFusao.Count() == 1){
-				slots = DefineSlotagem(tipo);				
+				_slots = DefineSlotagem(tipo);
 			}
-			var slotDestino = slots[_indiceCampoSelecionado];			
+			else
+			{
+				_slots = DefineSlotagem(CardTypeEnum.Dragon);
+			}
+			var slotDestino = _slots[_indiceCampoSelecionado];			
 			Tween tween = GetTree().CreateTween();
 			tween.TweenProperty(_instanciaSeletor, "global_position", slotDestino.GlobalPosition + new Vector3(0, 0.05f, 0), 0.05f);
 			_instanciaSeletor.GlobalRotation = slotDestino.GlobalRotation;
@@ -227,7 +231,7 @@ namespace fm{
 		public async void ConfirmarInvocacaoNoCampo(bool ativaDireto = false, CardUi? card = null)
 		{			
 			
-			var slotDestino = SlotsCampo[_indiceCampoSelecionado];
+			var slotDestino = _slots[_indiceCampoSelecionado];
 			var carta3dfield = Tools.PegaNodoCarta3d(slotDestino.Name);
 
 			var scene = GD.Load<PackedScene>("res://Menu/Password/card_ui.tscn");
@@ -291,6 +295,67 @@ namespace fm{
 			}
 		}
 
+		public async Task ConfirmarSpellNoCampo(CardUi? card = null)
+		{			
+			
+			var slotDestino = _slots[_indiceCampoSelecionado];
+			var carta3dfield = Tools.PegaNodoCarta3d(slotDestino.Name);
+
+			var scene = GD.Load<PackedScene>("res://Menu/Password/card_ui.tscn");
+			if(carta3dfield != null)
+			{
+				RefFusao = CriarCartaFusao(carta3dfield);
+				_cartasSelecionadasParaFusao.Insert(0, RefFusao);
+			}
+			if(card != null)
+			{
+				_cartasSelecionadasParaFusao.Insert(1, card);
+			}
+
+			var ids = new List<int>();												
+			ids.AddRange(_cartasSelecionadasParaFusao.Select(x => x.carta.Id));
+			var resultadoFusao = ProcessChain(string.Join(",", ids), carta3dfield?.carta);		
+			
+			if(_cartasSelecionadasParaFusao.Count() > 1)
+			{
+				await _anim.AnimaFusao(this);
+			}
+				
+			resultadoFusao.IsFaceDown = IsFaceDown;
+			bool summon = true;	
+			
+			if (resultadoFusao != null)
+			{								
+				var tipo = resultadoFusao.MainCard.Type;
+
+				if(_cartasSelecionadasParaFusao.Count() == 1){
+					slotDestino = DefineSlotagem(tipo)[_indiceCampoSelecionado];				
+				}				
+				if(_cartasSelecionadasParaFusao.Count() > 1)
+				{
+					slotDestino = DefineSlotagem(tipo)[_indiceCampoSelecionado];				
+					summon = tipo != CardTypeEnum.Spell && tipo != CardTypeEnum.Trap && tipo != CardTypeEnum.Equipment;
+				}
+
+				resultadoFusao.WorldPos = slotDestino.Name;
+
+				if (summon)
+				{
+					if(carta3dfield != null)
+					{
+						carta3dfield.UpdateCard(resultadoFusao.MainCard);
+						gameLoop._gameState.CurrentPlayer.Field.UpdateMonster(resultadoFusao.MainCard, slotDestino.Name);
+					}
+					CleanUpCrew();
+				}
+				
+				_cartasSelecionadasParaFusao.Clear();
+				await SairModoSelecaoCampo();
+				_bloquearNavegaçãoManual = false;
+				_tcsCarta?.TrySetResult(resultadoFusao);
+			}
+		}
+
 		public async void CartaSTAction(CardUi card, FusionResult resultadoFusao)
 		{
 			_bloquearNavegaçãoManual = true;
@@ -325,11 +390,11 @@ namespace fm{
 
 			AddChild(cartaUi);
 
-			var cartaOriginal = _cartasSelecionadasParaFusao.First();
-			cartaOriginal.FlipCard(false);
+			var cartaOriginal = _cartasSelecionadasParaFusao.FirstOrDefault();
+			cartaOriginal?.FlipCard(false);
 			cartaUi.SetAnchorsPreset(Control.LayoutPreset.TopLeft);
 			// Evita warning do Godot
-			cartaUi.Size = cartaOriginal.Size;
+			cartaUi.Size = new Vector2(140f, 213f);
 
 			cartaUi.Scale = Vector2.One;
 			cartaUi.Theme = GD.Load<Theme>("res://Resources/tema_carta_hand.tres");
@@ -434,25 +499,6 @@ namespace fm{
 			AtualizarPosicaoSeletorParaSlots(slots);
 
 			return _tcsSlot.Task;
-		}
-		private void HandleHandInput(InputEvent e)
-		{
-			if (e.IsActionPressed("ui_right"))
-				_indiceSelecionado++;
-
-			if (e.IsActionPressed("ui_left"))
-				_indiceSelecionado--;
-
-			if (e.IsActionPressed("ui_up"))
-			{
-				var carta = MaoControl.GetCarta(_indiceSelecionado);
-				_anim.AlternarSelecaoFusao(carta);
-			}
-
-			if (e.IsActionPressed("ui_accept"))
-			{
-				//IniciarSelecaoCampo();
-			}
 		}
 
 		private async void IniciarSelecaoCampo()
