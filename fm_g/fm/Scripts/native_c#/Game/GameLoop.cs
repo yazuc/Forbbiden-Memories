@@ -112,6 +112,7 @@ namespace fm
 			if (_gameState.CurrentPlayer.IsEnemy)
 			{
 				// Simulate AI thinking time to improve immersion
+				await Task.Delay(1500);
 
 				AIEngine aiEngine = new AIEngine();
 				AIDecision decision = aiEngine.GetBestMove(_gameState.CurrentPlayer.Hand, _gameState.OpponentPlayer.Field, _gameState.CurrentPlayer.Field);
@@ -136,7 +137,13 @@ namespace fm
 						var uiCard = MaoDoJogador.MaoControl.GetCarta(handIndex);
 						if (uiCard != null)
 						{
+							MaoDoJogador._indiceSelecionado = handIndex;
+							MaoDoJogador.AtualizarPosicaoIndicador();
+
+							await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame); // Remove artificial delay, move immediately
+
 							MaoDoJogador._cartasSelecionadasParaFusao.Add(uiCard);
+							MaoDoJogador._anim.AlternarSelecaoFusao(uiCard);
 						}
 					}
 
@@ -155,15 +162,25 @@ namespace fm
 							}
 						}
 
-						//await MaoDoJogador._anim.AnimaCartaParaCentro(MaoDoJogador, firstCard.carta.Id, firstCard.carta.Name, handIdx, _gameState.CurrentPlayer.IsEnemy);
-						MaoDoJogador._tcsFaceDown?.TrySetResult(true);
-					
+						await MaoDoJogador._anim.AnimaCartaParaCentro(MaoDoJogador, firstCard.carta.Id, firstCard.carta.Name, handIdx);
+						MaoDoJogador._tcsFaceDown?.TrySetResult(idEscolhido.IsFaceDown);
+
+						// Additional delay to show cards on screen before continuing or fusing
+						await Task.Delay(500);
 
 						if (MaoDoJogador._cartasSelecionadasParaFusao.Count > 1)
 						{
 							await MaoDoJogador._anim.AnimaFusao(MaoDoJogador, idEscolhido);
+							await Task.Delay(500); // small delay after fusion finishes
 						}
 					}
+
+					// Simula a escolha de campo
+					MaoDoJogador._indiceCampoSelecionado = decision.TargetZoneIndex;
+					MaoDoJogador.AtualizarPosicaoSeletor3D(slots, tipo);
+
+					// A transição de câmera pro campo que o jogador faz:
+					await MaoDoJogador.Tools.TransitionTo(CameraField, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);
 
 					var carta3dfield = MaoDoJogador.Tools.PegaNodoCarta3d(slotDestino.Name);
 
@@ -218,7 +235,7 @@ namespace fm
 			_gameState.CurrentPhase = TurnPhase.Battle;
 			GD.Print("--- Battle Phase Iniciada ---");
 			MaoDoJogador.DefineVisibilidade(false);
-			await MaoDoJogador.MaoControl.AnimateInterface(false);
+			MaoDoJogador.MaoControl.AnimateInterface(false);
 			bool BP_Ativa = true;
 			while (BP_Ativa)
 			{
@@ -458,7 +475,7 @@ namespace fm
 				1f
 			);
 			await ToSignal(tween, Tween.SignalName.Finished);
-			await MaoDoJogador.MaoControl.AnimateInterface(true);
+			MaoDoJogador.MaoControl.AnimateInterface(true);
 			MaoDoJogador.Tools.SwitchTurn(MaoDoJogador);
 			MaoDoJogador.DefineVisibilidade(true);
 		}

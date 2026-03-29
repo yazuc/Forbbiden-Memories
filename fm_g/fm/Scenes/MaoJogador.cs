@@ -211,7 +211,7 @@ namespace fm{
 		}		
 						
 
-		private void AtualizarPosicaoSeletor3D(Godot.Collections.Array<Marker3D> slots, CardTypeEnum tipo)
+		public void AtualizarPosicaoSeletor3D(Godot.Collections.Array<Marker3D> slots, CardTypeEnum tipo)
 		{
 			if (_instanciaSeletor == null || slots == null || slots.Count == 0)
 			{
@@ -466,7 +466,7 @@ namespace fm{
 			}			
 		}
 		
-		private void AtualizarPosicaoIndicador()
+		public void AtualizarPosicaoIndicador()
 		{
 			if (IndicadorTriangulo != null)
 			{				
