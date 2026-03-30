@@ -192,7 +192,7 @@ namespace fm
 				
 				GD.Print("Escolha o alvo...");
 				PlayerIntention slotAlvo = await MaoDoJogador.SelecionarSlotTAsync(MaoDoJogador.SlotsCampoIni, _gameState.CurrentTurn == 1, true);
-				GD.Print("slotalvo: "+ slotAlvo +" Logical pos inimigo monstro: " + MaoDoJogador.LogicalPosition);
+				GD.Print("slotalvo: "+ slotAlvo +" Logical pos inimigo monstro: " + slotAlvo.WorldPos);
 				if (slotAlvo.ValidIntention())
 				{
 					try

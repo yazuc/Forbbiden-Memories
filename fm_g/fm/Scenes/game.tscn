@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://dpjrxybf4pcvc" path="res://HUD/IndicadorTriangulo.tscn" id="5_wowpa"]
 [ext_resource type="PackedScene" uid="uid://c3fy4s3sps4kh" path="res://Carta/Carta3D.tscn" id="6_i6g32"]
 [ext_resource type="PackedScene" uid="uid://b2f4acrh1ecd2" path="res://HUD/seletor.tscn" id="7_1l0tm"]
+[ext_resource type="Script" uid="uid://br7170q541vb8" path="res://Scenes/MaoInimigo.cs" id="8_nnt18"]
 [ext_resource type="PackedScene" uid="uid://keibpphv5dyc" path="res://Scenes/Guardian/SeletorGuardian.tscn" id="8_o5yvi"]
 [ext_resource type="LabelSettings" uid="uid://crt0cwlxu1bjj" path="res://assets/new_label_settings.tres" id="9_h4fw4"]
 [ext_resource type="PackedScene" uid="uid://b38xoflgh70ea" path="res://board.tscn" id="9_ldgsr"]
@@ -55,6 +56,9 @@ CameraField = NodePath("../CameraPivot/CameraField")
 CameraInimigo = NodePath("../CameraPivot/CameraInimigo")
 Seletor = ExtResource("7_1l0tm")
 metadata/_edit_use_anchors_ = true
+
+[node name="MaoInimigo" type="Node2D" parent="." unique_id=935370312]
+script = ExtResource("8_nnt18")
 
 [node name="Board" parent="." unique_id=1698784219 instance=ExtResource("9_ldgsr")]
 transform = Transform3D(-6.8102345e-08, 0.47882816, -1.5335783, 0, 1.3155696, 0.5581768, 1.558, 2.0930244e-08, -6.703483e-08, -0.065, 1.059, 0.223)

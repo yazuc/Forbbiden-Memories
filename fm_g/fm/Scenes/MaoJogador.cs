@@ -7,7 +7,7 @@ namespace fm{
 	public partial class MaoJogador : Node2D
 	{
 		[Export] public PackedScene CartaCena;
-		[Export] public Node2D IndicadorTriangulo;
+		public Node2D IndicadorTriangulo;
 		public Node2D IndicadorSeta;
 		[Export] public Camera3D CameraHand;
 		[Export] public Camera3D CameraField;
@@ -36,7 +36,6 @@ namespace fm{
 		public Vector2 lastPos = Vector2.Zero;
 		private Godot.Collections.Array<Marker3D> _slots;
 		public bool _camIni, PrimeiroTurno;
-		public string LogicalPosition {get;set;}
 		public Mao MaoControl {get;set;}
 		public IndicadorSeta indicadorSetaEsquerda{get;set;}
 		public IndicadorSeta indicadorSetaDireita{get;set;}
@@ -48,6 +47,7 @@ namespace fm{
 		public override void _Ready()
 		{
 			_transitionCam = new Camera3D();
+			IndicadorTriangulo = GetNode<Node2D>("../IndicadorTriangulo");
 			MaoControl = GetNode<Mao>("../CameraPivot/CameraHand/Control/InterfaceDuelo/Mao");		
 			AddChild(_transitionCam);
 			if (Seletor != null)
@@ -68,6 +68,7 @@ namespace fm{
 			float speed = 8.0f;
 			Vector2 newScale = Scale;
 			newScale.Y = Mathf.Sin(Time.GetTicksMsec() * 0.001f * speed);
+			if(IsInstanceValid(IndicadorTriangulo))
 			IndicadorTriangulo.Scale = newScale;
 			if (!_processandoInput && !STOP)
 			{
@@ -166,13 +167,19 @@ namespace fm{
 
 		private async Task EntrarModoSelecaoCampo()
 		{			
+			var cartaui = _cartasSelecionadasParaFusao.FirstOrDefault();
+			if(cartaui == null) return;
+
 			if(_cartasSelecionadasParaFusao.Count() == 1)
-				await _anim.AnimaCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().carta.Id, _cartasSelecionadasParaFusao.FirstOrDefault().carta.Name, _indiceSelecionado);
+			{
+				if(cartaui != null)
+					await _anim.AnimaCartaParaMao(cartaui.carta.Id, cartaui.carta.Name, _indiceSelecionado);
+			}
 			_selecionandoLocal = true;
 			_indiceCampoSelecionado = 0; // Começa no primeiro slot								
 			if (_instanciaSeletor != null)
 			{				
-				AtualizarPosicaoSeletor3D(SlotsCampo, _cartasSelecionadasParaFusao.FirstOrDefault().carta.Type);
+				AtualizarPosicaoSeletor3D(SlotsCampo, cartaui.carta.Type);
 				_instanciaSeletor.Visible = true;
 				await Tools.TransitionTo(CameraField, 0.5f, _transitionCam, STOP);
 			}
@@ -190,8 +197,6 @@ namespace fm{
 				item.EscondeLabel();
 			}						
 			_cartasSelecionadasParaFusao.Clear();
-			// Desative aqui os highlights ou colisores que você ativou para a seleção
-			//GD.Print("Seleção de campo cancelada manualmente.");
 		}
 		private void ControlarSelecaoDeCampo()
 		{
@@ -286,7 +291,6 @@ namespace fm{
 					else
 					{
 						await Instancia3D(slotDestino, resultadoFusao.MainCard);			
-						LogicalPosition = slotDestino.Name.ToString();						
 					}
 					CleanUpCrew();
 				}
@@ -630,13 +634,11 @@ namespace fm{
 				{
 					if (!nodo.Defesa)
 					{
-						LogicalPosition = slotDestino.Name;
 						FinalizarSelecao(Intent);
 					}
 				}
 				else
 				{
-					LogicalPosition = slotDestino.Name;
 					FinalizarSelecao(Intent);
 				}
 			}
