@@ -7,6 +7,7 @@ namespace fm
 	public partial class GameLoop : Node
 	{
 		public MaoJogador MaoDoJogador;
+		public MaoInimigo MaoDoInimigo;
 		public Camera3D CameraHand;
 		public Camera3D CameraField;
 		public Camera3D CameraInimigo;
@@ -18,12 +19,13 @@ namespace fm
 		private const int HAND_SIZE = 5;
 		private bool _isBattlePhaseActive = false;
 
-		public GameLoop(Player player1, Player player2, MaoJogador maoUI, Camera3D CameraHand, Camera3D CameraField, Camera3D CameraInimigo, Node3D CameraPivot)
+		public GameLoop(Player player1, Player player2, MaoJogador maoUI, MaoInimigo maoInimigo, Camera3D CameraHand, Camera3D CameraField, Camera3D CameraInimigo, Node3D CameraPivot)
 		{
 			_gameState = new GameState(player1, player2, maoUI);
 			_effectManager = new CardEffectManager();
 			_battleSystem = new BattleSystem();
-			this.MaoDoJogador = maoUI;			
+			this.MaoDoJogador = maoUI;
+			this.MaoDoInimigo = maoInimigo;
 			this.CameraHand = CameraHand;
 			this.CameraField = CameraField;
 			this.CameraInimigo = CameraInimigo;
@@ -106,15 +108,17 @@ namespace fm
 		private async Task ExecuteMainPhase()
 		{
 			GD.Print($"--- {_gameState.CurrentPlayer.Name}'s {_gameState.CurrentPhase} Enemy? {_gameState.CurrentPlayer.IsEnemy}---");					
- 			MaoDoJogador.AtualizarMao(_gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList());   
+ 			await MaoDoJogador.AtualizarMao(_gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList());   
 			_gameState.CurrentPhase = TurnPhase.Main1;
 			GD.Print("Aguardando jogador selecionar uma carta...");
 			if(_gameState.CurrentPlayer.IsEnemy)
 			{
+				MaoDoJogador._selecionandoLocal = true;
 				GD.Print("Vez da AI. Selecionando carta para jogar...");			
-				if(_aiPlayer.SelectCardToPlay(_gameState.CurrentPlayer, _gameState) is Cards cardToPlay)
+				if(_aiPlayer.SelectCardToPlay(_gameState.CurrentPlayer, _gameState) is AIMove cardToPlay)
 				{
-					GD.Print($"AI selecionou a carta: {cardToPlay.Name}");
+					GD.Print($"AI selecionou a carta: {cardToPlay.CardToPlay.Name} na posição {cardToPlay.IndexCard}");
+					await MaoDoInimigo.RealizarJogadaIA(_gameState.CurrentPlayer.Hand, cardToPlay.CardToPlay, cardToPlay.IndexCard, false, true);
 					// Implementar lógica para jogar a carta selecionada pela AI
 					// Por exemplo, colocar a carta no campo ou ativar seu efeito
 				}
@@ -122,6 +126,7 @@ namespace fm
 				{
 					GD.Print("AI não tem cartas jogáveis.");
 				}
+				MaoDoJogador._selecionandoLocal = false;
 			}
 			FusionResult idEscolhido = await MaoDoJogador.AguardarConfirmacaoJogadaAsync(); 			
 			int i = 1;
@@ -143,7 +148,7 @@ namespace fm
 			_gameState.CurrentPhase = TurnPhase.Battle;
 			GD.Print("--- Battle Phase Iniciada ---");
 			MaoDoJogador.DefineVisibilidade(false);
-			MaoDoJogador.MaoControl.AnimateInterface(false);
+			await MaoDoJogador.MaoControl.AnimateInterface(false);
 			bool BP_Ativa = true;
 			while (BP_Ativa)
 			{
@@ -321,7 +326,7 @@ namespace fm
 				1f
 			);
 			await ToSignal(tween, Tween.SignalName.Finished);
-			MaoDoJogador.MaoControl.AnimateInterface(true);
+			await MaoDoJogador.MaoControl.AnimateInterface(true);
 			MaoDoJogador.Tools.SwitchTurn(MaoDoJogador);
 			MaoDoJogador.DefineVisibilidade(true);
 		}

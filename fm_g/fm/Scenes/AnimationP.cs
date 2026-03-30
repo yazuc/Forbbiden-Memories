@@ -203,6 +203,35 @@ namespace fm{
 			instancia2.Visible = false;
 			return await maoJogador._tcsFaceDown.Task;
 		}	
+
+		public async Task AnimaCartaParaCentroIA(int _indiceSelecionado)
+		{
+			
+			var viewport = GetViewport();			
+			Vector2 screenCenter = viewport.GetVisibleRect().Size / 2f;
+			
+			var nodoAlvo = MaoControl.GetCarta(_indiceSelecionado);// _cartasNaMao.FirstOrDefault(x => x.Name == name);			
+			if(nodoAlvo == null) 
+			{
+				GD.PrintErr("Não foi possível encontrar a carta selecionada na mão!");
+			}
+			nodoAlvo.EscondeLabel();
+			var carta = MaoControl.GetCarta(_indiceSelecionado);
+			bool IsFaceDown = !carta.carta.IsSpellTrap();
+			nodoAlvo.Visible = true;
+			nodoAlvo.Reparent(this,true);
+			Vector2 halfSize = nodoAlvo.Size * nodoAlvo.Scale / 2f;
+			Vector2 targetGlobalPos = screenCenter - halfSize;
+			
+			Tween tween = GetTree().CreateTween();
+			tween.TweenProperty(nodoAlvo, "global_position", targetGlobalPos, 0.2f)
+				 .SetTrans(Tween.TransitionType.Sine)
+				 .SetEase(Tween.EaseType.Out);
+
+			nodoAlvo.FlipCard(IsFaceDown);
+			// var instancia = maoJogador.CriarSetaPersonalizada(screenCenter + new Vector2(100,-20));
+			// var instancia2 = maoJogador.CriarSetaPersonalizada(screenCenter + new Vector2(-100,-20), true);			
+		}	
 		public void AlternarSelecaoFusao(CardUi carta)
 		{
 			if (_cartasSelecionadasParaFusao.Contains(carta))

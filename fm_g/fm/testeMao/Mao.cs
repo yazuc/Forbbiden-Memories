@@ -115,7 +115,7 @@ public partial class Mao : Control
         return CartasInstanciadas[index];
     }
 
-	public void AnimateInterface(bool sobe = false)
+	public async Task AnimateInterface(bool sobe = false)
 	{		
 		Vector2 target = MoveInterface(sobe);
 
@@ -130,7 +130,7 @@ public partial class Mao : Control
 		.SetEase(Tween.EaseType.Out)
 		.SetTrans(Tween.TransitionType.Cubic);
 		ResetHand();
-		//await ToSignal(tween, Tween.SignalName.Finished);
+		await ToSignal(tween, Tween.SignalName.Finished);
 	}
 
 	public void ResetHand()

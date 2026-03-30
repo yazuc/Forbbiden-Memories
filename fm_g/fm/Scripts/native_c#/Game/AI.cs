@@ -20,7 +20,7 @@ namespace fm
 			Difficulty = difficulty.ToString();
 		}
 
-		public Cards? SelectCardToPlay(Player player, GameState gameState)
+		public AIMove? SelectCardToPlay(Player player, GameState gameState)
 		{
 			// Get playable cards from hand
 			var playableCards = player.Hand
@@ -32,10 +32,7 @@ namespace fm
 
 			return Difficulty switch
 			{
-				"Easy" => SelectCardEasy(playableCards, player, gameState),
-				"Medium" => SelectCardMedium(playableCards, player, gameState),
-				"Hard" => SelectCardHard(playableCards, player, gameState),
-				_ => playableCards[_rng.Next(playableCards.Count)]
+				"Hard" => SelectCardHard(playableCards, player, gameState)
 			};
 		}
 
@@ -101,11 +98,12 @@ namespace fm
 			return playableCards[_rng.Next(playableCards.Count)];
 		}
 
-		private Cards SelectCardHard(List<Cards> playableCards, Player player, GameState gameState)
+		private AIMove SelectCardHard(List<Cards> playableCards, Player player, GameState gameState)
 		{
 			// Priority: Board clears if opponent has strong board
 			var opponent = gameState.OpponentPlayer;
 			var opponentMonsterCount = opponent.Field.MonsterZones.Count(m => m != null);
+			AIMove aIMove = new AIMove();
 
 			if (opponentMonsterCount >= 3)
 			{
@@ -114,7 +112,11 @@ namespace fm
 					.ToList();
 
 				if (boardClears.Any())
-					return boardClears.First();
+				{					
+					aIMove.CardToPlay = boardClears.First();
+					aIMove.IndexCard = playableCards.IndexOf(boardClears.First());
+					return aIMove;
+				}
 			}
 
 			// Second priority: Monsters that can fuse
@@ -142,9 +144,13 @@ namespace fm
 				.ToList();
 
 			if (monsters.Any())
-				return monsters.First();
+			{
+				aIMove.CardToPlay = monsters.First();	
+				aIMove.IndexCard = playableCards.IndexOf(monsters.First());
+				return aIMove;
+			}
 
-			return playableCards[_rng.Next(playableCards.Count)];
+			return null;
 		}
 
 		private bool IsCardPlayable(Cards card, Player player, GameState gameState)

@@ -12,7 +12,6 @@ namespace fm{
 		[Export] public Camera3D CameraHand;
 		[Export] public Camera3D CameraField;
 		[Export] public Camera3D CameraInimigo;
-		[Export] public PackedScene Seletor;		
 		public Camera3D _transitionCam;
 		public Godot.Collections.Array<Marker3D> SlotsCampo = new();
 		public Godot.Collections.Array<Marker3D> SlotsCampoST = new ();
@@ -28,7 +27,7 @@ namespace fm{
 		private Node3D _instanciaSeletor = null;
 		public int _indiceSelecionado = 0;	
 		public int _indiceCampoSelecionado = 0;
-		private bool _selecionandoLocal = false; // Estado para saber se estamos escolhendo onde colocar a carta
+		public bool _selecionandoLocal = false; // Estado para saber se estamos escolhendo onde colocar a carta
 		public List<CardUi> _cartasSelecionadasParaFusao = new List<CardUi>();
 		private List<Node3D> _cartasInstanciadas = new List<Node3D>();
 		private bool _processandoInput = false;		
@@ -50,13 +49,7 @@ namespace fm{
 			IndicadorTriangulo = GetNode<Node2D>("../IndicadorTriangulo");
 			MaoControl = GetNode<Mao>("../CameraPivot/CameraHand/Control/InterfaceDuelo/Mao");		
 			AddChild(_transitionCam);
-			if (Seletor != null)
-			{
-				_instanciaSeletor = Seletor.Instantiate<Node3D>();
-				GetParent().CallDeferred("add_child", _instanciaSeletor);
-				//GetTree().CurrentScene.CallDeferred("add_child", _instanciaSeletor);
-				_instanciaSeletor.Visible = false;
-			}
+			_instanciaSeletor = GetNode<Node3D>("../Seletor");
 			_anim = GetNode<AnimationP>("../AnimationP");
 			_anim._cartasSelecionadasParaFusao = _cartasSelecionadasParaFusao;
 			Tools = GetNode<Helper>("../Helper");
@@ -81,7 +74,7 @@ namespace fm{
 			_processandoInput = true;
 			await HandleNavigation();
 			_processandoInput = false;
-			AtualizarPosicaoIndicador();
+			//AtualizarPosicaoIndicador();
 		}
 		private async Task HandleNavigation()
 		{
@@ -90,6 +83,7 @@ namespace fm{
 
 			if (!_selecionandoLocal) 
 			{				
+				AtualizarPosicaoIndicador();
 				// SELEÇÃO NA MÃO (2D)
 				int anterior = _indiceSelecionado;
 				if(_indiceSelecionado > 4){
@@ -456,7 +450,7 @@ namespace fm{
 			if (_instanciaSeletor != null) _instanciaSeletor.Visible = false;
 		}
 
-		public async void AtualizarMao(List<int> idsCartasNoDeck, bool animate = true)
+		public async Task AtualizarMao(List<int> idsCartasNoDeck, bool animate = true)
 		{
 			GD.Print(idsCartasNoDeck.Count());	
 			STOP = true;

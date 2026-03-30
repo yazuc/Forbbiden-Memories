@@ -1,4 +1,5 @@
 using Godot;
+using QuickType;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +17,10 @@ namespace fm
         private int _indiceVisualCampo = 0;
         
         // Referências externas
-        public Mao MaoControlIA { get; set; } 
+        [Export] public Mao MaoControlIA { get; set; } 
         public AnimationP _anim;
         public Helper Tools;
-        public GameLoop gameLoop { get; set; }
+        public GameLoop gameLoop { get; set; }        
 
         // Listas de slots (recebidas do GameLoop)
         public Godot.Collections.Array<Marker3D> SlotsCampoIni = new();
@@ -28,7 +29,8 @@ namespace fm
         public override void _Ready()
         {
             _anim = GetNode<AnimationP>("../AnimationP");
-            Tools = GetNode<Helper>("../Helper");
+            Seletor3D = GetNode<Node3D>("../Seletor");
+            Tools = GetNode<Helper>("../Helper");        
             
             if (Seletor3D != null) Seletor3D.Visible = false;
             if (IndicadorTriangulo != null) IndicadorTriangulo.Visible = false;
@@ -45,7 +47,7 @@ namespace fm
                 while (_indiceVisualMao != indiceAlvo)
                 {
                     _indiceVisualMao += (_indiceVisualMao < indiceAlvo) ? 1 : -1;
-                    AtualizarPosicaoIndicadorInimigo();
+                    await AtualizarPosicaoIndicadorInimigo();
                     await ToSignal(GetTree().CreateTimer(0.15f), SceneTreeTimer.SignalName.Timeout);
                 }
             }
@@ -63,16 +65,18 @@ namespace fm
             }
         }
 
-        private void AtualizarPosicaoIndicadorInimigo()
+        private async Task AtualizarPosicaoIndicadorInimigo()
         {
             var carta = MaoControlIA.GetCarta(_indiceVisualMao);
             if (IsInstanceValid(carta))
             {
                 // Invertido para o topo da tela
-                Vector2 targetPos = carta.GlobalPosition + new Vector2(-10, 50); 
+                Vector2 targetPos = carta.GlobalPosition + new Vector2(-10, 180); 
                 Tween tween = GetTree().CreateTween();
-                tween.TweenProperty(IndicadorTriangulo, "position", targetPos, 0.1f)
-                     .SetTrans(Tween.TransitionType.Quad);
+                tween.TweenProperty(IndicadorTriangulo, "position", targetPos, 0.01f)
+                     .SetTrans(Tween.TransitionType.Quad)
+                     .SetEase(Tween.EaseType.Out);
+                await ToSignal(tween, Tween.SignalName.Finished);
             }
         }
 
@@ -90,17 +94,15 @@ namespace fm
         /// <summary>
         /// Método principal que a IA chama para realizar a jogada completa.
         /// </summary>
-        public async Task RealizarJogadaIA(List<int> indicesMao, int slotIndex, bool isSpell, bool faceDown)
+        public async Task RealizarJogadaIA(List<Cards> indicesMao, Cards carta, int slotIndex, bool isSpell, bool faceDown)
         {
             // 1. Navega até cada carta que será fundida
-            foreach (int idx in indicesMao)
-            {
-                await ExecutarMovimentoVisual(idx, noCampo: false);
-                // "Clica" na carta (simula a seleção visual de fusão)
-                var cartaUi = MaoControlIA.GetCarta(idx);
-                _anim.AlternarSelecaoFusao(cartaUi); 
-                await ToSignal(GetTree().CreateTimer(0.3f), SceneTreeTimer.SignalName.Timeout);
-            }
+            await ExecutarMovimentoVisual(slotIndex, noCampo: false);
+            
+            // "Clica" na carta (simula a seleção visual de fusão)
+            var cartaUi = MaoControlIA.GetCarta(slotIndex);
+            // await _anim.AnimaCartaParaCentroIA(slotIndex); 
+            await ToSignal(GetTree().CreateTimer(0.3f), SceneTreeTimer.SignalName.Timeout);            
 
             // 2. IA "aperta" Accept - Anima para o centro
             // (Aqui você usaria sua lógica de fusão existente no AnimationP)

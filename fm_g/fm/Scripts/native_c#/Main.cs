@@ -7,6 +7,7 @@ namespace fm
 	public partial class Main : Node
 	{
 		[Export] public MaoJogador? MaoVisual;
+		[Export] public MaoInimigo? MaoInimigo;
 		[Export] public Camera3D CameraHand;
 		[Export] public Camera3D CameraField;
 		[Export] public Camera3D CameraInimigo;
@@ -51,6 +52,7 @@ namespace fm
 					new Player("Alice", GlobalUsings.Instance.Deck.Cards, SlotsCampo, SlotsCampoST, LP_You, You, 8000), 
 					new Player("Bob", deckIni.Cards, SlotsCampoIni, SlotsCampoSTIni, LP_Com, Com, 8000),
 					MaoVisual,
+					MaoInimigo,
 					CameraHand,
 					CameraField,
 					CameraInimigo,
