@@ -30,20 +30,23 @@ namespace fm
 		public GameStatus Status { get; set; }
 		public Player? Winner { get; set; }
 		public MaoJogador MaoDoJogador;
+		public MaoInimigo MaoDoInimigo;
 
 
-		public GameState(Player player1, Player player2, MaoJogador MaoDoJogador)
+		public GameState(Player player1, Player player2, MaoJogador MaoDoJogador, MaoInimigo maoInimigo)
 		{
 			Player1 = player1;
 			Player2 = player2;
 			CurrentTurn = 1;
 			this.MaoDoJogador = MaoDoJogador;
+			this.MaoDoInimigo = maoInimigo;
 			CurrentPlayer = Player1;
 			OpponentPlayer = Player2;
 			CurrentPhase = TurnPhase.Draw;
 			Status = GameStatus.InProgress;
 			Winner = null;			
 			MaoDoJogador.ConfigurarSlots(CurrentPlayer.SlotsCampo, OpponentPlayer.SlotsCampo, CurrentPlayer.SlotsCampoST, OpponentPlayer.SlotsCampoST);
+			MaoDoInimigo.ConfigurarSlots(CurrentPlayer.SlotsCampo, OpponentPlayer.SlotsCampo, CurrentPlayer.SlotsCampoST, OpponentPlayer.SlotsCampoST);
 			Player2.IsEnemy = true;
 		}
 

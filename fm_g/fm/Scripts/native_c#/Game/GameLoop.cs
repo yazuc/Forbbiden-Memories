@@ -21,7 +21,7 @@ namespace fm
 
 		public GameLoop(Player player1, Player player2, MaoJogador maoUI, MaoInimigo maoInimigo, Camera3D CameraHand, Camera3D CameraField, Camera3D CameraInimigo, Node3D CameraPivot)
 		{
-			_gameState = new GameState(player1, player2, maoUI);
+			_gameState = new GameState(player1, player2, maoUI, maoInimigo);
 			_effectManager = new CardEffectManager();
 			_battleSystem = new BattleSystem();
 			this.MaoDoJogador = maoUI;

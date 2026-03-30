@@ -253,9 +253,9 @@ namespace fm{
 			}
 		}	
 
-		public async Task AnimaFusao(MaoJogador maoJogador, FusionResult resultado)
+		public async Task AnimaFusao(FusionResult resultado)
 		{
-			maoJogador.STOP = true;
+			// maoJogador.STOP = true;
 			if (resultado.Steps.Count < 1) return;
 
 			var viewport = GetViewport();
@@ -268,7 +268,7 @@ namespace fm{
 			var list3d = selecionadasOrdenadas.ToList();
 
 			var idsOrdenados = list3d.Select(x => x.carta.Id).ToList();
-			maoJogador.IDFusao = idsOrdenados;
+			//maoJogador.IDFusao = idsOrdenados;
 
 			var cartaPrincipal = list3d[0];
 			float sideOffset = 250f; 
@@ -356,7 +356,7 @@ namespace fm{
 
 
 			await MoverParaPosicao(cartaPrincipal, targetGlobalPos, 0f);
-			maoJogador.STOP = false;
+			// maoJogador.STOP = false;
 		}
 
 		private async Task AnimarEquipamento(CardUi monstro, CardUi equip, Vector2 centro, Cards res)

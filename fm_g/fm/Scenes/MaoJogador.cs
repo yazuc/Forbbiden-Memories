@@ -249,7 +249,7 @@ namespace fm{
 			
 			if(_cartasSelecionadasParaFusao.Count() > 1)
 			{
-				await _anim.AnimaFusao(this, resultadoFusao);
+				await _anim.AnimaFusao( resultadoFusao);
 			}
 				
 			resultadoFusao.IsFaceDown = IsFaceDown;
@@ -319,7 +319,7 @@ namespace fm{
 			
 			if(_cartasSelecionadasParaFusao.Count() > 1)
 			{
-				await _anim.AnimaFusao(this, resultadoFusao);
+				await _anim.AnimaFusao(resultadoFusao);
 			}
 				
 			resultadoFusao.IsFaceDown = IsFaceDown;

@@ -25,6 +25,8 @@ namespace fm
         // Listas de slots (recebidas do GameLoop)
         public Godot.Collections.Array<Marker3D> SlotsCampoIni = new();
         public Godot.Collections.Array<Marker3D> SlotsCampoSTIni = new();
+         public Godot.Collections.Array<Marker3D> SlotsCampo = new();
+        public Godot.Collections.Array<Marker3D> SlotsCampoST = new();
 
         public override void _Ready()
         {
@@ -55,11 +57,16 @@ namespace fm
             {
                 Seletor3D.Visible = true;
                 var slotsAlvo = isSpellTrap ? SlotsCampoSTIni : SlotsCampoIni;
-
-                while (_indiceVisualCampo != indiceAlvo)
-                {
-                    _indiceVisualCampo += (_indiceVisualCampo < indiceAlvo) ? 1 : -1;
+                bool slotvazio = false; 
+                while (!slotvazio)
+                {                    
+                    var slotDestino = Tools.PegaSlotByMarker(slotsAlvo[_indiceVisualCampo].Name);
+                    if(slotDestino > -1)
+                    {
+                        slotvazio = true;
+                    }
                     AtualizarPosicaoSeletor3DInimigo(slotsAlvo);
+                    _indiceVisualCampo += 1;
                     await ToSignal(GetTree().CreateTimer(0.2f), SceneTreeTimer.SignalName.Timeout);
                 }
             }
@@ -84,7 +91,7 @@ namespace fm
         {
             if (Seletor3D == null || slots.Count == 0) return;
 
-            var slotDestino = slots[Mathf.Clamp(_indiceVisualCampo, 0, slots.Count - 1)];
+            var slotDestino = slots[_indiceVisualCampo];
             Tween tween = GetTree().CreateTween();
             // Offset levemente acima do campo para não clipar
             tween.TweenProperty(Seletor3D, "global_position", slotDestino.GlobalPosition + new Vector3(0, 0.05f, 0), 0.1f);
@@ -101,15 +108,16 @@ namespace fm
             
             // "Clica" na carta (simula a seleção visual de fusão)
             var cartaUi = MaoControlIA.GetCarta(slotIndex);
-            // await _anim.AnimaCartaParaCentroIA(slotIndex); 
+            await _anim.AnimaCartaParaCentroIA(slotIndex); 
             await ToSignal(GetTree().CreateTimer(0.3f), SceneTreeTimer.SignalName.Timeout);            
-
-            // 2. IA "aperta" Accept - Anima para o centro
-            // (Aqui você usaria sua lógica de fusão existente no AnimationP)
-            // await _anim.AnimaFusaoInimiga(...);
 
             // 3. Navega pelo campo
             await ExecutarMovimentoVisual(slotIndex, noCampo: true, isSpellTrap: isSpell);
+            
+            // 2. IA "aperta" Accept - Anima para o centro
+            // (Aqui você usaria sua lógica de fusão existente no AnimationP)
+            await _anim.AnimaFusao(Function.ProcessChain(cartaUi.carta.Id.ToString()));
+
 
             // 4. Finaliza e limpa cursores
             IndicadorTriangulo.Visible = false;
@@ -117,5 +125,19 @@ namespace fm
             _indiceVisualMao = 0; // Reset para a próxima vez
             _indiceVisualCampo = 0;
         }
+
+        public void ConfigurarSlots(
+			Godot.Collections.Array<Marker3D> monstrosAliados, 
+			Godot.Collections.Array<Marker3D> monstrosInimigos,
+			Godot.Collections.Array<Marker3D> magiasAliados,
+			Godot.Collections.Array<Marker3D> magiasInimigos)
+		{
+			this.SlotsCampo = monstrosAliados;
+			this.SlotsCampoIni = monstrosInimigos;			
+			this.SlotsCampoST = magiasAliados;
+			this.SlotsCampoSTIni = magiasInimigos;						
+			
+			GD.Print("MaoJogador: Slots redefinidos com sucesso via GameLoop.");
+		}
     }
 }

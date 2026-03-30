@@ -112,7 +112,14 @@ public partial class Mao : Control
 	public CardUi? GetCarta(int index)
     {
         if (index < 0 || index >= CartasInstanciadas.Count) return null;
-        return CartasInstanciadas[index];
+        var carta = CartasInstanciadas[index];
+		if(IsInstanceValid(carta) && carta != null)
+		{
+			carta.Theme = carta.Theme ?? GD.Load<Theme>("res://Resources/tema_carta_hand_selected.tres");
+			carta.Size = new Vector2(140f, 213f);			
+			return carta;
+		}
+		return null;
     }
 
 	public async Task AnimateInterface(bool sobe = false)
