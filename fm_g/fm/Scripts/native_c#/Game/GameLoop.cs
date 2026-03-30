@@ -13,6 +13,7 @@ namespace fm
 		public Node3D CameraPivot;
 		public GameState _gameState;
 		private CardEffectManager _effectManager;
+		private AIPlayer _aiPlayer;
 		private BattleSystem _battleSystem;
 		private const int HAND_SIZE = 5;
 		private bool _isBattlePhaseActive = false;
@@ -27,6 +28,7 @@ namespace fm
 			this.CameraField = CameraField;
 			this.CameraInimigo = CameraInimigo;
 			this.CameraPivot = CameraPivot;
+			this._aiPlayer = new AIPlayer(AIPlayer.DifficultyLevel.Hard);
 		}
 
 		public void Initialize()
@@ -105,14 +107,26 @@ namespace fm
 		{
 			GD.Print($"--- {_gameState.CurrentPlayer.Name}'s {_gameState.CurrentPhase} Enemy? {_gameState.CurrentPlayer.IsEnemy}---");					
  			MaoDoJogador.AtualizarMao(_gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList());   
-			
+			_gameState.CurrentPhase = TurnPhase.Main1;
 			GD.Print("Aguardando jogador selecionar uma carta...");
+			if(_gameState.CurrentPlayer.IsEnemy)
+			{
+				GD.Print("Vez da AI. Selecionando carta para jogar...");			
+				if(_aiPlayer.SelectCardToPlay(_gameState.CurrentPlayer, _gameState) is Cards cardToPlay)
+				{
+					GD.Print($"AI selecionou a carta: {cardToPlay.Name}");
+					// Implementar lógica para jogar a carta selecionada pela AI
+					// Por exemplo, colocar a carta no campo ou ativar seu efeito
+				}
+				else
+				{
+					GD.Print("AI não tem cartas jogáveis.");
+				}
+			}
 			FusionResult idEscolhido = await MaoDoJogador.AguardarConfirmacaoJogadaAsync(); 			
 			int i = 1;
 			var cardData = idEscolhido.MainCard;	
-			//arrumar quando colocar um nodo por cima de outro, deletar o anterior sempre
 			var car = MaoDoJogador.Tools.PegaSlotByMarker(idEscolhido.WorldPos);
-			GD.Print("Logical pos meu monstro: " + idEscolhido.WorldPos);
 			_gameState.CurrentPlayer.Field.placeCard(car, cardData, true, idEscolhido.IsFaceDown, _gameState.CurrentPlayer.IsEnemy);								
 			foreach(var item in idEscolhido.CardsUsed){
 				_gameState.CurrentPlayer.DiscardCard(item.Id);

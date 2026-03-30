@@ -118,13 +118,22 @@ namespace fm
 			}
 
 			// Second priority: Monsters that can fuse
-			var fusionMonsters = playableCards
-				.Where(c => c.Fusions != null && c.Fusions.Length > 0)
-				.OrderByDescending(c => c.Attack)
-				.ToList();
+			var range = player.Field.MonsterZones.Where(m => m != null).Select(m => m.Card).ToList();
+			var possibleFusions = playableCards;
+			possibleFusions.AddRange(range);
+			var idsNaMao = possibleFusions.Select(c => c.Id).ToHashSet();
+		
+			var bestFusion = possibleFusions
+				.Where(c => c.Fusions != null)
+				.SelectMany(c => c.Fusions
+					.Where(f => idsNaMao.Contains(f.Card2))
+				)
+				.OrderByDescending(f => f.Result)
+				.FirstOrDefault();
 
-			if (fusionMonsters.Any())
-				return fusionMonsters.First();
+			var fusionResult = Function.ProcessChain($"{bestFusion?.Card1}, {bestFusion?.Card2}");
+			// if (fusionMonsters.Any())
+			// 	return fusionMonsters.First();
 
 			// Default to highest attack
 			var monsters = playableCards

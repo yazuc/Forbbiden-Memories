@@ -45,12 +45,11 @@ script = ExtResource("2_nnt18")
 CameraHand = NodePath("../CameraPivot/CameraHand")
 MaoControl = NodePath("../CameraPivot/CameraHand/Control/InterfaceDuelo/Mao")
 
-[node name="MaoJogador" type="Node2D" parent="." unique_id=222280098 node_paths=PackedStringArray("IndicadorTriangulo", "CameraHand", "CameraField", "CameraInimigo")]
+[node name="MaoJogador" type="Node2D" parent="." unique_id=222280098 node_paths=PackedStringArray("CameraHand", "CameraField", "CameraInimigo")]
 process_mode = 3
 z_index = 2
 script = ExtResource("3_3dryh")
 CartaCena = ExtResource("4_wowpa")
-IndicadorTriangulo = NodePath("../IndicadorTriangulo")
 CameraHand = NodePath("../CameraPivot/CameraHand")
 CameraField = NodePath("../CameraPivot/CameraField")
 CameraInimigo = NodePath("../CameraPivot/CameraInimigo")
