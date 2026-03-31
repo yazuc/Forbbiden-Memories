@@ -113,13 +113,12 @@ public partial class Mao : Control
     {
         if (index < 0 || index >= CartasInstanciadas.Count) return null;
         var carta = CartasInstanciadas[index];
-		if(IsInstanceValid(carta) && carta != null)
+		if(IsInstanceValid(carta) && carta != null && carta.Theme == null)
 		{
 			carta.Theme = carta.Theme ?? GD.Load<Theme>("res://Resources/tema_carta_hand_selected.tres");
 			carta.Size = new Vector2(140f, 213f);			
-			return carta;
 		}
-		return null;
+		return carta;				
     }
 
 	public async Task AnimateInterface(bool sobe = false)

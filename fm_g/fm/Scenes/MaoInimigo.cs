@@ -35,7 +35,7 @@ namespace fm
         public override void _Ready()
         {
             _anim = GetNode<AnimationP>("../AnimationP");
-            Seletor3D = GetNode<Node3D>("../Seletor");
+            Seletor3D = GetNode<Node3D>("../SeletorInimigo");
             Tools = GetNode<Helper>("../Helper");        
             _transitionCam = new Camera3D();
 			AddChild(_transitionCam);
@@ -116,7 +116,7 @@ namespace fm
             // "Clica" na carta (simula a seleção visual de fusão)
             var cartaUi = MaoControlIA.GetCarta(slotIndex);
             await _anim.AnimaCartaParaCentroIA(slotIndex); 
-            await ToSignal(GetTree().CreateTimer(0.3f), SceneTreeTimer.SignalName.Timeout);            
+            await ToSignal(GetTree().CreateTimer(0.3f), SceneTreeTimer.SignalName.Timeout);        
             await Tools.TransitionTo(CameraField, 0.5f, _transitionCam, false);
 
             // 3. Navega pelo campo
@@ -129,7 +129,7 @@ namespace fm
 
             // 4. Finaliza e limpa cursores
             IndicadorTriangulo.Visible = false;
-            Seletor3D.Visible = false;
+            //Seletor3D.Visible = false;
             _indiceVisualMao = 0; // Reset para a próxima vez
             _indiceVisualCampo = 0;
         }

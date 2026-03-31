@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://df5idd2nj5vrc"]
+
+[ext_resource type="Texture2D" uid="uid://q66r4fo24x0h" path="res://assets/seletorInimigo.png" id="1_jauk1"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_t2qgk"]
+size = Vector3(1, 1.1761475, 1)
+
+[node name="Seletor" type="Node3D" unique_id=1457202027]
+transform = Transform3D(1.3646258, 0, 0, 0, 1, 0, 0, 0, 0.7739647, 0, 0, 0)
+
+[node name="Sprite3D2" type="Sprite3D" parent="." unique_id=1397537186]
+transform = Transform3D(2.154, 0, 0, 0, -1.7484555e-07, -1.41, 0, 4, -6.163306e-08, 0.045, 0, 0.026)
+texture_filter = 4
+render_priority = 1
+texture = ExtResource("1_jauk1")
+region_enabled = true
+region_rect = Rect2(0.06585693, -0.18037033, 58.19619, 58.45952)
+
+[node name="Area3D" type="Area3D" parent="." unique_id=1454434311]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=380001278]
+transform = Transform3D(0.99999094, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.28875732, 0)
+shape = SubResource("BoxShape3D_t2qgk")
