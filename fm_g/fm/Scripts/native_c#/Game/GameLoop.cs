@@ -117,8 +117,7 @@ namespace fm
 				GD.Print("Vez da AI. Selecionando carta para jogar...");			
 				if(_aiPlayer.SelectCardToPlay(_gameState.CurrentPlayer, _gameState) is AIMove cardToPlay)
 				{
-					GD.Print($"AI selecionou a carta: {cardToPlay.CardToPlay.Name} na posição {cardToPlay.IndexCard}");
-					var result = await MaoDoInimigo.RealizarJogadaIA(_gameState.CurrentPlayer.Hand, cardToPlay.CardToPlay, cardToPlay.IndexCard, false, true);
+					var result = await MaoDoInimigo.RealizarJogadaIA(cardToPlay.CardToPlay, cardToPlay.IndexCard, false, true);
 					
 					var cardData = result.MainCard;	
 					var car = MaoDoJogador.Tools.PegaSlotByMarker(result.WorldPos);

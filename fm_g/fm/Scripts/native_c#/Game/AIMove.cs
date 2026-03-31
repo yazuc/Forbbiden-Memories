@@ -2,6 +2,11 @@ using QuickType;
 
 public class AIMove
 {
-    public Cards CardToPlay { get;  set; }
-    public int IndexCard {get;set;}
+    public List<Cards> CardToPlay { get;  set; }
+    public List<int> IndexCard {get;set;}
+    public AIMove()
+    {
+        CardToPlay = new List<Cards>();
+        IndexCard = new List<int>();
+    }
 }

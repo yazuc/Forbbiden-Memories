@@ -113,8 +113,8 @@ namespace fm
 
 				if (boardClears.Any())
 				{					
-					aIMove.CardToPlay = boardClears.First();
-					aIMove.IndexCard = playableCards.IndexOf(boardClears.First());
+					aIMove.CardToPlay.Add(boardClears.First());
+					aIMove.IndexCard.Add(playableCards.IndexOf(boardClears.First()));
 					return aIMove;
 				}
 			}
@@ -134,7 +134,14 @@ namespace fm
 				.FirstOrDefault();
 
 			var fusionResult = Function.ProcessChain($"{bestFusion?.Card1}, {bestFusion?.Card2}");
-			// if (fusionMonsters.Any())
+			if (fusionResult != null)
+			{								
+				aIMove.CardToPlay.Add(GlobalUsings.Instance.db.GetCardById(bestFusion.Card1));
+				aIMove.CardToPlay.Add(GlobalUsings.Instance.db.GetCardById(bestFusion.Card2));
+				aIMove.IndexCard.Add(playableCards.IndexOf(playableCards.FirstOrDefault(c => c.Id == bestFusion.Card1)));
+				aIMove.IndexCard.Add(playableCards.IndexOf(playableCards.FirstOrDefault(c => c.Id == bestFusion.Card2)));
+				return aIMove;
+			}
 			// 	return fusionMonsters.First();
 
 			// Default to highest attack
@@ -145,8 +152,8 @@ namespace fm
 
 			if (monsters.Any())
 			{
-				aIMove.CardToPlay = monsters.First();	
-				aIMove.IndexCard = playableCards.IndexOf(monsters.First());
+				aIMove.CardToPlay.Add(monsters.First());
+				aIMove.IndexCard.Add(playableCards.IndexOf(monsters.First()));
 				return aIMove;
 			}
 
