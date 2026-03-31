@@ -45,58 +45,34 @@ namespace fm
 			return availableZones.Any() ? availableZones[_rng.Next(availableZones.Count)] : -1;
 		}
 
-		public (int attackerZone, int defenderZone)? SelectAttack(Player aiPlayer, Player opponent, GameState gameState)
+		public AIMove SelectAttack(Player aiPlayer, Player opponent, GameState gameState)
 		{
-			var availableAttackers = Enumerable.Range(0, FieldZones.MONSTER_ZONES)
-				.Where(i => 
-				{
-					var monster = aiPlayer.Field.MonsterZones[i];
-					return monster != null &&
-						   monster.IsAttackMode;
-				})
-				.ToList();
+			var availableAttackers = aiPlayer.Field.MonsterZones.Where(m => m != null).ToList();
 
 			if (!availableAttackers.Any())
 				return null;
 
-			int attackerZone = availableAttackers[_rng.Next(availableAttackers.Count)];
+			string attackerZone = availableAttackers[_rng.Next(availableAttackers.Count)].zoneName;
+			AIMove move = new AIMove
+			{
+				AttackerZone = attackerZone
+			};
 
 			// Try to find a target
-			var availableDefenders = Enumerable.Range(0, FieldZones.MONSTER_ZONES)
-				.Where(i => opponent.Field.MonsterZones[i] != null)
-				.ToList();
+			var availableDefenders = opponent.Field.MonsterZones.Where(m => m != null).ToList();
 
 			if (availableDefenders.Any())
 			{
-				int defenderZone = availableDefenders[_rng.Next(availableDefenders.Count)];
-				return (attackerZone, defenderZone);
+				string defenderZone = availableDefenders[_rng.Next(availableDefenders.Count)].zoneName;
+				move.DefenderZone = defenderZone;
+				return move;
 			}
 
 			// Direct attack
-			return (attackerZone, -1);
+			return move;
 		}
 
 		// --- Selection Strategies ---
-
-		private Cards SelectCardEasy(List<Cards> playableCards, Player player, GameState gameState)
-		{
-			// Random card selection
-			return playableCards[_rng.Next(playableCards.Count)];
-		}
-
-		private Cards SelectCardMedium(List<Cards> playableCards, Player player, GameState gameState)
-		{
-			// Prefer monsters with highest attack
-			var monsters = playableCards
-				.Where(c => c.Type != CardTypeEnum.Spell && c.Type != CardTypeEnum.Trap)
-				.OrderByDescending(c => c.Attack)
-				.ToList();
-
-			if (monsters.Any())
-				return monsters.First();
-
-			return playableCards[_rng.Next(playableCards.Count)];
-		}
 
 		private AIMove SelectCardHard(List<Cards> playableCards, Player player, GameState gameState)
 		{
@@ -114,6 +90,7 @@ namespace fm
 				if (boardClears.Any())
 				{					
 					aIMove.CardToPlay.Add(boardClears.First());
+					aIMove.FaceUP = true;
 					aIMove.IndexCard.Add(playableCards.IndexOf(boardClears.First()));
 					return aIMove;
 				}
@@ -128,13 +105,18 @@ namespace fm
 			var bestFusion = possibleFusions
 				.Where(c => c.Fusions != null)
 				.SelectMany(c => c.Fusions
-					.Where(f => idsNaMao.Contains(f.Card2))
+					.Where(f =>
+						f.Card1 == f.Card2
+							? idsNaMao.Count(id => id == f.Card1) > 1
+							: idsNaMao.Contains(f.Card2)
+					)
 				)
 				.OrderByDescending(f => f.Result)
 				.FirstOrDefault();
 
-			var fusionResult = Function.ProcessChain($"{bestFusion?.Card1}, {bestFusion?.Card2}");
-			if (fusionResult != null)
+
+			var fusionResult = bestFusion?.Card1 != null ? Function.ProcessChain($"{bestFusion?.Card1}, {bestFusion?.Card2}") : null;
+			if (fusionResult != null && fusionResult.FusaoAconteceu)
 			{								
 				aIMove.CardToPlay.Add(GlobalUsings.Instance.db.GetCardById(bestFusion.Card1));
 				aIMove.CardToPlay.Add(GlobalUsings.Instance.db.GetCardById(bestFusion.Card2));

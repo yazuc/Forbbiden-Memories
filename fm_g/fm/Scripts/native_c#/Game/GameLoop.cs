@@ -113,11 +113,10 @@ namespace fm
 			GD.Print("Aguardando jogador selecionar uma carta...");
 			if(_gameState.CurrentPlayer.IsEnemy)
 			{
-				MaoDoJogador._selecionandoLocal = true;
-				GD.Print("Vez da AI. Selecionando carta para jogar...");			
+				MaoDoJogador._selecionandoLocal = true;				
 				if(_aiPlayer.SelectCardToPlay(_gameState.CurrentPlayer, _gameState) is AIMove cardToPlay)
 				{
-					var result = await MaoDoInimigo.RealizarJogadaIA(cardToPlay.CardToPlay, cardToPlay.IndexCard, false, true);
+					var result = await MaoDoInimigo.RealizarJogadaIA(cardToPlay, cardToPlay.FaceUP);
 					
 					var cardData = result.MainCard;	
 					var car = MaoDoJogador.Tools.PegaSlotByMarker(result.WorldPos);
@@ -126,11 +125,7 @@ namespace fm
 					await MaoDoJogador.Tools.TransitionTo(CameraField, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);			
 					_gameState.Player1.Field.DrawFieldState();
 					_gameState.Player2.Field.DrawFieldState();	
-				}
-				else
-				{
-					GD.Print("AI não tem cartas jogáveis.");
-				}
+				}		
 				MaoDoJogador._selecionandoLocal = false;
 			}
 			else
@@ -153,8 +148,11 @@ namespace fm
 			if(_gameState.CurrentPlayer.IsEnemy)
 			{
 				GD.Print("Vez da AI. Realizando jogada de batalha...");
+				var ret = _aiPlayer.SelectAttack(_gameState.CurrentPlayer, _gameState.OpponentPlayer, _gameState);
+				var monstroAliado = _gameState.CurrentPlayer.Field.GetMonsterInZone(ret.AttackerZone);
+				var monstroInimigo = _gameState.OpponentPlayer.Field.GetMonsterInZone(ret.DefenderZone);
+				await ResolverBatalha(monstroAliado, monstroInimigo);
 				BP_Ativa = false;
-				//await MaoDoInimigo.RealizarJogadaBatalhaIA(_gameState.CurrentPlayer, _gameState);
 				// Implementar lógica para a AI realizar suas ações de batalha
 			}
 			_gameState.CurrentPhase = TurnPhase.Battle;
@@ -262,6 +260,8 @@ namespace fm
 			}
 			
 			var battleResult = _battleSystem.ResolveBattle(meuMonstro, monstroInimigo, _gameState.OpponentPlayer);		
+			MaoDoJogador.STOP = true;
+
 			if(monstroInimigo != null){
 				MaoDoJogador.Tools.Flipa(monstroInimigo.zoneName);
 				if(!battleResult.AttackerDestroyed && !battleResult.DefenderDestroyed)
@@ -273,28 +273,28 @@ namespace fm
 				{
 					//descobrir pq draw ta bugado
 					GD.Print("caiu no empate, ambos destruídos");
-					await MaoDoJogador._anim.AnimaBattle(MaoDoJogador, meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy);
+					await MaoDoJogador._anim.AnimaBattle(meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy, MaoDoJogador._transitionCam);
 					_gameState.OpponentPlayer.Field.RemoveMonster(monstroInimigo.zoneName);	
 					_gameState.CurrentPlayer.Field.RemoveMonster(meuMonstro.zoneName);	
 					return false;		
 				}
 				if(battleResult.DefenderDestroyed){	
 					GD.Print("caiu no defensor destruído");				
-					await MaoDoJogador._anim.AnimaBattle(MaoDoJogador, meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy);					
+					await MaoDoJogador._anim.AnimaBattle(meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy, MaoDoJogador._transitionCam);					
 					_gameState.OpponentPlayer.Field.RemoveMonster(monstroInimigo.zoneName);
 					_gameState.OpponentPlayer.TakeDamage(battleResult.DamageDealt);									
 				}
 				if(battleResult.AttackerDestroyed){
 					GD.Print("caiu no atacante destruído");
 					//ajustar para o meuMonstro ser destruido
-					await MaoDoJogador._anim.AnimaBattle(MaoDoJogador, meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy);
+					await MaoDoJogador._anim.AnimaBattle(meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy, MaoDoJogador._transitionCam);
 					_gameState.CurrentPlayer.Field.RemoveMonster(meuMonstro.zoneName);							
 					_gameState.CurrentPlayer.TakeDamage(battleResult.DamageDealt);
 				}
 			}else
 			{
 				GD.Print("caiu no ataque direto");
-				await MaoDoJogador._anim.AnimaBattle(MaoDoJogador, meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy);
+				await MaoDoJogador._anim.AnimaBattle(meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy, MaoDoJogador._transitionCam);
 			}
 			
 			

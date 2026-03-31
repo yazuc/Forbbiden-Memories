@@ -37,7 +37,7 @@ public partial class GlobalUsings : Node
 		Instance = this;
 		dialogic = new DialogicSingleton();
     	AddChild(dialogic);
-		DeckIndex = 1;
+		DeckIndex = 8;
 		PopulateDialogue();		
 		#if DEBUG
 			UserDeck = "res://test_copy.txt";

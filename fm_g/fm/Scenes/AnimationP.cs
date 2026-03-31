@@ -10,21 +10,22 @@ namespace fm{
 		[Export] public Camera3D CameraHand;
 		[Export] public Mao MaoControl;
 		public List<CardUi> _cartasSelecionadasParaFusao {get;set;}
+		public Helper Tools;
 
 		public override void _Ready()
 		{
+			Tools = GetNode<Helper>("../Helper");
 		}
 
 		public async Task AnimaBattle(
-			MaoJogador mao,
 			FieldMonster meuMonstro,
 			FieldMonster monstroInimigo,
 			BattleSystem.BattleResult br,
-			bool IsEnemy
+			bool IsEnemy,
+			Camera3D transitionCam
 		)
 		{
-			mao.STOP = true;
-			await mao.Tools.TransitionTo(CameraHand, 0.5f, mao._transitionCam, mao.STOP);
+			await Tools.TransitionTo(CameraHand, 0.5f, transitionCam, false);
 
 			var viewport = GetViewport();
 			Vector2 screenCenter = viewport.GetVisibleRect().Size / 2f;
@@ -34,7 +35,7 @@ namespace fm{
 			Vector3 rayNormal = CameraHand.ProjectRayNormal(screenCenter);
 			Vector3 position3D = rayOrigin + rayNormal * distancia;
 
-			Carta3d meuMonstro3d = mao.Tools.PegaNodoCarta3d(meuMonstro.zoneName);
+			Carta3d meuMonstro3d = Tools.PegaNodoCarta3d(meuMonstro.zoneName);
 			if (!IsInstanceValid(meuMonstro3d))
     			return;
 
@@ -42,7 +43,7 @@ namespace fm{
 
 			if (monstroInimigo != null)
 			{
-				monstroInimigo3d = mao.Tools.PegaNodoCarta3d(monstroInimigo.zoneName);
+				monstroInimigo3d = Tools.PegaNodoCarta3d(monstroInimigo.zoneName);
 				if (!IsInstanceValid(monstroInimigo3d))
     				return;
 			}
@@ -74,18 +75,18 @@ namespace fm{
 				if(monstroInimigo3d != null)
 				{
 					await monstroInimigo3d.Queimar();
-					mao.Tools.RemoveDasInstanciadas(monstroInimigo3d);
+					Tools.RemoveDasInstanciadas(monstroInimigo3d);
 				}
 
 				await meuMonstro3d.Queimar();
-				mao.Tools.RemoveDasInstanciadas(meuMonstro3d);
+				Tools.RemoveDasInstanciadas(meuMonstro3d);
 				return;
 			}
 
 			if(!br.DefenderDestroyed && br.AttackerDestroyed)
 			{
 				await meuMonstro3d.Queimar();
-				mao.Tools.RemoveDasInstanciadas(meuMonstro3d);				
+				Tools.RemoveDasInstanciadas(meuMonstro3d);				
 
 				if(monstroInimigo3d != null)
                     _ = monstroInimigo3d.TransitionCardTo(originalEnemyPos, 0.5f, originalEnemyRot);
@@ -98,7 +99,7 @@ namespace fm{
 				if(monstroInimigo3d != null)
 				{
 					await monstroInimigo3d.Queimar();
-					mao.Tools.RemoveDasInstanciadas(monstroInimigo3d);
+					Tools.RemoveDasInstanciadas(monstroInimigo3d);
 				}
 
 				  taskMe = meuMonstro3d.TransitionCardTo(originalPos,0.5f,originalRot);
@@ -121,7 +122,7 @@ namespace fm{
 			var nodoMao = MaoControl.GetCarta(_indiceSelecionado);
 			if(nodoAlvo == null || nodoMao == null) 
 			{
-				GD.PrintErr("Não foi possível encontrar a carta para devolver à mão!");
+				//GD.PrintErr("Não foi possível encontrar a carta para devolver à mão!");
 				return;
 			}
 
@@ -470,6 +471,7 @@ namespace fm{
 			Tween impact = CreateTween();
 			impact.TweenProperty(cartaPrincipal, "scale", new Vector2(1.5f, 1.5f), 0.1f);
 			impact.TweenProperty(cartaPrincipal, "scale", new Vector2(1.0f, 1.0f), 0.1f);	
+			await ToSignal(impact, Tween.SignalName.Finished);
 		}
 
 		private async Task MoverParaPosicao(Control node, Vector2 targetPos, float targetRotation = 0f)

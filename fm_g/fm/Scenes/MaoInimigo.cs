@@ -47,7 +47,7 @@ namespace fm
         /// <summary>
         /// Move o cursor visualmente até o destino desejado.
         /// </summary>
-        public async Task<string> ExecutarMovimentoVisual(List<int> indiceAlvo, bool noCampo = false, bool isSpellTrap = false, Cards carta = null)
+        public async Task<string> ExecutarMovimentoVisual(List<int> indiceAlvo, bool noCampo = false, bool isSpellTrap = false, Cards carta = null, bool facedown = false)
         {
             if (!noCampo)
             {
@@ -59,7 +59,7 @@ namespace fm
                         _indiceVisualMao += (_indiceVisualMao < indice) ? 1 : -1;
                         await AtualizarPosicaoIndicadorInimigo();
                         await ToSignal(GetTree().CreateTimer(0.15f), SceneTreeTimer.SignalName.Timeout);
-                    }                    
+                    }        
                 }
             }
             else
@@ -70,11 +70,10 @@ namespace fm
                 while (!slotvazio)
                 {                    
                     var slotDestino = Tools.PegaSlotByMarker(slotsAlvo[_indiceVisualCampo].Name);
-                    AtualizarPosicaoSeletor3DInimigo(slotsAlvo);
+                    await AtualizarPosicaoSeletor3DInimigo(slotsAlvo);
                     if(slotDestino == -1)
                     {
-                        slotvazio = true;
-                        await Instancia3D(slotsAlvo[_indiceVisualCampo], carta);
+                        await Instancia3D(slotsAlvo[_indiceVisualCampo], carta, facedown);
                         return slotsAlvo[_indiceVisualCampo].Name;
                     }
                     _indiceVisualCampo += 1;
@@ -100,7 +99,7 @@ namespace fm
             }
         }
 
-        private void AtualizarPosicaoSeletor3DInimigo(Godot.Collections.Array<Marker3D> slots)
+        private async Task AtualizarPosicaoSeletor3DInimigo(Godot.Collections.Array<Marker3D> slots)
         {
             if (Seletor3D == null || slots.Count == 0) return;
 
@@ -109,41 +108,54 @@ namespace fm
             // Offset levemente acima do campo para não clipar
             tween.TweenProperty(Seletor3D, "global_position", slotDestino.GlobalPosition + new Vector3(0, 0.05f, 0), 0.1f);
             Seletor3D.GlobalRotation = slotDestino.GlobalRotation;
+            await ToSignal(tween, Tween.SignalName.Finished);
         }
 
         /// <summary>
         /// Método principal que a IA chama para realizar a jogada completa.
         /// </summary>
-        public async Task<FusionResult> RealizarJogadaIA(List<Cards> indicesMao, List<int> slotIndex, bool isSpell, bool faceDown)
+        public async Task<FusionResult> RealizarJogadaIA(AIMove cardToPlay, bool isSpell)
         {
             // 1. Navega até cada carta que será fundida
-            await ExecutarMovimentoVisual(slotIndex, noCampo: false);
+            await ExecutarMovimentoVisual(cardToPlay.IndexCard, noCampo: false);
             
             // "Clica" na carta (simula a seleção visual de fusão)
             List<CardUi> cartaUi = new List<CardUi>();
-            foreach(var slotCard in slotIndex)
+
+            foreach(var slotCard in cardToPlay.IndexCard)
                 cartaUi.Add(MaoControlIA.GetCarta(slotCard));
+
             _anim._cartasSelecionadasParaFusao.AddRange(cartaUi);
             if(cartaUi.Count() == 1)
             {
-                await _anim.AnimaCartaParaCentroIA(slotIndex.First()); 
+                await _anim.AnimaCartaParaCentroIA(cardToPlay.IndexCard.First()); 
                 await ToSignal(GetTree().CreateTimer(0.3f), SceneTreeTimer.SignalName.Timeout);        
-                await _anim.AnimaCartaParaMao(slotIndex.First());                
+                await _anim.AnimaCartaParaMao(cardToPlay.IndexCard.First());                
             }
 
             await Tools.TransitionTo(CameraField, 0.5f, _transitionCam, false);
+            Seletor3D.Visible = true;
 
-            var stringIds = indicesMao.Select(i => i.Id.ToString()).ToList();
+            var stringIds = cardToPlay.CardToPlay.Select(i => i.Id.ToString()).ToList();
             var pChain = ProcessChain(string.Join(",", stringIds));
-            await _anim.AnimaFusao(pChain);
+            if(pChain.FusaoAconteceu || !pChain.FalhaEquip)
+                await _anim.AnimaFusao(pChain);
             
             // 3. Navega pelo campo
-            var slot = await ExecutarMovimentoVisual(slotIndex, noCampo: true, isSpellTrap: isSpell, carta: pChain.MainCard);
-            
-            // 2. IA "aperta" Accept - Anima para o centro
-            // (Aqui você usaria sua lógica de fusão existente no AnimationP)v
-            pChain.WorldPos = slot;
-
+            if (!pChain.MainCard.IsSpell())
+            {
+                CleanUpCrew();
+                var slot = await ExecutarMovimentoVisual(cardToPlay.IndexCard, noCampo: true, isSpellTrap: isSpell, carta: pChain.MainCard, facedown: !pChain.FusaoAconteceu);            
+                pChain.WorldPos = slot;
+            }
+            else
+            {
+                var cartaSpell = cartaUi.FirstOrDefault(x => x.carta == pChain.MainCard);
+                if(cartaSpell != null)
+                {
+                    await cartaSpell.AtivaSpellAnimation(_anim.ScrenCenter());
+                }
+            }
 
             // 4. Finaliza e limpa cursores
             IndicadorTriangulo.Visible = false;
@@ -168,7 +180,8 @@ namespace fm
 			GD.Print("MaoJogador: Slots redefinidos com sucesso via GameLoop.");
 		}
 
-        public async Task Instancia3D(Marker3D slotDestino, Cards fusao){
+        public async Task Instancia3D(Marker3D slotDestino, Cards fusao, bool facedown = false)
+        {
 			bool IsEnemy = slotDestino.Name.ToString().Contains("Ini");
 			var novaCarta3d = Tools.InstanciaNodo(slotDestino);			
 			if(IsEnemy){
@@ -176,7 +189,54 @@ namespace fm
 				Vector3 rota = new Vector3(-0, 1.5707964f, 0);
 				novaCarta3d.GlobalRotation += slotDestino.GlobalRotation + rota;
 			}			
-			novaCarta3d.Setup(fusao, (int)_indiceVisualCampo, IsEnemy, true, slotDestino.Name);			
+			novaCarta3d.Setup(fusao, (int)_indiceVisualCampo, IsEnemy, facedown, slotDestino.Name);			
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+		}
+
+        public void CleanUpCrew()
+		{
+			foreach (var carta in _anim._cartasSelecionadasParaFusao)
+			{
+				if(IsInstanceValid(carta))
+					carta.QueueFree();
+			}	
+		}
+
+        void AlternarDefesa()
+		{
+			
+			var slotDestino = SlotsCampo[_indiceVisualCampo];
+
+			if(gameLoop.MonsterHasAttacked(slotDestino.Name)) return;
+
+			var isEnemy = slotDestino.Name.ToString().Contains("Ini");
+
+			var pegou = Tools.PegaNodoCarta3d(slotDestino.Name);
+
+			if (pegou == null)
+				return;
+
+			var rotacao = pegou.Rotation;
+
+			if (pegou is Carta3d nodo){
+				nodo.Defesa = !nodo.Defesa;
+				gameLoop._gameState.CurrentPlayer.Field.BotaDeLadinho(nodo.markerName, nodo.Defesa);
+			}
+
+			if (!isEnemy)
+			{
+				if (rotacao == new Vector3(0,0,0))
+					pegou.Rotation = new Vector3(0, 1.5707964f, 0);
+				else
+					pegou.Rotation = Vector3.Zero;
+			}
+			else
+			{
+				if (rotacao == new Vector3(0,3.14f,0))
+					pegou.Rotation = new Vector3(0, -1.5707964f, 0);
+				else
+					pegou.Rotation = new Vector3(0,3.14f,0);
+			}
 		}
     }
 }
