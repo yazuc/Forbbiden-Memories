@@ -132,7 +132,7 @@ public partial class Mao : Control
 			InterfaceDuelo,
 			"global_position",
 			target,
-			1.2f
+			.5f
 		)
 		.SetEase(Tween.EaseType.Out)
 		.SetTrans(Tween.TransitionType.Cubic);

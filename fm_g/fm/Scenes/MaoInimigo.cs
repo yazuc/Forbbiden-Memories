@@ -15,6 +15,10 @@ namespace fm
         
         private int _indiceVisualMao = 0;
         private int _indiceVisualCampo = 0;
+        [Export] public Camera3D CameraHand;
+		[Export] public Camera3D CameraField;
+		[Export] public Camera3D CameraInimigo;
+        public Camera3D _transitionCam;
         
         // Referências externas
         [Export] public Mao MaoControlIA { get; set; } 
@@ -33,6 +37,8 @@ namespace fm
             _anim = GetNode<AnimationP>("../AnimationP");
             Seletor3D = GetNode<Node3D>("../Seletor");
             Tools = GetNode<Helper>("../Helper");        
+            _transitionCam = new Camera3D();
+			AddChild(_transitionCam);
             
             if (Seletor3D != null) Seletor3D.Visible = false;
             if (IndicadorTriangulo != null) IndicadorTriangulo.Visible = false;
@@ -41,7 +47,7 @@ namespace fm
         /// <summary>
         /// Move o cursor visualmente até o destino desejado.
         /// </summary>
-        public async Task ExecutarMovimentoVisual(int indiceAlvo, bool noCampo = false, bool isSpellTrap = false)
+        public async Task ExecutarMovimentoVisual(int indiceAlvo, bool noCampo = false, bool isSpellTrap = false, Cards carta = null)
         {
             if (!noCampo)
             {
@@ -61,9 +67,10 @@ namespace fm
                 while (!slotvazio)
                 {                    
                     var slotDestino = Tools.PegaSlotByMarker(slotsAlvo[_indiceVisualCampo].Name);
-                    if(slotDestino > -1)
+                    if(slotDestino == -1)
                     {
                         slotvazio = true;
+                        await Instancia3D(slotsAlvo[_indiceVisualCampo], carta);
                     }
                     AtualizarPosicaoSeletor3DInimigo(slotsAlvo);
                     _indiceVisualCampo += 1;
@@ -110,13 +117,14 @@ namespace fm
             var cartaUi = MaoControlIA.GetCarta(slotIndex);
             await _anim.AnimaCartaParaCentroIA(slotIndex); 
             await ToSignal(GetTree().CreateTimer(0.3f), SceneTreeTimer.SignalName.Timeout);            
+            await Tools.TransitionTo(CameraField, 0.5f, _transitionCam, false);
 
             // 3. Navega pelo campo
-            await ExecutarMovimentoVisual(slotIndex, noCampo: true, isSpellTrap: isSpell);
+            await ExecutarMovimentoVisual(slotIndex, noCampo: true, isSpellTrap: isSpell, carta: cartaUi.carta);
             
             // 2. IA "aperta" Accept - Anima para o centro
             // (Aqui você usaria sua lógica de fusão existente no AnimationP)
-            await _anim.AnimaFusao(Function.ProcessChain(cartaUi.carta.Id.ToString()));
+            await _anim.AnimaFusao(ProcessChain(cartaUi.carta.Id.ToString()));
 
 
             // 4. Finaliza e limpa cursores
@@ -138,6 +146,17 @@ namespace fm
 			this.SlotsCampoSTIni = magiasInimigos;						
 			
 			GD.Print("MaoJogador: Slots redefinidos com sucesso via GameLoop.");
+		}
+
+        public async Task Instancia3D(Marker3D slotDestino, Cards fusao){
+			bool IsEnemy = slotDestino.Name.ToString().Contains("Ini");
+			var novaCarta3d = Tools.InstanciaNodo(slotDestino);			
+			if(IsEnemy){
+				GD.Print(slotDestino.GlobalRotation.ToString());
+				Vector3 rota = new Vector3(-0, 1.5707964f, 0);
+				novaCarta3d.GlobalRotation += slotDestino.GlobalRotation + rota;
+			}			
+			novaCarta3d.Setup(fusao, (int)_indiceVisualCampo, IsEnemy, true, slotDestino.Name);			
 		}
     }
 }

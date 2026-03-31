@@ -56,10 +56,13 @@ CameraField = NodePath("../CameraPivot/CameraField")
 CameraInimigo = NodePath("../CameraPivot/CameraInimigo")
 metadata/_edit_use_anchors_ = true
 
-[node name="MaoInimigo" type="Node2D" parent="." unique_id=935370312 node_paths=PackedStringArray("IndicadorTriangulo", "Seletor3D", "MaoControlIA")]
+[node name="MaoInimigo" type="Node2D" parent="." unique_id=935370312 node_paths=PackedStringArray("IndicadorTriangulo", "Seletor3D", "CameraHand", "CameraField", "CameraInimigo", "MaoControlIA")]
 script = ExtResource("8_nnt18")
 IndicadorTriangulo = NodePath("../IndicadorTriangulo")
 Seletor3D = NodePath("../Seletor")
+CameraHand = NodePath("../CameraPivot/CameraHand")
+CameraField = NodePath("../CameraPivot/CameraField")
+CameraInimigo = NodePath("../CameraPivot/CameraInimigo")
 MaoControlIA = NodePath("../CameraPivot/CameraHand/Control/InterfaceDuelo/Mao")
 
 [node name="Board" parent="." unique_id=1698784219 instance=ExtResource("9_ldgsr")]

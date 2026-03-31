@@ -46,9 +46,9 @@ namespace fm{
 		public override void _Ready()
 		{
 			_transitionCam = new Camera3D();
+			AddChild(_transitionCam);
 			IndicadorTriangulo = GetNode<Node2D>("../IndicadorTriangulo");
 			MaoControl = GetNode<Mao>("../CameraPivot/CameraHand/Control/InterfaceDuelo/Mao");		
-			AddChild(_transitionCam);
 			_instanciaSeletor = GetNode<Node3D>("../Seletor");
 			_anim = GetNode<AnimationP>("../AnimationP");
 			_anim._cartasSelecionadasParaFusao = _cartasSelecionadasParaFusao;
