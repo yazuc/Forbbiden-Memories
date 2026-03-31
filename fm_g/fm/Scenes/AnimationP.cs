@@ -115,7 +115,7 @@ namespace fm{
 			GD.Print("finalizou");
 		}
 
-		public async Task AnimaCartaParaMao(int ID, string name, int _indiceSelecionado, bool cancel = false)
+		public async Task AnimaCartaParaMao(int _indiceSelecionado, bool cancel = false)
 		{			
 			var nodoAlvo = MaoControl.GetCarta(_indiceSelecionado); 
 			var nodoMao = MaoControl.GetCarta(_indiceSelecionado);

@@ -118,9 +118,15 @@ namespace fm
 				if(_aiPlayer.SelectCardToPlay(_gameState.CurrentPlayer, _gameState) is AIMove cardToPlay)
 				{
 					GD.Print($"AI selecionou a carta: {cardToPlay.CardToPlay.Name} na posição {cardToPlay.IndexCard}");
-					await MaoDoInimigo.RealizarJogadaIA(_gameState.CurrentPlayer.Hand, cardToPlay.CardToPlay, cardToPlay.IndexCard, false, true);
-					// Implementar lógica para jogar a carta selecionada pela AI
-					// Por exemplo, colocar a carta no campo ou ativar seu efeito
+					var result = await MaoDoInimigo.RealizarJogadaIA(_gameState.CurrentPlayer.Hand, cardToPlay.CardToPlay, cardToPlay.IndexCard, false, true);
+					
+					var cardData = result.MainCard;	
+					var car = MaoDoJogador.Tools.PegaSlotByMarker(result.WorldPos);
+					_gameState.CurrentPlayer.Field.placeCard(car, cardData, true, result.IsFaceDown, _gameState.CurrentPlayer.IsEnemy);								
+					_gameState.CurrentPlayer.DiscardUsedCard(result.CardsUsed.Select(x => x.Id).ToList());				
+					await MaoDoJogador.Tools.TransitionTo(CameraField, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);			
+					_gameState.Player1.Field.DrawFieldState();
+					_gameState.Player2.Field.DrawFieldState();	
 				}
 				else
 				{
@@ -128,28 +134,34 @@ namespace fm
 				}
 				MaoDoJogador._selecionandoLocal = false;
 			}
-			FusionResult idEscolhido = await MaoDoJogador.AguardarConfirmacaoJogadaAsync(); 			
-			int i = 1;
-			var cardData = idEscolhido.MainCard;	
-			var car = MaoDoJogador.Tools.PegaSlotByMarker(idEscolhido.WorldPos);
-			_gameState.CurrentPlayer.Field.placeCard(car, cardData, true, idEscolhido.IsFaceDown, _gameState.CurrentPlayer.IsEnemy);								
-			foreach(var item in idEscolhido.CardsUsed){
-				_gameState.CurrentPlayer.DiscardCard(item.Id);
-				i++;
-			}					
-			await MaoDoJogador.Tools.TransitionTo(CameraField, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);			
-			_gameState.Player1.Field.DrawFieldState();
-			_gameState.Player2.Field.DrawFieldState();	
+			else
+			{
+				FusionResult idEscolhido = await MaoDoJogador.AguardarConfirmacaoJogadaAsync(); 							
+				var cardData = idEscolhido.MainCard;	
+				var car = MaoDoJogador.Tools.PegaSlotByMarker(idEscolhido.WorldPos);
+				_gameState.CurrentPlayer.Field.placeCard(car, cardData, true, idEscolhido.IsFaceDown, _gameState.CurrentPlayer.IsEnemy);								
+				_gameState.CurrentPlayer.DiscardUsedCard(idEscolhido.CardsUsed.Select(x => x.Id).ToList());				
+				await MaoDoJogador.Tools.TransitionTo(CameraField, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);			
+				_gameState.Player1.Field.DrawFieldState();
+				_gameState.Player2.Field.DrawFieldState();					
+			}
 			_gameState.AdvancePhase();
 		}
 		
 		private async Task ExecuteBattlePhaseAsync()
 		{
+			bool BP_Ativa = true;
+			if(_gameState.CurrentPlayer.IsEnemy)
+			{
+				GD.Print("Vez da AI. Realizando jogada de batalha...");
+				BP_Ativa = false;
+				//await MaoDoInimigo.RealizarJogadaBatalhaIA(_gameState.CurrentPlayer, _gameState);
+				// Implementar lógica para a AI realizar suas ações de batalha
+			}
 			_gameState.CurrentPhase = TurnPhase.Battle;
 			GD.Print("--- Battle Phase Iniciada ---");
 			await MaoDoJogador.MaoControl.AnimateInterface(false);
 			MaoDoJogador.DefineVisibilidade(false);
-			bool BP_Ativa = true;
 			while (BP_Ativa)
 			{
 				if(_gameState.OpponentPlayer.LifePoints <= 0){

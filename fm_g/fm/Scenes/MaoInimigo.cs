@@ -47,7 +47,7 @@ namespace fm
         /// <summary>
         /// Move o cursor visualmente até o destino desejado.
         /// </summary>
-        public async Task ExecutarMovimentoVisual(int indiceAlvo, bool noCampo = false, bool isSpellTrap = false, Cards carta = null)
+        public async Task<string> ExecutarMovimentoVisual(int indiceAlvo, bool noCampo = false, bool isSpellTrap = false, Cards carta = null)
         {
             if (!noCampo)
             {
@@ -67,16 +67,19 @@ namespace fm
                 while (!slotvazio)
                 {                    
                     var slotDestino = Tools.PegaSlotByMarker(slotsAlvo[_indiceVisualCampo].Name);
+                    AtualizarPosicaoSeletor3DInimigo(slotsAlvo);
                     if(slotDestino == -1)
                     {
                         slotvazio = true;
                         await Instancia3D(slotsAlvo[_indiceVisualCampo], carta);
+                        return slotsAlvo[_indiceVisualCampo].Name;
                     }
-                    AtualizarPosicaoSeletor3DInimigo(slotsAlvo);
                     _indiceVisualCampo += 1;
                     await ToSignal(GetTree().CreateTimer(0.2f), SceneTreeTimer.SignalName.Timeout);
                 }
             }
+
+            return "";
         }
 
         private async Task AtualizarPosicaoIndicadorInimigo()
@@ -108,7 +111,7 @@ namespace fm
         /// <summary>
         /// Método principal que a IA chama para realizar a jogada completa.
         /// </summary>
-        public async Task RealizarJogadaIA(List<Cards> indicesMao, Cards carta, int slotIndex, bool isSpell, bool faceDown)
+        public async Task<FusionResult> RealizarJogadaIA(List<Cards> indicesMao, Cards carta, int slotIndex, bool isSpell, bool faceDown)
         {
             // 1. Navega até cada carta que será fundida
             await ExecutarMovimentoVisual(slotIndex, noCampo: false);
@@ -117,21 +120,26 @@ namespace fm
             var cartaUi = MaoControlIA.GetCarta(slotIndex);
             await _anim.AnimaCartaParaCentroIA(slotIndex); 
             await ToSignal(GetTree().CreateTimer(0.3f), SceneTreeTimer.SignalName.Timeout);        
+            await _anim.AnimaCartaParaMao(slotIndex);
             await Tools.TransitionTo(CameraField, 0.5f, _transitionCam, false);
 
             // 3. Navega pelo campo
-            await ExecutarMovimentoVisual(slotIndex, noCampo: true, isSpellTrap: isSpell, carta: cartaUi.carta);
+            var slot = await ExecutarMovimentoVisual(slotIndex, noCampo: true, isSpellTrap: isSpell, carta: cartaUi.carta);
             
             // 2. IA "aperta" Accept - Anima para o centro
-            // (Aqui você usaria sua lógica de fusão existente no AnimationP)
-            await _anim.AnimaFusao(ProcessChain(cartaUi.carta.Id.ToString()));
+            // (Aqui você usaria sua lógica de fusão existente no AnimationP)v
+            var pChain = ProcessChain(cartaUi.carta.Id.ToString());
+            pChain.WorldPos = slot;
+            await _anim.AnimaFusao(pChain);
 
 
             // 4. Finaliza e limpa cursores
             IndicadorTriangulo.Visible = false;
-            //Seletor3D.Visible = false;
+            Seletor3D.Visible = false;
             _indiceVisualMao = 0; // Reset para a próxima vez
             _indiceVisualCampo = 0;
+
+            return pChain;
         }
 
         public void ConfigurarSlots(

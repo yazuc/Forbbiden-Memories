@@ -133,7 +133,7 @@ namespace fm{
 							GD.Print("Ação cancelada pelo usuário.");
 							
 							if (_cartasSelecionadasParaFusao.Any()) {
-								await _anim.AnimaCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().carta.Id, _cartasSelecionadasParaFusao.FirstOrDefault().carta.Name, _indiceSelecionado, true);								
+								await _anim.AnimaCartaParaMao(_indiceSelecionado, true);								
 							}
 						}
 					}
@@ -167,7 +167,7 @@ namespace fm{
 			if(_cartasSelecionadasParaFusao.Count() == 1)
 			{
 				if(cartaui != null)
-					await _anim.AnimaCartaParaMao(cartaui.carta.Id, cartaui.carta.Name, _indiceSelecionado);
+					await _anim.AnimaCartaParaMao(_indiceSelecionado);
 			}
 			_selecionandoLocal = true;
 			_indiceCampoSelecionado = 0; // Começa no primeiro slot								
@@ -183,7 +183,7 @@ namespace fm{
 		{
 						
 			if (_cartasSelecionadasParaFusao.Any() && _cartasSelecionadasParaFusao.Count() == 1) {
-				await _anim.AnimaCartaParaMao(_cartasSelecionadasParaFusao.FirstOrDefault().carta.Id, _cartasSelecionadasParaFusao.FirstOrDefault().carta.Name, _indiceSelecionado, true);
+				await _anim.AnimaCartaParaMao(_indiceSelecionado, true);
 			}			
 			foreach(var item in _cartasSelecionadasParaFusao)
 			{
@@ -249,6 +249,7 @@ namespace fm{
 			
 			if(_cartasSelecionadasParaFusao.Count() > 1)
 			{
+				await Tools.TransitionTo(CameraHand, 0.5f, _transitionCam, STOP);
 				await _anim.AnimaFusao( resultadoFusao);
 			}
 				

@@ -62,6 +62,13 @@ namespace fm
 			var uniCard = Hand.Where(x => x.Id == card).FirstOrDefault();
 			Hand.Remove(uniCard);
 		}
+		public void DiscardUsedCard(List<int> cards)
+		{
+			foreach(var card in cards)
+			{
+				DiscardCard(card);
+			}
+		}		
 
 		public void SendToGraveyard(Cards card)
 		{
