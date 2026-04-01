@@ -144,6 +144,7 @@ namespace fm
 			(zoneIndex >= 0 && zoneIndex < MONSTER_ZONES) ? MonsterZones[zoneIndex] : null;
 
 		public bool HasAvailableMonsterZone() => MonsterZones.Any(z => z == null);
+		public bool HasBattaleReadyMonster() => MonsterZones.Any(z => z != null && !z.HasAttackedThisTurn);
 		public bool UpdateMonster(Cards carta, string ZoneIndex)
 		{
 			var monster = GetMonsterInZone(ZoneIndex);

@@ -147,12 +147,15 @@ namespace fm
 			bool BP_Ativa = true;
 			if(_gameState.CurrentPlayer.IsEnemy)
 			{
-				GD.Print("Vez da AI. Realizando jogada de batalha...");
-				var ret = _aiPlayer.SelectAttack(_gameState.CurrentPlayer, _gameState.OpponentPlayer, _gameState);
-				var monstroAliado = _gameState.CurrentPlayer.Field.GetMonsterInZone(ret.AttackerZone);
-				var monstroInimigo = _gameState.OpponentPlayer.Field.GetMonsterInZone(ret.DefenderZone);
-				await ResolverBatalha(monstroAliado, monstroInimigo);
-				BP_Ativa = false;
+				while (_gameState.CurrentPlayer.Field.HasBattaleReadyMonster())
+				{
+					GD.Print("Vez da AI. Realizando jogada de batalha...");
+					var ret = _aiPlayer.SelectAttack(_gameState.CurrentPlayer, _gameState.OpponentPlayer, _gameState);
+					var monstroAliado = _gameState.CurrentPlayer.Field.GetMonsterInZone(ret.AttackerZone);
+					var monstroInimigo = _gameState.OpponentPlayer.Field.GetMonsterInZone(ret.DefenderZone);
+					await ResolverBatalha(monstroAliado, monstroInimigo);
+				}
+				BP_Ativa = false;					
 			}
 			_gameState.CurrentPhase = TurnPhase.Battle;
 			GD.Print("--- Battle Phase Iniciada ---");
