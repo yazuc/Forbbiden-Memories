@@ -98,7 +98,7 @@ namespace fm
 
 			// Second priority: Monsters that can fuse
 			var range = player.Field.MonsterZones.Where(m => m != null).Select(m => m.Card).ToList();
-			var possibleFusions = playableCards;
+			var possibleFusions = new List<Cards>(playableCards);
 			possibleFusions.AddRange(range);
 			var idsNaMao = possibleFusions.Select(c => c.Id).ToHashSet();
 		

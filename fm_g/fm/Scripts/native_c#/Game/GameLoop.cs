@@ -153,7 +153,6 @@ namespace fm
 				var monstroInimigo = _gameState.OpponentPlayer.Field.GetMonsterInZone(ret.DefenderZone);
 				await ResolverBatalha(monstroAliado, monstroInimigo);
 				BP_Ativa = false;
-				// Implementar lógica para a AI realizar suas ações de batalha
 			}
 			_gameState.CurrentPhase = TurnPhase.Battle;
 			GD.Print("--- Battle Phase Iniciada ---");
