@@ -12,6 +12,8 @@ namespace fm{
 		public bool SouCarta = true;
 		public Cards carta {get;set;}
 		public string markerName = "";
+		public Vector3 EventualPosition {get;set;}
+		public Vector3 EventualRotation {get;set;}
 		public bool Defesa = false;
 		public string instance = "";
 		public int slotPlaced = -1;
@@ -29,6 +31,7 @@ namespace fm{
 					novoMat.SetShaderParameter("albedo_texture", SpriteDaCarta.Texture);
 				}
 			}
+			GD.Print("ready");
 		}
 		
 		public override void _Process(double delta)

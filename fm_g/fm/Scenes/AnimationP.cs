@@ -143,6 +143,42 @@ namespace fm{
 			}
 			//lastPos = Vector2.Zero;
 		}
+		public async Task AnimaCarta3DParaCampo(Carta3d carta, bool IsEnemy = false)
+		{			
+			Vector3 moveUP = new Vector3(0, 10, 0);
+
+			//move p cima na camerahand
+			var tween = GetTree().CreateTween();
+			tween.TweenProperty(carta, "global_position", moveUP, 1.5f)
+				.SetTrans(Tween.TransitionType.Sine)
+				.SetEase(Tween.EaseType.Out);
+			
+			await ToSignal(tween, "finished");
+			Vector3 rota = IsEnemy ? new Vector3(0, -1.5707964f, 0): carta.EventualRotation;
+			carta.GlobalRotation = rota;
+
+			//posiciona pra descer no campo
+			Vector3 alinhamento = new Vector3(1,4,1) * carta.EventualPosition;
+			var tween2 = GetTree().CreateTween();
+			tween2.TweenProperty(carta, "global_position", alinhamento, 0.3f)
+				.SetTrans(Tween.TransitionType.Sine)
+				.SetEase(Tween.EaseType.Out);
+			await ToSignal(tween2, "finished");
+
+			//desce direto no campo
+			alinhamento.Y -= carta.EventualPosition.Y * 3;
+			var tween3 = GetTree().CreateTween();
+			tween3.TweenProperty(carta, "global_position", alinhamento, 1.3f)
+				.SetTrans(Tween.TransitionType.Sine)
+				.SetEase(Tween.EaseType.Out);
+
+			await ToSignal(tween3, "finished");
+		}
+		public async Task AnimaCarta3DParaCentro(Camera3D cameraHand)
+		{
+			Vector3 pos = CalculaCentro3D(cameraHand);
+			
+		}
 
 		public async Task<bool> AnimaCartaParaCentro(MaoJogador maoJogador, int ID, string name, int _indiceSelecionado)
 		{
@@ -516,6 +552,24 @@ namespace fm{
 			var viewport = GetViewport();
 			Vector2 screenCenter = viewport.GetVisibleRect().Size / 2f;
 			return screenCenter;
+		}
+
+		public Vector3 ScreenCenterV3()
+		{
+			var viewport = GetViewport();
+			Vector2 center2D = viewport.GetVisibleRect().Size / 2f;
+			return new Vector3(center2D.X, center2D.Y, 0);
+		}
+
+		public Vector3 CalculaCentro3D(Camera3D CameraHand)
+		{
+			var viewport = GetViewport();
+			Vector2 screenCenter = viewport.GetVisibleRect().Size / 2f;
+			float distancia = 5.0f;
+			Vector3 rayOrigin = CameraHand.ProjectRayOrigin(screenCenter);
+			Vector3 rayNormal = CameraHand.ProjectRayNormal(screenCenter);
+			Vector3 position3D = rayOrigin + rayNormal * distancia;
+			return position3D;
 		}
 	}
 }

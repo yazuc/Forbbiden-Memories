@@ -1,8 +1,10 @@
 [gd_scene format=3 uid="uid://keibpphv5dyc"]
 
 [ext_resource type="Texture2D" uid="uid://ba6hmhsyfrs4p" path="res://Resources/signs.tres" id="1_ayjil"]
+[ext_resource type="Script" uid="uid://dvmnouogbpqvv" path="res://Scenes/Guardian/SeletorGuardian.cs" id="1_f7fs8"]
 [ext_resource type="Texture2D" uid="uid://uga52g13bsiu" path="res://assets/gd_selector.png" id="1_l4jlr"]
 [ext_resource type="LabelSettings" uid="uid://c25w33a2xsn05" path="res://Menu/DeckEditor/new_label_settings.tres" id="2_l4jlr"]
+[ext_resource type="Texture2D" uid="uid://bsi7dmc5gqkog" path="res://Resources/gradient_text.tres" id="2_tcltv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tcltv"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -18,14 +20,17 @@ anchor_bottom = 0.7793213
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_tcltv")
+script = ExtResource("1_f7fs8")
 metadata/_edit_use_anchors_ = true
 
 [node name="Panel5" type="TextureRect" parent="." unique_id=1488827583]
 modulate = Color(1, 1, 1, 0.57254905)
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = -1
+anchor_left = -0.122
+anchor_top = -0.07745254
+anchor_right = 1.14
+anchor_bottom = 1.048191
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_l4jlr")
@@ -33,48 +38,93 @@ metadata/_edit_use_anchors_ = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1459398982]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = -1
+anchor_left = 0.002
+anchor_top = 0.17039558
+anchor_right = 1.002
+anchor_bottom = 0.8519779
 grow_horizontal = 2
 grow_vertical = 2
+metadata/_edit_use_anchors_ = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=674712979]
 layout_mode = 2
-size_flags_vertical = 3
+size_flags_vertical = 6
+theme_override_constants/separation = 0
 metadata/_edit_use_anchors_ = true
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer" unique_id=1076636748]
+[node name="GuardianButton" type="TextureButton" parent="VBoxContainer/HBoxContainer" unique_id=1391598269]
+custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+texture_focused = ExtResource("2_tcltv")
+stretch_mode = 0
+
+[node name="GuardianIcon" type="TextureRect" parent="VBoxContainer/HBoxContainer/GuardianButton" unique_id=1076636748]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.22950819
+anchor_top = 0.203125
+anchor_right = 0.36270493
+anchor_bottom = 0.703125
 size_flags_horizontal = 3
 texture = ExtResource("1_ayjil")
 expand_mode = 3
 stretch_mode = 3
+metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=951791471]
-layout_mode = 2
+[node name="GuardianName" type="Label" parent="VBoxContainer/HBoxContainer/GuardianButton" unique_id=951791471]
+layout_mode = 0
+anchor_left = 0.39
+anchor_top = 0.21276596
+anchor_right = 0.882
+anchor_bottom = 0.84042555
 size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "Mercury"
 label_settings = ExtResource("2_l4jlr")
 vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer" unique_id=1813352814]
 layout_mode = 2
-size_flags_vertical = 3
+size_flags_vertical = 6
+theme_override_constants/separation = 0
 metadata/_edit_use_anchors_ = true
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer2" unique_id=366819212]
+[node name="GuardianButton" type="TextureButton" parent="VBoxContainer/HBoxContainer2" unique_id=623274050]
+custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+texture_focused = ExtResource("2_tcltv")
+stretch_mode = 0
+
+[node name="GuardianIcon" type="TextureRect" parent="VBoxContainer/HBoxContainer2/GuardianButton" unique_id=1039948213]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.22950819
+anchor_top = 0.203125
+anchor_right = 0.36270493
+anchor_bottom = 0.703125
 size_flags_horizontal = 3
 texture = ExtResource("1_ayjil")
 expand_mode = 3
 stretch_mode = 3
+metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2" unique_id=1263160472]
-layout_mode = 2
+[node name="GuardianName" type="Label" parent="VBoxContainer/HBoxContainer2/GuardianButton" unique_id=210812414]
+layout_mode = 0
+anchor_left = 0.39
+anchor_top = 0.21276596
+anchor_right = 0.882
+anchor_bottom = 0.84042555
 size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "Mercury"
 label_settings = ExtResource("2_l4jlr")
 vertical_alignment = 1
+metadata/_edit_use_anchors_ = true

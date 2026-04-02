@@ -73,6 +73,7 @@ namespace fm
                     await AtualizarPosicaoSeletor3DInimigo(slotsAlvo);
                     if(slotDestino == -1)
                     {
+                        await Tools.TransitionTo(CameraHand, 0.5f, _transitionCam, false);
                         await Instancia3D(slotsAlvo[_indiceVisualCampo], carta, facedown);
                         return slotsAlvo[_indiceVisualCampo].Name;
                     }
@@ -189,14 +190,9 @@ namespace fm
         public async Task Instancia3D(Marker3D slotDestino, Cards fusao, bool facedown = false)
         {
 			bool IsEnemy = slotDestino.Name.ToString().Contains("Ini");
-			var novaCarta3d = Tools.InstanciaNodo(slotDestino);			
-			if(IsEnemy){
-				GD.Print(slotDestino.GlobalRotation.ToString());
-				Vector3 rota = new Vector3(-0, 1.5707964f, 0);
-				novaCarta3d.GlobalRotation += slotDestino.GlobalRotation + rota;
-			}			
-			novaCarta3d.Setup(fusao, (int)_indiceVisualCampo, IsEnemy, facedown, slotDestino.Name);			
-            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+			var novaCarta3d = await Tools.InstanciaNodo(slotDestino, CameraHand: CameraHand);			
+			novaCarta3d.Setup(fusao, _indiceVisualCampo, IsEnemy, facedown, slotDestino.Name);			
+			await _anim.AnimaCarta3DParaCampo(novaCarta3d, IsEnemy);	
 		}
 
         public void CleanUpCrew()

@@ -98,10 +98,10 @@ metadata/_edit_use_anchors_ = true
 visible = false
 show_behind_parent = true
 layout_mode = 1
-anchor_left = 0.34583333
-anchor_top = 0.525
-anchor_right = 0.60625
-anchor_bottom = 0.7037037
+anchor_left = 0.36336562
+anchor_top = 0.62410116
+anchor_right = 0.62418985
+anchor_bottom = 0.8033027
 
 [node name="InterfaceDuelo" type="TextureRect" parent="CameraPivot/CameraHand/Control" unique_id=1688364586]
 z_index = 1

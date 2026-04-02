@@ -250,7 +250,7 @@ namespace fm{
 			if(_cartasSelecionadasParaFusao.Count() > 1)
 			{
 				await Tools.TransitionTo(CameraHand, 0.5f, _transitionCam, STOP);
-				await _anim.AnimaFusao( resultadoFusao);
+				await _anim.AnimaFusao(resultadoFusao);
 			}
 				
 			resultadoFusao.IsFaceDown = IsFaceDown;
@@ -285,6 +285,7 @@ namespace fm{
 					}
 					else
 					{
+						await Tools.TransitionTo(CameraHand, 0.5f, _transitionCam, STOP);
 						await Instancia3D(slotDestino, resultadoFusao.MainCard);			
 					}
 					CleanUpCrew();
@@ -412,13 +413,14 @@ namespace fm{
 		
 		public async Task Instancia3D(Marker3D slotDestino, Cards fusao){
 			bool IsEnemy = slotDestino.Name.ToString().Contains("Ini");
-			var novaCarta3d = Tools.InstanciaNodo(slotDestino);			
+			var novaCarta3d = await Tools.InstanciaNodo(slotDestino, CameraHand: CameraHand);			
 			if(IsEnemy){
 				GD.Print(slotDestino.GlobalRotation.ToString());
 				Vector3 rota = new Vector3(-0, 1.5707964f, 0);
 				novaCarta3d.GlobalRotation += slotDestino.GlobalRotation + rota;
 			}			
-			novaCarta3d.Setup(fusao, (int)_indiceCampoSelecionado, IsEnemy, IsFaceDown, slotDestino.Name);			
+			novaCarta3d.Setup(fusao, _indiceCampoSelecionado, IsEnemy, IsFaceDown, slotDestino.Name);			
+			await _anim.AnimaCarta3DParaCampo(novaCarta3d);
 		}
 
 		private void AtualizarNumerosFusao()

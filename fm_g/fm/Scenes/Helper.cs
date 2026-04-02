@@ -10,10 +10,12 @@ namespace fm
 		[Export] public TextureRect LifePoint{get;set;}
 		public List<Node3D> _cartasInstanciadas {get;set;}
 		public Texture2D texture {get;set;}
+		public AnimationP _anim {get;set;}
 		// Called when the node enters the scene tree for the first time.
 		public override void _Ready()
 		{
 			texture = GD.Load<Texture2D>("res://assets/COM_active.png");
+			_anim = GetNode<AnimationP>("../AnimationP");
 		}
 
 		// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -114,7 +116,7 @@ namespace fm
 
 
 
-		public Carta3d InstanciaNodo(Marker3D slotDestino, bool criarNovo = true){
+		public async Task<Carta3d> InstanciaNodo(Marker3D slotDestino, bool criarNovo = true, Camera3D CameraHand = null){
 			var nodes = GetTree().GetNodesInGroup("cartas");
 			foreach(var item in nodes){
 				if(item is Carta3d meuNode){
@@ -131,12 +133,17 @@ namespace fm
 			var novaCarta3d = carta3D.Instantiate<Carta3d>();
 			novaCarta3d.AddToGroup("cartas");
 			GetParent().AddChild(novaCarta3d);
-			novaCarta3d.GlobalPosition = slotDestino.GlobalPosition;
-			novaCarta3d.GlobalRotation = slotDestino.GlobalRotation;
+			novaCarta3d.EventualPosition = slotDestino.GlobalPosition;
+			novaCarta3d.EventualRotation = slotDestino.GlobalRotation;
+
+			//permanece aqui até selecionado guardianStar
+			novaCarta3d.GlobalPosition = _anim.CalculaCentro3D(CameraHand);
+			novaCarta3d.GlobalRotation = new Vector3(Mathf.DegToRad(70f), 0, 0) + slotDestino.GlobalRotation;
 			_cartasInstanciadas.Add(novaCarta3d);
 			
 			return novaCarta3d;
 		}
+
 
 		public async Task TransitionTo(Camera3D targetCam, double duration, Camera3D _transitionCam, bool STOP)
 		{			

@@ -14,10 +14,12 @@ public partial class Mao : Control
 	public HBoxContainer Hbox {get;set;}
 	public InformacaoCarta HboxCardInfo {get;set;}
 	public CartasBase PreloadedCard;
+	public SeletorGuardian SeletorGuardian;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		PreloadedCard = CartaCena.Instantiate<CartasBase>();
+		SeletorGuardian = GetNode<SeletorGuardian>("../../Panel");
 		Hbox = GetNode<HBoxContainer>("HBoxContainer");
 		HboxCardInfo = GetNode<InformacaoCarta>("../InformacaoCarta");
 		if(CartasNaMao.Count > 0)
