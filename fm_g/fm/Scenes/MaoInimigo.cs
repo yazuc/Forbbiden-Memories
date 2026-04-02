@@ -99,11 +99,17 @@ namespace fm
             }
         }
 
-        private async Task AtualizarPosicaoSeletor3DInimigo(Godot.Collections.Array<Marker3D> slots)
+        public async Task AtualizarPosicaoSeletor3DInimigo(Godot.Collections.Array<Marker3D> slots, string Indice = "")
         {
             if (Seletor3D == null || slots.Count == 0) return;
 
             var slotDestino = slots[_indiceVisualCampo];
+            if (!string.IsNullOrWhiteSpace(Indice))
+            {
+                Seletor3D.Visible = true;
+                var slot = Tools.PegaSlotByMarker(Indice);
+                slotDestino = slots[slot];
+            }
             Tween tween = GetTree().CreateTween();
             // Offset levemente acima do campo para não clipar
             tween.TweenProperty(Seletor3D, "global_position", slotDestino.GlobalPosition + new Vector3(0, 0.05f, 0), 0.1f);

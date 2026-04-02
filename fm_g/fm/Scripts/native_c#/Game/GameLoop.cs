@@ -147,11 +147,15 @@ namespace fm
 			bool BP_Ativa = true;
 			if(_gameState.CurrentPlayer.IsEnemy)
 			{
+				MaoDoJogador.STOP = BP_Ativa;
 				while (_gameState.CurrentPlayer.Field.HasBattaleReadyMonster())
 				{
 					GD.Print("Vez da AI. Realizando jogada de batalha...");
 					var ret = _aiPlayer.SelectAttack(_gameState.CurrentPlayer, _gameState.OpponentPlayer, _gameState);
+					await MaoDoInimigo.AtualizarPosicaoSeletor3DInimigo(MaoDoInimigo.SlotsCampoIni, ret.DefenderZone);
 					var monstroAliado = _gameState.CurrentPlayer.Field.GetMonsterInZone(ret.AttackerZone);
+					if(monstroAliado == null) continue;
+					await MaoDoInimigo.AtualizarPosicaoSeletor3DInimigo(MaoDoInimigo.SlotsCampo, ret.AttackerZone);
 					await MaoDoInimigo.Tools.TransitionTo(CameraInimigo, 0.4f, MaoDoInimigo._transitionCam, false);			
 					Task.Delay(500).Wait();
 					var monstroInimigo = _gameState.OpponentPlayer.Field.GetMonsterInZone(ret.DefenderZone);
@@ -161,7 +165,8 @@ namespace fm
 						await MaoDoInimigo.Tools.TransitionTo(CameraField, 0.4f, MaoDoInimigo._transitionCam, false);						
 					}
 				}
-				BP_Ativa = false;					
+				BP_Ativa = false;		
+				MaoDoInimigo.Seletor3D.Visible = false;			
 			}
 			_gameState.CurrentPhase = TurnPhase.Battle;
 			GD.Print("--- Battle Phase Iniciada ---");
