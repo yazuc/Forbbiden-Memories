@@ -52,7 +52,7 @@ namespace fm
 			if (!availableAttackers.Any())
 				return null;
 
-			string attackerZone = availableAttackers[_rng.Next(availableAttackers.Count)].zoneName;
+			string attackerZone = availableAttackers.First().zoneName;
 			AIMove move = new AIMove
 			{
 				AttackerZone = attackerZone
@@ -63,7 +63,7 @@ namespace fm
 
 			if (availableDefenders.Any())
 			{
-				string defenderZone = availableDefenders[_rng.Next(availableDefenders.Count)].zoneName;
+				string defenderZone = availableDefenders.First().zoneName;
 				move.DefenderZone = defenderZone;
 				return move;
 			}
@@ -71,8 +71,6 @@ namespace fm
 			// Direct attack
 			return move;
 		}
-
-		// --- Selection Strategies ---
 
 		private AIMove SelectCardHard(List<Cards> playableCards, Player player, GameState gameState)
 		{
