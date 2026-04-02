@@ -155,8 +155,11 @@ namespace fm
 					await MaoDoInimigo.Tools.TransitionTo(CameraInimigo, 0.4f, MaoDoInimigo._transitionCam, false);			
 					Task.Delay(500).Wait();
 					var monstroInimigo = _gameState.OpponentPlayer.Field.GetMonsterInZone(ret.DefenderZone);
-					await ResolverBatalha(monstroAliado, monstroInimigo);
-					await MaoDoInimigo.Tools.TransitionTo(CameraField, 0.4f, MaoDoInimigo._transitionCam, false);
+					if (!monstroAliado.HasAttackedThisTurn)
+					{
+						await ResolverBatalha(monstroAliado, monstroInimigo);
+						await MaoDoInimigo.Tools.TransitionTo(CameraField, 0.4f, MaoDoInimigo._transitionCam, false);						
+					}
 				}
 				BP_Ativa = false;					
 			}
