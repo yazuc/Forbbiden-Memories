@@ -152,8 +152,11 @@ namespace fm
 					GD.Print("Vez da AI. Realizando jogada de batalha...");
 					var ret = _aiPlayer.SelectAttack(_gameState.CurrentPlayer, _gameState.OpponentPlayer, _gameState);
 					var monstroAliado = _gameState.CurrentPlayer.Field.GetMonsterInZone(ret.AttackerZone);
+					await MaoDoInimigo.Tools.TransitionTo(CameraInimigo, 0.4f, MaoDoInimigo._transitionCam, false);			
+					Task.Delay(500).Wait();
 					var monstroInimigo = _gameState.OpponentPlayer.Field.GetMonsterInZone(ret.DefenderZone);
 					await ResolverBatalha(monstroAliado, monstroInimigo);
+					await MaoDoInimigo.Tools.TransitionTo(CameraField, 0.4f, MaoDoInimigo._transitionCam, false);
 				}
 				BP_Ativa = false;					
 			}
