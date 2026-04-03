@@ -32,8 +32,8 @@ public partial class SeletorGuardian : Panel
 		CurrentCard = card;
 		GuardianName1.Text = card.GuardianStarA.ToString();
 		GuardianName2.Text = card.GuardianStarB.ToString();
-		SetAtlasRegionSign((int)card.GuardianStarA, GuardianIcon1);
-		SetAtlasRegionSign((int)card.GuardianStarB, GuardianIcon2);
+		SetAtlasRegionSign((int)card.GuardianStarA - 1, GuardianIcon1);
+		SetAtlasRegionSign((int)card.GuardianStarB - 1, GuardianIcon2);
 	}
 
 	public void SetAtlasRegionSign(int sign, TextureRect target)

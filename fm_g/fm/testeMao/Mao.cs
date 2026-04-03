@@ -1,5 +1,6 @@
 using fm;
 using Godot;
+using QuickType;
 using System;
 
 public partial class Mao : Control
@@ -88,6 +89,12 @@ public partial class Mao : Control
 			child.QueueFree();
 		}
 		CartasInstanciadas.Clear();
+	}
+
+	public void AllowGuardian(Cards card)
+	{
+		SeletorGuardian.Setup(card);
+		SeletorGuardian.Visible = true;
 	}
 
 	public int CartasNaMaoCount()
