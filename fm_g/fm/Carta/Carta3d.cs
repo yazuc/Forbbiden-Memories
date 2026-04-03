@@ -57,6 +57,7 @@ namespace fm{
 
 		public void UpdateCard(Cards card)
 		{
+			this.carta = card;
 			Visual.DisplayCard(card, false);
 		}
 		public void SetFaceDown(bool faceDown)

@@ -157,11 +157,11 @@ public partial class CardUi : Control
 		
 	}
 
-	public void FlipCard(bool targetFaceDown, float duration = 0.3f, float customScale = 1.0f)
+	public async Task FlipCard(bool targetFaceDown, float duration = 0.3f, float customScale = 1.0f)
 	{
 		// 1. Criamos o Tween
 		Tween tween = GetTree().CreateTween();
-
+		PivotOffset = new Vector2(Size.X / 2, Size.Y / 2);
 		// Dividimos a duração por 2 (metade para fechar, metade para abrir)
 		float halfDuration = duration / 2.0f;
 
@@ -179,6 +179,8 @@ public partial class CardUi : Control
 		tween.TweenProperty(this, "scale:x", customScale, halfDuration)
 				.SetTrans(Tween.TransitionType.Quad)
 				.SetEase(Tween.EaseType.Out);
+		
+		await ToSignal(tween, Tween.SignalName.Finished);
 
 		GD.Print("estou flipandooooooo");
 	}

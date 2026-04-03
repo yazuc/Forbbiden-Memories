@@ -127,7 +127,7 @@ namespace fm{
 			nodoAlvo.Scale = new Vector2(1.0f, 1.0f);			
 
 			if(cancel)
-				nodoAlvo.FlipCard(false, 0.3f, 1.0f);
+				await nodoAlvo.FlipCard(false, 0.3f, 1.0f);
 
 			Tween tween = GetTree().CreateTween();
 			tween.TweenProperty(nodoAlvo, "global_position", nodoAlvo.PositionInHand, 0.2f)
@@ -214,19 +214,22 @@ namespace fm{
 				 .SetTrans(Tween.TransitionType.Sine)
 				 .SetEase(Tween.EaseType.Out);
 
+			await ToSignal(tween, "finished");
+
 			maoJogador.STOP = true;			
-			nodoAlvo.FlipCard(IsFaceDown);
+			await nodoAlvo.FlipCard(IsFaceDown);
 			maoJogador.STOP = false;
 			var instancia = maoJogador.CriarSetaPersonalizada(screenCenter + new Vector2(100,-20));
 			var instancia2 = maoJogador.CriarSetaPersonalizada(screenCenter + new Vector2(-100,-20), true);
 			
+			nodoAlvo.PivotOffset = new Vector2(70f, 0);
 			while(!maoJogador._tcsFaceDown.Task.IsCompleted) 
 			{
 				await ToSignal(GetTree(), "process_frame");
 				if(!maoJogador.STOP){	
 					if(Input.IsActionJustPressed("ui_left")  || Input.IsActionJustPressed("ui_right")){
 						IsFaceDown = !IsFaceDown;
-						nodoAlvo.FlipCard(IsFaceDown);
+						await nodoAlvo.FlipCard(IsFaceDown);
 					}
 					if(Input.IsActionJustPressed("ui_accept")){			
 						maoJogador.IDFusao = _cartasSelecionadasParaFusao.Select(x => x.carta.Id).ToList();												
@@ -272,9 +275,7 @@ namespace fm{
 				 .SetTrans(Tween.TransitionType.Sine)
 				 .SetEase(Tween.EaseType.Out);
 
-			nodoAlvo.FlipCard(IsFaceDown);
-			// var instancia = maoJogador.CriarSetaPersonalizada(screenCenter + new Vector2(100,-20));
-			// var instancia2 = maoJogador.CriarSetaPersonalizada(screenCenter + new Vector2(-100,-20), true);			
+			await nodoAlvo.FlipCard(IsFaceDown);	
 		}	
 		public void AlternarSelecaoFusao(CardUi carta)
 		{
@@ -496,6 +497,8 @@ namespace fm{
 		public async Task AnimaEspiral(Node2D pivot, CardUi cartaPrincipal, CardUi cartaSacrificio, Cards res)
 		{
 			Tween spiralTween = CreateTween().SetParallel(true);
+			cartaPrincipal.PivotOffset = Vector2.Zero;
+			cartaSacrificio.PivotOffset = Vector2.Zero;
 			float duration = 1.2f;
 			float voltas = 1080f; 
 
