@@ -11,12 +11,14 @@ public partial class SeletorGuardian : Panel
 	public TextureButton GuardianButton1, GuardianButton2;
 	private TaskCompletionSource<int> _tcsCarta;
 	private static Dictionary<int, AtlasTexture> _signCache = new();
+	public Action Guardian1, Guardian2;
+
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		GuardianName1 = GetNode<Label>("VBoxContainer/HBoxContainer/GuardianButton/GuardianName");
-		GuardianName2 = GetNode<Label>("VBoxContainer/HBoxContainer/GuardianButton/GuardianName");
+		GuardianName2 = GetNode<Label>("VBoxContainer/HBoxContainer2/GuardianButton/GuardianName");
 		GuardianIcon1 = GetNode<TextureRect>("VBoxContainer/HBoxContainer/GuardianButton/GuardianIcon");
 		GuardianIcon2 = GetNode<TextureRect>("VBoxContainer/HBoxContainer2/GuardianButton/GuardianIcon");
 		GuardianButton1 = GetNode<TextureButton>("VBoxContainer/HBoxContainer/GuardianButton");
@@ -36,13 +38,17 @@ public partial class SeletorGuardian : Panel
 		SetAtlasRegionSign((int)card.GuardianStarA - 1, GuardianIcon1);
 		SetAtlasRegionSign((int)card.GuardianStarB - 1, GuardianIcon2);
 		GuardianButton1.GrabFocus();
-		GuardianButton1.Pressed += () => OnGuardianSelected((int)card.GuardianStarA - 1);
-		GuardianButton2.Pressed += () => OnGuardianSelected((int)card.GuardianStarB - 1);
+		Guardian1 = () => OnGuardianSelected((int)card.GuardianStarA - 1);
+		Guardian2 = () => OnGuardianSelected((int)card.GuardianStarB - 1);
+		GuardianButton1.Pressed +=  Guardian1;
+		GuardianButton2.Pressed +=  Guardian2;
 	}
 	public int OnGuardianSelected(int guardianIndex)
 	{
 		GD.Print("Guardião selecionado: " + guardianIndex);
 		_tcsCarta?.TrySetResult(guardianIndex);
+		GuardianButton1.Pressed -= Guardian1;
+		GuardianButton2.Pressed -= Guardian2;
 		return guardianIndex;
 	}
 
