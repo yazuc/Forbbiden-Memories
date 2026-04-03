@@ -117,7 +117,7 @@ namespace fm{
 						{
 							// O await vai "explodir" aqui se TrySetCanceled for chamado
 							var alvo = _cartasSelecionadasParaFusao.FirstOrDefault();
-							IsFaceDown = await _anim.AnimaCartaParaCentro(this, alvo.carta.Id, alvo.carta.Name, _indiceSelecionado);							
+							IsFaceDown = await _anim.AnimaCartaParaCentro(this, _indiceSelecionado);							
 							if(_cartasSelecionadasParaFusao.Count() == 1 && alvo.carta.IsSpell() && !IsFaceDown)
 							{
 								GD.Print("usando spell");		
@@ -285,7 +285,7 @@ namespace fm{
 					}
 					else
 					{
-						await Tools.TransitionTo(CameraHand, 0.5f, _transitionCam, STOP);
+						await Tools.TransitionTo(CameraHand, 0.5f, _transitionCam, STOP);						
 						await Instancia3D(slotDestino, resultadoFusao.MainCard);			
 					}
 					CleanUpCrew();

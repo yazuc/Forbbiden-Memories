@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://c3xixqjc1n7rg" path="res://testeMao/Mao.cs" id="1_fm0w7"]
 [ext_resource type="Theme" uid="uid://bqwaean0x2fh3" path="res://Resources/tema_carta_hand.tres" id="2_fm0w7"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fm0w7"]
+
 [node name="Mao" type="Control" unique_id=1223634621]
 layout_mode = 3
 anchor_left = 0.059895832
@@ -13,6 +15,14 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 script = ExtResource("1_fm0w7")
+metadata/_edit_use_anchors_ = true
+
+[node name="Panel" type="Panel" parent="." unique_id=681290745]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 0
+anchor_right = 0.16568047
+anchor_bottom = 0.92488265
+theme_override_styles/panel = SubResource("StyleBoxEmpty_fm0w7")
 metadata/_edit_use_anchors_ = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1853833044]

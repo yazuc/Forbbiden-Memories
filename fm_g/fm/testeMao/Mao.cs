@@ -16,11 +16,13 @@ public partial class Mao : Control
 	public InformacaoCarta HboxCardInfo {get;set;}
 	public CartasBase PreloadedCard;
 	public SeletorGuardian SeletorGuardian;
+	public Panel GhostCardPanel;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		PreloadedCard = CartaCena.Instantiate<CartasBase>();
 		SeletorGuardian = GetNode<SeletorGuardian>("../../Panel");
+		GhostCardPanel = GetNode<Panel>("Panel");
 		Hbox = GetNode<HBoxContainer>("HBoxContainer");
 		HboxCardInfo = GetNode<InformacaoCarta>("../InformacaoCarta");
 		if(CartasNaMao.Count > 0)
@@ -91,6 +93,22 @@ public partial class Mao : Control
 		CartasInstanciadas.Clear();
 	}
 
+	public void ReparentGhost(int pos = 0)
+	{
+		if (IsInstanceValid(GhostCardPanel))
+		{
+			GhostCardPanel.Reparent(Hbox);
+			Hbox.MoveChild(GhostCardPanel, pos);
+		}
+	}
+	public void DeParentGhost()
+	{
+		if (IsInstanceValid(GhostCardPanel))
+		{
+			GhostCardPanel.Reparent(this);
+		}
+	}
+
 	public async Task AllowGuardian(Cards card)
 	{
 		//SeletorGuardian.Setup(card);
@@ -132,6 +150,11 @@ public partial class Mao : Control
 		}
 		return carta;				
     }
+	public Vector2 GrabCardPosition(int index)
+	{
+		var carta = GetCarta(index);
+		return IsInstanceValid(carta) ? carta.GlobalPosition : Vector2.Zero;
+	}
 
 	public async Task AnimateInterface(bool sobe = false)
 	{		

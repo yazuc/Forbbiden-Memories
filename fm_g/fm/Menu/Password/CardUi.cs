@@ -23,6 +23,7 @@ public partial class CardUi : Control
 	float offSetY = 101;
 	public Cards carta {get;set;}
 	public TextureRect FusionUp {get;set;}
+	public Vector2 PositionInHand {get;set;}
 	public TextureRect CartaArte {get;set;}
 	public TextureRect CartaFrame {get;set;}
 	// Called when the node enters the scene tree for the first time.

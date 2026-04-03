@@ -7,6 +7,7 @@ global using Newtonsoft.Json;
 global using Newtonsoft.Json.Converters;
 global using System.Text.Json;
 using fm;
+[GlobalClass]
 public partial class GlobalUsings : Node
 {
 	public static GlobalUsings Instance { get; private set; }

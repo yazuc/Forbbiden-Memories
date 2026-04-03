@@ -119,29 +119,30 @@ namespace fm{
 		public async Task AnimaCartaParaMao(int _indiceSelecionado, bool cancel = false)
 		{			
 			var nodoAlvo = MaoControl.GetCarta(_indiceSelecionado); 
-			var nodoMao = MaoControl.GetCarta(_indiceSelecionado);
-			if(nodoAlvo == null || nodoMao == null) 
+			if(nodoAlvo == null) 
 			{
-				//GD.PrintErr("Não foi possível encontrar a carta para devolver à mão!");
 				return;
 			}
 
 			nodoAlvo.Scale = new Vector2(1.0f, 1.0f);			
+
 			if(cancel)
 				nodoAlvo.FlipCard(false, 0.3f, 1.0f);
+
 			Tween tween = GetTree().CreateTween();
-			tween.TweenProperty(nodoAlvo, "global_position", nodoMao.GlobalPosition, 0.2f)
+			tween.TweenProperty(nodoAlvo, "global_position", nodoAlvo.PositionInHand, 0.2f)
 				 .SetTrans(Tween.TransitionType.Sine)
 				 .SetEase(Tween.EaseType.Out);
 			await ToSignal(tween, "finished");
+			MaoControl.DeParentGhost();
 			nodoAlvo.Reparent(MaoControl.Hbox);
 			MaoControl.Hbox.MoveChild(nodoAlvo, _indiceSelecionado);
+
 			if (cancel)
 			{
 				nodoAlvo.EscondeLabel();
 				_cartasSelecionadasParaFusao.Clear();
 			}
-			//lastPos = Vector2.Zero;
 		}
 		public async Task AnimaCarta3DParaCampo(Carta3d carta, bool IsEnemy = false)
 		{			
@@ -178,9 +179,9 @@ namespace fm{
 		{
 			Vector3 pos = CalculaCentro3D(cameraHand);
 			
-		}
+		}	
 
-		public async Task<bool> AnimaCartaParaCentro(MaoJogador maoJogador, int ID, string name, int _indiceSelecionado)
+		public async Task<bool> AnimaCartaParaCentro(MaoJogador maoJogador, int _indiceSelecionado)
 		{
 			if(_cartasSelecionadasParaFusao.Count() > 1) return false;
 			maoJogador._tcsFaceDown = new TaskCompletionSource<bool>();
@@ -197,10 +198,14 @@ namespace fm{
 			nodoAlvo.EscondeLabel();
 			var carta = MaoControl.GetCarta(_indiceSelecionado);
 			bool IsFaceDown = !carta.carta.IsSpellTrap();
+
 			maoJogador.lastPos = IsInstanceValid(carta) ? carta.GlobalPosition : new Vector2();
+			nodoAlvo.PositionInHand = carta.GlobalPosition;
 			nodoAlvo.Visible = true;
 			nodoAlvo.Reparent(this,true);
+			MaoControl.ReparentGhost(_indiceSelecionado);
 			nodoAlvo.Position = maoJogador.lastPos;
+
 			Vector2 halfSize = nodoAlvo.Size * nodoAlvo.Scale / 2f;
 			Vector2 targetGlobalPos = screenCenter - halfSize;
 			
@@ -208,6 +213,7 @@ namespace fm{
 			tween.TweenProperty(nodoAlvo, "global_position", targetGlobalPos, 0.2f)
 				 .SetTrans(Tween.TransitionType.Sine)
 				 .SetEase(Tween.EaseType.Out);
+
 			maoJogador.STOP = true;			
 			nodoAlvo.FlipCard(IsFaceDown);
 			maoJogador.STOP = false;
@@ -227,7 +233,8 @@ namespace fm{
 						maoJogador._tcsFaceDown?.TrySetResult(IsFaceDown);
 						instancia.Visible = false;
 						instancia2.Visible = false;			
-						nodoAlvo.Reparent(maoJogador.MaoControl.Hbox);	
+						await AnimaCartaParaMao(_indiceSelecionado);						
+						MaoControl.DeParentGhost();
 					}
 					if(Input.IsActionJustPressed("ui_cancel")){
 						instancia.Visible = false;
