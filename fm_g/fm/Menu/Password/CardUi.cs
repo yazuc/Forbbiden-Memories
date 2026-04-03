@@ -37,7 +37,6 @@ public partial class CardUi : Control
 		Name = GetNode<Label>("Name");
 		label = GetNode<Label>("LabelNumero");
 		Display(index);
-		GD.Print("Ready da silva");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -47,7 +46,6 @@ public partial class CardUi : Control
 
 	public void DisplayByCode(string code)
 	{
-		GD.Print(code);
 		var card = GlobalUsings.Instance.db.GetCardByCode(code);
 		if(card != null && card.CardCode != "00000000")
 		{
@@ -121,9 +119,7 @@ public partial class CardUi : Control
 			var linha = id  / maxCol;
 			var coluna = id  % maxCol;			
 			Vector2 cut = new Vector2(baseline.X + (offSetX * coluna) , baseline.Y + (offSetY * linha));						
-			
-			//GD.Print($"Linha:{linha} Coluna: {coluna} offsetX:{offSetX} offsetY:{offSetY} cutx:{cut.X} cuty:{cut.Y}");			
-			
+						
 			Rect2 finalRegion = new Rect2(cut, size);
 
 			atlas.Region = finalRegion;
@@ -182,7 +178,6 @@ public partial class CardUi : Control
 		
 		await ToSignal(tween, Tween.SignalName.Finished);
 
-		GD.Print("estou flipandooooooo");
 	}
 
 	public async Task AtivaSpellAnimation(Vector2 Screencenter)
@@ -201,7 +196,6 @@ public partial class CardUi : Control
 		// Wait for the animation to finish before proceeding
 		await ToSignal(tween, Tween.SignalName.Finished);
 		
-		GD.Print("Spell animation completed!");
 	}
 
 	public int TipoFrame(CardTypeEnum tipo)

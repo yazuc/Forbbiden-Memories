@@ -31,7 +31,6 @@ namespace fm{
 					novoMat.SetShaderParameter("albedo_texture", SpriteDaCarta.Texture);
 				}
 			}
-			GD.Print("ready");
 		}
 		
 		public override void _Process(double delta)
@@ -46,12 +45,9 @@ namespace fm{
 				IsFaceDown = Facedown;
 				Visual.DisplayCard(cardId, IsFaceDown);
 				this.carta = Visual.CurrentCard;
-				GD.Print(carta.Id);
 				this.slotPlaced = slot;
 				this.IsEnemy = IsEnemy;
 				this.markerName = markerName;
-				if(IsEnemy)
-					GD.Print("o inimigo invocou uma cartinha tehee");
 			}
 		}
 

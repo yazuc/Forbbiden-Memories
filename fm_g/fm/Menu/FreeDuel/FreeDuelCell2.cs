@@ -56,7 +56,6 @@ namespace fm
 			region.Position = new Vector2(novoX, novoY);
 			atlasTexture.Region = region;
 
-			GD.Print($"Index: {indexAtual} | Grade: [{coluna},{linha}] | Pos: {region.Position}");
 		}
 }
 }

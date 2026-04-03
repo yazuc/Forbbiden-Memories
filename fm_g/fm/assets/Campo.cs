@@ -33,16 +33,34 @@ public partial class Campo : Node3D
 		// Agora você pode usar PNGs externos normalmente
 		_texturas = new Texture2D[]
 		{
-			GD.Load<Texture2D>("res://assets/campos/campo_original/normalfield.png"),
-			GD.Load<Texture2D>("res://assets/campos/campo_agua/campo_agua_water_field.png"),
-			GD.Load<Texture2D>("res://assets/campos/campo_dark/dark_3.png"),
-			GD.Load<Texture2D>("res://assets/campos/campo_deserto/campo_deserto_wasteland.png"),
-			GD.Load<Texture2D>("res://assets/campos/campo_forest/campo_forest_campo_1.png"),
-			GD.Load<Texture2D>("res://assets/campos/campo_grass/campo_grama_grama.png"),
-			GD.Load<Texture2D>("res://assets/campos/campo_montanha/campo_montanha_montanha_3.png"),
+			GD.Load<Texture2D>("res://assets/campos/campo_original/normalfield.png"), //standard - 0
+			GD.Load<Texture2D>("res://assets/campos/campo_agua/campo_agua_water_field.png"), //Umi - 1
+			GD.Load<Texture2D>("res://assets/campos/campo_dark/dark_3.png"), //Yami - 2 
+			GD.Load<Texture2D>("res://assets/campos/campo_deserto/campo_deserto_wasteland.png"), //Wasteland - 3 
+			GD.Load<Texture2D>("res://assets/campos/campo_forest/campo_forest_campo_1.png"), //Forest - 4
+			GD.Load<Texture2D>("res://assets/campos/campo_grass/campo_grama_grama.png"), //Sogen - 5
+			GD.Load<Texture2D>("res://assets/campos/campo_montanha/campo_montanha_montanha_3.png"),//Mountain - 6
 		};
 		var index = GlobalUsings.Instance != null ? GlobalUsings.Instance.BoardIndex : 0;
 		SetEstadoCampo(index);
+	}
+
+	public int GetCampoByName(string Name)
+	{
+		switch (Name)
+		{
+			case "Umi": return 1;
+			case "Yami": return 2;
+			case "Wasteland": return 3;
+			case "Forest": return 4;
+			case "Sogen": return 5;
+			case "Mountain": return 6;
+			default: return 0;
+		}
+	}
+	public void SetEstadoCampo(string estado)
+	{
+		SetEstadoCampo(GetCampoByName(estado));
 	}
 
 	public void SetEstadoCampo(int estado)

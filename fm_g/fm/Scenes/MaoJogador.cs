@@ -43,12 +43,14 @@ namespace fm{
 		public AnimationP _anim;
 		public Helper Tools;
 		public CardUi RefFusao;
+		public Campo Campo;
 		public override void _Ready()
 		{
 			_transitionCam = new Camera3D();
 			AddChild(_transitionCam);
 			IndicadorTriangulo = GetNode<Node2D>("../IndicadorTriangulo");
-			MaoControl = GetNode<Mao>("../CameraPivot/CameraHand/Control/InterfaceDuelo/Mao");		
+			MaoControl = GetNode<Mao>("../CameraPivot/CameraHand/Control/InterfaceDuelo/Mao");	
+			Campo = GetNode<Campo>("../Board");	
 			_instanciaSeletor = GetNode<Node3D>("../Seletor");
 			_anim = GetNode<AnimationP>("../AnimationP");
 			_anim._cartasSelecionadasParaFusao = _cartasSelecionadasParaFusao;
@@ -120,7 +122,6 @@ namespace fm{
 							IsFaceDown = await _anim.AnimaCartaParaCentro(this, _indiceSelecionado);							
 							if(_cartasSelecionadasParaFusao.Count() == 1 && alvo.carta.IsSpell() && !IsFaceDown)
 							{
-								GD.Print("usando spell");		
 								ConfirmarInvocacaoNoCampo(true, alvo);		
 								return;
 							}								
@@ -130,7 +131,6 @@ namespace fm{
 						catch (OperationCanceledException) 
 						{
 							// O código cai aqui IMEDIATAMENTE quando aperta ui_cancel
-							GD.Print("Ação cancelada pelo usuário.");
 							
 							if (_cartasSelecionadasParaFusao.Any()) {
 								await _anim.AnimaCartaParaMao(_indiceSelecionado, true);								
@@ -214,7 +214,6 @@ namespace fm{
 		{
 			if (_instanciaSeletor == null || slots == null || slots.Count == 0)
 			{
-				GD.PrintErr("MaoJogador: Tentativa de atualizar seletor sem SlotsCampo configurados!");
 				return;
 			}
 				
@@ -297,7 +296,7 @@ namespace fm{
 				_tcsCarta?.TrySetResult(resultadoFusao);
 			}
 		}
-
+		//não ativa uma spell do campo ainda, só equipa um monstro
 		public async Task ConfirmarSpellNoCampo(CardUi? card = null)
 		{			
 			
@@ -367,7 +366,11 @@ namespace fm{
 
 			if(card != null)
 			{						
-				await card.AtivaSpellAnimation(_anim.ScrenCenter());						
+				await card.AtivaSpellAnimation(_anim.ScrenCenter());				
+				if (card.carta.IsField())
+				{
+					Campo.SetEstadoCampo(card.carta.Name);
+				}								
 				_bloquearNavegaçãoManual = false;
 				_selecionandoLocal = false;
 				_cartasSelecionadasParaFusao.Clear();

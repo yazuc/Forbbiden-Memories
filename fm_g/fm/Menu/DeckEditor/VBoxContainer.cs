@@ -15,7 +15,6 @@ namespace fm
 			var scene1 = "res://Menu/DeckEditor/slot_carta.scn";
 			var scene = GD.Load<PackedScene>(scene1);
 			int i = 1;
-			GD.Print("cards " + GlobalUsings.Instance.Deck.Cards.Count());
 			foreach(var item in GlobalUsings.Instance.Deck.Cards)
 			{
 				var cell = scene.Instantiate();				
@@ -69,7 +68,6 @@ namespace fm
 			var slot = GetChild(index) as HBoxContainer;
 			if (slot == null)
 			{
-				GD.Print("Slot inválido no índice: ", index); 
 				return;
 			}
 			

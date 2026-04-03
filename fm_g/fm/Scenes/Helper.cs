@@ -41,8 +41,6 @@ namespace fm
 		
 		public Carta3d PegaNodoCarta3d(string ID, Cards card = null)
 		{
-			GD.Print("Procurando carta3d com ID: " + ID);
-			GD.Print("Cartas instanciadas: " + _cartasInstanciadas.Count);
 			var cartas3d = GetTree().GetNodesInGroup("cartas").OfType<Carta3d>().FirstOrDefault(x => x.markerName == ID);
 			if(card != default && cartas3d != default && cartas3d.carta == null)
 			{
@@ -180,22 +178,6 @@ namespace fm
 			foreach(var item in _cartasInstanciadas)
 				PrintInstancia(item);
 		}
-
-		public List<(string, bool)> DevolvePosicoes()
-		{
-			var tuple = new List<(string carta,bool defesa)>();	
-			foreach(var item in _cartasInstanciadas)
-			{
-				
-				if(IsInstanceValid(item) && item is Carta3d nodo)
-				{
-					GD.Print("DEVOLVE POS:" + nodo.markerName + " - " + nodo.Defesa);
-					tuple.Add((nodo.markerName, nodo.Defesa));
-				}	
-			}
-			
-			return tuple;
-		}	
 
 		public void SwitchTurn(MaoJogador mao)
 		{

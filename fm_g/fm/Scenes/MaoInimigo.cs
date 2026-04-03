@@ -184,7 +184,6 @@ namespace fm
 			this.SlotsCampoST = magiasAliados;
 			this.SlotsCampoSTIni = magiasInimigos;						
 			
-			GD.Print("MaoJogador: Slots redefinidos com sucesso via GameLoop.");
 		}
 
         public async Task Instancia3D(Marker3D slotDestino, Cards fusao, bool facedown = false)

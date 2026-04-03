@@ -113,7 +113,6 @@ namespace fm{
 				 taskMe = meuMonstro3d.TransitionCardTo(originalPos,0.5f,originalRot);
 			}
 
-			GD.Print("finalizou");
 		}
 
 		public async Task AnimaCartaParaMao(int _indiceSelecionado, bool cancel = false)
@@ -192,7 +191,6 @@ namespace fm{
 			var nodoAlvo = MaoControl.GetCarta(_indiceSelecionado);// _cartasNaMao.FirstOrDefault(x => x.Name == name);			
 			if(nodoAlvo == null) 
 			{
-				GD.PrintErr("Não foi possível encontrar a carta selecionada na mão!");
 				return false;
 			}
 			nodoAlvo.EscondeLabel();
@@ -217,7 +215,9 @@ namespace fm{
 			await ToSignal(tween, "finished");
 
 			maoJogador.STOP = true;			
-			await nodoAlvo.FlipCard(IsFaceDown);
+			if(!nodoAlvo.carta.IsSpellTrap())
+				await nodoAlvo.FlipCard(IsFaceDown);
+				
 			maoJogador.STOP = false;
 			var instancia = maoJogador.CriarSetaPersonalizada(screenCenter + new Vector2(100,-20));
 			var instancia2 = maoJogador.CriarSetaPersonalizada(screenCenter + new Vector2(-100,-20), true);

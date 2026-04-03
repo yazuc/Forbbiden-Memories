@@ -104,5 +104,53 @@ namespace fm
 				}
 			}
 		}
+
+		public static (FieldMonster, FieldMonster) DefineVantagem(FieldMonster atacante, FieldMonster defensor)
+		{
+			if(TemVantagem(atacante.Card.CurrentGuardianStar, defensor.Card.CurrentGuardianStar))
+			{
+				atacante.Card.Attack += 500;
+				atacante.Card.Defense += 500;
+
+				return (atacante, defensor);
+			}
+			if(TemVantagem(defensor.Card.CurrentGuardianStar, atacante.Card.CurrentGuardianStar))
+			{
+				defensor.Card.Attack += 500;
+				defensor.Card.Defense += 500;
+
+				return (atacante, defensor);
+			}
+			
+			return (atacante, defensor);
+		}
+
+		public static bool TemVantagem(GuardianStar atacante, GuardianStar defensor)
+		{
+			switch (atacante)
+			{
+				case GuardianStar.Mars:
+					return defensor == GuardianStar.Jupiter;
+				case GuardianStar.Jupiter:
+					return defensor == GuardianStar.Saturn;
+				case GuardianStar.Saturn:
+					return defensor == GuardianStar.Uranus;
+				case GuardianStar.Uranus:
+					return defensor == GuardianStar.Pluto;
+				case GuardianStar.Pluto:
+					return defensor == GuardianStar.Neptune;
+				case GuardianStar.Neptune:
+					return defensor == GuardianStar.Mars;
+
+				case GuardianStar.Sun:
+					return defensor == GuardianStar.Moon;
+				case GuardianStar.Moon:
+					return defensor == GuardianStar.Venus;
+				case GuardianStar.Venus:
+					return defensor == GuardianStar.Mercury;
+				default:
+					return false;
+			}
+		}
 	}
 }

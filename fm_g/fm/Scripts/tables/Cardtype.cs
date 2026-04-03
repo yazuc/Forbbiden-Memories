@@ -28,7 +28,7 @@ namespace QuickType
 
 		[JsonProperty("Id")]
 		public int Id { get; set; }
-
+		public GuardianStar CurrentGuardianStar{get;set;}
 		[JsonProperty("GuardianStarA")]
 		public GuardianStar GuardianStarA { get; set; }
 
@@ -87,6 +87,22 @@ namespace QuickType
 		
 		public float AtlasX { get; set; }
 		public float AtlasY { get; set; }
+
+		public bool IsField()
+		{
+			switch (Name)
+			{				
+				case "Forest":
+				case "Wasteland":
+				case "Mountain":
+				case "Sogen":
+				case "Umi":
+				case "Yami":
+					return true;
+				default:
+					return false;
+			}			
+		}
 
 		public bool IsSpell()
 		{
