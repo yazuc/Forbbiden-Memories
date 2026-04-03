@@ -12,7 +12,8 @@ namespace QuickType
 	using System.Collections.Generic;
 
 	using System.Globalization;
-	using fm;
+    using System.Runtime.Serialization;
+    using fm;
 	using Newtonsoft.Json;
 	using Newtonsoft.Json.Converters;
 	using SQLite;
@@ -28,6 +29,7 @@ namespace QuickType
 
 		[JsonProperty("Id")]
 		public int Id { get; set; }
+		[SQLite.Ignore]
 		public GuardianStar CurrentGuardianStar{get;set;}
 		[JsonProperty("GuardianStarA")]
 		public GuardianStar GuardianStarA { get; set; }
@@ -84,10 +86,7 @@ namespace QuickType
 		[JsonProperty("Attribute")]
 		public long Attribute { get; set; }
 		public bool IsFaceDown { get; set; } // For Spell/Trap cards to indicate if they are face-down
-		
-		public float AtlasX { get; set; }
-		public float AtlasY { get; set; }
-
+	
 		public bool IsField()
 		{
 			switch (Name)

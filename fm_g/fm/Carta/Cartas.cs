@@ -30,7 +30,6 @@ namespace fm{
 
 			// 4. Diz ao Godot exatamente qual pedaço do PNG gigante desenhar
 			// Rect2(X, Y, Largura, Altura)
-			sprite.RegionRect = new Rect2(card.AtlasX, card.AtlasY, 92.41f, 117.36f);
 		}
 		
 		public void SetHighlight(bool active)
