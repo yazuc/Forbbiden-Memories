@@ -149,7 +149,7 @@ namespace fm{
 
 			//move p cima na camerahand
 			var tween = GetTree().CreateTween();
-			tween.TweenProperty(carta, "global_position", moveUP, 1.5f)
+			tween.TweenProperty(carta, "global_position", moveUP, 0.5f)
 				.SetTrans(Tween.TransitionType.Sine)
 				.SetEase(Tween.EaseType.Out);
 			
@@ -168,7 +168,7 @@ namespace fm{
 			//desce direto no campo
 			alinhamento.Y -= carta.EventualPosition.Y * 3;
 			var tween3 = GetTree().CreateTween();
-			tween3.TweenProperty(carta, "global_position", alinhamento, 1.3f)
+			tween3.TweenProperty(carta, "global_position", alinhamento, 0.5f)
 				.SetTrans(Tween.TransitionType.Sine)
 				.SetEase(Tween.EaseType.Out);
 
@@ -352,7 +352,7 @@ namespace fm{
 				switch (step.Action)
 				{
 					case FusionAction.Fusion:
-						await AnimaEspiral(pivot, cartaPrincipal, cartaSacrificio);
+						await AnimaEspiral(pivot, cartaPrincipal, cartaSacrificio, step.ResultCard);
 						break;
 
 					case FusionAction.Equip:
@@ -372,8 +372,8 @@ namespace fm{
 						break;
 				}
 
-				// 🔥 Atualiza estado VISUAL usando o STEP (não recalcula!)
 				cartaPrincipal.Display(step.ResultCard.Id);
+				cartaSacrificio.Display(step.ResultCard.Id);
 				cartaPrincipal.carta = step.ResultCard;
 
 				Vector2 globalPos = cartaPrincipal.GlobalPosition;
@@ -486,7 +486,7 @@ namespace fm{
 		}
 
 
-		public async Task AnimaEspiral(Node2D pivot, CardUi cartaPrincipal, CardUi cartaSacrificio)
+		public async Task AnimaEspiral(Node2D pivot, CardUi cartaPrincipal, CardUi cartaSacrificio, Cards res)
 		{
 			Tween spiralTween = CreateTween().SetParallel(true);
 			float duration = 1.2f;
@@ -506,6 +506,8 @@ namespace fm{
 							
 			Tween impact = CreateTween();
 			impact.TweenProperty(cartaPrincipal, "scale", new Vector2(1.5f, 1.5f), 0.1f);
+			cartaPrincipal.Display(res.Id);
+			cartaSacrificio.Display(res.Id);
 			impact.TweenProperty(cartaPrincipal, "scale", new Vector2(1.0f, 1.0f), 0.1f);	
 			await ToSignal(impact, Tween.SignalName.Finished);
 		}
@@ -520,7 +522,7 @@ namespace fm{
 			t.TweenProperty(node, "global_position", targetPos, 0.5f)
 			 .SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.Out);
 			t.TweenProperty(node, "rotation_degrees", targetRotation, 0.5f)
-			 .SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.Out);
+			 .SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.Out);			
 			await ToSignal(t, "finished");
 		}
 		private void Reparentar(Control node, Node novoPai)

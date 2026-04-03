@@ -412,11 +412,16 @@ namespace fm{
 
 		
 		public async Task Instancia3D(Marker3D slotDestino, Cards fusao){
+			MaoControl.SeletorGuardian.Setup(fusao);
 			bool IsEnemy = slotDestino.Name.ToString().Contains("Ini");
+			CleanUpCrew();
 			var novaCarta3d = await Tools.InstanciaNodo(slotDestino, CameraHand: CameraHand);				
 			novaCarta3d.Setup(fusao, _indiceCampoSelecionado, IsEnemy, IsFaceDown, slotDestino.Name);	
 			//chamada do guardian, provavelmente devo implementar uma task que escolhe entre A ou B
-			MaoControl.AllowGuardian(novaCarta3d.carta);
+			STOP = true;			
+			await MaoControl.AllowGuardian(novaCarta3d.carta);
+			DefineVisibilidade(false);
+			STOP = false;	
 			await _anim.AnimaCarta3DParaCampo(novaCarta3d);
 		}
 

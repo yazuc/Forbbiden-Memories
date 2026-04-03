@@ -91,10 +91,13 @@ public partial class Mao : Control
 		CartasInstanciadas.Clear();
 	}
 
-	public void AllowGuardian(Cards card)
+	public async Task AllowGuardian(Cards card)
 	{
-		SeletorGuardian.Setup(card);
+		//SeletorGuardian.Setup(card);
+		await AnimateInterface(sobe: false);
 		SeletorGuardian.Visible = true;
+		await SeletorGuardian.AguardarConfirmacaoSign();
+		SeletorGuardian.Visible = false;
 	}
 
 	public int CartasNaMaoCount()
@@ -133,6 +136,7 @@ public partial class Mao : Control
 	public async Task AnimateInterface(bool sobe = false)
 	{		
 		Vector2 target = MoveInterface(sobe);
+		if(target.Y > 2300f && !sobe){return;}
 
 		var tween = GetTree().CreateTween().Parallel();
 
@@ -160,7 +164,7 @@ public partial class Mao : Control
 	{
 		//InterfaceDuelo é um texturerect
 		if (sobe)
-			return InterfaceDuelo.GlobalPosition - new Vector2(0f, InterfaceDuelo.Size.Y + 500);
+			return  InterfaceDuelo.GlobalPosition - new Vector2(0f, InterfaceDuelo.Size.Y + 500);
 				
 		return InterfaceDuelo.GlobalPosition + new Vector2(0f, InterfaceDuelo.Size.Y + 500);				
 	}

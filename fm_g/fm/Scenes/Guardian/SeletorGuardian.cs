@@ -9,6 +9,7 @@ public partial class SeletorGuardian : Panel
 	public Label GuardianName1, GuardianName2;
 	public TextureRect GuardianIcon1, GuardianIcon2;
 	public TextureButton GuardianButton1, GuardianButton2;
+	private TaskCompletionSource<int> _tcsCarta;
 	private static Dictionary<int, AtlasTexture> _signCache = new();
 
 	// Called when the node enters the scene tree for the first time.
@@ -34,6 +35,22 @@ public partial class SeletorGuardian : Panel
 		GuardianName2.Text = card.GuardianStarB.ToString();
 		SetAtlasRegionSign((int)card.GuardianStarA - 1, GuardianIcon1);
 		SetAtlasRegionSign((int)card.GuardianStarB - 1, GuardianIcon2);
+		GuardianButton1.GrabFocus();
+		GuardianButton1.Pressed += () => OnGuardianSelected((int)card.GuardianStarA - 1);
+		GuardianButton2.Pressed += () => OnGuardianSelected((int)card.GuardianStarB - 1);
+	}
+	public int OnGuardianSelected(int guardianIndex)
+	{
+		GD.Print("Guardião selecionado: " + guardianIndex);
+		_tcsCarta?.TrySetResult(guardianIndex);
+		return guardianIndex;
+	}
+
+	public async Task<int> AguardarConfirmacaoSign()
+	{
+		_tcsCarta = new TaskCompletionSource<int>();		
+		var resultado = await _tcsCarta.Task;		
+		return resultado;
 	}
 
 	public void SetAtlasRegionSign(int sign, TextureRect target)
