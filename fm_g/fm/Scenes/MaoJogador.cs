@@ -64,11 +64,7 @@ namespace fm{
 			Vector2 newScale = Scale;
 			newScale.Y = Mathf.Sin(Time.GetTicksMsec() * 0.001f * speed);
 			if(IsInstanceValid(IndicadorTriangulo))
-			IndicadorTriangulo.Scale = newScale;
-			if (!_processandoInput && !STOP)
-			{
-				ExecutarNavegacao();
-			}			
+			IndicadorTriangulo.Scale = newScale;		
 		}
 		
 		private async void ExecutarNavegacao()
@@ -553,7 +549,7 @@ namespace fm{
 
 
 		public override void _UnhandledInput(InputEvent @event)
-		{
+		{			
 			if (_tcsSlot == null || _tcsSlot.Task.IsCompleted)
 				return;
 
