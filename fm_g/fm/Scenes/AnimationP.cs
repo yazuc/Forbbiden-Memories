@@ -133,9 +133,10 @@ namespace fm{
 				 .SetTrans(Tween.TransitionType.Sine)
 				 .SetEase(Tween.EaseType.Out);
 			await ToSignal(tween, "finished");
+
 			MaoControl.DeParentGhost();
 			nodoAlvo.Reparent(MaoControl.Hbox);
-			MaoControl.Hbox.MoveChild(nodoAlvo, _indiceSelecionado);
+			MaoControl.Hbox.MoveChild(nodoAlvo, _indiceSelecionado);			
 
 			if (cancel)
 			{
@@ -235,8 +236,9 @@ namespace fm{
 						maoJogador.IDFusao = _cartasSelecionadasParaFusao.Select(x => x.carta.Id).ToList();												
 						maoJogador._tcsFaceDown?.TrySetResult(IsFaceDown);
 						instancia.Visible = false;
-						instancia2.Visible = false;			
-						await AnimaCartaParaMao(_indiceSelecionado);						
+						instancia2.Visible = false;		
+						if(!nodoAlvo.carta.IsSpellTrap())							
+							await AnimaCartaParaMao(_indiceSelecionado);						
 						MaoControl.DeParentGhost();
 					}
 					if(Input.IsActionJustPressed("ui_cancel")){

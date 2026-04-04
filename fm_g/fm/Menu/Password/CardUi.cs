@@ -65,7 +65,7 @@ public partial class CardUi : Control
 		DEF.Text = "DEF " + card.Defense.ToString();
 	}
 
-	public void DisplayCard(Cards card, string labelT = null)
+	public void DisplayCard(Cards card, string labelT = null, bool IsFaceDown = false)
 	{
 		if(card != null)
 		{
@@ -85,12 +85,13 @@ public partial class CardUi : Control
 			CartaArte.Visible = true;
 			CalculaArte(framePos, 9, baselineFrame, sizeFrame, 145f, 0f, CartaFrame);
 			CalculaArte(card.Id - 1, maxCol, baseline, size, offSetX, offSetY, CartaArte);
+			CalculaFlip(IsFaceDown);
 			
 		}		
 	}
 
 
-	public void Display(int id)
+	public void Display(int id, bool IsFaceDown = false)
 	{
 		if(id < 0)
 		{			
@@ -104,6 +105,7 @@ public partial class CardUi : Control
 		lastIndex = id;
 		var card = GlobalUsings.Instance.db.GetCardById(id);
 		DisplayCard(card);
+		CalculaFlip(IsFaceDown);
 	}
 
 	//atlas +107 x proxima carta na linha, +101y proxima carta na coluna

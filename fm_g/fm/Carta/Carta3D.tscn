@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c8b5cvb66ig8t" path="res://Carta/Carta3d.cs" id="1_2tffa"]
 [ext_resource type="PackedScene" uid="uid://uys23mmogslm" path="res://Carta/CartasBase.tscn" id="1_itp21"]
+[ext_resource type="PackedScene" uid="uid://bojhfcwtxih7" path="res://Menu/Password/card_ui.tscn" id="3_l0m1i"]
 [ext_resource type="Shader" uid="uid://lruf3vdil34p" path="res://Carta/Carta3D.gdshader" id="3_r0ftk"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_l0m1i"]
@@ -20,6 +21,9 @@ shader_parameter/progress = 0.0
 shader_parameter/edge_width = 0.0910000043225
 shader_parameter/fire_color = Color(1.1612457, 0.27347544, 0, 1)
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_l0m1i"]
+viewport_path = NodePath("SubViewport2")
+
 [sub_resource type="ViewportTexture" id="ViewportTexture_itp21"]
 viewport_path = NodePath("SubViewport")
 
@@ -29,7 +33,7 @@ viewport_path = NodePath("SubViewport")
 transform = Transform3D(0.9121746, 0, 0, 0, 1, 0, 0, 0, 0.80412024, 0, 0, 0)
 script = ExtResource("1_2tffa")
 Visual = NodePath("SubViewport/CartasBase")
-SpriteDaCarta = NodePath("Sprite3D")
+SpriteDaCarta = NodePath("Sprite3D2")
 
 [node name="SubViewport" type="SubViewport" parent="." unique_id=1278667879]
 transparent_bg = true
@@ -41,8 +45,22 @@ render_target_update_mode = 4
 texture_filter = 2
 position = Vector2(72, 100)
 
+[node name="SubViewport2" type="SubViewport" parent="." unique_id=17052723]
+transparent_bg = true
+size = Vector2i(140, 196)
+size_2d_override = Vector2i(495, 303)
+
+[node name="CardUI" parent="SubViewport2" unique_id=831441233 instance=ExtResource("3_l0m1i")]
+custom_minimum_size = Vector2(140, 200.145)
+
+[node name="Sprite3D2" type="Sprite3D" parent="." unique_id=1285875426]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+material_override = SubResource("ShaderMaterial_l0m1i")
+texture = SubResource("ViewportTexture_l0m1i")
+
 [node name="Sprite3D" type="Sprite3D" parent="." unique_id=38909370]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+visible = false
 material_override = SubResource("ShaderMaterial_l0m1i")
 cast_shadow = 2
 gi_mode = 2

@@ -5,7 +5,7 @@ namespace fm{
 	public partial class Carta3d : Node3D
 	{
 		// Arraste o nó CartasBase do Inspetor para esta variável
-		[Export] public CartasBase Visual; 
+		public CardUi CardUI;
 		[Export] public Sprite3D SpriteDaCarta;
 		private float _alturaDaCarta = 5f; // Ajuste para o tamanho real da sua carta em metros
 		private float _velocidadeDeQueima = 1.5f; // segundos
@@ -22,6 +22,7 @@ namespace fm{
 		private Tween _activeTween;
 		public override void _Ready()
 		{
+			CardUI = GetNode<CardUi>("SubViewport2/CardUI");
 			if (SpriteDaCarta != null)
 			{				
 				if (SpriteDaCarta.MaterialOverride is ShaderMaterial mat)
@@ -40,11 +41,12 @@ namespace fm{
 
 		public void Setup(Cards cardId, int slot, bool IsEnemy, bool Facedown, string markerName)
 		{
-			if (Visual != null)
+			if (CardUI != null)
 			{
 				IsFaceDown = Facedown;
-				Visual.DisplayCard(cardId, IsFaceDown);
-				this.carta = Visual.CurrentCard;
+				//Visual.DisplayCard(cardId, IsFaceDown);
+				CardUI.DisplayCard(cardId, IsFaceDown: IsFaceDown);
+				this.carta = cardId;
 				this.slotPlaced = slot;
 				this.IsEnemy = IsEnemy;
 				this.markerName = markerName;
@@ -54,14 +56,14 @@ namespace fm{
 		public void UpdateCard(Cards card)
 		{
 			this.carta = card;
-			Visual.DisplayCard(card, false);
+			CardUI.DisplayCard(card, IsFaceDown: false);
 		}
 		public void SetFaceDown(bool faceDown)
 		{
 			IsFaceDown = faceDown;
-			if (Visual != null)
+			if (CardUI != null)
 			{
-				Visual.DisplayCard(this.carta, IsFaceDown);
+				CardUI.DisplayCard(this.carta, IsFaceDown: IsFaceDown);
 			}
 		}
 		
