@@ -83,7 +83,7 @@ namespace fm{
 								
 		public async Task ConfirmarInvocacaoNoCampo(bool ativaDireto = false, CardUi? card = null)
 		{			
-			_inputState = InputState.None;
+			await ChangeState(InputState.None);
 			var slotDestino = _slots[_indiceCampoSelecionado];
 			var carta3dfield = Tools.PegaNodoCarta3d(slotDestino.Name);
 
@@ -357,12 +357,12 @@ namespace fm{
 			return null;
 		}
 
-		public Task<PlayerIntention> SelecionarSlotTAsync(
+		public async Task<PlayerIntention> SelecionarSlotTAsync(
 			Godot.Collections.Array<Marker3D> slots,
 			bool primeiroTurno = false,
 			bool camIni = false)
 		{
-			_inputState = InputState.BattleSelection;
+			await ChangeState(InputState.BattleSelection);
 			_slots = slots;
 			_indiceCampoSelecionado = 0;
 			PrimeiroTurno = primeiroTurno;
@@ -375,7 +375,7 @@ namespace fm{
 
 			AtualizarPosicaoSeletorParaSlots(slots);
 
-			return _tcsSlot.Task;
+			return await _tcsSlot.Task;
 		}
 
 		private async Task HandleFieldInput(InputEvent e)
@@ -411,20 +411,22 @@ namespace fm{
 			}
 			AtualizarPosicaoSeletorParaSlots(_slots[_indiceCampoSelecionado].Position);
 
-			if (e.IsActionPressed("ui_accept"))
-				await ConfirmarInvocacaoNoCampo();
+			if (e.IsActionReleased("ui_accept"))
+			{
+				GetViewport().SetInputAsHandled();
+				await ConfirmarInvocacaoNoCampo();				
+			}
 
 			if (e.IsActionPressed("ui_cancel"))
 			{
-				_inputState = InputState.FaceSelection;
-				await SairDoCampo();
+				await ChangeState(InputState.HandSelection);
+				return;
 			}
 		}
 
 		private async Task SairDoCampo()
 		{
-			_inputState = InputState.FaceSelection;
-
+			
 			await Tools.TransitionTo(CameraHand, 0.5f, _transitionCam, STOP);
 
 			await CancelarSelecaoNoCampo();
@@ -435,23 +437,22 @@ namespace fm{
 			GD.Print($"Input recebido no estado: {_inputState}");
 			if(_processandoInput) return;
 
-			_processandoInput = true;			
+			_processandoInput = true;
 
-			if (_inputState == InputState.HandSelection)
+			switch (_inputState)
 			{
-				await HandSelectionInputHandler(@event);
-			}
-			if(_inputState == InputState.FaceSelection)
-			{
-				await FaceSelectionInputHandler(@event);
-			}
-			if(_inputState == InputState.FieldSelection)
-			{
-				await HandleFieldInput(@event);
-			}
-			if(_inputState == InputState.BattleSelection)
-			{
-				HandleBattlePhaseInput(@event);
+				case InputState.HandSelection:
+					await HandSelectionInputHandler(@event);
+					break;
+				case InputState.FaceSelection:
+					await FaceSelectionInputHandler(@event);
+					break;
+				case InputState.FieldSelection:
+					await HandleFieldInput(@event);	
+					break;
+				case InputState.BattleSelection:
+					HandleBattlePhaseInput(@event);
+					break;
 			}
 
 			_processandoInput = false;
@@ -473,19 +474,22 @@ namespace fm{
 				IsFaceDown = alvo.IsFaceDown;
 				if (alvo.carta.IsSpell() && alvo.carta.IsFaceDown)
 				{
+					GetViewport().SetInputAsHandled();
 					await ConfirmarInvocacaoNoCampo(true, alvo);
 				}
 				else
 				{
-					_inputState = InputState.FieldSelection;					
+					await ChangeState(InputState.FieldSelection);	
+					return;			
 				}
 			}
 			if (@event.IsActionReleased("ui_cancel"))
 			{
-				_inputState = InputState.HandSelection;
 				await _anim.AnimaCartaParaMao(_indiceSelecionado, true);
 				_cartasSelecionadasParaFusao.Clear();
 				DefineVisibilidade(true);
+				await ChangeState(InputState.HandSelection);
+				return;
 			}
 		}
 
@@ -511,11 +515,14 @@ namespace fm{
 					_cartasSelecionadasParaFusao.Add(carta);
 					DefineVisibilidade(false);
 					DefineVisibildadeIndicadores(true);
-					_inputState = InputState.FaceSelection;					
+					await ChangeState(InputState.FaceSelection);		
+					return;	
 				}
 				if(_cartasSelecionadasParaFusao.Count() > 1)
 				{
-					_inputState = InputState.FieldSelection;
+					GetViewport().SetInputAsHandled();
+					await ChangeState(InputState.FieldSelection);
+					return;
 				}
 			}
 		}
@@ -787,7 +794,7 @@ namespace fm{
 		public async Task<FusionResult> AguardarConfirmacaoJogadaAsync()
 		{
 			_tcsCarta = new TaskCompletionSource<FusionResult>();
-			_inputState = InputState.HandSelection;
+			await ChangeState(InputState.HandSelection);
 			_slots = FiltraSlot(aliado: true);
 			
 			// O código aqui fica "parado" até que ConfirmarInvocacaoNoCampo() seja chamado
@@ -795,5 +802,26 @@ namespace fm{
 			//depois de confirmado, setamos a task, e aqui precisamos começar as animações de mover para o centro novamente e em sequência definir qual a guardian star
 			return resultado;
 		}					
+
+		public async Task ChangeState(InputState novoEstado)
+		{
+ 			await ToSignal(GetTree(), "process_frame");
+			if (_inputState == novoEstado)
+				return;
+
+			// EXIT do estado atual (opcional futuramente)
+
+			GetViewport().SetInputAsHandled();
+			_inputState = novoEstado;
+
+			switch (novoEstado)
+			{	
+				case InputState.HandSelection:
+					await SairDoCampo();
+					DefineVisibildadeIndicadores(false);
+					break;
+			}
+		}
+
 	}
 }
