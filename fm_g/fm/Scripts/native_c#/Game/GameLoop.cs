@@ -135,9 +135,9 @@ namespace fm
 				var car = MaoDoJogador.Tools.PegaSlotByMarker(idEscolhido.WorldPos);
 				_gameState.CurrentPlayer.Field.placeCard(car, cardData, true, idEscolhido.IsFaceDown, _gameState.CurrentPlayer.IsEnemy);								
 				_gameState.CurrentPlayer.DiscardUsedCard(idEscolhido.CardsUsed.Select(x => x.Id).ToList());				
-				await MaoDoJogador.Tools.TransitionTo(CameraField, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);			
 				_gameState.Player1.Field.DrawFieldState();
 				_gameState.Player2.Field.DrawFieldState();					
+				await MaoDoJogador.Tools.TransitionTo(CameraField, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);			
 			}
 			_gameState.AdvancePhase();
 		}
@@ -212,20 +212,31 @@ namespace fm
 					GD.Print("no mundo perfeito ativamos spell do campo aqui");
 					GD.Print("Selecionando alvo da spell...");
 
+					var equip3d = MaoDoJogador.Tools.PegaNodoCarta3d(slotAtacante.WorldPos);
 					if (minhaSpell.Card != null && minhaSpell.Card.IsEquip())
 					{
 						var slotsValidos = MaoDoJogador.FiltraSlot(aliadoM: true);
-						var alvoSpell = await MaoDoJogador.SelecionarSlotTAsync(slotsValidos);
-
-						if (alvoSpell.ValidIntention())
-						{
-							GD.Print($"Spell ativada em: {alvoSpell.WorldPos}");				
-							var equip3d = MaoDoJogador.Tools.PegaNodoCarta3d(slotAtacante.WorldPos);
-							var equipSelecionado = MaoDoJogador.CriarCartaFusao(equip3d.CardUI);
-						    await MaoDoJogador.ConfirmarSpellNoCampo(card:equipSelecionado);
-							equip3d.QueueFree();
-						}						
+						if(equip3d != null && equip3d.carta.IsEquip())
+						{						
+							var alvoSpell = await MaoDoJogador.SelecionarSlotTAsync(slotsValidos);
+							if (alvoSpell.ValidIntention())
+							{
+								GD.Print($"Spell ativada em: {alvoSpell.WorldPos}");				
+								if(equip3d != null && equip3d.carta.IsEquip())
+								{
+									var equipSelecionado = MaoDoJogador.CriarCartaFusao(equip3d.CardUI);
+									await MaoDoJogador.ConfirmarSpellNoCampo(card:equipSelecionado);							
+								}
+							}						
+						}
 					}
+					if(equip3d != null && equip3d.carta.IsSpell())
+					{
+						await MaoDoJogador.Tools.TransitionTo(CameraHand, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);
+						await equip3d.CardUI.AtivaSpellAnimation(MaoDoJogador._anim.ScrenCenter());
+						await MaoDoJogador.Tools.TransitionTo(CameraField, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);
+					}
+					equip3d.QueueFree();
 					continue;
 				}
 

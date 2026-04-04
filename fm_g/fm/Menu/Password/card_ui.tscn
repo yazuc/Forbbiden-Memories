@@ -42,10 +42,10 @@ metadata/_edit_use_anchors_ = true
 [node name="TextureRect" type="TextureRect" parent="TextureRect" unique_id=708698920]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.12895644
-anchor_top = 0.24830863
-anchor_right = 0.86045074
-anchor_bottom = 0.74661505
+anchor_left = 0.1247357
+anchor_top = 0.25155744
+anchor_right = 0.8675647
+anchor_bottom = 0.7377134
 texture = SubResource("AtlasTexture_f0iew")
 metadata/_edit_use_anchors_ = true
 

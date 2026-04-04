@@ -90,6 +90,11 @@ namespace fm
 			}
 		}
 
+		public void RealizaMainPhase()
+		{
+			
+		}
+
 
 		public void AdvancePhase()
 		{
