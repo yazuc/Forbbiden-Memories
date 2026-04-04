@@ -114,7 +114,7 @@ namespace fm{
 				var tipo = resultadoFusao.MainCard.Type;
 				if(ativaDireto || resultadoFusao.MainCard.IsSpellTrap() && !ativaDireto && !IsFaceDown)
 				{
-					CartaSTAction(card, resultadoFusao);
+					await CartaSTAction(card, resultadoFusao);
 					return;
 				}
 
@@ -467,7 +467,7 @@ namespace fm{
 				_slots = DefineSlotagem(alvo.carta.Type);
 				DefineVisibildadeIndicadores(false);
 				IsFaceDown = alvo.IsFaceDown;
-				if (alvo.carta.IsSpell() && !alvo.carta.IsFaceDown)
+				if (alvo.carta.IsSpell() && alvo.carta.IsFaceDown)
 				{
 					GetViewport().SetInputAsHandled();
 					await ConfirmarInvocacaoNoCampo(true, alvo);
