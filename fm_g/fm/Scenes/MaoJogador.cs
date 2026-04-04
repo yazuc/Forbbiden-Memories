@@ -828,9 +828,6 @@ namespace fm{
 			var resultado = await _tcsCarta.Task;
 			//depois de confirmado, setamos a task, e aqui precisamos começar as animações de mover para o centro novamente e em sequência definir qual a guardian star
 			return resultado;
-		}
-		
-
-			
+		}					
 	}
 }

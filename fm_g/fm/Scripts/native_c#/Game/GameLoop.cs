@@ -110,33 +110,21 @@ namespace fm
 			GD.Print($"--- {_gameState.CurrentPlayer.Name}'s {_gameState.CurrentPhase} Enemy? {_gameState.CurrentPlayer.IsEnemy}---");					
  			await MaoDoJogador.AtualizarMao(_gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList());   
 			_gameState.CurrentPhase = TurnPhase.Main1;
-			GD.Print("Aguardando jogador selecionar uma carta...");
 			if(_gameState.CurrentPlayer.IsEnemy)
 			{
 				MaoDoJogador._selecionandoLocal = true;				
 				if(_aiPlayer.SelectCardToPlay(_gameState.CurrentPlayer, _gameState) is AIMove cardToPlay)
 				{
 					var result = await MaoDoInimigo.RealizarJogadaIA(cardToPlay, cardToPlay.FaceUP);
-					
-					var cardData = result.MainCard;	
-					var car = MaoDoJogador.Tools.PegaSlotByMarker(result.WorldPos);
-					_gameState.CurrentPlayer.Field.placeCard(car, cardData, true, result.IsFaceDown, _gameState.CurrentPlayer.IsEnemy);								
-					_gameState.CurrentPlayer.DiscardUsedCard(result.CardsUsed.Select(x => x.Id).ToList());				
+					_gameState.RealizaMainPhase(result);
 					await MaoDoJogador.Tools.TransitionTo(CameraField, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);			
-					_gameState.Player1.Field.DrawFieldState();
-					_gameState.Player2.Field.DrawFieldState();	
 				}		
 				MaoDoJogador._selecionandoLocal = false;
 			}
 			else
 			{
-				FusionResult idEscolhido = await MaoDoJogador.AguardarConfirmacaoJogadaAsync(); 							
-				var cardData = idEscolhido.MainCard;	
-				var car = MaoDoJogador.Tools.PegaSlotByMarker(idEscolhido.WorldPos);
-				_gameState.CurrentPlayer.Field.placeCard(car, cardData, true, idEscolhido.IsFaceDown, _gameState.CurrentPlayer.IsEnemy);								
-				_gameState.CurrentPlayer.DiscardUsedCard(idEscolhido.CardsUsed.Select(x => x.Id).ToList());				
-				_gameState.Player1.Field.DrawFieldState();
-				_gameState.Player2.Field.DrawFieldState();					
+				FusionResult idEscolhido = await MaoDoJogador.AguardarConfirmacaoJogadaAsync();
+				_gameState.RealizaMainPhase(idEscolhido); 															
 				await MaoDoJogador.Tools.TransitionTo(CameraField, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);			
 			}
 			_gameState.AdvancePhase();

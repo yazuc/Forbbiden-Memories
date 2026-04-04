@@ -1,5 +1,6 @@
 using QuickType;
 using Godot;
+using static fm.Function;
 
 namespace fm
 {
@@ -90,9 +91,13 @@ namespace fm
 			}
 		}
 
-		public void RealizaMainPhase()
+		public void RealizaMainPhase(FusionResult play)
 		{
-			
+			var cardData = play.MainCard;	
+			CurrentPlayer.Field.placeCard(play);								
+			CurrentPlayer.DiscardUsedCard(play.CardsUsed.Select(x => x.Id).ToList());				
+			Player1.Field.DrawFieldState();
+			Player2.Field.DrawFieldState();	
 		}
 
 

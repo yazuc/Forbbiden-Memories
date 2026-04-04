@@ -1,6 +1,8 @@
 using QuickType;
 using Godot;
 using System;
+using static fm.Function;
+using System.Text.RegularExpressions;
 
 namespace fm
 {
@@ -70,13 +72,13 @@ namespace fm
 			}
 		}
 		
-		public bool placeCard(int idField, Cards card, bool isAttackMode = true, bool isFaceDown = false, bool ini = false)
+		public bool placeCard(FusionResult play)
 		{
-			if(idField == -1) return false;
-			if (!card.IsSpellTrap())
-				return PlaceMonster(idField, card, isAttackMode, isFaceDown, ini);
+			if(play.WorldPos == "") return false;
+			if (!play.MainCard.IsSpellTrap())
+				return PlaceMonster(play);
 			else
-				return PlaceSpellTrap(idField, card, isFaceDown); 		
+				return PlaceSpellTrap(play); 		
 		}
 		
 		public void BotaDeLadinho(string ID, bool DeLadinho)
@@ -95,36 +97,37 @@ namespace fm
 			}
 		}
 		
-		public bool PlaceMonster(int idField, Cards card, bool isAttackMode = true, bool isFaceDown = false, bool ini = false)
+		public bool PlaceMonster(FusionResult Play)
 		{
-			int zoneIndex = idField;
+			int zoneIndex =  int.Parse(Regex.Match(Play.WorldPos, @"\d+").Value) - 1; 
 			if (zoneIndex < 0 || zoneIndex >= MONSTER_ZONES)
 				return false;
 
 			MonsterZones[zoneIndex] = new FieldMonster 
 			{ 
-				zoneName = ini ?  $"Carta{zoneIndex + 1}IniM" : $"Carta{zoneIndex + 1}M",
+				zoneName = Play.WorldPos,
 				zoneIndex = zoneIndex,
-				Card = card, 
-				IsAttackMode = isAttackMode,
-				IsFaceDown = isFaceDown,
+				Card = Play.MainCard, 
+				IsAttackMode = true,
+				IsFaceDown = Play.IsFaceDown,
 				TurnsOnField = 0
 				
 			};
 			return true;
 		}
 
-		public bool PlaceSpellTrap(int idField, Cards card, bool isFaceDown = false, bool ini = false)
+		public bool PlaceSpellTrap(FusionResult Play)
 		{
-			int zoneIndex = idField;
+			int zoneIndex = int.Parse(Regex.Match(Play.WorldPos, @"\d+").Value) - 1; 
 			if (zoneIndex < 0 || zoneIndex >= SPELL_TRAP_ZONES  )
 				return false;
 
 			SpellTrapZones[zoneIndex] = new FieldSpellTrap 
 			{ 
-				zoneName = ini ?  $"Carta{zoneIndex + 1}IniS" : $"Carta{zoneIndex + 1}S",
-				Card = card, 
-				IsFaceDown = isFaceDown
+				zoneName = Play.WorldPos,
+				zoneIndex = zoneIndex,
+				Card = Play.MainCard, 
+				IsFaceDown = Play.IsFaceDown
 			};
 			return true;
 		}
@@ -172,6 +175,7 @@ namespace fm
 
 	public class FieldSpellTrap
 	{
+		public int zoneIndex { get; set; }
 		public string zoneName {get;set;}
 		public Cards? Card { get; set; }
 		public bool IsFaceDown { get; set; }
