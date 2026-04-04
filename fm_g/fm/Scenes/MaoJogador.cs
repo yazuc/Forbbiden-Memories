@@ -58,123 +58,15 @@ namespace fm{
 			Tools._cartasInstanciadas = _cartasInstanciadas;
 		}
 
-		public async override void _Process(double delta)
+		public override void _Process(double delta)
 		{			
 			float speed = 8.0f;
 			Vector2 newScale = Scale;
 			newScale.Y = Mathf.Sin(Time.GetTicksMsec() * 0.001f * speed);
 			if(IsInstanceValid(IndicadorTriangulo))
 			IndicadorTriangulo.Scale = newScale;		
-		}
-		
-		private async void ExecutarNavegacao()
-		{
-			_processandoInput = true;
-			await HandleNavigation();
-			_processandoInput = false;
-			//AtualizarPosicaoIndicador();
-		}
-		private async Task HandleNavigation()
-		{
-			if (_bloquearNavegaçãoManual) return;
-			if (MaoControl.CartasNaMaoCount() == 0) return;
+		}			
 
-			if (!_selecionandoLocal) 
-			{				
-				AtualizarPosicaoIndicador();
-				// SELEÇÃO NA MÃO (2D)
-				int anterior = _indiceSelecionado;
-				if(_indiceSelecionado > 4){
-					_indiceSelecionado = 0;
-				}
-				if(_indiceSelecionado < 0){
-					_indiceSelecionado = 4;
-				}
-				if(!STOP){
-					if (Input.IsActionJustPressed("ui_right")) _indiceSelecionado = Mathf.Min(_indiceSelecionado + 1, MaoControl.CartasNaMaoCount() - 1);
-					else if (Input.IsActionJustPressed("ui_left")) _indiceSelecionado = Mathf.Max(_indiceSelecionado - 1, 0);					
-				}
-
-				if (anterior != _indiceSelecionado) AtualizarPosicaoIndicador();
-				
-				// MECÂNICA DE FUSÃO (Cima/Baixo)
-				if(!STOP){
-					var carta = MaoControl.GetCarta(_indiceSelecionado);
-					if (Input.IsActionJustPressed("ui_up")) 
-					{
-						_anim.AlternarSelecaoFusao(carta);
-					}					
-					if (Input.IsActionJustPressed("ui_accept")) 
-					{
-						await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-						if (_cartasSelecionadasParaFusao.Count == 0)
-						{
-							_cartasSelecionadasParaFusao.Add(carta);
-						}
-						try 
-						{
-							// O await vai "explodir" aqui se TrySetCanceled for chamado
-							var alvo = _cartasSelecionadasParaFusao.FirstOrDefault();
-							IsFaceDown = await _anim.AnimaCartaParaCentro(this, _indiceSelecionado);							
-							if(_cartasSelecionadasParaFusao.Count() == 1 && alvo.carta.IsSpell() && !IsFaceDown)
-							{
-								ConfirmarInvocacaoNoCampo(true, alvo);		
-								return;
-							}								
-							else			
-								await EntrarModoSelecaoCampo();
-						}
-						catch (OperationCanceledException) 
-						{
-							// O código cai aqui IMEDIATAMENTE quando aperta ui_cancel
-							
-							if (_cartasSelecionadasParaFusao.Any()) {
-								await _anim.AnimaCartaParaMao(_indiceSelecionado, true);								
-							}
-						}
-					}
-				}
-			}
-			else 
-			{				
-				ControlarSelecaoDeCampo();
-				if(!STOP){
-					if (Input.IsActionJustPressed("ui_accept")) 
-					{
-						await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-						ConfirmarInvocacaoNoCampo();						
-					}
-					
-					if (Input.IsActionJustPressed("ui_cancel")) 
-					{					
-						await Tools.TransitionTo(CameraHand, 0.5f, _transitionCam, STOP);
-						await SairModoSelecaoCampo();
-					}					
-				}
-			}
-			return;
-		}		
-
-		private async Task EntrarModoSelecaoCampo()
-		{			
-			var cartaui = _cartasSelecionadasParaFusao.FirstOrDefault();
-			if(cartaui == null) return;
-
-			if(_cartasSelecionadasParaFusao.Count() == 1)
-			{
-				if(cartaui != null)
-					await _anim.AnimaCartaParaMao(_indiceSelecionado);
-			}
-			_selecionandoLocal = true;
-			_indiceCampoSelecionado = 0; // Começa no primeiro slot								
-			if (_instanciaSeletor != null)
-			{				
-				AtualizarPosicaoSeletor3D(SlotsCampo, cartaui.carta.Type);
-				_instanciaSeletor.Visible = true;
-				await Tools.TransitionTo(CameraField, 0.5f, _transitionCam, STOP);
-			}
-		}
-		
 		public async Task CancelarSelecaoNoCampo()
 		{
 						
@@ -188,51 +80,14 @@ namespace fm{
 			}						
 			_cartasSelecionadasParaFusao.Clear();
 		}
-		private void ControlarSelecaoDeCampo()
-		{
-			int anterior = _indiceCampoSelecionado;
-			if(!STOP){			
-				if (Input.IsActionJustPressed("ui_right"))
-					_indiceCampoSelecionado = Mathf.Min(_indiceCampoSelecionado + 1, SlotsCampo.Count - 1);
-				
-				if (Input.IsActionJustPressed("ui_left"))
-					_indiceCampoSelecionado = Mathf.Max(_indiceCampoSelecionado - 1, 0);
-			}
-
-			if (anterior != _indiceCampoSelecionado)
-			{
-				AtualizarPosicaoSeletor3D(SlotsCampo, _cartasSelecionadasParaFusao.FirstOrDefault().carta.Type);
-			}
-		}		
-						
-
-		private void AtualizarPosicaoSeletor3D(Godot.Collections.Array<Marker3D> slots, CardTypeEnum tipo)
-		{
-			if (_instanciaSeletor == null || slots == null || slots.Count == 0)
-			{
-				return;
-			}
-				
-			if(_cartasSelecionadasParaFusao.Count() == 1){
-				_slots = DefineSlotagem(tipo);
-			}
-			else
-			{
-				_slots = DefineSlotagem(CardTypeEnum.Dragon);
-			}
-			var slotDestino = _slots[_indiceCampoSelecionado];			
-			Tween tween = GetTree().CreateTween();
-			tween.TweenProperty(_instanciaSeletor, "global_position", slotDestino.GlobalPosition + new Vector3(0, 0.05f, 0), 0.05f);
-			_instanciaSeletor.GlobalRotation = slotDestino.GlobalRotation;
-		}
-		
-		public async void ConfirmarInvocacaoNoCampo(bool ativaDireto = false, CardUi? card = null)
+								
+		public async Task ConfirmarInvocacaoNoCampo(bool ativaDireto = false, CardUi? card = null)
 		{			
-			
+			_inputState = InputState.None;
 			var slotDestino = _slots[_indiceCampoSelecionado];
 			var carta3dfield = Tools.PegaNodoCarta3d(slotDestino.Name);
 
-			if(carta3dfield != null && _selecionandoLocal)
+			if(carta3dfield != null && _inputState.Equals(InputState.None))
 			{
 				RefFusao = CriarCartaFusao(carta3dfield.CardUI);	
 				var camera = GetViewport().GetCamera3D();
@@ -278,7 +133,11 @@ namespace fm{
 				{
 					if(carta3dfield != null)
 					{
+						MaoControl.SeletorGuardian.Setup(resultadoFusao.MainCard);
 						carta3dfield.UpdateCard(resultadoFusao.MainCard);
+						STOP = true;
+						await MaoControl.AllowGuardian(resultadoFusao.MainCard);
+						STOP = false;
 						gameLoop._gameState.CurrentPlayer.Field.UpdateMonster(resultadoFusao.MainCard, slotDestino.Name);
 					}
 					else
@@ -359,7 +218,7 @@ namespace fm{
 			}
 		}
 
-		public async void CartaSTAction(CardUi card, FusionResult resultadoFusao)
+		public async Task CartaSTAction(CardUi card, FusionResult resultadoFusao)
 		{
 			_bloquearNavegaçãoManual = true;
 
@@ -475,7 +334,7 @@ namespace fm{
 			}			
 		}
 		
-		private void AtualizarPosicaoIndicador()
+		private CardUi AtualizarPosicaoIndicador()
 		{
 			if (IndicadorTriangulo != null)
 			{				
@@ -491,8 +350,11 @@ namespace fm{
 						.SetEase(Tween.EaseType.Out);
 					if(carta != null && carta.carta != null)
 						MaoControl.DefineInfo(carta.carta);					
+					
+					return carta;
 				}
 			}
+			return null;
 		}
 
 		public Task<PlayerIntention> SelecionarSlotTAsync(
@@ -500,6 +362,7 @@ namespace fm{
 			bool primeiroTurno = false,
 			bool camIni = false)
 		{
+			_inputState = InputState.BattleSelection;
 			_slots = slots;
 			_indiceCampoSelecionado = 0;
 			PrimeiroTurno = primeiroTurno;
@@ -515,45 +378,154 @@ namespace fm{
 			return _tcsSlot.Task;
 		}
 
-		private async void IniciarSelecaoCampo()
+		private async Task HandleFieldInput(InputEvent e)
 		{
-			_inputState = InputState.FieldSelection;
-
-			_selecionandoLocal = true;
-			_indiceCampoSelecionado = 0;
-
 			_instanciaSeletor.Visible = true;
-
-			await Tools.TransitionTo(CameraField, 0.5f, _transitionCam, STOP);
-		}
-
-		private void HandleFieldInput(InputEvent e)
-		{
-			ProcessarNavegacao3D(_slots, _camIni);
+			await Tools.TransitionTo(CameraField, 0.5f, _transitionCam, STOP);		
+			STOP = false;		
+			if (e.IsActionPressed("ui_right"))
+			{
+				if(_indiceCampoSelecionado < _slots.Count - 1)
+				_indiceCampoSelecionado++;
+			}
+			if (e.IsActionPressed("ui_left"))
+			{
+				if(_indiceCampoSelecionado > 0)
+					_indiceCampoSelecionado--;					
+			}
+			if(e.IsActionPressed("ui_up"))
+			{					
+					_indiceCampoSelecionado = Mathf.Clamp(
+						_indiceCampoSelecionado - 5,
+						0,
+						_slots.Count - 1
+					);
+			}
+			if(e.IsActionPressed("ui_down"))
+			{
+					_indiceCampoSelecionado = Mathf.Clamp(
+							_indiceCampoSelecionado + 5,
+							0,
+							_slots.Count - 1
+						);												
+			}
+			AtualizarPosicaoSeletorParaSlots(_slots[_indiceCampoSelecionado].Position);
 
 			if (e.IsActionPressed("ui_accept"))
-				ConfirmarInvocacaoNoCampo();
+				await ConfirmarInvocacaoNoCampo();
 
 			if (e.IsActionPressed("ui_cancel"))
-				SairDoCampo();
+			{
+				_inputState = InputState.FaceSelection;
+				await SairDoCampo();
+			}
 		}
 
-		private async void SairDoCampo()
+		private async Task SairDoCampo()
 		{
-			_inputState = InputState.HandSelection;
+			_inputState = InputState.FaceSelection;
 
 			await Tools.TransitionTo(CameraHand, 0.5f, _transitionCam, STOP);
 
 			await CancelarSelecaoNoCampo();
 		}
 
+		public override async void _UnhandledInput(InputEvent @event)
+		{
+			GD.Print($"Input recebido no estado: {_inputState}");
+			if(_processandoInput) return;
 
-		public override void _UnhandledInput(InputEvent @event)
+			_processandoInput = true;			
+
+			if (_inputState == InputState.HandSelection)
+			{
+				await HandSelectionInputHandler(@event);
+			}
+			if(_inputState == InputState.FaceSelection)
+			{
+				await FaceSelectionInputHandler(@event);
+			}
+			if(_inputState == InputState.FieldSelection)
+			{
+				await HandleFieldInput(@event);
+			}
+			if(_inputState == InputState.BattleSelection)
+			{
+				HandleBattlePhaseInput(@event);
+			}
+
+			_processandoInput = false;
+		}
+		public async Task FaceSelectionInputHandler(InputEvent @event)
+		{
+			var alvo = _cartasSelecionadasParaFusao.FirstOrDefault();
+			if(@event.IsActionReleased("ui_left") || @event.IsActionReleased("ui_right"))
+			{
+				if (IsInstanceValid(alvo))
+				{
+					await alvo.FlipCard(!alvo.IsFaceDown);
+				}
+			}
+			if (@event.IsActionReleased("ui_accept"))
+			{
+				_slots = DefineSlotagem(alvo.carta.Type);
+				DefineVisibildadeIndicadores(false);
+				IsFaceDown = alvo.IsFaceDown;
+				if (alvo.carta.IsSpell() && alvo.carta.IsFaceDown)
+				{
+					await ConfirmarInvocacaoNoCampo(true, alvo);
+				}
+				else
+				{
+					_inputState = InputState.FieldSelection;					
+				}
+			}
+			if (@event.IsActionReleased("ui_cancel"))
+			{
+				_inputState = InputState.HandSelection;
+				await _anim.AnimaCartaParaMao(_indiceSelecionado, true);
+				_cartasSelecionadasParaFusao.Clear();
+				DefineVisibilidade(true);
+			}
+		}
+
+		public async Task HandSelectionInputHandler(InputEvent @event)
+		{
+			GD.Print("Input na mão");
+			
+			if (@event.IsActionPressed("ui_right")) _indiceSelecionado = Mathf.Min(_indiceSelecionado + 1, MaoControl.CartasNaMaoCount() - 1);
+			else if (@event.IsActionPressed("ui_left")) _indiceSelecionado = Mathf.Max(_indiceSelecionado - 1, 0);		
+
+			var carta = AtualizarPosicaoIndicador();
+
+			if (@event.IsActionPressed("ui_up") || @event.IsActionPressed("ui_down"))
+			{
+				_anim.AlternarSelecaoFusao(carta);
+			}
+
+			if (@event.IsActionPressed("ui_accept"))
+			{
+				if(_cartasSelecionadasParaFusao.Count() == 0)
+				{
+					await _anim.AnimaCartaParaCentro(carta, _indiceSelecionado, this);
+					_cartasSelecionadasParaFusao.Add(carta);
+					DefineVisibilidade(false);
+					DefineVisibildadeIndicadores(true);
+					_inputState = InputState.FaceSelection;					
+				}
+				if(_cartasSelecionadasParaFusao.Count() > 1)
+				{
+					_inputState = InputState.FieldSelection;
+				}
+			}
+		}
+
+		public void HandleBattlePhaseInput(InputEvent @event)
 		{			
 			if (_tcsSlot == null || _tcsSlot.Task.IsCompleted)
 				return;
 
-			ProcessarNavegacao();
+			ProcessarNavegacao(@event);
 
 			if (STOP)
 				return;
@@ -580,17 +552,12 @@ namespace fm{
 				tween.TweenProperty(_instanciaSeletor, "global_position", slotDestino.GlobalPosition + new Vector3(0, 0.05f, 0), 0.05f);
 				_instanciaSeletor.GlobalRotation = slotDestino.GlobalRotation;				
 			}
-		}			
-		
-		public CardTypeEnum PegaTipoPorId(int id)
+		}		
+		private void AtualizarPosicaoSeletorParaSlots(Vector3 position)
 		{
-			var db = CardDatabase.Instance;
-			var card = db.GetCardById(id);
-			if(card != null)
-				return card.Type;
-				
-			return CardTypeEnum.Indefinido;
-		}
+			Tween tween = GetTree().CreateTween();
+			tween.TweenProperty(_instanciaSeletor, "global_position", position + new Vector3(0, 0.05f, 0), 0.05f);			
+		}				
 		
 		public Godot.Collections.Array<Marker3D> DefineSlotagem(CardTypeEnum tipo)
 		{
@@ -709,36 +676,30 @@ namespace fm{
 		}
 
 
-		void ProcessarNavegacao()
+		void ProcessarNavegacao(InputEvent e)
 		{
 			int anterior = _indiceCampoSelecionado;
 
-			ProcessarNavegacao3D(_slots, _camIni);
+			ProcessarNavegacao3D(_slots, e);
 
 			if (anterior != _indiceCampoSelecionado)
 				AtualizarPosicaoSeletorParaSlots(_slots);
 		}
 				
-		public void ProcessarNavegacao3D(Godot.Collections.Array<Marker3D> slots, bool camIni){
-			int dir = camIni ? -1 : 1;		
+		public void ProcessarNavegacao3D(Godot.Collections.Array<Marker3D> slots, InputEvent e){
 			if(!STOP){
-				if (Input.IsActionJustPressed("ui_right"))
+				if (e.IsActionPressed("ui_right"))
 				{
-					_indiceCampoSelecionado = Mathf.Clamp(
-								_indiceCampoSelecionado + dir,
-								0,
-								slots.Count - 1
-							);
+					if(_indiceCampoSelecionado < slots.Count - 1)
+						_indiceCampoSelecionado++;
+					GD.Print("up is called");
 				}
-				if (Input.IsActionJustPressed("ui_left"))
+				if (e.IsActionPressed("ui_left"))
 				{
-					_indiceCampoSelecionado = Mathf.Clamp(
-							_indiceCampoSelecionado - dir,
-							0,
-							slots.Count - 1
-						);
+					if(_indiceCampoSelecionado > 0)
+						_indiceCampoSelecionado--;	
 				}
-				if(Input.IsActionJustPressed("ui_up"))
+				if(e.IsActionPressed("ui_up"))
 				{					
 					 _indiceCampoSelecionado = Mathf.Clamp(
 							_indiceCampoSelecionado - 5,
@@ -746,7 +707,7 @@ namespace fm{
 							slots.Count - 1
 						);
 				}
-				if(Input.IsActionJustPressed("ui_down"))
+				if(e.IsActionPressed("ui_down"))
 				{
 					 _indiceCampoSelecionado = Mathf.Clamp(
 								_indiceCampoSelecionado + 5,
@@ -754,10 +715,10 @@ namespace fm{
 								slots.Count - 1
 							);												
 				}
+				AtualizarPosicaoSeletorParaSlots(slots[_indiceCampoSelecionado].Position);
 			}								
 		}			
-	
-		
+			
 		public IndicadorSeta CriarSetaPersonalizada(Vector2 alvo, bool direita = false)
 		{
 			if(indicadorSetaEsquerda != null && !direita)
@@ -788,8 +749,16 @@ namespace fm{
 		
 		public void DefineVisibilidade(bool sinal)
 		{
-			Visible = sinal;
-			IndicadorTriangulo.Visible = sinal;
+			//Visible = sinal;
+			IndicadorTriangulo.Visible = sinal;	
+		}
+		public void DefineVisibildadeIndicadores(bool sinal)
+		{
+			if(indicadorSetaDireita != null && indicadorSetaEsquerda != null)
+			{
+				indicadorSetaDireita.Visible = sinal;
+				indicadorSetaEsquerda.Visible = sinal;
+			}
 		}
 		
 		public void ConfigurarSlots(
@@ -818,6 +787,7 @@ namespace fm{
 		public async Task<FusionResult> AguardarConfirmacaoJogadaAsync()
 		{
 			_tcsCarta = new TaskCompletionSource<FusionResult>();
+			_inputState = InputState.HandSelection;
 			_slots = FiltraSlot(aliado: true);
 			
 			// O código aqui fica "parado" até que ConfirmarInvocacaoNoCampo() seja chamado

@@ -180,6 +180,46 @@ namespace fm{
 			Vector3 pos = CalculaCentro3D(cameraHand);
 			
 		}	
+		public async Task AnimaCartaParaCentro(CardUi nodoAlvo, int _indiceSelecionado, MaoJogador maoJogador)
+		{
+			if(_cartasSelecionadasParaFusao.Count() > 1) return;
+			
+			var viewport = GetViewport();			
+			Vector2 screenCenter = viewport.GetVisibleRect().Size / 2f;
+			
+			if(nodoAlvo == null) 
+			{
+				return;
+			}
+			nodoAlvo.EscondeLabel();
+			bool IsFaceDown = !nodoAlvo.carta.IsSpellTrap();
+
+			nodoAlvo.PositionInHand = nodoAlvo.GlobalPosition;
+			nodoAlvo.Visible = true;
+			nodoAlvo.Reparent(this,true);
+			MaoControl.ReparentGhost(_indiceSelecionado);
+
+			Vector2 halfSize = nodoAlvo.Size * nodoAlvo.Scale / 2f;
+			Vector2 targetGlobalPos = screenCenter - halfSize;
+			
+			Tween tween = GetTree().CreateTween();
+			tween.TweenProperty(nodoAlvo, "global_position", targetGlobalPos, 0.2f)
+				 .SetTrans(Tween.TransitionType.Sine)
+				 .SetEase(Tween.EaseType.Out);
+
+			await ToSignal(tween, "finished");
+
+			if(!nodoAlvo.carta.IsSpellTrap())
+				await nodoAlvo.FlipCard(IsFaceDown);
+				
+			var instancia = maoJogador.CriarSetaPersonalizada(screenCenter + new Vector2(100,-20));
+			var instancia2 = maoJogador.CriarSetaPersonalizada(screenCenter + new Vector2(-100,-20), true);
+			
+			nodoAlvo.PivotOffset = new Vector2(70f, 0);
+		
+			instancia.Visible = false;
+			instancia2.Visible = false;
+		}
 
 		public async Task<bool> AnimaCartaParaCentro(MaoJogador maoJogador, int _indiceSelecionado)
 		{

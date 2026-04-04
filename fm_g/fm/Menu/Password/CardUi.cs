@@ -26,6 +26,7 @@ public partial class CardUi : Control
 	public Vector2 PositionInHand {get;set;}
 	public TextureRect CartaArte {get;set;}
 	public TextureRect CartaFrame {get;set;}
+	public bool IsFaceDown {get;set;}
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{		
@@ -157,6 +158,7 @@ public partial class CardUi : Control
 
 	public async Task FlipCard(bool targetFaceDown, float duration = 0.3f, float customScale = 1.0f)
 	{
+		IsFaceDown = targetFaceDown;
 		// 1. Criamos o Tween
 		Tween tween = GetTree().CreateTween();
 		PivotOffset = new Vector2(Size.X / 2, Size.Y / 2);
