@@ -323,7 +323,9 @@ namespace fm{
 			
 			if(_cartasSelecionadasParaFusao.Count() > 1)
 			{
+				await Tools.TransitionTo(CameraHand, 0.5f, _transitionCam, STOP);
 				await _anim.AnimaFusao(resultadoFusao);
+				await Tools.TransitionTo(CameraField, 0.5f, _transitionCam, STOP);
 			}
 				
 			resultadoFusao.IsFaceDown = IsFaceDown;

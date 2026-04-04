@@ -111,6 +111,8 @@ public partial class Mao : Control
 
 	public async Task AllowGuardian(Cards card)
 	{
+		if(card.IsSpellTrap()) return;
+		
 		//SeletorGuardian.Setup(card);
 		await AnimateInterface(sobe: false);
 		SeletorGuardian.Visible = true;
