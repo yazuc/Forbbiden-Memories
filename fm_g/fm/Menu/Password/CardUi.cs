@@ -26,7 +26,7 @@ public partial class CardUi : Control
 	public Vector2 PositionInHand {get;set;}
 	public TextureRect CartaArte {get;set;}
 	public TextureRect CartaFrame {get;set;}
-	public bool IsFaceDown {get;set;}
+	public bool IsFaceDown {get;set;} = false;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{		

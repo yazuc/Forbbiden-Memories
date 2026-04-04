@@ -459,6 +459,7 @@ namespace fm{
 			{
 				if (IsInstanceValid(alvo))
 				{
+					GD.Print(alvo.IsFaceDown);
 					await alvo.FlipCard(!alvo.IsFaceDown);
 				}
 			}
@@ -467,7 +468,7 @@ namespace fm{
 				_slots = DefineSlotagem(alvo.carta.Type);
 				DefineVisibildadeIndicadores(false);
 				IsFaceDown = alvo.IsFaceDown;
-				if (alvo.carta.IsSpell() && alvo.carta.IsFaceDown)
+				if (alvo.carta.IsSpell() && !alvo.carta.IsFaceDown)
 				{
 					GetViewport().SetInputAsHandled();
 					await ConfirmarInvocacaoNoCampo(true, alvo);
