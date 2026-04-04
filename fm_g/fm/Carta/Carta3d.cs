@@ -44,7 +44,6 @@ namespace fm{
 			if (CardUI != null)
 			{
 				IsFaceDown = Facedown;
-				//Visual.DisplayCard(cardId, IsFaceDown);
 				CardUI.DisplayCard(cardId, IsFaceDown: IsFaceDown);
 				this.carta = cardId;
 				this.slotPlaced = slot;

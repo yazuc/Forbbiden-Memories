@@ -221,7 +221,7 @@ namespace fm
 						{
 							GD.Print($"Spell ativada em: {alvoSpell.WorldPos}");				
 							var equip3d = MaoDoJogador.Tools.PegaNodoCarta3d(slotAtacante.WorldPos);
-							var equipSelecionado = MaoDoJogador.CriarCartaFusao(equip3d.carta);
+							var equipSelecionado = MaoDoJogador.CriarCartaFusao(equip3d.CardUI);
 						    await MaoDoJogador.ConfirmarSpellNoCampo(card:equipSelecionado);
 							equip3d.QueueFree();
 						}						

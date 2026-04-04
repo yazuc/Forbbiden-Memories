@@ -238,7 +238,10 @@ namespace fm{
 
 			if(carta3dfield != null && _selecionandoLocal)
 			{
-				RefFusao = CriarCartaFusao(carta3dfield.carta);
+				RefFusao = CriarCartaFusao(carta3dfield.CardUI);	
+				var camera = GetViewport().GetCamera3D();
+				Vector2 screenPos = camera.UnprojectPosition(carta3dfield.GlobalPosition);
+				RefFusao.Position = screenPos;						
 				_cartasSelecionadasParaFusao.Insert(0, RefFusao);
 			}
 
@@ -306,7 +309,7 @@ namespace fm{
 			var scene = GD.Load<PackedScene>("res://Menu/Password/card_ui.tscn");
 			if(carta3dfield != null)
 			{
-				RefFusao = CriarCartaFusao(carta3dfield.carta);
+				RefFusao = CriarCartaFusao(carta3dfield.CardUI);
 				_cartasSelecionadasParaFusao.Insert(0, RefFusao);
 			}
 			if(card != null)
@@ -380,37 +383,39 @@ namespace fm{
 			_bloquearNavegaçãoManual = false;
 		}
 
-		public CardUi CriarCartaFusao(Cards carta)
+		public CardUi CriarCartaFusao(CardUi carta)
 		{
 			if (carta == null)
 				return null;
+			
+			var cartaUi = carta.Duplicate() as CardUi;
+			if(cartaUi != null)
+			{				
+				// Garantir anchors corretos (evita override de size)
+				cartaUi.AnchorLeft = 0;
+				cartaUi.AnchorTop = 0;
+				cartaUi.AnchorRight = 0;
+				cartaUi.AnchorBottom = 0;				
 
-			var scene = GD.Load<PackedScene>("res://Menu/Password/card_ui.tscn");
-			var cartaUi = scene.Instantiate<CardUi>();
+				AddChild(cartaUi);
 
-			// Garantir anchors corretos (evita override de size)
-			cartaUi.AnchorLeft = 0;
-			cartaUi.AnchorTop = 0;
-			cartaUi.AnchorRight = 0;
-			cartaUi.AnchorBottom = 0;
+				var cartaOriginal = _cartasSelecionadasParaFusao.FirstOrDefault();
+				cartaOriginal?.FlipCard(false);
+				cartaUi.SetAnchorsPreset(Control.LayoutPreset.TopLeft);
+				// Evita warning do Godot
+				cartaUi.Size = new Vector2(140f, 213f);
 
-			AddChild(cartaUi);
+				cartaUi.Scale = Vector2.One;
+				cartaUi.Theme = GD.Load<Theme>("res://Resources/tema_carta_hand.tres");				
 
-			var cartaOriginal = _cartasSelecionadasParaFusao.FirstOrDefault();
-			cartaOriginal?.FlipCard(false);
-			cartaUi.SetAnchorsPreset(Control.LayoutPreset.TopLeft);
-			// Evita warning do Godot
-			cartaUi.Size = new Vector2(140f, 213f);
+				GD.Print(carta);
 
-			cartaUi.Scale = Vector2.One;
-			cartaUi.Theme = GD.Load<Theme>("res://Resources/tema_carta_hand.tres");
+				cartaUi.DisplayCard(carta.carta, "1");
+				AtualizarNumerosFusao();
 
-			GD.Print(carta);
-
-			cartaUi.DisplayCard(carta, "1");
-			AtualizarNumerosFusao();
-
-			return cartaUi;
+				return cartaUi;
+			}
+			return null;
 		}
 
 		

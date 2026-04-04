@@ -38,11 +38,11 @@ public partial class GlobalUsings : Node
 		Instance = this;
 		dialogic = new DialogicSingleton();
     	AddChild(dialogic);
-		DeckIndex = 8;
+		DeckIndex = 1;
 		PopulateDialogue();		
-		#if DEBUG
-			UserDeck = "res://test_copy.txt";
-		#endif
+		// #if DEBUG
+		// 	UserDeck = "res://test_copy.txt";
+		// #endif
 		Deck.LoadDeck(Funcoes.LoadUserDeck(ProjectSettings.GlobalizePath(UserDeck)));
 		GD.Print(Deck.Cards.Count());
 	}
