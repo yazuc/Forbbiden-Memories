@@ -379,10 +379,7 @@ namespace fm{
 		}
 
 		private async Task HandleFieldInput(InputEvent e)
-		{
-			_instanciaSeletor.Visible = true;
-			await Tools.TransitionTo(CameraField, 0.5f, _transitionCam, STOP);		
-			STOP = false;		
+		{			
 			if (e.IsActionPressed("ui_right"))
 			{
 				if(_indiceCampoSelecionado < _slots.Count - 1)
@@ -413,14 +410,12 @@ namespace fm{
 
 			if (e.IsActionReleased("ui_accept"))
 			{
-				GetViewport().SetInputAsHandled();
 				await ConfirmarInvocacaoNoCampo();				
 			}
 
 			if (e.IsActionPressed("ui_cancel"))
 			{
 				await ChangeState(InputState.HandSelection);
-				return;
 			}
 		}
 
@@ -432,7 +427,7 @@ namespace fm{
 			await CancelarSelecaoNoCampo();
 		}
 
-		public override async void _UnhandledInput(InputEvent @event)
+		public override async void _Input(InputEvent @event)
 		{
 			GD.Print($"Input recebido no estado: {_inputState}");
 			if(_processandoInput) return;
@@ -472,15 +467,16 @@ namespace fm{
 				_slots = DefineSlotagem(alvo.carta.Type);
 				DefineVisibildadeIndicadores(false);
 				IsFaceDown = alvo.IsFaceDown;
-				if (alvo.carta.IsSpell() && alvo.carta.IsFaceDown)
+				if (alvo.carta.IsSpell() && !alvo.carta.IsFaceDown)
 				{
 					GetViewport().SetInputAsHandled();
 					await ConfirmarInvocacaoNoCampo(true, alvo);
+					await ChangeState(InputState.None);
+					return;
 				}
 				else
 				{
 					await ChangeState(InputState.FieldSelection);	
-					return;			
 				}
 			}
 			if (@event.IsActionReleased("ui_cancel"))
@@ -805,13 +801,11 @@ namespace fm{
 
 		public async Task ChangeState(InputState novoEstado)
 		{
- 			await ToSignal(GetTree(), "process_frame");
 			if (_inputState == novoEstado)
 				return;
 
 			// EXIT do estado atual (opcional futuramente)
 
-			GetViewport().SetInputAsHandled();
 			_inputState = novoEstado;
 
 			switch (novoEstado)
@@ -819,6 +813,14 @@ namespace fm{
 				case InputState.HandSelection:
 					await SairDoCampo();
 					DefineVisibildadeIndicadores(false);
+					DefineVisibilidade(true);
+					_instanciaSeletor.Visible = false;
+					break;
+				case InputState.FieldSelection:
+					_instanciaSeletor.Visible = true;
+					AtualizarPosicaoSeletorParaSlots(_slots[_indiceCampoSelecionado].Position);
+					await Tools.TransitionTo(CameraField, 0.5f, _transitionCam, STOP);		
+					STOP = false;
 					break;
 			}
 		}
