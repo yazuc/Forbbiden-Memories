@@ -37,7 +37,6 @@ public partial class SeletorGuardian : Panel
 		GuardianName2.Text = card.GuardianStarB.ToString();
 		SetAtlasRegionSign((int)card.GuardianStarA - 1, GuardianIcon1);
 		SetAtlasRegionSign((int)card.GuardianStarB - 1, GuardianIcon2);
-		GuardianButton1.GrabFocus();
 		Guardian1 = () => OnGuardianSelected((int)card.GuardianStarA - 1);
 		Guardian2 = () => OnGuardianSelected((int)card.GuardianStarB - 1);
 		GuardianButton1.Pressed +=  Guardian1;
@@ -54,7 +53,8 @@ public partial class SeletorGuardian : Panel
 
 	public async Task<int> AguardarConfirmacaoSign()
 	{
-		_tcsCarta = new TaskCompletionSource<int>();		
+		_tcsCarta = new TaskCompletionSource<int>();	
+		GuardianButton1.GrabFocus();	
 		var resultado = await _tcsCarta.Task;		
 		return resultado;
 	}

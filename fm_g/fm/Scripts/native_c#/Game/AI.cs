@@ -47,7 +47,7 @@ namespace fm
 
 		public AIMove SelectAttack(Player aiPlayer, Player opponent, GameState gameState)
 		{
-			var availableAttackers = aiPlayer.Field.MonsterZones.Where(m => m != null).ToList();
+			var availableAttackers = aiPlayer.Field.MonsterZones.Where(m => m != null && !m.HasAttackedThisTurn).ToList();
 
 			if (!availableAttackers.Any())
 				return null;

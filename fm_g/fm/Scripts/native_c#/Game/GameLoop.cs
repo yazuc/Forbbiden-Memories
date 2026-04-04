@@ -112,6 +112,7 @@ namespace fm
 			_gameState.CurrentPhase = TurnPhase.Main1;
 			if(_gameState.CurrentPlayer.IsEnemy)
 			{
+				await MaoDoJogador.ChangeState(InputState.None);
 				MaoDoJogador._selecionandoLocal = true;				
 				if(_aiPlayer.SelectCardToPlay(_gameState.CurrentPlayer, _gameState) is AIMove cardToPlay)
 				{
