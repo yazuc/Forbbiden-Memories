@@ -126,7 +126,7 @@ namespace fm
 
 			// Default to highest attack
 			var monsters = playableCards
-				.Where(c => c.Type != CardTypeEnum.Spell && c.Type != CardTypeEnum.Trap)
+				.Where(c => !c.IsSpellTrap())
 				.OrderByDescending(c => c.Attack)
 				.ToList();
 
@@ -137,7 +137,11 @@ namespace fm
 				return aIMove;
 			}
 
-			return null;
+			var spells = playableCards.First(c => c.IsSpellTrap());
+			aIMove.CardToPlay.Add(spells);
+			aIMove.IndexCard.Add(playableCards.IndexOf(spells));
+
+			return aIMove;
 		}
 
 		private bool IsCardPlayable(Cards card, Player player, GameState gameState)

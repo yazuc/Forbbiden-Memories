@@ -6,7 +6,6 @@ using static fm.Function;
 namespace fm{	
 	public partial class MaoJogador : Node2D
 	{
-		[Export] public PackedScene CartaCena;
 		public Node2D IndicadorTriangulo;
 		public Node2D IndicadorSeta;
 		[Export] public Camera3D CameraHand;
@@ -23,11 +22,9 @@ namespace fm{
 		private TaskCompletionSource<PlayerIntention> _tcsSlot;
 		public TaskCompletionSource<bool> _tcsFaceDown;
 		bool IsFaceDown = false;
-		private bool _bloquearNavegaçãoManual = false;
 		private Node3D _instanciaSeletor = null;
 		public int _indiceSelecionado = 0;	
 		public int _indiceCampoSelecionado = 0;
-		public bool _selecionandoLocal = false; // Estado para saber se estamos escolhendo onde colocar a carta
 		public List<CardUi> _cartasSelecionadasParaFusao = new List<CardUi>();
 		private List<Node3D> _cartasInstanciadas = new List<Node3D>();
 		private bool _processandoInput = false;		
@@ -150,7 +147,6 @@ namespace fm{
 				
 				_cartasSelecionadasParaFusao.Clear();
 				await SairModoSelecaoCampo();
-				_bloquearNavegaçãoManual = false;
 				_tcsCarta?.TrySetResult(resultadoFusao);
 			}
 		}
@@ -213,14 +209,12 @@ namespace fm{
 				
 				_cartasSelecionadasParaFusao.Clear();
 				await SairModoSelecaoCampo();
-				_bloquearNavegaçãoManual = false;
 				_tcsCarta?.TrySetResult(resultadoFusao);
 			}
 		}
 
 		public async Task CartaSTAction(CardUi card, FusionResult resultadoFusao)
 		{
-			_bloquearNavegaçãoManual = true;
 
 			card = _anim.GetChildCount() > 0 ? _anim.GetChild<CardUi>(0) : card;
 
@@ -231,13 +225,10 @@ namespace fm{
 				{
 					Campo.SetEstadoCampo(card.carta.Name);
 				}								
-				_bloquearNavegaçãoManual = false;
-				_selecionandoLocal = false;
 				_cartasSelecionadasParaFusao.Clear();
 				card.QueueFree();
 				_tcsCarta?.TrySetResult(resultadoFusao);
 			}
-			_bloquearNavegaçãoManual = false;
 		}
 
 		public CardUi CriarCartaFusao(CardUi carta)
@@ -315,7 +306,6 @@ namespace fm{
 
 		public async Task SairModoSelecaoCampo()
 		{
-			_selecionandoLocal = false;			
 			await CancelarSelecaoNoCampo();
 			if (_instanciaSeletor != null) _instanciaSeletor.Visible = false;
 		}
@@ -367,14 +357,9 @@ namespace fm{
 			_indiceCampoSelecionado = 0;
 			PrimeiroTurno = primeiroTurno;
 			_camIni = camIni;
-
 			_tcsSlot = new TaskCompletionSource<PlayerIntention>();
-
 			_instanciaSeletor.Visible = true;
-			_bloquearNavegaçãoManual = true;
-
 			AtualizarPosicaoSeletorParaSlots(slots);
-
 			return await _tcsSlot.Task;
 		}
 
@@ -634,9 +619,7 @@ namespace fm{
 		void FinalizarSelecao(PlayerIntentEnum intent)
 		{
 			_instanciaSeletor.Visible = false;
-			_bloquearNavegaçãoManual = false;
 			PlayerIntention np = new PlayerIntention(_slots[_indiceCampoSelecionado].Name, intent);
-
 			_tcsSlot.TrySetResult(np);
 		}
 

@@ -113,14 +113,12 @@ namespace fm
 			if(_gameState.CurrentPlayer.IsEnemy)
 			{
 				await MaoDoJogador.ChangeState(InputState.None);
-				MaoDoJogador._selecionandoLocal = true;				
 				if(_aiPlayer.SelectCardToPlay(_gameState.CurrentPlayer, _gameState) is AIMove cardToPlay)
 				{
 					var result = await MaoDoInimigo.RealizarJogadaIA(cardToPlay, cardToPlay.FaceUP);
 					_gameState.RealizaMainPhase(result);
 					await MaoDoJogador.Tools.TransitionTo(CameraField, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);			
 				}		
-				MaoDoJogador._selecionandoLocal = false;
 			}
 			else
 			{

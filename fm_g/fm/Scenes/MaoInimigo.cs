@@ -157,10 +157,12 @@ namespace fm
             }
             else
             {
-                var cartaSpell = cartaUi.FirstOrDefault(x => x.carta == pChain.MainCard);
+                var cartaSpell = cartaUi.FirstOrDefault(x => x.carta.Id == pChain.MainCard.Id);
                 if(cartaSpell != null)
                 {
+                    await Tools.TransitionTo(CameraHand, 0.5f, _transitionCam, false);
                     await cartaSpell.AtivaSpellAnimation(_anim.ScrenCenter());
+                    await Tools.TransitionTo(CameraField, 0.5f, _transitionCam, false);
                 }
             }
 
