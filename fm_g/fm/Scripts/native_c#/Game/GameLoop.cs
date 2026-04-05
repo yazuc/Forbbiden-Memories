@@ -289,6 +289,7 @@ namespace fm
 					await MaoDoJogador._anim.AnimaBattle(meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy, MaoDoJogador._transitionCam);
 					_gameState.OpponentPlayer.Field.RemoveMonster(monstroInimigo.zoneName);	
 					_gameState.CurrentPlayer.Field.RemoveMonster(meuMonstro.zoneName);	
+					MaoDoJogador.STOP = false;
 					return false;		
 				}
 				if(battleResult.DefenderDestroyed){	
