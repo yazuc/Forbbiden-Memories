@@ -149,7 +149,7 @@ namespace fm
                 await _anim.AnimaFusao(pChain);
             
             // 3. Navega pelo campo
-            if (!pChain.MainCard.IsSpell())
+            if (!pChain.MainCard.IsSpellTrap())
             {
                 CleanUpCrew();
                 var slot = await ExecutarMovimentoVisual(cardToPlay.IndexCard, noCampo: true, isSpellTrap: isSpell, carta: pChain.MainCard, facedown: !pChain.FusaoAconteceu);            
