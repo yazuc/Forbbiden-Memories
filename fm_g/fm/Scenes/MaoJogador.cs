@@ -84,7 +84,7 @@ namespace fm{
 			var slotDestino = _slots[_indiceCampoSelecionado];
 			var carta3dfield = Tools.PegaNodoCarta3d(slotDestino.Name);
 
-			if(carta3dfield != null && _inputState.Equals(InputState.None))
+			if(carta3dfield != null)
 			{
 				RefFusao = CriarCartaFusao(carta3dfield.CardUI);	
 				var camera = GetViewport().GetCamera3D();
@@ -414,7 +414,6 @@ namespace fm{
 
 		public override async void _Input(InputEvent @event)
 		{
-			GD.Print($"Input recebido no estado: {_inputState}");
 			if(_processandoInput) return;
 
 			_processandoInput = true;
