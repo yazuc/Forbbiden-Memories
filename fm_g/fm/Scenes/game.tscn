@@ -5,7 +5,6 @@
 [ext_resource type="PackedScene" uid="uid://c8mda7ioh6qlg" path="res://testeMao/Mao.tscn" id="2_nb51f"]
 [ext_resource type="Script" uid="uid://cw75wo561ptws" path="res://Scenes/AnimationP.cs" id="2_nnt18"]
 [ext_resource type="Script" uid="uid://srumahse3qk" path="res://Scenes/MaoJogador.cs" id="3_3dryh"]
-[ext_resource type="PackedScene" uid="uid://uys23mmogslm" path="res://Carta/CartasBase.tscn" id="4_wowpa"]
 [ext_resource type="PackedScene" uid="uid://dpjrxybf4pcvc" path="res://HUD/IndicadorTriangulo.tscn" id="5_wowpa"]
 [ext_resource type="PackedScene" uid="uid://c3fy4s3sps4kh" path="res://Carta/Carta3D.tscn" id="6_i6g32"]
 [ext_resource type="PackedScene" uid="uid://b2f4acrh1ecd2" path="res://HUD/seletor.tscn" id="7_1l0tm"]
@@ -51,7 +50,6 @@ MaoControl = NodePath("../CameraPivot/CameraHand/Control/InterfaceDuelo/Mao")
 process_mode = 3
 z_index = 2
 script = ExtResource("3_3dryh")
-CartaCena = ExtResource("4_wowpa")
 CameraHand = NodePath("../CameraPivot/CameraHand")
 CameraField = NodePath("../CameraPivot/CameraField")
 CameraInimigo = NodePath("../CameraPivot/CameraInimigo")

@@ -22,7 +22,8 @@ namespace fm
 		public BattleResult ResolveBattle(
 			FieldMonster attackingMonster,
 			FieldMonster? defendingMonster,
-			Player defender)
+			Player defender,
+			Player CurrentPlayer)
 		{
 			var result = new BattleResult();
 			attackingMonster.HasAttackedThisTurn = true;
@@ -90,7 +91,31 @@ namespace fm
 			}
 			
 			TypeResults(result);
+			ApplyBattleResult(result, CurrentPlayer, defender, attackingMonster, defendingMonster);
+			
 			return result;
+		}
+
+		private void ApplyBattleResult(BattleResult result, Player CurrentPlayer, Player defender, FieldMonster attackingMonster, FieldMonster defendingMonster)
+		{
+			if(!result.AttackerDestroyed && !result.DefenderDestroyed)
+			{
+				CurrentPlayer.TakeDamage(result.DamageDealt);		
+			}
+			if(result.AttackerDestroyed && result.DefenderDestroyed)
+			{
+				//descobrir pq draw ta bugado			
+				defender.Field.RemoveMonster(defendingMonster.zoneName);	
+				CurrentPlayer.Field.RemoveMonster(attackingMonster.zoneName);												
+			}
+			if(result.DefenderDestroyed && !result.AttackerDestroyed){			
+				defender.Field.RemoveMonster(defendingMonster.zoneName);
+				defender.TakeDamage(result.DamageDealt);									
+			}
+			if(result.AttackerDestroyed && !result.DefenderDestroyed){
+				CurrentPlayer.Field.RemoveMonster(attackingMonster.zoneName);							
+				CurrentPlayer.TakeDamage(result.DamageDealt);
+			}
 		}
 
 		public static void ResetBattleStates(Player player)

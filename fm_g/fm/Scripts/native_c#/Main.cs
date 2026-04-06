@@ -50,7 +50,7 @@ namespace fm
 			{				
 				gL = new GameLoop(
 					new Player("Alice", GlobalUsings.Instance.Deck.Cards, SlotsCampo, SlotsCampoST, LP_You, You, 8000), 
-					new Player("Bob", deckIni.Cards, SlotsCampoIni, SlotsCampoSTIni, LP_Com, Com, 8000),
+					new Player("Bob", GlobalUsings.Instance.Deck.Cards, SlotsCampoIni, SlotsCampoSTIni, LP_Com, Com, 8000),
 					MaoVisual,
 					MaoInimigo,
 					CameraHand,

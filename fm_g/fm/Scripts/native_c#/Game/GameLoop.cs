@@ -233,17 +233,9 @@ namespace fm
 				PlayerIntention slotAlvo = await MaoDoJogador.SelecionarSlotTAsync(MaoDoJogador.SlotsCampoIni, _gameState.CurrentTurn == 1, true);
 				GD.Print("slotalvo: "+ slotAlvo +" Logical pos inimigo monstro: " + slotAlvo.WorldPos);
 				if (slotAlvo.ValidIntention())
-				{
-					try
-					{
-						var monstroInimigo = _gameState.OpponentPlayer.Field.GetMonsterInZone(slotAlvo.WorldPos);
-						await ResolverBatalha(meuMonstro, monstroInimigo);
-						
-					}catch(Exception e)
-					{						
-						GD.PrintErr($"Erro na Batalha: {e.Message}");
-    					GD.PrintErr(e.StackTrace);
-					}
+				{										
+					var monstroInimigo = _gameState.OpponentPlayer.Field.GetMonsterInZone(slotAlvo.WorldPos);
+					await ResolverBatalha(meuMonstro, monstroInimigo);					
 				}
 
 				await MaoDoJogador.Tools.TransitionTo(CameraField, 0.4f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);
@@ -270,46 +262,17 @@ namespace fm
 				return false;
 			}
 			
-			var battleResult = _battleSystem.ResolveBattle(meuMonstro, monstroInimigo, _gameState.OpponentPlayer);		
+			var battleResult = _battleSystem.ResolveBattle(meuMonstro, monstroInimigo, _gameState.OpponentPlayer, _gameState.CurrentPlayer);		
 			MaoDoJogador.STOP = true;
 
 			if(monstroInimigo != null){
-				MaoDoJogador.Tools.Flipa(monstroInimigo.zoneName);
-				if(!battleResult.AttackerDestroyed && !battleResult.DefenderDestroyed)
-				{
-					GD.Print("caiu no empate, ninguem destruido");
-					_gameState.CurrentPlayer.TakeDamage(battleResult.DamageDealt);		
-				}
-				if(battleResult.AttackerDestroyed && battleResult.DefenderDestroyed)
-				{
-					//descobrir pq draw ta bugado
-					GD.Print("caiu no empate, ambos destruídos");
-					await MaoDoJogador._anim.AnimaBattle(meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy, MaoDoJogador._transitionCam);
-					_gameState.OpponentPlayer.Field.RemoveMonster(monstroInimigo.zoneName);	
-					_gameState.CurrentPlayer.Field.RemoveMonster(meuMonstro.zoneName);	
-					MaoDoJogador.STOP = false;
-					return false;		
-				}
-				if(battleResult.DefenderDestroyed){	
-					GD.Print("caiu no defensor destruído");				
-					await MaoDoJogador._anim.AnimaBattle(meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy, MaoDoJogador._transitionCam);					
-					_gameState.OpponentPlayer.Field.RemoveMonster(monstroInimigo.zoneName);
-					_gameState.OpponentPlayer.TakeDamage(battleResult.DamageDealt);									
-				}
-				if(battleResult.AttackerDestroyed){
-					GD.Print("caiu no atacante destruído");
-					//ajustar para o meuMonstro ser destruido
-					await MaoDoJogador._anim.AnimaBattle(meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy, MaoDoJogador._transitionCam);
-					_gameState.CurrentPlayer.Field.RemoveMonster(meuMonstro.zoneName);							
-					_gameState.CurrentPlayer.TakeDamage(battleResult.DamageDealt);
-				}
+				MaoDoJogador.Tools.Flipa(monstroInimigo.zoneName);				
 			}else
 			{
 				GD.Print("caiu no ataque direto");
-				await MaoDoJogador._anim.AnimaBattle(meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy, MaoDoJogador._transitionCam);
 			}
-			
-			
+			await MaoDoJogador._anim.AnimaBattle(meuMonstro, monstroInimigo, battleResult, _gameState.CurrentPlayer.IsEnemy, MaoDoJogador._transitionCam);
+						
 			MaoDoJogador.STOP = false;
 			_gameState.CurrentPlayer.Field.DrawFieldState();
 			_gameState.OpponentPlayer.Field.DrawFieldState();
