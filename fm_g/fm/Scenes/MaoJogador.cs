@@ -217,6 +217,7 @@ namespace fm{
 			{						
 				await card.AtivaSpellAnimation(_anim.ScrenCenter());			
 				gameLoop._effectManager.TryActivateEffect(gameLoop, card.carta);
+				SyncField();
 				//acho que aqui passa a ser aonde eu trato oq vai acontecer com a carta	
 				if (card.carta.IsField())
 				{
@@ -227,6 +228,26 @@ namespace fm{
 				_tcsCarta?.TrySetResult(resultadoFusao);
 			}
 		}
+
+		public void SyncField()
+		{
+			var cartas = Tools.PegaTodasCarta3d();
+
+			foreach (var item in cartas)
+			{
+				bool existeNoPlayer = gameLoop._gameState.CurrentPlayer.Field.MonsterZones
+					.Any(x => x != null && x.zoneName == item.markerName);
+
+				bool existeNoOponente = gameLoop._gameState.OpponentPlayer.Field.MonsterZones
+					.Any(x => x != null && x.zoneName == item.markerName);
+
+				if (!existeNoPlayer && !existeNoOponente)
+				{
+					Tools.RemoveDasInstanciadas(item);
+				}
+			}
+		}
+
 
 		public CardUi CriarCartaFusao(CardUi carta)
 		{

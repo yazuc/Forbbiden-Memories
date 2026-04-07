@@ -36,7 +36,12 @@ namespace fm
 			if(_cartasInstanciadas.Contains(carta))
 			{
 				_cartasInstanciadas.Remove(carta);
+				carta.QueueFree();
 			}
+		}
+		public List<Carta3d> PegaTodasCarta3d()
+		{
+			return GetTree().GetNodesInGroup("cartas").OfType<Carta3d>().ToList();
 		}
 		
 		public Carta3d PegaNodoCarta3d(string ID, Cards card = null)

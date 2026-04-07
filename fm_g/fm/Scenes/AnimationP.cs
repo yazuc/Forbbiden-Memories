@@ -487,13 +487,9 @@ namespace fm{
 			await ToSignal(spiralTween, "finished");				
 			cartaSacrificio.Visible = false;
 			Spiral.Visible = false;
-							
-			Tween impact = CreateTween();
-			impact.TweenProperty(cartaPrincipal, "scale", new Vector2(1.5f, 1.5f), 0.1f);
+										
 			cartaPrincipal.Display(res.Id);
 			cartaSacrificio.Display(res.Id);
-			impact.TweenProperty(cartaPrincipal, "scale", new Vector2(1.0f, 1.0f), 0.1f);	
-			await ToSignal(impact, Tween.SignalName.Finished);
 		}
 
 		private async Task MoverParaPosicao(Control node, Vector2 targetPos, float targetRotation = 0f)
