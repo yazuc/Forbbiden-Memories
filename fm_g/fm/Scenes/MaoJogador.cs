@@ -215,7 +215,8 @@ namespace fm{
 			card = _anim.GetChildCount() > 0 ? _anim.GetChild<CardUi>(0) : card;
 			if(card != null)
 			{						
-				await card.AtivaSpellAnimation(_anim.ScrenCenter());				
+				await card.AtivaSpellAnimation(_anim.ScrenCenter());			
+				//acho que aqui passa a ser aonde eu trato oq vai acontecer com a carta	
 				if (card.carta.IsField())
 				{
 					Campo.SetEstadoCampo(card.carta.Name);

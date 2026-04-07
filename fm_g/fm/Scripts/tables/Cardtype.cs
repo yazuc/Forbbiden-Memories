@@ -115,6 +115,7 @@ namespace QuickType
 		{
 			return Type == CardTypeEnum.Spell || Type == CardTypeEnum.Trap || Type == CardTypeEnum.Ritual || Type == CardTypeEnum.Equipment;	
 		}
+		public ICardEffect cardEffect => CardEffectFactory.CreateEffect(this);
 	}
 
 
