@@ -227,12 +227,12 @@ namespace fm
 			return _effects.ContainsKey(effectName) ? _effects[effectName] : null;
 		}
 
-		public bool TryActivateEffect(string effectName, GameState gameState, Player caster, Cards card)
+		public bool TryActivateEffect(GameLoop gameLoop, Cards card)
 		{
-			var effect = GetEffect(effectName);
-			if (effect != null && effect.CanActivate(gameState, caster, card))
+			var effect = card.cardEffect;
+			if (effect != null && effect.CanActivate(gameLoop._gameState, gameLoop._gameState.CurrentPlayer, card))
 			{
-				effect.Activate(gameState, caster, card);
+				effect.Activate(gameLoop._gameState, gameLoop._gameState.CurrentPlayer, card);
 				return true;
 			}
 			return false;

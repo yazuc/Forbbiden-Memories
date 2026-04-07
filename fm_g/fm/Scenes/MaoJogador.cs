@@ -216,6 +216,7 @@ namespace fm{
 			if(card != null)
 			{						
 				await card.AtivaSpellAnimation(_anim.ScrenCenter());			
+				gameLoop._effectManager.TryActivateEffect(gameLoop, card.carta);
 				//acho que aqui passa a ser aonde eu trato oq vai acontecer com a carta	
 				if (card.carta.IsField())
 				{

@@ -13,7 +13,7 @@ namespace fm
 		public Camera3D CameraInimigo;
 		public Node3D CameraPivot;
 		public GameState _gameState;
-		private CardEffectManager _effectManager;
+		public CardEffectManager _effectManager;
 		private AIPlayer _aiPlayer;
 		private BattleSystem _battleSystem;
 		private const int HAND_SIZE = 5;
