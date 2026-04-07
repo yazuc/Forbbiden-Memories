@@ -11,10 +11,12 @@ namespace fm{
 		[Export] public Mao MaoControl;
 		public List<CardUi> _cartasSelecionadasParaFusao {get;set;}
 		public Helper Tools;
+		public Node2D Spiral;
 
 		public override void _Ready()
 		{
 			Tools = GetNode<Helper>("../Helper");
+			Spiral = GetNode<Node2D>("../Spiral");
 		}
 
 		public async Task AnimaBattle(
@@ -473,7 +475,8 @@ namespace fm{
 			float voltas = 1080f; 
 
 			spiralTween.TweenProperty(pivot, "rotation_degrees", voltas, duration)
-				.SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);								
+				.SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);					
+			Spiral.Visible = true;
 			spiralTween.TweenProperty(cartaPrincipal, "rotation_degrees", -voltas, duration)
 				.SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);
 			spiralTween.TweenProperty(cartaSacrificio, "rotation_degrees", -voltas, duration)
@@ -483,6 +486,7 @@ namespace fm{
 			
 			await ToSignal(spiralTween, "finished");				
 			cartaSacrificio.Visible = false;
+			Spiral.Visible = false;
 							
 			Tween impact = CreateTween();
 			impact.TweenProperty(cartaPrincipal, "scale", new Vector2(1.5f, 1.5f), 0.1f);

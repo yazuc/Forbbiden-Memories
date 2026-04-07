@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://coi18rhwpw1ja"]
+
+[ext_resource type="Material" uid="uid://oaorb7uwfyx5" path="res://Resources/spiral.tres" id="1_3lw7s"]
+
+[node name="Spiral" type="Node2D" unique_id=86884854]
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=2054027663]
+texture_filter = 2
+material = ExtResource("1_3lw7s")
+offset_right = 600.0
+offset_bottom = 400.0
+color = Color(1, 1, 1, 0)
+metadata/_edit_use_anchors_ = true

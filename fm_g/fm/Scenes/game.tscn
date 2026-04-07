@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://bf2s664bwkruy" path="res://assets/you_activee.png" id="9_o5yvi"]
 [ext_resource type="Texture2D" uid="uid://c1dlsol8iui1w" path="res://assets/hand_ui.png" id="9_rku1e"]
 [ext_resource type="PackedScene" uid="uid://bc5wbl4amrc7m" path="res://HUD/informacao_carta.tscn" id="13_nb51f"]
+[ext_resource type="PackedScene" uid="uid://coi18rhwpw1ja" path="res://Scenes/spiral.tscn" id="17_85qyi"]
 [ext_resource type="PackedScene" uid="uid://df5idd2nj5vrc" path="res://HUD/seletorInimigo.tscn" id="17_ewbju"]
 
 [sub_resource type="Environment" id="Environment_v158k"]
@@ -35,6 +36,11 @@ LP_You = NodePath("CameraPivot/CameraHand/Control/LifePoints/YOU/LP")
 LP_Com = NodePath("CameraPivot/CameraHand/Control/LifePoints/COM/LP")
 You = NodePath("CameraPivot/CameraHand/Control/LifePoints/YOU")
 Com = NodePath("CameraPivot/CameraHand/Control/LifePoints/COM")
+
+[node name="Spiral" parent="." unique_id=86884854 instance=ExtResource("17_85qyi")]
+visible = false
+y_sort_enabled = true
+position = Vector2(662, 339)
 
 [node name="Helper" type="Node" parent="." unique_id=665815536 node_paths=PackedStringArray("LifePoint")]
 script = ExtResource("2_ewbju")
