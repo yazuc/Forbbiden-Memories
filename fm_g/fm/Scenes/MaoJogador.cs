@@ -73,7 +73,7 @@ namespace fm{
 			foreach(var item in _cartasSelecionadasParaFusao)
 			{
 				if(IsInstanceValid(item))
-				item.EscondeLabel();
+					item.EscondeLabel();
 			}						
 			_cartasSelecionadasParaFusao.Clear();
 		}
@@ -120,6 +120,7 @@ namespace fm{
 				}				
 				if(_cartasSelecionadasParaFusao.Count() > 1)
 				{
+					IsFaceDown = false;
 					slotDestino = DefineSlotagem(tipo)[_indiceCampoSelecionado];				
 					summon = tipo != CardTypeEnum.Spell && tipo != CardTypeEnum.Trap && tipo != CardTypeEnum.Equipment;
 				}
@@ -157,7 +158,6 @@ namespace fm{
 			var slotDestino = _slots[_indiceCampoSelecionado];
 			var carta3dfield = Tools.PegaNodoCarta3d(slotDestino.Name, gameLoop._gameState.CurrentPlayer.Field.GetCardInZone(slotDestino.Name));
 
-			var scene = GD.Load<PackedScene>("res://Menu/Password/card_ui.tscn");
 			if(carta3dfield != null)
 			{
 				RefFusao = CriarCartaFusao(carta3dfield.CardUI);
@@ -454,6 +454,7 @@ namespace fm{
 				IsFaceDown = alvo.IsFaceDown;
 				if (alvo.carta.IsSpell() && !alvo.carta.IsFaceDown)
 				{
+					IsFaceDown = !alvo.IsFaceDown;
 					GetViewport().SetInputAsHandled();
 					await ConfirmarInvocacaoNoCampo(true, alvo);
 					await ChangeState(InputState.None);
@@ -801,6 +802,15 @@ namespace fm{
 					break;
 				case InputState.FieldSelection:
 					_instanciaSeletor.Visible = true;
+					//garante que se a carta for equip, facedown, seleciona campos inferiores
+					//se for monstro, campos superiores
+					//se equip face-up campos superiores
+					//se for spell simples, ativa direto se face-up
+					if(_cartasSelecionadasParaFusao.Count() == 1)
+					{
+						var alvo = _cartasSelecionadasParaFusao.FirstOrDefault();
+						_slots = DefineSlotagem(alvo.carta.Type);
+					}
 					AtualizarPosicaoSeletorParaSlots(_slots[_indiceCampoSelecionado].Position);
 					await Tools.TransitionTo(CameraField, 0.5f, _transitionCam, STOP);		
 					STOP = false;
