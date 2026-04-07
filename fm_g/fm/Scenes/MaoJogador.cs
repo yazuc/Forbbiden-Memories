@@ -20,7 +20,6 @@ namespace fm{
 		public bool STOP {get;set;}		
 		private TaskCompletionSource<FusionResult> _tcsCarta;
 		private TaskCompletionSource<PlayerIntention> _tcsSlot;
-		public TaskCompletionSource<bool> _tcsFaceDown;
 		bool IsFaceDown = false;
 		private Node3D _instanciaSeletor = null;
 		public int _indiceSelecionado = 0;	
@@ -28,8 +27,6 @@ namespace fm{
 		public List<CardUi> _cartasSelecionadasParaFusao = new List<CardUi>();
 		private List<Node3D> _cartasInstanciadas = new List<Node3D>();
 		private bool _processandoInput = false;		
-		public List<int> IDFusao = new List<int>();
-		public Vector2 lastPos = Vector2.Zero;
 		private Godot.Collections.Array<Marker3D> _slots;
 		public bool _camIni, PrimeiroTurno;
 		public Mao MaoControl {get;set;}
@@ -52,7 +49,7 @@ namespace fm{
 			_anim = GetNode<AnimationP>("../AnimationP");
 			_anim._cartasSelecionadasParaFusao = _cartasSelecionadasParaFusao;
 			Tools = GetNode<Helper>("../Helper");
-			Tools._cartasInstanciadas = _cartasInstanciadas;
+			Tools._cartasInstanciadas = _cartasInstanciadas;			
 		}
 
 		public override void _Process(double delta)
@@ -215,9 +212,7 @@ namespace fm{
 
 		public async Task CartaSTAction(CardUi card, FusionResult resultadoFusao)
 		{
-
 			card = _anim.GetChildCount() > 0 ? _anim.GetChild<CardUi>(0) : card;
-
 			if(card != null)
 			{						
 				await card.AtivaSpellAnimation(_anim.ScrenCenter());				
@@ -250,9 +245,7 @@ namespace fm{
 				var cartaOriginal = _cartasSelecionadasParaFusao.FirstOrDefault();
 				cartaOriginal?.FlipCard(false);
 				cartaUi.SetAnchorsPreset(Control.LayoutPreset.TopLeft);
-				// Evita warning do Godot
 				cartaUi.Size = new Vector2(140f, 213f);
-
 				cartaUi.Scale = Vector2.One;
 				cartaUi.Theme = GD.Load<Theme>("res://Resources/tema_carta_hand.tres");				
 
@@ -312,7 +305,6 @@ namespace fm{
 
 		public async Task AtualizarMao(List<int> idsCartasNoDeck, bool animate = true)
 		{
-			GD.Print(idsCartasNoDeck.Count());	
 			STOP = true;
 			await MaoControl.InstanciaMaoAnimated(idsCartasNoDeck, animate);
 			STOP = false;
@@ -373,23 +365,23 @@ namespace fm{
 			if (e.IsActionPressed("ui_left"))
 			{
 				if(_indiceCampoSelecionado > 0)
-					_indiceCampoSelecionado--;					
+					_indiceCampoSelecionado--;		
 			}
 			if(e.IsActionPressed("ui_up"))
 			{					
-					_indiceCampoSelecionado = Mathf.Clamp(
-						_indiceCampoSelecionado - 5,
-						0,
-						_slots.Count - 1
-					);
+				_indiceCampoSelecionado = Mathf.Clamp(
+					_indiceCampoSelecionado - 5,
+					0,
+					_slots.Count - 1
+				);
 			}
 			if(e.IsActionPressed("ui_down"))
 			{
-					_indiceCampoSelecionado = Mathf.Clamp(
-							_indiceCampoSelecionado + 5,
-							0,
-							_slots.Count - 1
-						);												
+				_indiceCampoSelecionado = Mathf.Clamp(
+						_indiceCampoSelecionado + 5,
+						0,
+						_slots.Count - 1
+					);						
 			}
 			AtualizarPosicaoSeletorParaSlots(_slots[_indiceCampoSelecionado].Position);
 
@@ -397,7 +389,6 @@ namespace fm{
 			{
 				await ConfirmarInvocacaoNoCampo();				
 			}
-
 			if (e.IsActionPressed("ui_cancel"))
 			{
 				await ChangeState(InputState.HandSelection);
@@ -405,19 +396,15 @@ namespace fm{
 		}
 
 		private async Task SairDoCampo()
-		{
-			
+		{			
 			await Tools.TransitionTo(CameraHand, 0.5f, _transitionCam, STOP);
-
 			await CancelarSelecaoNoCampo();
 		}
 
 		public override async void _Input(InputEvent @event)
 		{
 			if(_processandoInput) return;
-
 			_processandoInput = true;
-
 			switch (_inputState)
 			{
 				case InputState.HandSelection:
@@ -433,7 +420,6 @@ namespace fm{
 					HandleBattlePhaseInput(@event);
 					break;
 			}
-
 			_processandoInput = false;
 		}
 		public async Task FaceSelectionInputHandler(InputEvent @event)
@@ -476,9 +462,7 @@ namespace fm{
 		}
 
 		public async Task HandSelectionInputHandler(InputEvent @event)
-		{
-			GD.Print("Input na mão");
-			
+		{			
 			if (@event.IsActionPressed("ui_right")) _indiceSelecionado = Mathf.Min(_indiceSelecionado + 1, MaoControl.CartasNaMaoCount() - 1);
 			else if (@event.IsActionPressed("ui_left")) _indiceSelecionado = Mathf.Max(_indiceSelecionado - 1, 0);		
 
@@ -532,7 +516,6 @@ namespace fm{
 				FinalizarSelecao(PlayerIntentEnum.EndTurn);
 		}				
 						
-		// Método auxiliar para mover o seletor entre diferentes arrays de markers
 		private void AtualizarPosicaoSeletorParaSlots(Godot.Collections.Array<Marker3D> slots)
 		{
 			if (slots.Count > 0 && _indiceCampoSelecionado >= 0 && _indiceCampoSelecionado < slots.Count){
@@ -662,7 +645,6 @@ namespace fm{
 			}
 		}
 
-
 		void ProcessarNavegacao(InputEvent e)
 		{
 			int anterior = _indiceCampoSelecionado;
@@ -679,7 +661,6 @@ namespace fm{
 				{
 					if(_indiceCampoSelecionado < slots.Count - 1)
 						_indiceCampoSelecionado++;
-					GD.Print("up is called");
 				}
 				if (e.IsActionPressed("ui_left"))
 				{
@@ -736,7 +717,6 @@ namespace fm{
 		
 		public void DefineVisibilidade(bool sinal)
 		{
-			//Visible = sinal;
 			IndicadorTriangulo.Visible = sinal;	
 		}
 		public void DefineVisibildadeIndicadores(bool sinal)
@@ -765,10 +745,6 @@ namespace fm{
 				this.Slots.AddRange(SlotsCampoST);
 				this.Slots.AddRange(SlotsCampoSTIni);				
 			}
-			
-			GD.Print(Slots.Count());
-			
-			GD.Print("MaoJogador: Slots redefinidos com sucesso via GameLoop.");
 		}
 		
 		public async Task<FusionResult> AguardarConfirmacaoJogadaAsync()
@@ -817,6 +793,5 @@ namespace fm{
 					break;
 			}
 		}
-
 	}
 }
