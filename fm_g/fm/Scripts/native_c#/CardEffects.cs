@@ -160,11 +160,15 @@ namespace fm
 			return card.Name switch
 			{
 				"Dark Hole" => new DestroyByFilterEffect(m => true, false),
-
 				"Raigeki" => new DestroyByFilterEffect(m => true, true),
-
-				"Dragon Capture Jar" => new DestroyByFilterEffect(
-					m => m.Card.Type == CardTypeEnum.Dragon, false),
+				"Crush Card" => new DestroyByFilterEffect(m => m.Card.Attack >= 1500, true),
+				"Warrior Elimination" => new DestroyByFilterEffect(m => m.Card.Type == CardTypeEnum.Warrior, true),
+				"Stain Storm" => new DestroyByFilterEffect(m => m.Card.Type == CardTypeEnum.Machine, true),
+				"Eradicating Aerosol" => new DestroyByFilterEffect(m => m.Card.Type == CardTypeEnum.Insect, true),
+				"Breath of Light" => new DestroyByFilterEffect(m => m.Card.Type == CardTypeEnum.Rock, true),
+				"Dragon Capture Jar" => new DestroyByFilterEffect(m => m.Card.Type == CardTypeEnum.Dragon, true),
+				"Eternal Draught" => new DestroyByFilterEffect(m => m.Card.Type == CardTypeEnum.Fish, true),
+				"Harpie's Feather Duster" => new DestroyByFilterEffect(m => m.Card.IsSpellTrap(), true),
 
 				"Mooyan Curry" => new LifePointEffect(200),
 				"Red Medicine" => new LifePointEffect(500),
@@ -181,7 +185,6 @@ namespace fm
 				"Spellbinding Circle" => new ModifyAttackEffect(-1000),
 				"Shadow Spell" => new ModifyAttackEffect(-1500),
 
-				"Crush Card" => new DestroyByFilterEffect(m => m.Card.Attack >= 1500, false),
 
 				_ => throw new Exception($"Effect not defined for card {card.Name}")
 			};
