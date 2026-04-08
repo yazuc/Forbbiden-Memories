@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://bmdthcpjp77m"]
+
+[ext_resource type="Shader" uid="uid://djjgmmp6yrq07" path="res://Resources/thunder.tres" id="1_5xovw"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_5xovw")

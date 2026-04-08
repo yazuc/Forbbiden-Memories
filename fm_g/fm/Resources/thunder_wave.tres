@@ -1,0 +1,24 @@
+[gd_resource type="VisualShader" format=3 uid="uid://svjj3oumcsh6"]
+
+[ext_resource type="Texture2D" uid="uid://bb4ojg7nbqc5a" path="res://assets/thunder_wave.png" id="1_45lay"]
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_r3oqi"]
+expanded_output_ports = [0]
+texture = ExtResource("1_45lay")
+texture_type = 1
+
+[sub_resource type="VisualShaderNodeUVFunc" id="VisualShaderNodeUVFunc_45lay"]
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_r3oqi"]
+expanded_output_ports = [0]
+input_name = "color"
+
+[resource]
+nodes/fragment/0/position = Vector2(740, 60)
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture_r3oqi")
+nodes/fragment/2/position = Vector2(400, 40)
+nodes/fragment/3/node = SubResource("VisualShaderNodeUVFunc_45lay")
+nodes/fragment/3/position = Vector2(140, 100)
+nodes/fragment/4/node = SubResource("VisualShaderNodeInput_r3oqi")
+nodes/fragment/4/position = Vector2(-220, 100)
+nodes/fragment/connections = PackedInt32Array(3, 0, 2, 0, 2, 1, 0, 1)

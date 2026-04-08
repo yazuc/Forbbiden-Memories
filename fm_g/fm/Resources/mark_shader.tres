@@ -1,0 +1,28 @@
+[gd_resource type="VisualShader" format=3 uid="uid://5401f02meuqk"]
+
+[ext_resource type="Texture2D" uid="uid://d2a5pchtv0eo0" path="res://assets/floor.png" id="1_gnime"]
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_b18re"]
+expanded_output_ports = [0]
+texture = ExtResource("1_gnime")
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_gnime"]
+input_name = "color"
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_b18re"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_yfpoi"]
+parameter_name = "markcolor"
+
+[resource]
+nodes/fragment/0/position = Vector2(680, 60)
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture_b18re")
+nodes/fragment/2/position = Vector2(-120, 320)
+nodes/fragment/3/node = SubResource("VisualShaderNodeInput_gnime")
+nodes/fragment/3/position = Vector2(-120, 40)
+nodes/fragment/4/node = SubResource("VisualShaderNodeFloatOp_b18re")
+nodes/fragment/4/position = Vector2(240, 280)
+nodes/fragment/5/node = SubResource("VisualShaderNodeColorParameter_yfpoi")
+nodes/fragment/5/position = Vector2(220, 40)
+nodes/fragment/connections = PackedInt32Array(3, 0, 4, 0, 2, 1, 4, 1, 4, 0, 0, 1, 5, 0, 0, 0)
