@@ -217,7 +217,7 @@ namespace fm{
 			{						
 				await card.AtivaSpellAnimation(_anim.ScrenCenter());			
 				gameLoop._effectManager.TryActivateEffect(gameLoop, card.carta);
-				SyncField();
+				await SyncField();
 				//acho que aqui passa a ser aonde eu trato oq vai acontecer com a carta	
 				if (card.carta.IsField())
 				{
@@ -229,7 +229,7 @@ namespace fm{
 			}
 		}
 
-		public void SyncField()
+		public async Task SyncField()
 		{
 			var cartas = Tools.PegaTodasCarta3d();
 
@@ -243,11 +243,11 @@ namespace fm{
 
 				if (!existeNoPlayer && !existeNoOponente)
 				{
+					await item.Eletrocutar();
 					Tools.RemoveDasInstanciadas(item);
 				}
 			}
 		}
-
 
 		public CardUi CriarCartaFusao(CardUi carta)
 		{

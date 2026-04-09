@@ -11,7 +11,7 @@ shader = ExtResource("1_0f3ym")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_egmew"]
 render_priority = 0
 shader = ExtResource("2_egmew")
-shader_parameter/markcolor = Color(0.45490196, 0.9411765, 1, 1)
+shader_parameter/markcolor = Color(0.99983865, 0.8206316, 0.6324116, 1)
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_rqd6t"]
 _surfaces = [{

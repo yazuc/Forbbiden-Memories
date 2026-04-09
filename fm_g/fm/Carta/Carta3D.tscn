@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://c8b5cvb66ig8t" path="res://Carta/Carta3d.cs" id="1_2tffa"]
 [ext_resource type="PackedScene" uid="uid://bojhfcwtxih7" path="res://Menu/Password/card_ui.tscn" id="3_l0m1i"]
 [ext_resource type="Shader" uid="uid://lruf3vdil34p" path="res://Carta/Carta3D.gdshader" id="3_r0ftk"]
+[ext_resource type="PackedScene" uid="uid://bdcxq7oudqhnc" path="res://Scenes/thunder.tscn" id="4_l0m1i"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_l0m1i"]
 frequency = 0.0158
@@ -47,3 +48,6 @@ texture = SubResource("ViewportTexture_l0m1i")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=2082988319]
 shape = SubResource("BoxShape3D_gjbah")
+
+[node name="Raio" parent="." unique_id=537783649 instance=ExtResource("4_l0m1i")]
+transform = Transform3D(-0.8156333, 0, -0.5785697, 0, 1, 0, 0.57856995, 0, -0.8156331, 0, 0, -0.0020440447)

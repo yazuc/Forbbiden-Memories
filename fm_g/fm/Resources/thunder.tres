@@ -1,6 +1,6 @@
 [gd_resource type="VisualShader" format=3 uid="uid://djjgmmp6yrq07"]
 
-[ext_resource type="Texture2D" uid="uid://dqonwdmmsltq1" path="res://assets/raiozinho_roubado.png" id="1_a6ya6"]
+[ext_resource type="Texture2D" uid="uid://c73muhm3lwx8c" path="res://assets/T_VFX_spark44.jpg" id="1_a6ya6"]
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_a6ya6"]
 expanded_output_ports = [0]
@@ -10,7 +10,7 @@ texture = ExtResource("1_a6ya6")
 default_input_values = [1, Vector2(2, 0.5), 2, Vector2(0, 0)]
 
 [sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_3xb7k"]
-default_input_values = [0, Vector2(0, 0), 1, Vector2(0, -1)]
+default_input_values = [0, Vector2(0, 0), 1, Vector2(0, 1)]
 op_type = 0
 operator = 2
 
@@ -28,8 +28,8 @@ input_name = "color"
 default_input_values = [1, 0.0, 2, 1.0, 3, 0.0, 4, 0.7, 0, 0.0]
 
 [sub_resource type="Gradient" id="Gradient_a6ya6"]
-offsets = PackedFloat32Array(0.20069204, 0.48788926, 1)
-colors = PackedColorArray(0.08627451, 0.07058824, 1, 1, 0.4627451, 0.8666667, 1, 1, 1, 1, 1, 1)
+offsets = PackedFloat32Array(0.7266436, 1)
+colors = PackedColorArray(0.9782539, 0.70321834, 0.35478097, 1, 1, 1, 1, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_j5cfi"]
 gradient = SubResource("Gradient_a6ya6")
@@ -39,8 +39,8 @@ texture = SubResource("GradientTexture1D_j5cfi")
 texture_type = 1
 
 [resource]
-modes/depth_draw = 2
 modes/cull = 2
+modes/specular = 1
 flags/unshaded = true
 stencil/reference = 2
 nodes/vertex/0/position = Vector2(440, 200)

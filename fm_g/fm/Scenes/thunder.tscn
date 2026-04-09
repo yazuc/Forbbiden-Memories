@@ -15,7 +15,10 @@ color_ramp = SubResource("GradientTexture1D_52jvm")
 [node name="Raio" type="Node3D" unique_id=537783649]
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=196247931]
+emitting = false
 amount = 1
-lifetime = 0.61
+lifetime = 0.5
+one_shot = true
+randomness = 1.0
 process_material = SubResource("ParticleProcessMaterial_8feml")
 draw_pass_1 = ExtResource("1_gorm0")

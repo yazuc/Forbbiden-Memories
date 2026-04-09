@@ -20,9 +20,11 @@ namespace fm{
 		public bool IsEnemy = false;
 		public bool IsFaceDown = false;
 		private Tween _activeTween;
+		public GpuParticles3D Shaders;
 		public override void _Ready()
 		{
 			CardUI = GetNode<CardUi>("SubViewport2/CardUI");
+			Shaders = GetNode<GpuParticles3D>("Raio/GPUParticles3D");			
 			if (SpriteDaCarta != null)
 			{				
 				if (SpriteDaCarta.MaterialOverride is ShaderMaterial mat)
@@ -95,6 +97,17 @@ namespace fm{
 				{
 					novoMat.SetShaderParameter("albedo_texture", SpriteDaCarta.Texture);
 				}
+			}
+		}
+
+		public async Task Eletrocutar()
+		{
+			if(Shaders != null)
+			{
+				Shaders.Emitting = true;
+				await ToSignal(Shaders, GpuParticles3D.SignalName.Finished);
+				Visible = false;
+				QueueFree();
 			}
 		}
 
