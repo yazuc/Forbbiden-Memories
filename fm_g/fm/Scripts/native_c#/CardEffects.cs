@@ -157,6 +157,7 @@ namespace fm
 	{
 		public static ICardEffect CreateEffect(Cards card)
 		{
+			if(card.IsEquip()) return null;
 			return card.Name switch
 			{
 				"Dark Hole" => new DestroyByFilterEffect(m => true, false),

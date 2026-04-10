@@ -1,0 +1,151 @@
+[gd_resource type="ArrayMesh" format=4 uid="uid://b6vuek4biwdg6"]
+
+[ext_resource type="Texture2D" uid="uid://dqonwdmmsltq1" path="res://assets/raiozinho_roubado.png" id="1_dhh1e"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dhh1e"]
+transparency = 1
+blend_mode = 3
+cull_mode = 2
+depth_draw_mode = 2
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_hs3e8"]
+expanded_output_ports = [0]
+texture = ExtResource("1_dhh1e")
+
+[sub_resource type="VisualShaderNodeUVFunc" id="VisualShaderNodeUVFunc_7qogw"]
+default_input_values = [1, Vector2(2, 0.5), 2, Vector2(0, 0)]
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_n0tbn"]
+default_input_values = [0, Vector2(0, 0), 1, Vector2(0, 1)]
+op_type = 0
+operator = 2
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_jou2a"]
+input_name = "time"
+
+[sub_resource type="VisualShaderNodeSmoothStep" id="VisualShaderNodeSmoothStep_dfy84"]
+default_input_values = [0, 0.7, 1, 0.7, 2, 0.5]
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_bqc02"]
+expanded_output_ports = [0]
+input_name = "color"
+
+[sub_resource type="VisualShaderNodeRemap" id="VisualShaderNodeRemap_kws83"]
+default_input_values = [1, 0.0, 2, 1.0, 3, 0.0, 4, 0.7, 0, 0.0]
+
+[sub_resource type="Gradient" id="Gradient_a6ya6"]
+offsets = PackedFloat32Array(0.13148789, 0.34256056, 0.4982699, 0.6366782, 0.7474049, 0.85813147, 0.9411765)
+colors = PackedColorArray(0.9782539, 0.70321834, 0.35478097, 1, 0.7540122, 0.38916364, 0.07030531, 1, 0.9782539, 0.70321834, 0.35478097, 1, 0.7540122, 0.38916364, 0.07030531, 1, 0.9782539, 0.70321834, 0.35478097, 1, 0.7540122, 0.38916364, 0.07030531, 1, 0.9782539, 0.70321834, 0.35478097, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_j5cfi"]
+gradient = SubResource("Gradient_a6ya6")
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_81qb1"]
+texture = SubResource("GradientTexture1D_j5cfi")
+texture_type = 1
+
+[sub_resource type="VisualShader" id="VisualShader_hbcj4"]
+modes/cull = 2
+modes/specular = 1
+flags/unshaded = true
+stencil/reference = 2
+nodes/vertex/0/position = Vector2(440, 200)
+nodes/fragment/0/position = Vector2(1600, 80)
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture_hs3e8")
+nodes/fragment/2/position = Vector2(60, 100)
+nodes/fragment/3/node = SubResource("VisualShaderNodeUVFunc_7qogw")
+nodes/fragment/3/position = Vector2(-320, 140)
+nodes/fragment/4/node = SubResource("VisualShaderNodeVectorOp_n0tbn")
+nodes/fragment/4/position = Vector2(-600, 280)
+nodes/fragment/5/node = SubResource("VisualShaderNodeInput_jou2a")
+nodes/fragment/5/position = Vector2(-940, 140)
+nodes/fragment/6/node = SubResource("VisualShaderNodeSmoothStep_dfy84")
+nodes/fragment/6/position = Vector2(880, 384)
+nodes/fragment/7/node = SubResource("VisualShaderNodeInput_bqc02")
+nodes/fragment/7/position = Vector2(288, -48)
+nodes/fragment/8/node = SubResource("VisualShaderNodeRemap_kws83")
+nodes/fragment/8/position = Vector2(688, 64)
+nodes/fragment/9/node = SubResource("VisualShaderNodeTexture_81qb1")
+nodes/fragment/9/position = Vector2(1100, -20)
+nodes/fragment/connections = PackedInt32Array(6, 0, 9, 0, 4, 0, 3, 2, 5, 0, 4, 0, 8, 0, 6, 0, 9, 0, 0, 0, 6, 0, 0, 1, 2, 1, 6, 2, 3, 0, 2, 0, 7, 1, 8, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o0ctw"]
+render_priority = 0
+shader = SubResource("VisualShader_hbcj4")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mf4xu"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_pldvk"]
+_surfaces = [{
+"aabb": AABB(-2.336787, 0.034018, -2.420182, 4.673574, 2, 4.840364),
+"format": 34896613377,
+"index_count": 192,
+"index_data": PackedByteArray("AAABAAIAAgABAAMABAAAAAIAAQAFAAMABgAAAAQAAwAFAAcACAAGAAQABQAJAAcACgAGAAgABwAJAAsADAAKAAgACQANAAsADgAKAAwACwANAA8AEAAOAAwADQARAA8AEgAOABAADwARABMAFAASABAAEQAVABMAFgASABQAEwAVABcAGAAWABQAFQAZABcAGgAWABgAFwAZABsAHAAaABgAGQAdABsAHgAaABwAGwAdAB8AIAAeABwAHQAhAB8AIgAeACAAHwAhACMAJAAiACAAIQAlACMAJgAiACQAIwAlACcAKAAmACQAJQApACcAKgAmACgAJwApACsALAAqACgAKQAtACsALgAqACwAKwAtAC8AMAAuACwALQAxAC8AMgAuADAALwAxADMANAAyADAAMQA1ADMANgAyADQAMwA1ADcAOAA2ADQANQA5ADcAOgA2ADgANwA5ADsAPAA6ADgAOQA9ADsAPgA6ADwAOwA9AD8APQA+AD8APwA+ADwA"),
+"name": "Material",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 64,
+"vertex_data": PackedByteArray("z4cAABBbAAD/fwAAV1oAAPiY//91AgAA/3///wAAAAD7sP//vgkAAC94AAAQWwAAU48AADVdAAAGZ///dQIAABzH//+SFQAAq3AAADVdAAA/lgAAsGAAAANP//++CQAAgdr//30lAAC/aQAAsGAAAFGcAABfZQAA4jj//5IVAABs6v//4jgAAK1jAABfZQAATKEAABNrAAB9Jf//fSUAAED2//8DTwAAsl4AABNrAAAApQAAlnEAAJIV///iOAAAif3//wZnAAD+WgAAlnEAAEenAACmeAAAvgn//wNPAAD//////38AALdYAACmeAAADKgAAP9/AAB1Av//BmcAAIn9///4mAAA8lcAAP9/AABHpwAAWIcAAAAA////fwAAQPb///uwAAC3WAAAWIcAAAClAABojgAAdQL///iYAABs6v//HMcAAP5aAABojgAATKEAAOuUAAC+Cf//+7AAAIHa//+B2gAAsl4AAOuUAABRnAAAn5oAAJIV//8cxwAAHMf//2zqAACtYwAAn5oAAD+WAABOnwAAfSX//4HaAAD7sP//QPYAAL9pAABOnwAAU48AAMmiAADiOP//bOoAAPiY//+J/QAAq3AAAMmiAADPhwAA7qQAAANP//9A9gAA/3//////AAAveAAA7qQAAP9/AACnpQAABmf//4n9AAA=")
+}, {
+"aabb": AABB(-1.828608, 0.008754, -0.346398, 4.417531, 15.334349, 0.546914),
+"format": 34896613377,
+"index_count": 90,
+"index_data": PackedByteArray("AAABAAIAAgABAAMAAAAEAAEABQAEAAAABQAGAAQABwAGAAUABwAIAAYACQAIAAcACQAKAAgACwAKAAkACwAMAAoADQAMAAsADQAOAAwADwAOAA0ADwAQAA4AEQAQAA8AEQASABAAEwASABEAEwAUABIAFQAUABMAFQAWABQAFwAWABUAFwAYABYAGQAYABcAGQAaABgAGwAaABkAGwAcABoAHQAcABsAHQAeABwAHwAeAB0A"),
+"name": "Material",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 32,
+"vertex_data": PackedByteArray("ppWADnHTAADAIYAOcdMAAGB6mAD//wAAm2UAAP6hAAAAAMkj9qMAAOZzySP2owAA6ksONk20AADVwA42TbQAAO8ir0TgRQAAMouvRMdYAAAbcP9URDUAAE3LNlUlgQAAB1EbYQAAAAANuzhkmUUAANF0PXMzUwAA2tomdSF+AAB6VueITbQAAHC554hNtAAALkPfl4qkAACNqd+XiqQAAGYu6KdhzQAAd5Qop9znAACMOnq2XcIAAAyWurfc5wAAO04Ix9DCAAAUp0zI3OcAAJs2mtfQwgAAXpHe2NznAACFcZLxkHgAAGvlkvGQeAAAGIz//7J2AAD/////snYAAA==")
+}, {
+"aabb": AABB(-1.026862, 0, -1, 2, 1e-05, 2),
+"format": 34896613377,
+"index_count": 6,
+"index_data": PackedByteArray("AAABAAIAAgABAAMA"),
+"name": "Material",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 4,
+"vertex_data": PackedByteArray("//8AAP//AAAAAAAA//8AAP//AAAAAAAAAAAAAAAAAAA=")
+}]
+blend_shape_mode = 0
+
+[resource]
+_surfaces = [{
+"aabb": AABB(-2.336787, 0.034018, -2.420182, 4.673574, 2, 4.840364),
+"attribute_data": PackedByteArray("//f/////////9wAA//8AAP/vAAD/7////+cAAP/n////3wAA/9/////XAAD/1////88AAP/P////xwAA/8f///+/AAD/v////7cAAP+3////rwAA/6////+nAAD/p////58AAP+f////lwAA/5f///+PAAD/j////4cAAP+H////fwAA/3////93AAD/d////28AAP9v////ZwAA/2f///9fAAD/X////1cAAP9X////TwAA/0////9HAAD/R////z8AAP8/////NwAA/zf///8vAAD/L////ycAAP8n////HwAA/x////8XAAD/F////w8AAP8P////BwAA/wf//wAAAAAAAP//"),
+"format": 34896613399,
+"index_count": 192,
+"index_data": PackedByteArray("AAABAAIAAgABAAMABAAAAAIABQAAAAQABgAFAAQABwAFAAYACAAHAAYACQAHAAgACgAJAAgACwAJAAoADAALAAoADQALAAwADgANAAwADwANAA4AEAAPAA4AEQAPABAAEgARABAAEwARABIAFAATABIAFQATABQAFgAVABQAFwAVABYAGAAXABYAGQAXABgAGgAZABgAGwAZABoAHAAbABoAHQAbABwAHgAdABwAHwAdAB4AIAAfAB4AIQAfACAAIgAhACAAIwAhACIAJAAjACIAJQAjACQAJgAlACQAJwAlACYAKAAnACYAKQAnACgAKgApACgAKwApACoALAArACoALQArACwALgAtACwALwAtAC4AMAAvAC4AMQAvADAAMgAxADAAMwAxADIANAAzADIANQAzADQANgA1ADQANwA1ADYAOAA3ADYAOQA3ADgAOgA5ADgAOwA5ADoAPAA7ADoAPQA7ADwAPgA9ADwAPwA9AD4AQAA/AD4AQQA/AEAA"),
+"material": SubResource("StandardMaterial3D_dhh1e"),
+"name": "Material",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 66,
+"vertex_data": PackedByteArray("z4cAABBbngL/fwAAV1pkAviY//91At4C/3///wAAhwL7sP//vgmqBVOPAAA1XTUFHMf//5IVVgg/lgAAsGDBB4Ha//99JdoKUZwAAF9lPgps6v//4jgwDUyhAAATa6cMQPb//wNPXQ8ApQAAlnH5Don9//8GZ2QRR6cAAKZ4MhH//////39NEwyoAAD/f0wTif3///iYHBVHpwAAWIdEFUD2///7sNEWAKUAAGiOFRds6v//HMdpGEyhAADrlLUYgdr//4Ha2RlRnAAAn5ocGhzH//9s6hAbP5YAAE6fQBv7sP//QPYAHFOPAADJohkc+Jj//4n9lhzPhwAA7qSdHP9//////8oc/38AAKelyhwGZ///if2WHC94AADupJ0cA0///0D2AByrcAAAyaIYHOI4//9s6hAbv2kAAE6fQBt9Jf//gdrZGa1jAACfmhwakhX//xzHahiyXgAA65S2GL4J///7sNIW/loAAGiOFhd1Av//+JgdFbdYAABYh0cVAAD///9/ThPyVwAA/39PE3UC//8GZ2URt1gAAKZ4NRG+Cf//A09eD/5aAACWcfwOkhX//+I4MQ2yXgAAE2upDH0l//99JdoKrWMAAF9lPgriOP//khVWCL9pAACwYMAHA0///74JqQWrcAAANV0yBQZn//91At0CL3gAABBbmwL/f///AACFAv9/AABXWmAC4N+wCMvdEgHq38AIz90hAR/ihxAH4moQMeSdFwbkdhch5jQe6eUHHvTndyS250kkq+mDKnTpWypJ63YwJ+tcMNjsbDbX7Gs2Ye6FPIrupjz07+lCS/AwQ6Txx0kl8jZKifNeUSn071HC9QFaavalWnD4J2QE+cJkw/t5cCH843D9/wCA+v8CgHbwPITc8OKDJeSPh73k/YYA2jyKotqViV3RdIzu0dWLx8lZjjbK143pwgmQMsOwj4W8nJGovHGRbLYlk222JJN2sLOUXrDUlIOqUpZcqoiWd6QKmEmkR5g0nt2ZB54VmpyXzZt0l/ebhpDenWmQ952/iBSgrogeoCCBL6IPgTOi")
+}, {
+"aabb": AABB(-1.828608, 0.008754, -0.346398, 4.417531, 15.334349, 0.546914),
+"attribute_data": PackedByteArray("//9PEwAATxP//wAAAAAAAAAAYCT//2AkAABxNf//cTUAAIJG//+CRgAAk1f//5NXAACkaP//pGgAALV5//+1eQAAxor//8aKAADXm///15sAAOis///orAAA+b3///m9AAAKz///Cs8AABvg//8b4AAALPH//yzxAAD///////8="),
+"format": 34896613399,
+"index_count": 90,
+"index_data": PackedByteArray("AAABAAIAAgABAAMAAAAEAAEABQAEAAAABQAGAAQABwAGAAUABwAIAAYACQAIAAcACQAKAAgACwAKAAkACwAMAAoADQAMAAsADQAOAAwADwAOAA0ADwAQAA4AEQAQAA8AEQASABAAEwASABEAEwAUABIAFQAUABMAFQAWABQAFwAWABUAFwAYABYAGQAYABcAGQAaABgAGwAaABkAGwAcABoAHQAcABsAHQAeABwAHwAeAB0A"),
+"material": SubResource("ShaderMaterial_o0ctw"),
+"name": "Material",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 32,
+"vertex_data": PackedByteArray("ppWADnHTHf/AIYAOcdPy/WB6mAD//2L+m2UAAP6hiP4AAMkj9qN5/uZzySP2o0L/6ksONk20KvzVwA42TbSe++8ir0TgRZ/5MouvRMdYTfobcP9URDUM/U3LNlUlgaH8B1EbYQAA6/8NuzhkmUV+/9F0PXMzUwz72tomdSF+7Pp6VueITbTH/nC554hNtBv9LkPfl4qkW/2Nqd+XiqTe/mYu6Kdhzer9d5Qop9znZP2MOnq2XcJI/wyWurfc50T/O04Ix9DC+/8Up0zI3Of2/5s2mtfQwr79XpHe2Nzn6fyFcZLxkHjc+2vlkvGQeCb+GIz//7J2zv//////snbO/wkAaX1CAHJ+/PjdgT70tIYAAP9/AAD/fwMAqn8HAGGABAAEfhcAVoIsABR73gI7eF0E+3ZC9j2FRPj2hIr67oKB/vKAHv/3f0n/+X8q/5l/D/3sfhn+3n8HASl85wI8eur594Ll+fyC3wLJehoCuXvVACZ+AgCIfwAA/38AAP9/")
+}, {
+"aabb": AABB(-1.026862, 0, -1, 2, 1e-05, 2),
+"attribute_data": PackedByteArray("/////wAA/////wAAAAAAAA=="),
+"format": 34896613399,
+"index_count": 6,
+"index_data": PackedByteArray("AAABAAIAAgABAAMA"),
+"material": SubResource("StandardMaterial3D_mf4xu"),
+"name": "Material",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 4,
+"vertex_data": PackedByteArray("//8AAP///78AAAAA////v///AAAAAP+/AAAAAAAA/7////9/////f////3////9/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_pldvk")

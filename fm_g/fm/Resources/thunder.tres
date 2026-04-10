@@ -7,7 +7,7 @@ expanded_output_ports = [0]
 texture = ExtResource("1_a6ya6")
 
 [sub_resource type="VisualShaderNodeUVFunc" id="VisualShaderNodeUVFunc_j5cfi"]
-default_input_values = [1, Vector2(2, 0.5), 2, Vector2(0, 0)]
+default_input_values = [1, Vector2(5, 0.5), 2, Vector2(0, 0)]
 
 [sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_3xb7k"]
 default_input_values = [0, Vector2(0, 0), 1, Vector2(0, 1)]
@@ -28,8 +28,8 @@ input_name = "color"
 default_input_values = [1, 0.0, 2, 1.0, 3, 0.0, 4, 0.7, 0, 0.0]
 
 [sub_resource type="Gradient" id="Gradient_a6ya6"]
-offsets = PackedFloat32Array(0.7266436, 1)
-colors = PackedColorArray(0.9782539, 0.70321834, 0.35478097, 1, 1, 1, 1, 1)
+offsets = PackedFloat32Array(0.13148789, 0.34256056, 0.4982699, 0.6366782, 0.7474049, 0.85813147, 0.9411765)
+colors = PackedColorArray(0.9782539, 0.70321834, 0.35478097, 1, 0.7540122, 0.38916364, 0.07030531, 1, 0.9782539, 0.70321834, 0.35478097, 1, 0.7540122, 0.38916364, 0.07030531, 1, 0.9782539, 0.70321834, 0.35478097, 1, 0.7540122, 0.38916364, 0.07030531, 1, 0.9782539, 0.70321834, 0.35478097, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_j5cfi"]
 gradient = SubResource("Gradient_a6ya6")
@@ -50,7 +50,7 @@ nodes/fragment/2/position = Vector2(60, 100)
 nodes/fragment/3/node = SubResource("VisualShaderNodeUVFunc_j5cfi")
 nodes/fragment/3/position = Vector2(-320, 140)
 nodes/fragment/4/node = SubResource("VisualShaderNodeVectorOp_3xb7k")
-nodes/fragment/4/position = Vector2(-600, 280)
+nodes/fragment/4/position = Vector2(-600, 120)
 nodes/fragment/5/node = SubResource("VisualShaderNodeInput_gvvwa")
 nodes/fragment/5/position = Vector2(-940, 140)
 nodes/fragment/6/node = SubResource("VisualShaderNodeSmoothStep_joiky")

@@ -107,7 +107,7 @@ namespace fm{
 			{								
 				var tipo = resultadoFusao.MainCard.Type;
 				if(ativaDireto || resultadoFusao.MainCard.IsSpellTrap() && !ativaDireto && !IsFaceDown)
-				{
+				{					
 					await CartaSTAction(card, resultadoFusao);
 					return;
 				}
