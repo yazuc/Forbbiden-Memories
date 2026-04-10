@@ -32,6 +32,7 @@ public partial class SeletorGuardian : Panel
 
 	public void Setup(Cards card)
 	{
+		if(card.IsSpellTrap()) return;
 		CurrentCard = card;
 		GuardianName1.Text = card.GuardianStarA.ToString();
 		GuardianName2.Text = card.GuardianStarB.ToString();
@@ -44,8 +45,9 @@ public partial class SeletorGuardian : Panel
 	}
 	public int OnGuardianSelected(int guardianIndex)
 	{
+		if(CurrentCard.IsSpellTrap()) return -1;
 		GD.Print("Guardião selecionado: " + guardianIndex);
-		_tcsCarta?.TrySetResult(guardianIndex);
+		_tcsCarta?.TrySetResult(guardianIndex);		
 		GuardianButton1.Pressed -= Guardian1;
 		GuardianButton2.Pressed -= Guardian2;
 		return guardianIndex;

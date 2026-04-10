@@ -17,6 +17,7 @@ color_ramp = SubResource("GradientTexture1D_52jvm")
 [node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=196247931]
 emitting = false
 amount = 1
+lifetime = 0.5
 one_shot = true
 fixed_fps = 60
 interpolate = false

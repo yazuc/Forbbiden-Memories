@@ -105,8 +105,8 @@ namespace fm{
 			if(Shaders != null)
 			{
 				Shaders.Emitting = true;
+				SpriteDaCarta.Visible = false;
 				await ToSignal(Shaders, GpuParticles3D.SignalName.Finished);
-				Visible = false;
 				QueueFree();
 			}
 		}
