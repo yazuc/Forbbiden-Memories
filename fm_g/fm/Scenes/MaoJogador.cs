@@ -229,6 +229,7 @@ namespace fm{
 			}
 		}
 
+		//isso precisa virar eventualmente uma classe nova que lê o retorno de cardeffect
 		public async Task SyncField()
 		{
 			var cartas = Tools.PegaTodasCarta3d();
