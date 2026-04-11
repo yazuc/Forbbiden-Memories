@@ -1,6 +1,6 @@
 [gd_resource type="VisualShader" format=3 uid="uid://djjgmmp6yrq07"]
 
-[ext_resource type="Texture2D" uid="uid://c73muhm3lwx8c" path="res://assets/T_VFX_spark44.jpg" id="1_a6ya6"]
+[ext_resource type="Texture2D" uid="uid://so00nfpdlw5m" path="res://assets/LeLu's Noise Pack (FREE)/LeLu's Noise Pack/T_wavesKI96.png" id="1_a6ya6"]
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_a6ya6"]
 expanded_output_ports = [0]
@@ -28,8 +28,8 @@ input_name = "color"
 default_input_values = [1, 0.0, 2, 1.0, 3, 0.0, 4, 0.7, 0, 0.0]
 
 [sub_resource type="Gradient" id="Gradient_a6ya6"]
-offsets = PackedFloat32Array(0.13148789, 0.34256056, 0.4982699, 0.6366782, 0.7474049, 0.85813147, 0.9411765)
-colors = PackedColorArray(0.9782539, 0.70321834, 0.35478097, 1, 0.7540122, 0.38916364, 0.07030531, 1, 0.9782539, 0.70321834, 0.35478097, 1, 0.7540122, 0.38916364, 0.07030531, 1, 0.9782539, 0.70321834, 0.35478097, 1, 0.7540122, 0.38916364, 0.07030531, 1, 0.9782539, 0.70321834, 0.35478097, 1)
+offsets = PackedFloat32Array(0, 0.07266436, 0.183391, 0.30103806, 0.4636678, 0.64705884, 0.85813147)
+colors = PackedColorArray(0.9782539, 0.70321834, 0.35478097, 1, 0.9782539, 0.70321834, 0.35478097, 1, 0.9782539, 0.70321834, 0.35478097, 1, 0.7540122, 0.38916364, 0.07030531, 1, 0.9782539, 0.70321834, 0.35478097, 1, 0.7540122, 0.38916364, 0.07030531, 1, 0.7540122, 0.38916364, 0.07030531, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_j5cfi"]
 gradient = SubResource("Gradient_a6ya6")
