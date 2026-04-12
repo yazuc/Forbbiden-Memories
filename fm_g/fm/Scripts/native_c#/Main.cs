@@ -61,6 +61,7 @@ namespace fm
 				gL.MaoDoJogador.gameLoop = gL;
 				gL.Initialize();
 			}					
+			
 		}
 		
 		private Godot.Collections.Array<Marker3D> GetSlotsFromGroup(string groupName)
