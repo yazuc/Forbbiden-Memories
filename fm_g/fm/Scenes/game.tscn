@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://bc5wbl4amrc7m" path="res://HUD/informacao_carta.tscn" id="13_nb51f"]
 [ext_resource type="PackedScene" uid="uid://coi18rhwpw1ja" path="res://Scenes/spiral.tscn" id="17_85qyi"]
 [ext_resource type="PackedScene" uid="uid://df5idd2nj5vrc" path="res://HUD/seletorInimigo.tscn" id="17_ewbju"]
+[ext_resource type="PackedScene" uid="uid://bso0m3vtw8pd5" path="res://Scenes/blackhole.tscn" id="18_85qyi"]
 
 [sub_resource type="Environment" id="Environment_v158k"]
 background_mode = 2
@@ -289,3 +290,6 @@ transform = Transform3D(1.3646258, 0, 0, 0, 1, 0, 0, 0, 0.7739647, 0, 1.0625591,
 visible = false
 
 [node name="SeletorInimigo" parent="." unique_id=852704493 instance=ExtResource("17_ewbju")]
+
+[node name="Blackhole" parent="." unique_id=20704425 instance=ExtResource("18_85qyi")]
+position = Vector2(731, 106)

@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://bso0m3vtw8pd5"]
+
+[ext_resource type="Shader" uid="uid://vewrovcfsjyf" path="res://Scenes/blackhole.gdshader" id="1_dxehr"]
+[ext_resource type="Texture2D" uid="uid://d04xyp2w5cchf" path="res://assets/purple-aura.jpg" id="2_xl8aw"]
+
+[sub_resource type="Gradient" id="Gradient_85kqb"]
+offsets = PackedFloat32Array(0, 0.95522386)
+colors = PackedColorArray(0.5400552, 0.0017693826, 0.74707925, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_hko3c"]
+gradient = SubResource("Gradient_85kqb")
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_61d5b"]
+gradient = SubResource("Gradient_85kqb")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xl8aw"]
+shader = ExtResource("1_dxehr")
+shader_parameter/resolution = Vector2(416, 303)
+shader_parameter/colorResolution = 10.0
+shader_parameter/distortionIntensity = 1.0
+shader_parameter/spiralDistortionIntensity = 1.0
+shader_parameter/holeSize = 0.12999999709424
+shader_parameter/holeColor = SubResource("GradientTexture1D_61d5b")
+shader_parameter/image = ExtResource("2_xl8aw")
+shader_parameter/rotations = 10.0
+shader_parameter/depth = 3.90000005811468
+shader_parameter/spiralIntensity = 10.0
+shader_parameter/shrinkSpeed = 0.2
+shader_parameter/roationSpeed = 0.1
+shader_parameter/haloColor = SubResource("GradientTexture1D_hko3c")
+
+[node name="Blackhole" type="Node2D" unique_id=20704425]
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1212762458]
+material = SubResource("ShaderMaterial_xl8aw")
+offset_right = 416.0
+offset_bottom = 303.0
+color = Color(1, 1, 1, 0)
