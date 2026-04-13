@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://dliceihy2u8go" path="res://assets/Campo.cs" id="1_o821d"]
 [ext_resource type="Texture2D" uid="uid://b53vdmject8ay" path="res://assets/campos/campo_original/campo_1.png" id="2_o821d"]
 [ext_resource type="Texture2D" uid="uid://bn4fxtfpmf3ma" path="res://assets/campos/campo_original/campo_2.png" id="3_enpss"]
+[ext_resource type="Texture2D" uid="uid://bj8ccfck3mqnf" path="res://assets/campos/campo_original/normalfield.png" id="3_o821d"]
 [ext_resource type="Texture2D" uid="uid://c8ahhxirjygfl" path="res://assets/campos/campo_original/campo_3.png" id="4_7plpp"]
 [ext_resource type="Texture2D" uid="uid://c7iqvxrlkpb6r" path="res://assets/campos/campo_original/campo_4.png" id="5_lxheh"]
 [ext_resource type="Texture2D" uid="uid://cycbqtgjfmuux" path="res://assets/campos/campo_original/campo_5.png" id="6_r6t13"]
@@ -52,9 +53,10 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_b25d7")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o821d"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_enpss"]
 resource_name = "03786CBBC67DBB11FD2D4A7A21DA5233"
 cull_mode = 2
+albedo_texture = ExtResource("3_o821d")
 roughness = 0.6
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_74f0w"]
@@ -523,17 +525,17 @@ script = ExtResource("1_o821d")
 [node name="text_st_ally" type="MeshInstance3D" parent="." unique_id=1189870162]
 transform = Transform3D(1, 0, 0, 0, 2.220446e-16, 1, 0, -1, 2.220446e-16, 0, 0, 0)
 mesh = SubResource("ArrayMesh_2l5qu")
-surface_material_override/0 = SubResource("StandardMaterial3D_o821d")
+surface_material_override/0 = SubResource("StandardMaterial3D_enpss")
 
 [node name="text_st_enemy" type="MeshInstance3D" parent="." unique_id=932234825]
 transform = Transform3D(1, 0, 0, 0, 2.220446e-16, 1, 0, -1, 2.220446e-16, 0, 0, 0)
 mesh = SubResource("ArrayMesh_o8kld")
-surface_material_override/0 = SubResource("StandardMaterial3D_o821d")
+surface_material_override/0 = SubResource("StandardMaterial3D_enpss")
 
 [node name="text_mt_ally" type="MeshInstance3D" parent="." unique_id=183918655]
 transform = Transform3D(1, 0, 0, 0, 2.220446e-16, 1, 0, -1, 2.220446e-16, 0, 0, 0)
 mesh = SubResource("ArrayMesh_rriaw")
-surface_material_override/0 = SubResource("StandardMaterial3D_o821d")
+surface_material_override/0 = SubResource("StandardMaterial3D_enpss")
 
 [node name="Object_5" type="MeshInstance3D" parent="." unique_id=2027067672]
 transform = Transform3D(1, 0, 0, 0, 2.220446e-16, 1, 0, -1, 2.220446e-16, 0, 0, 0)
@@ -562,12 +564,12 @@ mesh = SubResource("ArrayMesh_4ufy1")
 [node name="text_mt_enemy" type="MeshInstance3D" parent="." unique_id=185277605]
 transform = Transform3D(1, 0, 0, 0, 2.220446e-16, 1, 0, -1, 2.220446e-16, 0, 0, 0)
 mesh = SubResource("ArrayMesh_4m323")
-surface_material_override/0 = SubResource("StandardMaterial3D_o821d")
+surface_material_override/0 = SubResource("StandardMaterial3D_enpss")
 
 [node name="text_center" type="MeshInstance3D" parent="." unique_id=926700725]
 transform = Transform3D(1, 0, 0, 0, 2.220446e-16, 1, 0, -1, 2.220446e-16, 0, 0, 0)
 mesh = SubResource("ArrayMesh_wdqn1")
-surface_material_override/0 = SubResource("StandardMaterial3D_o821d")
+surface_material_override/0 = SubResource("StandardMaterial3D_enpss")
 
 [node name="Object_13" type="MeshInstance3D" parent="." unique_id=1510704317]
 transform = Transform3D(1, 0, 0, 0, 2.220446e-16, 1, 0, -1, 2.220446e-16, 0, 0, 0)

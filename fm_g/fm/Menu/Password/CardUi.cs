@@ -147,7 +147,7 @@ public partial class CardUi : Control
 
 	public void CalculaFlip(bool flip)
 	{
-		var framelocal = !flip ? framePos : 0;		
+		var framelocal = !flip ? framePos : 0;				
 		CartaArte.Visible = !flip;
 		ATK.Visible = !flip;
 		DEF.Visible = !flip;

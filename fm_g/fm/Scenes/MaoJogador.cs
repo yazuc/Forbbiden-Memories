@@ -461,8 +461,9 @@ namespace fm{
 			{
 				_slots = DefineSlotagem(alvo.carta.Type);
 				DefineVisibildadeIndicadores(false);
+				
 				IsFaceDown = alvo.IsFaceDown;
-				if (alvo.carta.IsSpell() && !alvo.carta.IsFaceDown)
+				if (alvo.carta.IsSpell() && !IsFaceDown)
 				{
 					IsFaceDown = !alvo.IsFaceDown;
 					GetViewport().SetInputAsHandled();

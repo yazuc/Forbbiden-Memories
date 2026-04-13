@@ -292,4 +292,5 @@ visible = false
 [node name="SeletorInimigo" parent="." unique_id=852704493 instance=ExtResource("17_ewbju")]
 
 [node name="Blackhole" parent="." unique_id=20704425 instance=ExtResource("18_85qyi")]
+visible = false
 position = Vector2(731, 106)
