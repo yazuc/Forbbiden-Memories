@@ -102,7 +102,7 @@ namespace fm
 		public override void Activate(GameState gameState, Player caster, Cards card)
 		{
 			var target = _targetOpponent ? gameState.OpponentPlayer : caster;
-			target.LifePoints += _amount;
+			target.TakeDamage(-1 * _amount);			
 		}
 	}
 	public class ModifyAttackEffect : BaseCardEffect
@@ -175,7 +175,7 @@ namespace fm
 				"Red Medicine" => new LifePointEffect(500),
 				"Goblin Secret Remedy" => new LifePointEffect(1000),
 				"Soul of the Pure" => new LifePointEffect(2000),
-				"Dian Keto" => new LifePointEffect(5000),
+				"Dian Keto the Cure Master" => new LifePointEffect(5000),
 
 				"Sparks" => new LifePointEffect(-50, true),
 				"Hinotama" => new LifePointEffect(-100, true),

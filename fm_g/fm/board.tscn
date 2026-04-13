@@ -53,7 +53,7 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_b25d7")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_enpss"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o821d"]
 resource_name = "03786CBBC67DBB11FD2D4A7A21DA5233"
 cull_mode = 2
 albedo_texture = ExtResource("3_o821d")
@@ -525,17 +525,17 @@ script = ExtResource("1_o821d")
 [node name="text_st_ally" type="MeshInstance3D" parent="." unique_id=1189870162]
 transform = Transform3D(1, 0, 0, 0, 2.220446e-16, 1, 0, -1, 2.220446e-16, 0, 0, 0)
 mesh = SubResource("ArrayMesh_2l5qu")
-surface_material_override/0 = SubResource("StandardMaterial3D_enpss")
+surface_material_override/0 = SubResource("StandardMaterial3D_o821d")
 
 [node name="text_st_enemy" type="MeshInstance3D" parent="." unique_id=932234825]
 transform = Transform3D(1, 0, 0, 0, 2.220446e-16, 1, 0, -1, 2.220446e-16, 0, 0, 0)
 mesh = SubResource("ArrayMesh_o8kld")
-surface_material_override/0 = SubResource("StandardMaterial3D_enpss")
+surface_material_override/0 = SubResource("StandardMaterial3D_o821d")
 
 [node name="text_mt_ally" type="MeshInstance3D" parent="." unique_id=183918655]
 transform = Transform3D(1, 0, 0, 0, 2.220446e-16, 1, 0, -1, 2.220446e-16, 0, 0, 0)
 mesh = SubResource("ArrayMesh_rriaw")
-surface_material_override/0 = SubResource("StandardMaterial3D_enpss")
+surface_material_override/0 = SubResource("StandardMaterial3D_o821d")
 
 [node name="Object_5" type="MeshInstance3D" parent="." unique_id=2027067672]
 transform = Transform3D(1, 0, 0, 0, 2.220446e-16, 1, 0, -1, 2.220446e-16, 0, 0, 0)
@@ -564,12 +564,12 @@ mesh = SubResource("ArrayMesh_4ufy1")
 [node name="text_mt_enemy" type="MeshInstance3D" parent="." unique_id=185277605]
 transform = Transform3D(1, 0, 0, 0, 2.220446e-16, 1, 0, -1, 2.220446e-16, 0, 0, 0)
 mesh = SubResource("ArrayMesh_4m323")
-surface_material_override/0 = SubResource("StandardMaterial3D_enpss")
+surface_material_override/0 = SubResource("StandardMaterial3D_o821d")
 
 [node name="text_center" type="MeshInstance3D" parent="." unique_id=926700725]
 transform = Transform3D(1, 0, 0, 0, 2.220446e-16, 1, 0, -1, 2.220446e-16, 0, 0, 0)
 mesh = SubResource("ArrayMesh_wdqn1")
-surface_material_override/0 = SubResource("StandardMaterial3D_enpss")
+surface_material_override/0 = SubResource("StandardMaterial3D_o821d")
 
 [node name="Object_13" type="MeshInstance3D" parent="." unique_id=1510704317]
 transform = Transform3D(1, 0, 0, 0, 2.220446e-16, 1, 0, -1, 2.220446e-16, 0, 0, 0)
