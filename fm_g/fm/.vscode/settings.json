@@ -1,4 +1,5 @@
 {
   "dotnet.defaultSolution": "fm.sln",
   "omnisharp.useModernNet": true,
+  "svn.ignoreMissingSvnWarning": true,
 }

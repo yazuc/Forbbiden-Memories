@@ -45,7 +45,7 @@ namespace fm
 			this.item = item;
 			this.index = index;		
 
-			string stats =  "ATK " + item.Attack.ToString() + "\n" + "DEF " + item.Defense.ToString();
+			string stats =  "[ " + item.Attack.ToString() + "\n" + "\\ " + item.Defense.ToString();
 			if(item.Type == CardTypeEnum.Spell || item.Type == CardTypeEnum.Trap || item.Type == CardTypeEnum.Ritual || item.Type == CardTypeEnum.Equipment)
 				stats = "";
 			FillLabel(
@@ -97,7 +97,7 @@ namespace fm
 			if (!_signCache.ContainsKey(sign))
 			{
 				var atlas = (AtlasTexture)AtlasBaseSign.Duplicate();
-				atlas.Region = new Rect2(sign * 64, 0, 64, 64);
+				atlas.Region = new Rect2(sign * 16, 0, 16, 16);
 				_signCache[sign] = atlas;
 			}
 

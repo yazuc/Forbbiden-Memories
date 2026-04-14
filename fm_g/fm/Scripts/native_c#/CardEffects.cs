@@ -160,6 +160,13 @@ namespace fm
 			if(card.IsEquip()) return null;
 			return card.Name switch
 			{
+				//missing:
+				/*
+				* stop defense
+				* swords of revealing light
+				* dark-piercing light
+				* curse breaker
+				*/
 				"Dark Hole" => new DestroyByFilterEffect(m => true, false),
 				"Raigeki" => new DestroyByFilterEffect(m => true, true),
 				"Crush Card" => new DestroyByFilterEffect(m => m.Card.Attack >= 1500, true),

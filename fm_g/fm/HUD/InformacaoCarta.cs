@@ -52,7 +52,7 @@ public partial class InformacaoCarta : HBoxContainer
 
 		if(atlas == null) return;
 
-		atlas.Region = new Rect2(Sign * 64, 0, 64, 64);
+		atlas.Region = new Rect2(Sign * 16, 0, 16, 16);
 
 		if(TypeSign != null)
 			TypeSign.Texture = atlas;

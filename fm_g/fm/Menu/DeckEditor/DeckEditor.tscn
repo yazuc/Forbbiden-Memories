@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://7a6cxyxm0dhp"]
 
-[ext_resource type="Texture2D" uid="uid://cejd0qfh25o4s" path="res://assets/tijolo_frederico.jpg" id="1_0crxi"]
 [ext_resource type="Script" uid="uid://bey2pwuy0swjw" path="res://Menu/DeckEditor/VBoxContainer.cs" id="1_dmf6v"]
+[ext_resource type="Texture2D" uid="uid://2wsu7p7wf8wb" path="res://assets/LeLu's Noise Pack (FREE)/LeLu's Noise Pack/brick.png" id="1_p0pxx"]
 [ext_resource type="FontFile" uid="uid://dvaju2cffkn2i" path="res://assets/matrix-bold-small-caps-wisabo/MatrixBoldSmallCaps.otf" id="2_0crxi"]
 [ext_resource type="PackedScene" uid="uid://lc8gchaw7gis" path="res://Menu/DeckEditor/card_seletor.tscn" id="4_p0pxx"]
 
@@ -31,11 +31,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_0crxi")
-patch_margin_left = 66
-patch_margin_top = 66
-patch_margin_right = 66
-patch_margin_bottom = 66
+texture = ExtResource("1_p0pxx")
+patch_margin_left = 64
+patch_margin_top = 64
+patch_margin_right = 64
+patch_margin_bottom = 64
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 metadata/_edit_use_anchors_ = true
