@@ -1,45 +1,38 @@
 [gd_scene format=3 uid="uid://bfl33rwc48qyu"]
 
 [ext_resource type="Texture2D" uid="uid://wwexuc7vx21d" path="res://assets/LeLu's Noise Pack (FREE)/LeLu's Noise Pack/swords.png" id="1_boakr"]
+[ext_resource type="Texture2D" uid="uid://bq4by3yl0vrbr" path="res://assets/spellbindingcircle.png" id="1_nqroe"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nqroe"]
 transparency = 1
 cull_mode = 2
 vertex_color_use_as_albedo = true
-albedo_color = Color(2.5025156, 2.5025156, 2.5025156, 1)
-albedo_texture = ExtResource("1_boakr")
+albedo_texture = ExtResource("1_nqroe")
 billboard_mode = 1
 billboard_keep_scale = true
 
-[sub_resource type="Curve" id="Curve_nqroe"]
-_data = [Vector2(0, 0), 0.0, 1.0, 0, 1, Vector2(1, 1), 1.0, 0.0, 1, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_85ghr"]
-curve = SubResource("Curve_nqroe")
-
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_nqroe"]
 gravity = Vector3(0, 0, 0)
-scale_max = 5.0
-scale_curve = SubResource("CurveTexture_85ghr")
-color = Color(1.696817, 0.6519761, 0.7002795, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lca1c"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_lca1c"]
 material = SubResource("ShaderMaterial_lca1c")
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_85ghr"]
+transparency = 1
+cull_mode = 2
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("1_boakr")
+billboard_mode = 1
+billboard_keep_scale = true
+
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qmlla"]
 particle_flag_disable_z = true
 emission_shape_scale = Vector3(1.815, 0.02, 0.485)
-emission_shape = 6
-emission_ring_axis = Vector3(0, 0, 1)
-emission_ring_height = 1.0
-emission_ring_radius = 1.0
-emission_ring_inner_radius = 1.0
-emission_ring_cone_angle = 90.0
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
 gravity = Vector3(0, 0, 0)
-color = Color(0.47058824, 0.47058824, 0.47058824, 1)
 
 [sub_resource type="QuadMesh" id="QuadMesh_i2bf5"]
 material = SubResource("ShaderMaterial_lca1c")
@@ -49,15 +42,19 @@ material = SubResource("ShaderMaterial_lca1c")
 [node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=189420694]
 visible = false
 material_override = SubResource("StandardMaterial3D_nqroe")
+emitting = false
 amount = 1
-lifetime = 0.2
+one_shot = true
+speed_scale = 0.0
 process_material = SubResource("ParticleProcessMaterial_nqroe")
 draw_pass_1 = SubResource("QuadMesh_lca1c")
 
 [node name="Flare" type="GPUParticles3D" parent="." unique_id=1470769904]
-material_override = SubResource("StandardMaterial3D_nqroe")
+material_override = SubResource("StandardMaterial3D_85ghr")
+cast_shadow = 0
+emitting = false
 amount = 20
-lifetime = 3.05
+one_shot = true
 visibility_aabb = AABB(-4, -3.505, -4, 8, 8, 8)
 process_material = SubResource("ParticleProcessMaterial_qmlla")
 draw_pass_1 = SubResource("QuadMesh_i2bf5")

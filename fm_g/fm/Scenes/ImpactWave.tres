@@ -1,0 +1,37 @@
+[gd_resource type="VisualShader" format=3 uid="uid://beepdhbna38gj"]
+
+[ext_resource type="Texture2D" uid="uid://bpj2e6v1g3ftj" path="res://assets/LeLu's Noise Pack (FREE)/LeLu's Noise Pack/T_texr41.png" id="1_d0iyt"]
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_t1xe4"]
+texture = ExtResource("1_d0iyt")
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_kqhvl"]
+input_name = "time"
+
+[sub_resource type="VisualShaderNodeUVFunc" id="VisualShaderNodeUVFunc_i72s4"]
+default_input_values = [1, Vector2(0, 0.5), 2, Vector2(0, 0)]
+
+[sub_resource type="Gradient" id="Gradient_d0iyt"]
+offsets = PackedFloat32Array(0.043165468, 0.2410072, 0.43165466, 0.5935252, 0.7410072)
+colors = PackedColorArray(0.2159017, 0.21590173, 0.2159017, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.45490196, 0.45490196, 0.45490196, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_t1xe4"]
+gradient = SubResource("Gradient_d0iyt")
+use_hdr = true
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_kqhvl"]
+texture = SubResource("GradientTexture1D_t1xe4")
+texture_type = 1
+
+[resource]
+modes/cull = 2
+nodes/fragment/0/position = Vector2(540, 100)
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture_t1xe4")
+nodes/fragment/2/position = Vector2(80, 240)
+nodes/fragment/3/node = SubResource("VisualShaderNodeInput_kqhvl")
+nodes/fragment/3/position = Vector2(-680, 300)
+nodes/fragment/4/node = SubResource("VisualShaderNodeUVFunc_i72s4")
+nodes/fragment/4/position = Vector2(-300, 280)
+nodes/fragment/5/node = SubResource("VisualShaderNodeTexture_kqhvl")
+nodes/fragment/5/position = Vector2(320, 100)
+nodes/fragment/connections = PackedInt32Array(4, 0, 2, 0, 2, 0, 5, 0, 5, 0, 0, 0, 3, 0, 4, 2)

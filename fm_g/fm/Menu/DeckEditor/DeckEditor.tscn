@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bey2pwuy0swjw" path="res://Menu/DeckEditor/VBoxContainer.cs" id="1_dmf6v"]
 [ext_resource type="Texture2D" uid="uid://2wsu7p7wf8wb" path="res://assets/LeLu's Noise Pack (FREE)/LeLu's Noise Pack/brick.png" id="1_p0pxx"]
 [ext_resource type="FontFile" uid="uid://dvaju2cffkn2i" path="res://assets/matrix-bold-small-caps-wisabo/MatrixBoldSmallCaps.otf" id="2_0crxi"]
+[ext_resource type="Texture2D" uid="uid://csqckj3sefeu4" path="res://assets/filter_de.png" id="3_63xyc"]
 [ext_resource type="PackedScene" uid="uid://lc8gchaw7gis" path="res://Menu/DeckEditor/card_seletor.tscn" id="4_p0pxx"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_p0pxx"]
@@ -101,18 +102,37 @@ text = "9999"
 horizontal_alignment = 2
 vertical_alignment = 2
 
-[node name="Filter" type="ColorRect" parent="Panel" unique_id=632775273]
+[node name="ColorRect" type="ColorRect" parent="Panel" unique_id=1389049687]
+layout_mode = 0
+offset_left = 376.66666
+offset_top = 15.0
+offset_right = 1460.6666
+offset_bottom = 93.333
+color = Color(0.25882354, 0.22745098, 0.32156864, 1)
+
+[node name="Filter" type="ColorRect" parent="Panel/ColorRect" unique_id=632775273]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.19618055
-anchor_top = 0.013888889
-anchor_right = 0.7612847
-anchor_bottom = 0.086419754
-offset_right = -1.0
+anchor_left = 0.19976169
+anchor_top = 0.0057525067
+anchor_right = 1.1923817
+anchor_bottom = 0.8993733
+offset_left = -211.20833
+offset_top = 3.549389
+offset_right = -212.20837
+offset_bottom = 3.549389
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.015686275, 0.003921569, 0.13333334, 1)
 metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect" type="TextureRect" parent="Panel/ColorRect/Filter" unique_id=1823161629]
+layout_mode = 0
+offset_left = 198.99997
+offset_top = 5.0
+offset_right = 1070.3334
+offset_bottom = 66.0
+texture = ExtResource("3_63xyc")
 
 [node name="VScrollBar" type="ScrollContainer" parent="Panel" unique_id=638840893]
 custom_minimum_size = Vector2(0, 547)
@@ -138,16 +158,15 @@ script = ExtResource("1_dmf6v")
 metadata/_edit_use_anchors_ = true
 
 [node name="CardSeletor" parent="Panel" unique_id=1392681870 instance=ExtResource("4_p0pxx")]
-layout_mode = 0
-anchors_preset = 0
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = -1.5
-offset_top = 75.0
-offset_right = 1156.5
-offset_bottom = 130.0
+layout_mode = 1
+anchor_left = 0.16666667
+anchor_top = 0.12777779
+anchor_right = 0.76979166
+anchor_bottom = 0.17870371
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
 grow_horizontal = 1
 grow_vertical = 1
 size_flags_horizontal = 3

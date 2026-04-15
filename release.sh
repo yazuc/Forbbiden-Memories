@@ -9,7 +9,7 @@ LATEST_TAG=$(git tag --sort=-v:refname | head -n 1)
 
 # If no tag exists, start from 0.1.0
 if [ -z "$LATEST_TAG" ]; then
-  NEXT_TAG="0.1.0"
+  NEXT_TAG="0.2.0"
 else
   IFS='.' read -r MAJOR MINOR PATCH <<<"$LATEST_TAG"
   PATCH=$((PATCH + 1))
