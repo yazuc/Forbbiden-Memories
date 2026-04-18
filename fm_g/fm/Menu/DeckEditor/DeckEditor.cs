@@ -23,15 +23,24 @@ public partial class DeckEditor : Control
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override async void _Process(double delta)
 	{				
+		MoveSelector(j);
 		if (Input.IsActionJustReleased("ui_cancel"))
 		{
 			await GlobalUsings.Instance.GoBack();
+		}
+	}
+	public override void _Input(InputEvent @event)
+	{
+		if (@event.IsActionPressed("ui_left") || @event.IsActionPressed("ui_right"))
+		{
+			GetViewport().SetInputAsHandled();
 		}
 	}
 
     public override void _UnhandledInput(InputEvent @event)
     {
 		var index = textureButtons.IndexOf(textureButtons.FirstOrDefault(x => x.HasFocus()));			
+		
 		if (@event.IsActionPressed("ui_lb"))
 		{			
 			if(index <= 0) index = textureButtons.Count;		
@@ -47,7 +56,7 @@ public partial class DeckEditor : Control
 		}
         if(@event.IsActionPressed("ui_down"))
 		{
-			if(j < 39)
+			if(j < decklist.GetChildren().Count - 1)
 				j++;				
 		}
 		if (@event.IsActionPressed("ui_up"))
@@ -55,7 +64,6 @@ public partial class DeckEditor : Control
 			if(j > 0)
 				j--;							
 		}
-		MoveSelector(j);
     }
 
 	public void Filter(TipoFiltro tipo)
@@ -63,18 +71,20 @@ public partial class DeckEditor : Control
 		if(tipo == TipoFiltro.Numero)
 			slotCartas = slotCartas.OrderBy(x => x.item.Id).ToList();					
 		if(tipo == TipoFiltro.Monstro)
-			slotCartas = slotCartas.OrderBy(x => !x.item.IsSpellTrap()).ToList();
+			slotCartas = slotCartas.OrderByDescending(x => !x.item.IsSpellTrap()).ToList();
 		if(tipo == TipoFiltro.Ataque)
 			slotCartas = slotCartas.OrderByDescending(x => x.item.Attack).ToList();
 		if(tipo == TipoFiltro.Defesa)
 			slotCartas = slotCartas.OrderByDescending(x => x.item.Defense).ToList();
 		if(tipo == TipoFiltro.Tipo)
-			slotCartas = slotCartas.OrderByDescending(x => x.item.Type).ToList();		
+			slotCartas = slotCartas.OrderBy(x => x.item.Type).ToList();		
 
 		for (int i = 0; i < slotCartas.Count; i++)
 		{
 			decklist.MoveChild(slotCartas[i], i);
 		}
+		j = 0;
+		MoveSelector(j);
 	}
 
 	public void Setup()
