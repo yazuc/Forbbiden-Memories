@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cw1vlu8kmvlp4"
-path="res://.godot/imported/yu-gi-oh-forbidden-memories.png-29c8359915d919677d25d33b3aef92f8.ctex"
+uid="uid://dyw0lj2dcxap2"
+path="res://.godot/imported/Chest.png-c63bc829310d28a269e455317582a06a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/yu-gi-oh-forbidden-memories.png"
-dest_files=["res://.godot/imported/yu-gi-oh-forbidden-memories.png-29c8359915d919677d25d33b3aef92f8.ctex"]
+source_file="res://assets/Chest.png"
+dest_files=["res://.godot/imported/Chest.png-c63bc829310d28a269e455317582a06a.ctex"]
 
 [params]
 

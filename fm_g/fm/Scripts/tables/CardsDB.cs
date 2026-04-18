@@ -19,6 +19,8 @@ namespace fm
 			_database.CreateTable<NpcCharacter>();
 			_database.CreateTable<NpcDropEntry>();	
 			_database.CreateTable<NpcDeck>();	
+			_database.CreateTable<User>();	
+			_database.CreateTable<UserDeck>();
 		}
 
 		public static CardDatabase Instance
@@ -50,6 +52,17 @@ namespace fm
 		// Fetch a specific card by ID (Much faster than LINQ on a List)
 		public Cards? GetCardById(int id) => _database?.Table<Cards>().FirstOrDefault(c => c.Id == id);
 		public Cards? GetCardByCode(string Code) => _database?.Table<Cards>().FirstOrDefault(c => c.CardCode == Code);
+		public List<Cards> GetUserDeck(string DeckID)
+		{
+			var cards = _database.Table<UserDeck>().Where(x => x.DeckID == DeckID).Select(i => i.CardID).ToList();
+			var Deck = new List<Cards>();
+			foreach(var item in cards)
+			{
+				var carta = _database.Table<QuickType.Cards>().FirstOrDefault(c => c.Id == item);
+				Deck.Add(carta);
+			}
+			return Deck;
+		}
 		public new List<Cards> GetDeckByNpcId(int id)
 		{
 			var list_card = _database?.Table<NpcDeck>().Where(c => c.NpcId == id).Take(40).Select(x => x.CardId).ToList();
@@ -104,6 +117,36 @@ namespace fm
 				_database.Rollback();
 				GD.PrintErr($"Erro ao sincronizar equipamentos: {e.Message}");
 			}
+		}
+		public void CreateTestUser()
+		{
+			User teste = new User();
+			teste.Nome = "Leozin";
+			teste.DeckID = "d001";
+			teste.ID = "1";
+
+			_database?.Insert(teste);
+		}
+
+		public void PopulateDeck()
+		{
+			string filepath = ProjectSettings.GlobalizePath("res://starter_deck.txt");
+			var file = File.ReadAllText(filepath);
+			if(file != null)
+			{
+				var comma = file.Split(",");
+				List<UserDeck> deck = new List<UserDeck>();
+				foreach(var item in comma)
+				{
+					if(item == string.Empty) continue;
+					var card = new UserDeck();
+					card.DeckID = "d002";
+					card.CardID = int.Parse(item);
+					deck.Add(card);
+				} 
+				_database.InsertAll(deck);
+			}
+			
 		}
 
 		public void SyncJsonToDatabase(string jsonFilePath)

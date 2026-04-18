@@ -22,7 +22,7 @@ public partial class GlobalUsings : Node
 	public string Freeduel = "res://Menu/FreeDuel/FreeDuel.tscn";
 	public string Deckeditor = "res://Menu/DeckEditor/DeckEditor.tscn";
 	public string Password = "res://Menu/Password/Password.tscn";
-	public string UserDeck =  "res://starter_deck.txt";
+	public string UserDeck =  "d002";
 
 	public Deck Deck = new Deck();
 	public List<string> Dialogue = new List<string>();
@@ -41,10 +41,9 @@ public partial class GlobalUsings : Node
 		DeckIndex = 1;
 		PopulateDialogue();		
 		#if DEBUG
-			UserDeck = "res://test_copy.txt";
+			UserDeck = "d001";
 		#endif
-		Deck.LoadDeck(Funcoes.LoadUserDeck(ProjectSettings.GlobalizePath(UserDeck)));
-		GD.Print(Deck.Cards.Count());
+		Deck.LoadDeck(db.GetUserDeck(UserDeck));
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

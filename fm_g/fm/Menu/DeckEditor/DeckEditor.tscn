@@ -1,20 +1,46 @@
 [gd_scene format=3 uid="uid://7a6cxyxm0dhp"]
 
-[ext_resource type="Script" uid="uid://bey2pwuy0swjw" path="res://Menu/DeckEditor/VBoxContainer.cs" id="1_dmf6v"]
+[ext_resource type="Script" uid="uid://callje5r08sh4" path="res://Menu/DeckEditor/DeckEditor.cs" id="1_flj88"]
 [ext_resource type="Texture2D" uid="uid://2wsu7p7wf8wb" path="res://assets/LeLu's Noise Pack (FREE)/LeLu's Noise Pack/brick.png" id="1_p0pxx"]
 [ext_resource type="FontFile" uid="uid://dvaju2cffkn2i" path="res://assets/matrix-bold-small-caps-wisabo/MatrixBoldSmallCaps.otf" id="2_0crxi"]
-[ext_resource type="Texture2D" uid="uid://csqckj3sefeu4" path="res://assets/filter_de.png" id="3_63xyc"]
+[ext_resource type="Texture2D" uid="uid://bqgusgjhpob3v" path="res://Resources/texture_filter.tres" id="4_flj88"]
 [ext_resource type="PackedScene" uid="uid://lc8gchaw7gis" path="res://Menu/DeckEditor/card_seletor.tscn" id="4_p0pxx"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_p0pxx"]
-font = ExtResource("2_0crxi")
-font_size = 22
+[ext_resource type="Texture2D" uid="uid://btuapvdkix8dx" path="res://assets/Order.png" id="6_flj88"]
+[ext_resource type="Texture2D" uid="uid://dyw0lj2dcxap2" path="res://assets/Chest.png" id="6_q074v"]
+[ext_resource type="Texture2D" uid="uid://bqbbc34uidnjy" path="res://assets/Deck.png" id="8_dkqta"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_63xyc"]
 font = ExtResource("2_0crxi")
 font_size = 21
 
-[node name="DeckEditor" type="Control" unique_id=1886919409]
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_q074v"]
+load_path = "res://.godot/imported/filter_de.png-14435bc91c0b41dc523ab01075950dbe.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dkqta"]
+atlas = SubResource("CompressedTexture2D_q074v")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q4o27"]
+atlas = SubResource("CompressedTexture2D_q074v")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1mu7v"]
+atlas = SubResource("CompressedTexture2D_q074v")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_05k6i"]
+atlas = SubResource("CompressedTexture2D_q074v")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lxcei"]
+atlas = SubResource("CompressedTexture2D_q074v")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oalxb"]
+atlas = SubResource("CompressedTexture2D_q074v")
+region = Rect2(96, 0, 16, 16)
+
+[node name="DeckEditor" type="Control" unique_id=1886919409 node_paths=PackedStringArray("selector", "scroll", "decklist")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -23,6 +49,10 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+script = ExtResource("1_flj88")
+selector = NodePath("Panel/CardSeletor")
+scroll = NodePath("Panel/VScrollBar")
+decklist = NodePath("Panel/VScrollBar/VBoxContainer")
 metadata/_edit_use_anchors_ = true
 
 [node name="Panel" type="NinePatchRect" parent="." unique_id=567819204]
@@ -54,28 +84,18 @@ grow_vertical = 2
 color = Color(0.015686275, 0.003921569, 0.13333334, 1)
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="Panel/CardsInDeck" unique_id=219133689]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 0.65957445
-offset_bottom = -8.0
-grow_horizontal = 2
-text = "DECK "
-label_settings = SubResource("LabelSettings_p0pxx")
-metadata/_edit_use_anchors_ = true
-
 [node name="Label2" type="Label" parent="Panel/CardsInDeck" unique_id=985967311]
 layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -23.0
+anchors_preset = -1
+anchor_left = 0.26082382
+anchor_top = 0.4723404
+anchor_right = 0.6156285
+anchor_bottom = 0.7659574
 grow_horizontal = 2
 grow_vertical = 0
 text = "40"
 label_settings = SubResource("LabelSettings_63xyc")
+metadata/_edit_use_anchors_ = true
 
 [node name="TrunkCards" type="ColorRect" parent="Panel" unique_id=1485846404]
 layout_mode = 1
@@ -95,6 +115,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -4.0
+offset_right = 6.374649
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.96000123, 1)
@@ -113,26 +135,90 @@ color = Color(0.25882354, 0.22745098, 0.32156864, 1)
 [node name="Filter" type="ColorRect" parent="Panel/ColorRect" unique_id=632775273]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.19976169
-anchor_top = 0.0057525067
-anchor_right = 1.1923817
-anchor_bottom = 0.8993733
-offset_left = -211.20833
-offset_top = 3.549389
-offset_right = -212.20837
-offset_bottom = 3.549389
+anchor_left = 0.0049200584
+anchor_top = 0.051064048
+anchor_right = 0.9966175
+anchor_bottom = 0.94468486
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.015686275, 0.003921569, 0.13333334, 1)
 metadata/_edit_use_anchors_ = true
 
-[node name="TextureRect" type="TextureRect" parent="Panel/ColorRect/Filter" unique_id=1823161629]
+[node name="Number" type="TextureButton" parent="Panel/ColorRect/Filter" unique_id=1637583455]
 layout_mode = 0
-offset_left = 198.99997
-offset_top = 5.0
-offset_right = 1070.3334
-offset_bottom = 66.0
-texture = ExtResource("3_63xyc")
+anchor_left = 0.3060465
+anchor_top = 0.042857144
+anchor_right = 0.3813953
+anchor_bottom = 0.9142857
+texture_normal = ExtResource("4_flj88")
+stretch_mode = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect2" type="TextureButton" parent="Panel/ColorRect/Filter" unique_id=135233305]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.3823256
+anchor_top = 0.042857144
+anchor_right = 0.4576744
+anchor_bottom = 0.9142857
+texture_normal = SubResource("AtlasTexture_dkqta")
+stretch_mode = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="Monstros" type="TextureButton" parent="Panel/ColorRect/Filter" unique_id=57974397]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.45860466
+anchor_top = 0.042857144
+anchor_right = 0.5339535
+anchor_bottom = 0.9142857
+texture_normal = SubResource("AtlasTexture_q4o27")
+stretch_mode = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="Atk" type="TextureButton" parent="Panel/ColorRect/Filter" unique_id=1345609343]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.53488374
+anchor_top = 0.042857144
+anchor_right = 0.61023253
+anchor_bottom = 0.9142857
+texture_normal = SubResource("AtlasTexture_1mu7v")
+stretch_mode = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="Def" type="TextureButton" parent="Panel/ColorRect/Filter" unique_id=1149501118]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.6111628
+anchor_top = 0.042857144
+anchor_right = 0.68651164
+anchor_bottom = 0.9142857
+texture_normal = SubResource("AtlasTexture_05k6i")
+stretch_mode = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="Type" type="TextureButton" parent="Panel/ColorRect/Filter" unique_id=1468498762]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.6874419
+anchor_top = 0.042857144
+anchor_right = 0.7627907
+anchor_bottom = 0.9142857
+texture_normal = SubResource("AtlasTexture_lxcei")
+stretch_mode = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="Newest" type="TextureButton" parent="Panel/ColorRect/Filter" unique_id=433985930]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.7646512
+anchor_top = 0.042857144
+anchor_right = 0.84
+anchor_bottom = 0.9142857
+texture_normal = SubResource("AtlasTexture_oalxb")
+stretch_mode = 0
+metadata/_edit_use_anchors_ = true
 
 [node name="VScrollBar" type="ScrollContainer" parent="Panel" unique_id=638840893]
 custom_minimum_size = Vector2(0, 547)
@@ -154,7 +240,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 4
-script = ExtResource("1_dmf6v")
 metadata/_edit_use_anchors_ = true
 
 [node name="CardSeletor" parent="Panel" unique_id=1392681870 instance=ExtResource("4_p0pxx")]
@@ -163,10 +248,25 @@ anchor_left = 0.16666667
 anchor_top = 0.12777779
 anchor_right = 0.76979166
 anchor_bottom = 0.17870371
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 0.0
-offset_bottom = 0.0
+offset_left = -190.0
+offset_top = -13.000015
+offset_right = -190.0
+offset_bottom = -13.0
 grow_horizontal = 1
 grow_vertical = 1
 size_flags_horizontal = 3
+
+[node name="Chest" type="Sprite2D" parent="Panel" unique_id=1013726390]
+position = Vector2(249.625, 42.25)
+scale = Vector2(3.6844265, 2.8214285)
+texture = ExtResource("6_q074v")
+
+[node name="Order" type="Sprite2D" parent="Panel" unique_id=497447045]
+position = Vector2(471.5, 52)
+scale = Vector2(5.322581, 4.142857)
+texture = ExtResource("6_flj88")
+
+[node name="Deck" type="Sprite2D" parent="." unique_id=2130649914]
+position = Vector2(1619.75, 46)
+scale = Vector2(5.318182, 2.3636363)
+texture = ExtResource("8_dkqta")
