@@ -10,10 +10,14 @@ public partial class DeckEditor : Control
 	public int j = 0;	
 	public bool once = false;
 	[Export] public Godot.VBoxContainer decklist;	
+	private List<SlotCarta> slotCartas = new List<SlotCarta>();
+	public List<TextureButton> textureButtons;
 	// Called when the node enters the scene tree for the first time.
-	public override async void _Ready()
+	public override  void _Ready()
 	{
-		Setup();		
+		Setup();	
+		textureButtons = GetTree().GetNodesInGroup("button").Cast<TextureButton>().ToList();	
+		textureButtons[0].GrabFocus();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -27,6 +31,20 @@ public partial class DeckEditor : Control
 
     public override void _UnhandledInput(InputEvent @event)
     {
+		var index = textureButtons.IndexOf(textureButtons.FirstOrDefault(x => x.HasFocus()));			
+		if (@event.IsActionPressed("ui_lb"))
+		{			
+			if(index <= 0) index = textureButtons.Count;		
+			textureButtons[index - 1].GrabFocus(); 
+			Filter((TipoFiltro)index - 1);
+
+		}
+		if (@event.IsActionPressed("ui_rb"))
+		{
+			if(index >= textureButtons.Count - 1) index = -1;			
+			textureButtons[index + 1].GrabFocus(); 
+			Filter((TipoFiltro)index + 1);
+		}
         if(@event.IsActionPressed("ui_down"))
 		{
 			if(j < 39)
@@ -40,6 +58,25 @@ public partial class DeckEditor : Control
 		MoveSelector(j);
     }
 
+	public void Filter(TipoFiltro tipo)
+	{
+		if(tipo == TipoFiltro.Numero)
+			slotCartas = slotCartas.OrderBy(x => x.item.Id).ToList();					
+		if(tipo == TipoFiltro.Monstro)
+			slotCartas = slotCartas.OrderBy(x => !x.item.IsSpellTrap()).ToList();
+		if(tipo == TipoFiltro.Ataque)
+			slotCartas = slotCartas.OrderByDescending(x => x.item.Attack).ToList();
+		if(tipo == TipoFiltro.Defesa)
+			slotCartas = slotCartas.OrderByDescending(x => x.item.Defense).ToList();
+		if(tipo == TipoFiltro.Tipo)
+			slotCartas = slotCartas.OrderByDescending(x => x.item.Type).ToList();		
+
+		for (int i = 0; i < slotCartas.Count; i++)
+		{
+			decklist.MoveChild(slotCartas[i], i);
+		}
+	}
+
 	public void Setup()
 	{
 		var scene1 = "res://Menu/DeckEditor/slot_carta.scn";
@@ -51,7 +88,8 @@ public partial class DeckEditor : Control
 			if(cell is SlotCarta slot)
 			{
 				decklist.AddChild(slot);
-				slot.Initialize(item, i);				
+				slot.Initialize(item, i);		
+				slotCartas.Add(slot);		
 				i++;				
 			}
 		}	
