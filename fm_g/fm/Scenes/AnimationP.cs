@@ -117,6 +117,20 @@ namespace fm{
 
 		}
 
+		public async Task ActivateSpell(Carta3d card)
+		{
+			var viewport = GetViewport();
+			Vector2 screenCenter = viewport.GetVisibleRect().Size / 2f;
+			float distancia = 5.0f;
+			Vector3 rayOrigin = CameraHand.ProjectRayOrigin(screenCenter);
+			Vector3 rayNormal = CameraHand.ProjectRayNormal(screenCenter);
+			Vector3 position3D = rayOrigin + rayNormal * distancia;
+
+			var taskMe = card.TransitionCardTo(position3D, 0.5f);
+			
+			await card.AtivaSpellAnimation(position3D);
+		}
+
 		public async Task AnimaCartaParaMao(int _indiceSelecionado, bool cancel = false)
 		{			
 			var nodoAlvo = MaoControl.GetCarta(_indiceSelecionado); 

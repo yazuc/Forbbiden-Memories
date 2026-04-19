@@ -68,7 +68,7 @@ public partial class SeletorGuardian : Panel
 		if (!_signCache.ContainsKey(sign))
 		{
 			var atlas = (AtlasTexture)AtlasBaseSign.Duplicate();
-			atlas.Region = new Rect2(sign * 64, 0, 64, 64);
+			atlas.Region = new Rect2(sign * 16, 0, 16, 16);
 			_signCache[sign] = atlas;
 		}
 

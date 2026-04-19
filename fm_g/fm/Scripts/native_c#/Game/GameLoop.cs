@@ -285,7 +285,7 @@ namespace fm
 					{
 						GD.Print($"Spell ativada em: {alvoSpell.WorldPos}");				
 						if(equip3d != null && equip3d.carta.IsEquip())
-						{
+						{							
 							var equipSelecionado = MaoDoJogador.CriarCartaFusao(equip3d.CardUI);
 							await MaoDoJogador.ConfirmarSpellNoCampo(card:equipSelecionado);							
 						}
@@ -295,7 +295,8 @@ namespace fm
 			if(equip3d != null && equip3d.carta.IsSpell())
 			{
 				await MaoDoJogador.Tools.TransitionTo(CameraHand, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);
-				await equip3d.CardUI.AtivaSpellAnimation(MaoDoJogador._anim.ScrenCenter());
+				await equip3d.AtivaSpellAnimation(MaoDoJogador._anim.CalculaCentro3D(CameraHand));
+				//await equip3d.CardUI.AtivaSpellAnimation(MaoDoJogador._anim.ScrenCenter());
 				await MaoDoJogador.Tools.TransitionTo(CameraField, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);
 			}
 			equip3d.QueueFree();
