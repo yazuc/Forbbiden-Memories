@@ -228,6 +228,18 @@ namespace fm{
 				_tcsCarta?.TrySetResult(resultadoFusao);
 			}
 		}
+		public async Task CartaSTAction(QuickType.Cards card)
+		{
+			if(card != null)
+			{							
+				gameLoop._effectManager.TryActivateEffect(gameLoop, card);
+				await SyncField();
+				if (card.IsField())
+				{
+					Campo.SetEstadoCampo(card.Name);
+				}								
+			}
+		}
 
 		//isso precisa virar eventualmente uma classe nova que lê o retorno de cardeffect
 		public async Task SyncField()
@@ -238,11 +250,17 @@ namespace fm{
 			{
 				bool existeNoPlayer = gameLoop._gameState.CurrentPlayer.Field.MonsterZones
 					.Any(x => x != null && x.zoneName == item.markerName);
+				
+				bool existeNoPlayerSpell = gameLoop._gameState.CurrentPlayer.Field.SpellTrapZones
+					.Any(x => x != null && x.zoneName == item.markerName);
 
 				bool existeNoOponente = gameLoop._gameState.OpponentPlayer.Field.MonsterZones
 					.Any(x => x != null && x.zoneName == item.markerName);
+				
+				bool existeNoOponenteSpell = gameLoop._gameState.OpponentPlayer.Field.SpellTrapZones
+					.Any(x => x != null && x.zoneName == item.markerName);
 
-				if (!existeNoPlayer && !existeNoOponente)
+				if (!existeNoPlayer && !existeNoOponente && !existeNoOponenteSpell && !existeNoPlayerSpell)
 				{
 					await item.Eletrocutar();
 					Tools.RemoveDasInstanciadas(item);

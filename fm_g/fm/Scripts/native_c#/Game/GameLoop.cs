@@ -296,10 +296,11 @@ namespace fm
 			{
 				await MaoDoJogador.Tools.TransitionTo(CameraHand, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);
 				await equip3d.AtivaSpellAnimation(MaoDoJogador._anim.CalculaCentro3D(CameraHand));
-				//await equip3d.CardUI.AtivaSpellAnimation(MaoDoJogador._anim.ScrenCenter());
+				await MaoDoJogador.CartaSTAction(equip3d.carta);
 				await MaoDoJogador.Tools.TransitionTo(CameraField, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);
 			}
-			equip3d.QueueFree();
+			if(IsInstanceValid(equip3d))
+				equip3d.QueueFree();
 		}
 
 		public bool IsGameOver() => _gameState.IsGameOver();

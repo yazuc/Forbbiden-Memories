@@ -59,7 +59,7 @@ namespace fm
 
 		public override bool CanActivate(GameState gameState, Player caster, Cards card)
 		{
-			return gameState.IsMainPhase();
+			return true;
 		}
 
 		public override void Activate(GameState gameState, Player caster, Cards card)
@@ -239,7 +239,7 @@ namespace fm
 		}
 
 		public bool TryActivateEffect(GameLoop gameLoop, Cards card)
-		{
+		{			
 			var effect = card.cardEffect;
 			if (effect != null && effect.CanActivate(gameLoop._gameState, gameLoop._gameState.CurrentPlayer, card))
 			{
