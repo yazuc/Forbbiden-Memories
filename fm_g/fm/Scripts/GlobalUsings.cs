@@ -41,7 +41,7 @@ public partial class GlobalUsings : Node
 		DeckIndex = 1;
 		PopulateDialogue();		
 		#if DEBUG
-			UserDeck = "d001";
+			UserDeck = "d002";
 		#endif
 		Deck.LoadDeck(db.GetUserDeck(UserDeck));
 	}
