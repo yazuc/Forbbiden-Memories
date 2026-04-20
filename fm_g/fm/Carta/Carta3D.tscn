@@ -28,9 +28,9 @@ viewport_path = NodePath("SubViewport2")
 
 [node name="Carta3d" type="Node3D" unique_id=557434675 node_paths=PackedStringArray("SpriteDaCarta")]
 transform = Transform3D(0.9121746, 0, 0, 0, 1, 0, 0, 0, 0.80412024, 0, 0, 0)
+top_level = true
 script = ExtResource("1_2tffa")
 SpriteDaCarta = NodePath("Sprite3D2")
-rot = 29.86
 
 [node name="SubViewport2" type="SubViewport" parent="." unique_id=17052723]
 transparent_bg = true
@@ -43,6 +43,8 @@ custom_minimum_size = Vector2(140, 200.145)
 [node name="Sprite3D2" type="Sprite3D" parent="." unique_id=1285875426]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
 material_override = SubResource("ShaderMaterial_l0m1i")
+no_depth_test = true
+render_priority = 5
 texture = SubResource("ViewportTexture_l0m1i")
 
 [node name="Area3D" type="Area3D" parent="." unique_id=1670594247]

@@ -52,20 +52,52 @@ namespace fm
 			if (!availableAttackers.Any())
 				return null;
 
-			string attackerZone = availableAttackers.First().zoneName;
+			FieldMonster attackerZone = availableAttackers.First();
 			AIMove move = new AIMove
 			{
-				AttackerZone = attackerZone
+				AttackerZone = attackerZone.zoneName
 			};
 
 			// Try to find a target
 			var availableDefenders = opponent.Field.MonsterZones.Where(m => m != null).ToList();
-
-			if (availableDefenders.Any())
+			FieldMonster target = null;
+			foreach(var item in availableDefenders)
 			{
-				string defenderZone = availableDefenders.First().zoneName;
+				if (item.IsAttackMode && !item.IsFaceDown)
+				{
+					if(item.Card.Attack < attackerZone.Card.Attack)
+					{
+						target = item;
+						break;
+					}
+				}
+				else
+				{
+					if(item.Card.Defense < attackerZone.Card.Attack)
+					{
+						target = item;
+						break;
+					}
+				}
+				if (item.IsFaceDown)
+				{
+					target = item;
+				}
+			}
+
+			//caso defensor tiver ataque menor que o meu, eu ataco, precisa checar se está em posição de ataque
+			//se estiver em ataque, check attack, se defesa check defesa.
+			//se não tiver algo que eu ganhe seta pra defesa os mais fracos e deixa em ataque o mais forte.
+			if (target != null)
+			{
+				string defenderZone = target.zoneName;
 				move.DefenderZone = defenderZone;
 				return move;
+			}
+			if(target == null && availableDefenders.Any())
+			{
+				move.Defense = true;
+				return move;				
 			}
 
 			// Direct attack

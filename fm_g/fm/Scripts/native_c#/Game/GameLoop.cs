@@ -254,15 +254,24 @@ namespace fm
 				await MaoDoInimigo.AtualizarPosicaoSeletor3DInimigo(MaoDoInimigo.SlotsCampoIni, ret.AttackerZone);
 				//pega o monstro que vai bater
 				var monstroAliado = _gameState.CurrentPlayer.Field.GetMonsterInZone(ret.AttackerZone);
-				if(monstroAliado == null) continue;
-				await MaoDoInimigo.Tools.TransitionTo(CameraInimigo, 0.4f, MaoDoInimigo._transitionCam, false);			
-				await MaoDoInimigo.AtualizarPosicaoSeletor3DInimigo(MaoDoInimigo.SlotsCampo, ret.DefenderZone);
-				Task.Delay(500).Wait();
-				var monstroInimigo = _gameState.OpponentPlayer.Field.GetMonsterInZone(ret.DefenderZone);
-				if (!monstroAliado.HasAttackedThisTurn)
+				if (ret.Defense && monstroAliado != null)
 				{
-					await ResolverBatalha(monstroAliado, monstroInimigo);
-					await MaoDoInimigo.Tools.TransitionTo(CameraField, 0.4f, MaoDoInimigo._transitionCam, false);						
+					MaoDoInimigo.AlternarDefesa(ret.AttackerZone);
+					monstroAliado.HasAttackedThisTurn = true;
+				}
+				if(monstroAliado == null) continue;				
+				
+				var monstroInimigo = _gameState.OpponentPlayer.Field.GetMonsterInZone(ret.DefenderZone);
+				if(monstroInimigo != null)
+				{
+					await MaoDoInimigo.Tools.TransitionTo(CameraInimigo, 0.4f, MaoDoInimigo._transitionCam, false);			
+					await MaoDoInimigo.AtualizarPosicaoSeletor3DInimigo(MaoDoInimigo.SlotsCampo, ret.DefenderZone);
+					Task.Delay(500).Wait();
+					if (!monstroAliado.HasAttackedThisTurn)
+					{
+						await ResolverBatalha(monstroAliado, monstroInimigo);
+						await MaoDoInimigo.Tools.TransitionTo(CameraField, 0.4f, MaoDoInimigo._transitionCam, false);						
+					}					
 				}
 			}
 			BP_Ativa = false;		

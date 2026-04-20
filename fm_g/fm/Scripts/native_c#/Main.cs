@@ -59,6 +59,7 @@ namespace fm
 					CameraPivot
 				);
 				gL.MaoDoJogador.gameLoop = gL;
+				gL.MaoDoInimigo.gameLoop = gL;
 				gL.Initialize();
 			}					
 			

@@ -29,7 +29,7 @@ namespace fm
         // Listas de slots (recebidas do GameLoop)
         public Godot.Collections.Array<Marker3D> SlotsCampoIni = new();
         public Godot.Collections.Array<Marker3D> SlotsCampoSTIni = new();
-         public Godot.Collections.Array<Marker3D> SlotsCampo = new();
+        public Godot.Collections.Array<Marker3D> SlotsCampo = new();
         public Godot.Collections.Array<Marker3D> SlotsCampoST = new();
 
         public override void _Ready()
@@ -205,10 +205,10 @@ namespace fm
 			}	
 		}
 
-        void AlternarDefesa()
+        public void AlternarDefesa(string zoneName)
 		{
 			
-			var slotDestino = SlotsCampo[_indiceVisualCampo];
+			var slotDestino = SlotsCampoIni.FirstOrDefault(x => x.Name == zoneName);
 
 			if(gameLoop.MonsterHasAttacked(slotDestino.Name)) return;
 

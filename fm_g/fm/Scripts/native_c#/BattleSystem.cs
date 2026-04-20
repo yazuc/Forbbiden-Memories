@@ -26,10 +26,12 @@ namespace fm
 			Player CurrentPlayer)
 		{
 			var result = new BattleResult();
-			attackingMonster.HasAttackedThisTurn = true;
+			attackingMonster.HasAttackedThisTurn = true;			
 			
 			if(defender.Field.HasMonster() && defendingMonster == null)
 				return result;
+
+			defendingMonster.IsFaceDown = false;
 
 			// If no defending monster, direct attack
 			if (defendingMonster == null)
