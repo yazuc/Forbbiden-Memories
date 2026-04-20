@@ -81,7 +81,7 @@ namespace fm{
 			var slotDestino = _slots[_indiceCampoSelecionado];
 			var carta3dfield = Tools.PegaNodoCarta3d(slotDestino.Name);
 
-			if(carta3dfield != null)
+			if(carta3dfield != null && !ativaDireto)
 			{
 				RefFusao = CriarCartaFusao(carta3dfield.CardUI);	
 				var camera = GetViewport().GetCamera3D();
