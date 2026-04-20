@@ -216,19 +216,13 @@ namespace fm{
 			if(card != null)
 			{						
 				await card.AtivaSpellAnimation(_anim.ScrenCenter());			
-				gameLoop._effectManager.TryActivateEffect(gameLoop, card.carta);
-				await SyncField();
-				//acho que aqui passa a ser aonde eu trato oq vai acontecer com a carta	
-				if (card.carta.IsField())
-				{
-					Campo.SetEstadoCampo(card.carta.Name);
-				}								
+				await CartaSTAction(card.carta);								
 				_cartasSelecionadasParaFusao.Clear();
 				card.QueueFree();
 				_tcsCarta?.TrySetResult(resultadoFusao);
 			}
 		}
-		public async Task CartaSTAction(QuickType.Cards card)
+		public async Task CartaSTAction(Cards card)
 		{
 			if(card != null)
 			{							

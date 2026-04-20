@@ -135,18 +135,18 @@ namespace fm{
 			SetFaceDown(false);
 			// Create a tween that runs on this node
 			Tween tween = GetTree().CreateTween();
-			Vector3 targetScale = Scale;
-			RotateZ(30f);
+			Vector3 targetScale = Scale * 2;
 			
 			// Set the transition type (Cubic/Expo look "magical")
 			tween.SetTrans(Tween.TransitionType.Cubic);
 			tween.SetEase(Tween.EaseType.Out);	
 			tween.Parallel().TweenProperty(this, "global_position", Screencenter, 0.5f);				
-			tween.Parallel().TweenProperty(this, "scale", targetScale, 0.6f);	
-			//tween.TweenProperty(this, "scale", 0f, 0.45f);			
+			Rotation = new Vector3(Mathf.DegToRad(70f), Rotation.Y, Rotation.Z);	
+			tween.TweenProperty(this, "scale", targetScale, 0.45f);		
 
 			// Wait for the animation to finish before proceeding
 			await ToSignal(tween, Tween.SignalName.Finished);
+			Visible = false;
 			
 		}
 				
