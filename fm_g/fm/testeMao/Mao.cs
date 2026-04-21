@@ -116,7 +116,7 @@ public partial class Mao : Control
 		//SeletorGuardian.Setup(card);
 		await AnimateInterface(sobe: false);
 		SeletorGuardian.Visible = true;
-		await SeletorGuardian.AguardarConfirmacaoSign();
+		card.CurrentGuardianStar = (GuardianStar)await SeletorGuardian.AguardarConfirmacaoSign();
 		SeletorGuardian.Visible = false;
 	}
 

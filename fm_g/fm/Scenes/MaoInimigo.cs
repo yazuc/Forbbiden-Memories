@@ -74,6 +74,7 @@ namespace fm
                     if(slotDestino == -1)
                     {
                         await Tools.TransitionTo(CameraHand, 0.5f, _transitionCam, false);
+                        carta.CurrentGuardianStar = carta.GuardianStarA;
                         await Instancia3D(slotsAlvo[_indiceVisualCampo], carta, facedown);
                         return slotsAlvo[_indiceVisualCampo].Name;
                     }
@@ -151,7 +152,7 @@ namespace fm
             // 3. Navega pelo campo
             if (!pChain.MainCard.IsSpellTrap())
             {
-                CleanUpCrew();
+                CleanUpCrew();                
                 var slot = await ExecutarMovimentoVisual(cardToPlay.IndexCard, noCampo: true, isSpellTrap: isSpell, carta: pChain.MainCard, facedown: !pChain.FusaoAconteceu);            
                 pChain.WorldPos = slot;
             }

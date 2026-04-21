@@ -45,7 +45,7 @@ namespace fm
 			return availableZones.Any() ? availableZones[_rng.Next(availableZones.Count)] : -1;
 		}
 
-		public AIMove SelectAttack(Player aiPlayer, Player opponent, GameState gameState)
+		public AIMove SelectAttack(Player aiPlayer, Player opponent)
 		{
 			var availableAttackers = aiPlayer.Field.MonsterZones.Where(m => m != null && !m.HasAttackedThisTurn).ToList();
 

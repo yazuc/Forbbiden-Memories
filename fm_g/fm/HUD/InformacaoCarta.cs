@@ -25,9 +25,9 @@ public partial class InformacaoCarta : HBoxContainer
 		if (IsInstanceValid(texture))		
 			SetAtlasRegion(typeEnum, texture);		
 		if(IsInstanceValid(textureG))
-			SetAtlasRegionSign(Sign1 - 1, textureG);
+			SetAtlasRegionSign(Sign1 , textureG);
 		if(IsInstanceValid(textureG2))
-			SetAtlasRegionSign(Sign2 - 1, textureG2);
+			SetAtlasRegionSign(Sign2 , textureG2);
 	}
 
 	public void SetAtlasRegion(CardTypeEnum CardType, TextureRect Type)

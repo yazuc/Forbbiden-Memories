@@ -26,7 +26,9 @@ namespace fm
 			Player CurrentPlayer)
 		{
 			var result = new BattleResult();
-			attackingMonster.HasAttackedThisTurn = true;			
+			attackingMonster.HasAttackedThisTurn = true;		
+			if(attackingMonster != null && defendingMonster != null)
+				GD.Print("Tem vantagem?" + TemVantagem(attackingMonster.Card.CurrentGuardianStar, defendingMonster.Card.CurrentGuardianStar));
 			
 			if(defender.Field.HasMonster() && defendingMonster == null)
 				return result;

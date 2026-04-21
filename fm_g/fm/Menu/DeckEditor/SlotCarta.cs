@@ -69,8 +69,8 @@ namespace fm
 			this.CardType.Text = CardType.ToString();
 			this.CardSign.Text = CardSign.ToString();
 			SetAtlasRegion(CardType);
-			SetAtlasRegionSign((int)CardSign - 1, Sign);
-			SetAtlasRegionSign((int)CardSign2 - 1, Sign2);
+			SetAtlasRegionSign((int)CardSign , Sign);
+			SetAtlasRegionSign((int)CardSign2 , Sign2);
 		}
 
 		public void SetAtlasRegion(CardTypeEnum cardType)

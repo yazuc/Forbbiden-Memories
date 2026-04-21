@@ -36,10 +36,10 @@ public partial class SeletorGuardian : Panel
 		CurrentCard = card;
 		GuardianName1.Text = card.GuardianStarA.ToString();
 		GuardianName2.Text = card.GuardianStarB.ToString();
-		SetAtlasRegionSign((int)card.GuardianStarA - 1, GuardianIcon1);
-		SetAtlasRegionSign((int)card.GuardianStarB - 1, GuardianIcon2);
-		Guardian1 = () => OnGuardianSelected((int)card.GuardianStarA - 1);
-		Guardian2 = () => OnGuardianSelected((int)card.GuardianStarB - 1);
+		SetAtlasRegionSign((int)card.GuardianStarA , GuardianIcon1);
+		SetAtlasRegionSign((int)card.GuardianStarB , GuardianIcon2);
+		Guardian1 = () => OnGuardianSelected((int)card.GuardianStarA);
+		Guardian2 = () => OnGuardianSelected((int)card.GuardianStarB);
 		GuardianButton1.Pressed +=  Guardian1;
 		GuardianButton2.Pressed +=  Guardian2;
 	}

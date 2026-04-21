@@ -114,7 +114,7 @@ namespace fm
 			{
 				await MaoDoJogador.ChangeState(InputState.None);
 				if(_aiPlayer.SelectCardToPlay(_gameState.CurrentPlayer, _gameState) is AIMove cardToPlay)
-				{
+				{					
 					var result = await MaoDoInimigo.RealizarJogadaIA(cardToPlay, cardToPlay.FaceUP);
 					_gameState.RealizaMainPhase(result);
 					await MaoDoJogador.Tools.TransitionTo(CameraField, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);			
@@ -249,7 +249,7 @@ namespace fm
 			{
 				GD.Print("Vez da AI. Realizando jogada de batalha...");
 				//aponta quem bate em quem
-				var ret = _aiPlayer.SelectAttack(_gameState.CurrentPlayer, _gameState.OpponentPlayer, _gameState);
+				var ret = _aiPlayer.SelectAttack(_gameState.CurrentPlayer, _gameState.OpponentPlayer);
 				//atualiza a posição do seletor até o indice indicado
 				await MaoDoInimigo.AtualizarPosicaoSeletor3DInimigo(MaoDoInimigo.SlotsCampoIni, ret.AttackerZone);
 				//pega o monstro que vai bater
