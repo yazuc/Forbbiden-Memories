@@ -28,12 +28,14 @@ namespace fm
 			var result = new BattleResult();
 			attackingMonster.HasAttackedThisTurn = true;		
 			if(attackingMonster != null && defendingMonster != null)
+			{
 				GD.Print("Tem vantagem?" + TemVantagem(attackingMonster.Card.CurrentGuardianStar, defendingMonster.Card.CurrentGuardianStar));
+				(attackingMonster, defendingMonster) = DefineVantagem(attackingMonster, defendingMonster);
+			}
 			
 			if(defender.Field.HasMonster() && defendingMonster == null)
 				return result;
 
-			defendingMonster.IsFaceDown = false;
 
 			// If no defending monster, direct attack
 			if (defendingMonster == null)
@@ -45,6 +47,7 @@ namespace fm
 				return result;
 			}
 
+			defendingMonster.IsFaceDown = false;
 			// Monster-to-Monster battle
 			int attackPower = (int)attackingMonster.Card.Attack;
 			int defensePower = defendingMonster.IsAttackMode 
