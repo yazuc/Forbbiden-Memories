@@ -67,7 +67,7 @@ namespace fm
 				{
 					if(item.Card.Attack < attackerZone.Card.Attack)
 					{
-						target = item;
+						target = item;						
 						break;
 					}
 				}
@@ -75,7 +75,7 @@ namespace fm
 				{
 					if(item.Card.Defense < attackerZone.Card.Attack)
 					{
-						target = item;
+						target = item;						
 						break;
 					}
 				}
@@ -92,6 +92,7 @@ namespace fm
 			{
 				string defenderZone = target.zoneName;
 				move.DefenderZone = defenderZone;
+				move.Attack = true;
 				return move;
 			}
 			if(target == null && availableDefenders.Any())

@@ -117,7 +117,7 @@ namespace fm{
 				}				
 				if(_cartasSelecionadasParaFusao.Count() > 1)
 				{
-					IsFaceDown = false;
+					resultadoFusao.IsFaceDown = IsFaceDown = false;
 					slotDestino = DefineSlotagem(tipo)[_indiceCampoSelecionado];				
 					summon = tipo != CardTypeEnum.Spell && tipo != CardTypeEnum.Trap && tipo != CardTypeEnum.Equipment;
 				}

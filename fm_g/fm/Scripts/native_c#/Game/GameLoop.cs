@@ -254,10 +254,16 @@ namespace fm
 				await MaoDoInimigo.AtualizarPosicaoSeletor3DInimigo(MaoDoInimigo.SlotsCampoIni, ret.AttackerZone);
 				//pega o monstro que vai bater
 				var monstroAliado = _gameState.CurrentPlayer.Field.GetMonsterInZone(ret.AttackerZone);
-				if (ret.Defense && monstroAliado != null)
+				if (ret.Defense && monstroAliado != null || ret.Attack && !monstroAliado.IsAttackMode)
 				{
-					MaoDoInimigo.AlternarDefesa(ret.AttackerZone);
-					monstroAliado.HasAttackedThisTurn = true;
+					if(ret.Defense && monstroAliado.IsAttackMode)
+						MaoDoInimigo.AlternarDefesa(ret.AttackerZone);
+					
+					if(ret.Attack && !monstroAliado.IsAttackMode)
+						MaoDoInimigo.AlternarDefesa(ret.AttackerZone);
+					
+					if(!ret.Attack)
+						monstroAliado.HasAttackedThisTurn = true;
 				}
 				if(monstroAliado == null) continue;				
 				
