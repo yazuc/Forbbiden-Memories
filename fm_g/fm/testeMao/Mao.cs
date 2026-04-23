@@ -64,7 +64,6 @@ public partial class Mao : Control
 
 			Hbox.AddChild(carta);
 			CartasInstanciadas.Add(carta);
-			GD.Print(carta.Size);
 		}
 
 		if (!animate)

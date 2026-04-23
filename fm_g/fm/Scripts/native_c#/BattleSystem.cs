@@ -10,6 +10,8 @@ namespace fm
 			public bool AttackerDestroyed { get; set; }
 			public bool DefenderDestroyed { get; set; }
 			public string? Description { get; set; }
+			public bool AttackerAdvantage {get;set;}
+			public bool DefenderAdvantage {get;set;}
 		}
 		
 		public void TypeResults(BattleResult br){
@@ -17,6 +19,8 @@ namespace fm
 			GD.Print($"AttackerDestroyed:{br.AttackerDestroyed.ToString()}");
 			GD.Print($"DefenderDestroyed:{br.DefenderDestroyed.ToString()}");
 			GD.Print($"Description:{br.Description}");
+			GD.Print($"AttackerAdvantage:{br.AttackerAdvantage}");
+			GD.Print($"DefenderAdvantage:{br.DefenderAdvantage}");
 		}
 
 		public BattleResult ResolveBattle(
@@ -29,8 +33,7 @@ namespace fm
 			attackingMonster.HasAttackedThisTurn = true;		
 			if(attackingMonster != null && defendingMonster != null)
 			{
-				GD.Print("Tem vantagem?" + TemVantagem(attackingMonster.Card.CurrentGuardianStar, defendingMonster.Card.CurrentGuardianStar));
-				(attackingMonster, defendingMonster) = DefineVantagem(attackingMonster, defendingMonster);
+				(result.AttackerAdvantage, result.DefenderAdvantage) = DefineVantagem(attackingMonster, defendingMonster);
 			}
 			
 			if(defender.Field.HasMonster() && defendingMonster == null)
@@ -49,10 +52,13 @@ namespace fm
 
 			defendingMonster.IsFaceDown = false;
 			// Monster-to-Monster battle
-			int attackPower = (int)attackingMonster.Card.Attack;
+			int attackPower = result.AttackerAdvantage ? (int)attackingMonster.Card.Attack + 500: (int)attackingMonster.Card.Attack;
+
 			int defensePower = defendingMonster.IsAttackMode 
 				? (int)defendingMonster.Card.Attack 
 				: (int)defendingMonster.Card.Defense;
+			
+			defensePower = result.DefenderAdvantage ? defensePower + 500 : defensePower;
 
 			if (attackPower > defensePower)
 			{
@@ -137,24 +143,19 @@ namespace fm
 			}
 		}
 
-		public static (FieldMonster, FieldMonster) DefineVantagem(FieldMonster atacante, FieldMonster defensor)
+		public static (bool, bool) DefineVantagem(FieldMonster atacante, FieldMonster defensor)
 		{
+			GD.Print($"attacking GD: {atacante.Card.CurrentGuardianStar} ------ defending GD: {defensor.Card.CurrentGuardianStar}");
 			if(TemVantagem(atacante.Card.CurrentGuardianStar, defensor.Card.CurrentGuardianStar))
 			{
-				atacante.Card.Attack += 500;
-				atacante.Card.Defense += 500;
-
-				return (atacante, defensor);
+				return (true, false);
 			}
 			if(TemVantagem(defensor.Card.CurrentGuardianStar, atacante.Card.CurrentGuardianStar))
 			{
-				defensor.Card.Attack += 500;
-				defensor.Card.Defense += 500;
-
-				return (atacante, defensor);
+				return (false, true);
 			}
 			
-			return (atacante, defensor);
+			return (false, false);
 		}
 
 		public static bool TemVantagem(GuardianStar atacante, GuardianStar defensor)

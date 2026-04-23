@@ -12,11 +12,13 @@ namespace fm{
 		public List<CardUi> _cartasSelecionadasParaFusao {get;set;}
 		public Helper Tools;
 		public Node2D Spiral;
+		public Campo Board;
 
 		public override void _Ready()
 		{
 			Tools = GetNode<Helper>("../Helper");
 			Spiral = GetNode<Node2D>("../Spiral");
+			Board = GetNode<Campo>("../Board");
 		}
 
 		public async Task AnimaBattle(
@@ -57,20 +59,36 @@ namespace fm{
 
 			Vector3 originalEnemyPos = Vector3.Zero;
 			Vector3 originalEnemyRot = Vector3.Zero;
+			Board.Visible = false;
 
 			var taskMe = meuMonstro3d.TransitionCardTo(position3D + new Vector3(0,0,(diffEnemy*-2)),0.5f);
-
+			meuMonstro3d.Scale *= 2;
 			if(monstroInimigo3d != null)
 			{
 				originalEnemyPos = monstroInimigo3d.GlobalPosition;
 				originalEnemyRot = monstroInimigo3d.Rotation;
 
-				monstroInimigo3d.Rotation = new Vector3(0,(diffEnemy*-1.5707964f),0);
+				monstroInimigo3d.Rotation = new Vector3(0,diffEnemy*-1.5707964f,0);
 
 				var taskIni = monstroInimigo3d.TransitionCardTo(position3D + new Vector3(0,0,(diffEnemy*2)),0.5f);
+				monstroInimigo3d.Scale *= 2;
 			}
 
 			await Task.Delay(600);
+
+			//here enters the update text value
+			if (br.AttackerAdvantage)
+			{
+				meuMonstro3d.carta.Attack += 500;
+				meuMonstro3d.carta.Defense += 500;
+				meuMonstro3d.UpdateCard(meuMonstro3d.carta);
+			}
+			if (br.DefenderAdvantage)
+			{
+				monstroInimigo3d.carta.Attack += 500;
+				monstroInimigo3d.carta.Defense += 500;
+				monstroInimigo3d.UpdateCard(monstroInimigo3d.carta);
+			}
 
 			if(br.DefenderDestroyed && br.AttackerDestroyed)
 			{
@@ -115,6 +133,23 @@ namespace fm{
 				 taskMe = meuMonstro3d.TransitionCardTo(originalPos,0.5f,originalRot);
 			}
 
+			if (br.AttackerAdvantage)
+			{
+				meuMonstro3d.carta.Attack -= 500;
+				meuMonstro3d.carta.Defense -= 500;
+				meuMonstro3d.UpdateCard(meuMonstro3d.carta);
+			}
+			if (br.DefenderAdvantage)
+			{
+				monstroInimigo3d.carta.Attack -= 500;
+				monstroInimigo3d.carta.Defense -= 500;
+				monstroInimigo3d.UpdateCard(monstroInimigo3d.carta);
+			}
+			meuMonstro3d.Scale /= 2;
+			if(monstroInimigo3d != null)
+				monstroInimigo3d.Scale /= 2;
+
+			Board.Visible = true;
 		}
 
 		public async Task ActivateSpell(Carta3d card)
@@ -380,12 +415,9 @@ namespace fm{
 
 				if (i < resultado.Steps.Count - 1)
 				{
-					await MoverParaPosicao(cartaPrincipal, targetGlobalPos + new Vector2(-sideOffset, 0), 0f);
-					await Task.Delay(200);
+					await MoverParaPosicao(cartaPrincipal, targetGlobalPos + new Vector2(-sideOffset, 0), 0f, false);
 				}
 			}
-
-
 			await MoverParaPosicao(cartaPrincipal, targetGlobalPos, 0f);
 			// maoJogador.STOP = false;
 		}
@@ -506,18 +538,25 @@ namespace fm{
 			cartaSacrificio.Display(res.Id);
 		}
 
-		private async Task MoverParaPosicao(Control node, Vector2 targetPos, float targetRotation = 0f)
+		private async Task MoverParaPosicao(Control node, Vector2 targetPos, float targetRotation = 0f, bool animate = true)
 		{
 			// var glob = node.GlobalPosition;
 			// node.GlobalPosition = MaoControl.GetHboxPosition(); 
 			node.Reparent(this);
 			node.Visible = true;
-			Tween t = CreateTween().SetParallel(true);
-			t.TweenProperty(node, "global_position", targetPos, 0.5f)
-			 .SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.Out);
-			t.TweenProperty(node, "rotation_degrees", targetRotation, 0.5f)
-			 .SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.Out);			
-			await ToSignal(t, "finished");
+			if (animate)
+			{
+				Tween t = CreateTween().SetParallel(true);
+				t.TweenProperty(node, "global_position", targetPos, 0.5f)
+				.SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.Out);
+				t.TweenProperty(node, "rotation_degrees", targetRotation, 0.5f)
+				.SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.Out);			
+				await ToSignal(t, "finished");
+			}
+			else
+			{
+				node.Position = targetPos;
+			}
 		}
 		private void Reparentar(Control node, Node novoPai)
 		{

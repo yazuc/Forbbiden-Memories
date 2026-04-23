@@ -268,17 +268,14 @@ namespace fm
 				if(monstroAliado == null) continue;				
 				
 				var monstroInimigo = _gameState.OpponentPlayer.Field.GetMonsterInZone(ret.DefenderZone);
-				if(monstroInimigo != null)
+				await MaoDoInimigo.Tools.TransitionTo(CameraInimigo, 0.4f, MaoDoInimigo._transitionCam, false);			
+				await MaoDoInimigo.AtualizarPosicaoSeletor3DInimigo(MaoDoInimigo.SlotsCampo, ret.DefenderZone);
+				Task.Delay(500).Wait();
+				if (!monstroAliado.HasAttackedThisTurn)
 				{
-					await MaoDoInimigo.Tools.TransitionTo(CameraInimigo, 0.4f, MaoDoInimigo._transitionCam, false);			
-					await MaoDoInimigo.AtualizarPosicaoSeletor3DInimigo(MaoDoInimigo.SlotsCampo, ret.DefenderZone);
-					Task.Delay(500).Wait();
-					if (!monstroAliado.HasAttackedThisTurn)
-					{
-						await ResolverBatalha(monstroAliado, monstroInimigo);
-						await MaoDoInimigo.Tools.TransitionTo(CameraField, 0.4f, MaoDoInimigo._transitionCam, false);						
-					}					
-				}
+					await ResolverBatalha(monstroAliado, monstroInimigo);
+					await MaoDoInimigo.Tools.TransitionTo(CameraField, 0.4f, MaoDoInimigo._transitionCam, false);						
+				}									
 			}
 			BP_Ativa = false;		
 			MaoDoInimigo.Seletor3D.Visible = false;		
