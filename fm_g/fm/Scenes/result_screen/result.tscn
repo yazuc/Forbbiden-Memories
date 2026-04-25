@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dbhghvsumsmrb"]
 
 [ext_resource type="Texture2D" uid="uid://dhheibfg2vbnt" path="res://Scenes/result_screen/result_assets/result_banner.png" id="1_mx7us"]
+[ext_resource type="Script" uid="uid://b8tekovrh3xpw" path="res://Scenes/result_screen/Result.cs" id="1_w853u"]
 [ext_resource type="Texture2D" uid="uid://da1jtv0fsnesm" path="res://Scenes/result_screen/result_assets/arrows.png" id="2_lcptf"]
 [ext_resource type="Texture2D" uid="uid://n41yruv5wjpe" path="res://Scenes/result_screen/result_assets/interface.png" id="3_4m7n1"]
 [ext_resource type="Texture2D" uid="uid://ckdgcu4gl6rpx" path="res://Scenes/result_screen/result_assets/duel_skill.png" id="4_ix8h0"]
@@ -48,6 +49,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_w853u")
 metadata/_edit_use_anchors_ = true
 
 [node name="Panel" type="Panel" parent="." unique_id=1556058574]
@@ -94,7 +96,15 @@ texture = ExtResource("2_lcptf")
 flip_h = true
 metadata/_edit_use_anchors_ = true
 
-[node name="MainSpoil" type="Control" parent="." unique_id=1506126342]
+[node name="Screen" type="Control" parent="." unique_id=216665880]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MainSpoil" type="Control" parent="Screen" unique_id=1506126342]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -103,7 +113,7 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="CardsUsed" type="TextureRect" parent="MainSpoil" unique_id=118579231]
+[node name="CardsUsed" type="TextureRect" parent="Screen/MainSpoil" unique_id=118579231]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.0765625
@@ -113,7 +123,7 @@ anchor_bottom = 0.29722223
 texture = ExtResource("3_4m7n1")
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="MainSpoil/CardsUsed" unique_id=365786633]
+[node name="Label" type="Label" parent="Screen/MainSpoil/CardsUsed" unique_id=365786633]
 layout_mode = 0
 anchor_left = 0.03003003
 anchor_top = 0.16129032
@@ -123,7 +133,7 @@ text = "CARDS USED"
 label_settings = SubResource("LabelSettings_w853u")
 metadata/_edit_use_anchors_ = true
 
-[node name="You" type="Label" parent="MainSpoil/CardsUsed" unique_id=959237813]
+[node name="You" type="Label" parent="Screen/MainSpoil/CardsUsed" unique_id=959237813]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.7131832
@@ -137,7 +147,7 @@ text = "YOU"
 label_settings = SubResource("LabelSettings_ktl0h")
 metadata/_edit_use_anchors_ = true
 
-[node name="COM" type="Label" parent="MainSpoil/CardsUsed" unique_id=592548521]
+[node name="COM" type="Label" parent="Screen/MainSpoil/CardsUsed" unique_id=592548521]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.8843544
@@ -151,7 +161,7 @@ text = "COM"
 label_settings = SubResource("LabelSettings_ktl0h")
 metadata/_edit_use_anchors_ = true
 
-[node name="RemainingLP" type="TextureRect" parent="MainSpoil" unique_id=346278877]
+[node name="RemainingLP" type="TextureRect" parent="Screen/MainSpoil" unique_id=346278877]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.075
@@ -161,7 +171,7 @@ anchor_bottom = 0.4074074
 texture = ExtResource("3_4m7n1")
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="MainSpoil/RemainingLP" unique_id=1559168089]
+[node name="Label" type="Label" parent="Screen/MainSpoil/RemainingLP" unique_id=1559168089]
 layout_mode = 0
 anchor_left = 0.031231232
 anchor_top = 0.15384616
@@ -172,7 +182,7 @@ text = "REMAINING LP"
 label_settings = SubResource("LabelSettings_w853u")
 metadata/_edit_use_anchors_ = true
 
-[node name="You" type="Label" parent="MainSpoil/RemainingLP" unique_id=537951926]
+[node name="You" type="Label" parent="Screen/MainSpoil/RemainingLP" unique_id=537951926]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.7131832
@@ -186,7 +196,7 @@ text = "YOU"
 label_settings = SubResource("LabelSettings_ktl0h")
 metadata/_edit_use_anchors_ = true
 
-[node name="COM" type="Label" parent="MainSpoil/RemainingLP" unique_id=1450165880]
+[node name="COM" type="Label" parent="Screen/MainSpoil/RemainingLP" unique_id=1450165880]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.8843544
@@ -200,7 +210,7 @@ text = "COM"
 label_settings = SubResource("LabelSettings_ktl0h")
 metadata/_edit_use_anchors_ = true
 
-[node name="DuelSkill" type="TextureRect" parent="MainSpoil" unique_id=482832814]
+[node name="DuelSkill" type="TextureRect" parent="Screen/MainSpoil" unique_id=482832814]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.09322917
@@ -210,7 +220,7 @@ anchor_bottom = 0.5821673
 texture = ExtResource("4_ix8h0")
 metadata/_edit_use_anchors_ = true
 
-[node name="Spoils" type="TextureRect" parent="MainSpoil" unique_id=978542759]
+[node name="Spoils" type="TextureRect" parent="Screen/MainSpoil" unique_id=978542759]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.092708334
@@ -221,7 +231,7 @@ offset_right = 6.1035156e-05
 texture = ExtResource("5_3xgda")
 metadata/_edit_use_anchors_ = true
 
-[node name="Spoil" type="TextureRect" parent="MainSpoil" unique_id=614400600]
+[node name="Spoil" type="TextureRect" parent="Screen/MainSpoil" unique_id=614400600]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.009895833
@@ -233,7 +243,7 @@ grow_vertical = 0
 texture = ExtResource("6_lt27x")
 metadata/_edit_use_anchors_ = true
 
-[node name="Tag" type="TextureRect" parent="MainSpoil" unique_id=1820789920]
+[node name="Tag" type="TextureRect" parent="Screen/MainSpoil" unique_id=1820789920]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.6197917
@@ -243,7 +253,7 @@ anchor_bottom = 0.5643689
 texture = ExtResource("7_ktl0h")
 metadata/_edit_use_anchors_ = true
 
-[node name="Rank" type="TextureRect" parent="MainSpoil" unique_id=1783228161]
+[node name="Rank" type="TextureRect" parent="Screen/MainSpoil" unique_id=1783228161]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.7091578
@@ -253,7 +263,7 @@ anchor_bottom = 0.69111794
 texture = ExtResource("8_w853u")
 metadata/_edit_use_anchors_ = true
 
-[node name="Winner" type="Label" parent="MainSpoil" unique_id=1475225065]
+[node name="Winner" type="Label" parent="Screen/MainSpoil" unique_id=1475225065]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.6703125
@@ -264,7 +274,7 @@ text = "WINNER ..."
 label_settings = SubResource("LabelSettings_ktl0h")
 metadata/_edit_use_anchors_ = true
 
-[node name="SpoilNRO" type="Label" parent="MainSpoil" unique_id=124129277]
+[node name="SpoilNRO" type="Label" parent="Screen/MainSpoil" unique_id=124129277]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.0234375
@@ -275,7 +285,7 @@ text = "001"
 label_settings = SubResource("LabelSettings_ktl0h")
 metadata/_edit_use_anchors_ = true
 
-[node name="SpoilName" type="Label" parent="MainSpoil" unique_id=2048228497]
+[node name="SpoilName" type="Label" parent="Screen/MainSpoil" unique_id=2048228497]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.027604166
@@ -286,7 +296,7 @@ text = "Blue eyes white dragon"
 label_settings = SubResource("LabelSettings_ij37n")
 metadata/_edit_use_anchors_ = true
 
-[node name="ResultStats" type="Control" parent="." unique_id=1087315756]
+[node name="ResultStats" type="Control" parent="Screen" unique_id=1087315756]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -296,7 +306,7 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="Turns" type="Label" parent="ResultStats" unique_id=141281232]
+[node name="Turns" type="Label" parent="Screen/ResultStats" unique_id=141281232]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.6411458
@@ -307,7 +317,7 @@ text = "TURNS"
 label_settings = SubResource("LabelSettings_myuiu")
 metadata/_edit_use_anchors_ = true
 
-[node name="VictoryCon" type="Label" parent="ResultStats" unique_id=1415340619]
+[node name="VictoryCon" type="Label" parent="Screen/ResultStats" unique_id=1415340619]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.10039063
@@ -318,7 +328,7 @@ text = "VICTORY CONDITIONS"
 label_settings = SubResource("LabelSettings_da1uo")
 metadata/_edit_use_anchors_ = true
 
-[node name="WinType" type="Label" parent="ResultStats/VictoryCon" unique_id=1736330718]
+[node name="WinType" type="Label" parent="Screen/ResultStats/VictoryCon" unique_id=1736330718]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.06666667
@@ -329,7 +339,7 @@ text = "TOTAL ANNIHILATION"
 label_settings = SubResource("LabelSettings_tibvy")
 metadata/_edit_use_anchors_ = true
 
-[node name="OffenseStats" type="Control" parent="ResultStats" unique_id=1216928623]
+[node name="OffenseStats" type="Control" parent="Screen/ResultStats" unique_id=1216928623]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -338,7 +348,7 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="AvgAtk" type="TextureRect" parent="ResultStats/OffenseStats" unique_id=369911428]
+[node name="AvgAtk" type="TextureRect" parent="Screen/ResultStats/OffenseStats" unique_id=369911428]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.0765625
@@ -348,7 +358,7 @@ anchor_bottom = 0.38055554
 texture = ExtResource("3_4m7n1")
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="ResultStats/OffenseStats/AvgAtk" unique_id=2116403420]
+[node name="Label" type="Label" parent="Screen/ResultStats/OffenseStats/AvgAtk" unique_id=2116403420]
 layout_mode = 0
 anchor_left = 0.03003003
 anchor_top = 0.16129032
@@ -358,7 +368,7 @@ text = "AVERAGE ATK FACTOR"
 label_settings = SubResource("LabelSettings_w853u")
 metadata/_edit_use_anchors_ = true
 
-[node name="You" type="Label" parent="ResultStats/OffenseStats/AvgAtk" unique_id=667729284]
+[node name="You" type="Label" parent="Screen/ResultStats/OffenseStats/AvgAtk" unique_id=667729284]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.7131832
@@ -372,7 +382,7 @@ text = "YOU"
 label_settings = SubResource("LabelSettings_ktl0h")
 metadata/_edit_use_anchors_ = true
 
-[node name="COM" type="Label" parent="ResultStats/OffenseStats/AvgAtk" unique_id=433028812]
+[node name="COM" type="Label" parent="Screen/ResultStats/OffenseStats/AvgAtk" unique_id=433028812]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.8843544
@@ -386,7 +396,7 @@ text = "COM"
 label_settings = SubResource("LabelSettings_ktl0h")
 metadata/_edit_use_anchors_ = true
 
-[node name="CardDestruction" type="TextureRect" parent="ResultStats/OffenseStats" unique_id=524531040]
+[node name="CardDestruction" type="TextureRect" parent="Screen/ResultStats/OffenseStats" unique_id=524531040]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.0765625
@@ -396,7 +406,7 @@ anchor_bottom = 0.4925926
 texture = ExtResource("3_4m7n1")
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="ResultStats/OffenseStats/CardDestruction" unique_id=244724007]
+[node name="Label" type="Label" parent="Screen/ResultStats/OffenseStats/CardDestruction" unique_id=244724007]
 layout_mode = 0
 anchor_left = 0.03003003
 anchor_top = 0.16129032
@@ -406,7 +416,7 @@ text = "CARD DESTRUCTION"
 label_settings = SubResource("LabelSettings_w853u")
 metadata/_edit_use_anchors_ = true
 
-[node name="EffAtk" type="TextureRect" parent="ResultStats/OffenseStats" unique_id=764910524]
+[node name="EffAtk" type="TextureRect" parent="Screen/ResultStats/OffenseStats" unique_id=764910524]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.0765625
@@ -416,7 +426,7 @@ anchor_bottom = 0.6046297
 texture = ExtResource("3_4m7n1")
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="ResultStats/OffenseStats/EffAtk" unique_id=80594403]
+[node name="Label" type="Label" parent="Screen/ResultStats/OffenseStats/EffAtk" unique_id=80594403]
 layout_mode = 0
 anchor_left = 0.03003003
 anchor_top = 0.16129032
@@ -426,7 +436,7 @@ text = "EFFECTIVE ATTACKS"
 label_settings = SubResource("LabelSettings_w853u")
 metadata/_edit_use_anchors_ = true
 
-[node name="Title" type="Label" parent="ResultStats/OffenseStats" unique_id=581117099]
+[node name="Title" type="Label" parent="Screen/ResultStats/OffenseStats" unique_id=581117099]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.08684896
@@ -437,7 +447,7 @@ text = "OFFENSE STATISTICS"
 label_settings = SubResource("LabelSettings_ktl0h")
 metadata/_edit_use_anchors_ = true
 
-[node name="DefenseStats" type="Control" parent="ResultStats" unique_id=1651555049]
+[node name="DefenseStats" type="Control" parent="Screen/ResultStats" unique_id=1651555049]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -446,7 +456,7 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="AvgAtk" type="TextureRect" parent="ResultStats/DefenseStats" unique_id=156268438]
+[node name="AvgAtk" type="TextureRect" parent="Screen/ResultStats/DefenseStats" unique_id=156268438]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.0765625
@@ -456,7 +466,7 @@ anchor_bottom = 0.73425937
 texture = ExtResource("3_4m7n1")
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="ResultStats/DefenseStats/AvgAtk" unique_id=371901055]
+[node name="Label" type="Label" parent="Screen/ResultStats/DefenseStats/AvgAtk" unique_id=371901055]
 layout_mode = 0
 anchor_left = 0.03003003
 anchor_top = 0.16129032
@@ -466,7 +476,7 @@ text = "AVERAGE DFD FACTOR"
 label_settings = SubResource("LabelSettings_w853u")
 metadata/_edit_use_anchors_ = true
 
-[node name="You" type="Label" parent="ResultStats/DefenseStats/AvgAtk" unique_id=1546480593]
+[node name="You" type="Label" parent="Screen/ResultStats/DefenseStats/AvgAtk" unique_id=1546480593]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.7131832
@@ -480,7 +490,7 @@ text = "YOU"
 label_settings = SubResource("LabelSettings_ktl0h")
 metadata/_edit_use_anchors_ = true
 
-[node name="COM" type="Label" parent="ResultStats/DefenseStats/AvgAtk" unique_id=1025743279]
+[node name="COM" type="Label" parent="Screen/ResultStats/DefenseStats/AvgAtk" unique_id=1025743279]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.8843544
@@ -494,7 +504,7 @@ text = "COM"
 label_settings = SubResource("LabelSettings_ktl0h")
 metadata/_edit_use_anchors_ = true
 
-[node name="CardDestruction" type="TextureRect" parent="ResultStats/DefenseStats" unique_id=2115836070]
+[node name="CardDestruction" type="TextureRect" parent="Screen/ResultStats/DefenseStats" unique_id=2115836070]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.0765625
@@ -504,7 +514,7 @@ anchor_bottom = 0.8462963
 texture = ExtResource("3_4m7n1")
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="ResultStats/DefenseStats/CardDestruction" unique_id=1748348789]
+[node name="Label" type="Label" parent="Screen/ResultStats/DefenseStats/CardDestruction" unique_id=1748348789]
 layout_mode = 0
 anchor_left = 0.03003003
 anchor_top = 0.16129032
@@ -514,7 +524,7 @@ text = "DEFENSIVE LOSSES"
 label_settings = SubResource("LabelSettings_w853u")
 metadata/_edit_use_anchors_ = true
 
-[node name="EffAtk" type="TextureRect" parent="ResultStats/DefenseStats" unique_id=375560365]
+[node name="EffAtk" type="TextureRect" parent="Screen/ResultStats/DefenseStats" unique_id=375560365]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.0765625
@@ -524,7 +534,7 @@ anchor_bottom = 0.9583333
 texture = ExtResource("3_4m7n1")
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="ResultStats/DefenseStats/EffAtk" unique_id=1097846837]
+[node name="Label" type="Label" parent="Screen/ResultStats/DefenseStats/EffAtk" unique_id=1097846837]
 layout_mode = 0
 anchor_left = 0.03003003
 anchor_top = 0.16129032
@@ -534,7 +544,7 @@ text = "DEFENSIVE WINS"
 label_settings = SubResource("LabelSettings_w853u")
 metadata/_edit_use_anchors_ = true
 
-[node name="Title" type="Label" parent="ResultStats/DefenseStats" unique_id=2119912143]
+[node name="Title" type="Label" parent="Screen/ResultStats/DefenseStats" unique_id=2119912143]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.0890625
@@ -545,7 +555,7 @@ text = "DEFENSE STATISTICS"
 label_settings = SubResource("LabelSettings_ktl0h")
 metadata/_edit_use_anchors_ = true
 
-[node name="ResultStats2" type="Control" parent="." unique_id=544601849]
+[node name="ResultStats2" type="Control" parent="Screen" unique_id=544601849]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -555,7 +565,7 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="OffenseStats" type="Control" parent="ResultStats2" unique_id=2137990106]
+[node name="OffenseStats" type="Control" parent="Screen/ResultStats2" unique_id=2137990106]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -564,7 +574,7 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="AvgAtk" type="TextureRect" parent="ResultStats2/OffenseStats" unique_id=1830282821]
+[node name="AvgAtk" type="TextureRect" parent="Screen/ResultStats2/OffenseStats" unique_id=1830282821]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.0765625
@@ -574,7 +584,7 @@ anchor_bottom = 0.29629627
 texture = ExtResource("3_4m7n1")
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="ResultStats2/OffenseStats/AvgAtk" unique_id=1138167790]
+[node name="Label" type="Label" parent="Screen/ResultStats2/OffenseStats/AvgAtk" unique_id=1138167790]
 layout_mode = 0
 anchor_left = 0.03003003
 anchor_top = 0.16129032
@@ -584,7 +594,7 @@ text = "COMBO PLAYS"
 label_settings = SubResource("LabelSettings_w853u")
 metadata/_edit_use_anchors_ = true
 
-[node name="You" type="Label" parent="ResultStats2/OffenseStats/AvgAtk" unique_id=1010927048]
+[node name="You" type="Label" parent="Screen/ResultStats2/OffenseStats/AvgAtk" unique_id=1010927048]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.7131832
@@ -598,7 +608,7 @@ text = "YOU"
 label_settings = SubResource("LabelSettings_ktl0h")
 metadata/_edit_use_anchors_ = true
 
-[node name="COM" type="Label" parent="ResultStats2/OffenseStats/AvgAtk" unique_id=1938085663]
+[node name="COM" type="Label" parent="Screen/ResultStats2/OffenseStats/AvgAtk" unique_id=1938085663]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.8843544
@@ -612,7 +622,7 @@ text = "COM"
 label_settings = SubResource("LabelSettings_ktl0h")
 metadata/_edit_use_anchors_ = true
 
-[node name="CardDestruction" type="TextureRect" parent="ResultStats2/OffenseStats" unique_id=491164886]
+[node name="CardDestruction" type="TextureRect" parent="Screen/ResultStats2/OffenseStats" unique_id=491164886]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.0765625
@@ -622,7 +632,7 @@ anchor_bottom = 0.40833333
 texture = ExtResource("3_4m7n1")
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="ResultStats2/OffenseStats/CardDestruction" unique_id=274338815]
+[node name="Label" type="Label" parent="Screen/ResultStats2/OffenseStats/CardDestruction" unique_id=274338815]
 layout_mode = 0
 anchor_left = 0.03003003
 anchor_top = 0.16129032
@@ -632,7 +642,7 @@ text = "FACE-DOWN PLAY"
 label_settings = SubResource("LabelSettings_w853u")
 metadata/_edit_use_anchors_ = true
 
-[node name="EffAtk" type="TextureRect" parent="ResultStats2/OffenseStats" unique_id=1389840015]
+[node name="EffAtk" type="TextureRect" parent="Screen/ResultStats2/OffenseStats" unique_id=1389840015]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.0765625
@@ -642,7 +652,7 @@ anchor_bottom = 0.52037036
 texture = ExtResource("3_4m7n1")
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="ResultStats2/OffenseStats/EffAtk" unique_id=918069331]
+[node name="Label" type="Label" parent="Screen/ResultStats2/OffenseStats/EffAtk" unique_id=918069331]
 layout_mode = 0
 anchor_left = 0.03003003
 anchor_top = 0.16129032
@@ -652,7 +662,7 @@ text = "INITIATE FUSION"
 label_settings = SubResource("LabelSettings_w853u")
 metadata/_edit_use_anchors_ = true
 
-[node name="EffAtk2" type="TextureRect" parent="ResultStats2/OffenseStats" unique_id=1119285725]
+[node name="EffAtk2" type="TextureRect" parent="Screen/ResultStats2/OffenseStats" unique_id=1119285725]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.0765625
@@ -662,7 +672,7 @@ anchor_bottom = 0.6324073
 texture = ExtResource("3_4m7n1")
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="ResultStats2/OffenseStats/EffAtk2" unique_id=1730150250]
+[node name="Label" type="Label" parent="Screen/ResultStats2/OffenseStats/EffAtk2" unique_id=1730150250]
 layout_mode = 0
 anchor_left = 0.03003003
 anchor_top = 0.16129032
@@ -672,7 +682,7 @@ text = "EQUIP MAGIC"
 label_settings = SubResource("LabelSettings_w853u")
 metadata/_edit_use_anchors_ = true
 
-[node name="EffAtk3" type="TextureRect" parent="ResultStats2/OffenseStats" unique_id=826076002]
+[node name="EffAtk3" type="TextureRect" parent="Screen/ResultStats2/OffenseStats" unique_id=826076002]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.0765625
@@ -682,7 +692,7 @@ anchor_bottom = 0.7444443
 texture = ExtResource("3_4m7n1")
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="ResultStats2/OffenseStats/EffAtk3" unique_id=1146221334]
+[node name="Label" type="Label" parent="Screen/ResultStats2/OffenseStats/EffAtk3" unique_id=1146221334]
 layout_mode = 0
 anchor_left = 0.03003003
 anchor_top = 0.16129032
@@ -692,7 +702,7 @@ text = "CHANGE FIELD"
 label_settings = SubResource("LabelSettings_w853u")
 metadata/_edit_use_anchors_ = true
 
-[node name="EffAtk4" type="TextureRect" parent="ResultStats2/OffenseStats" unique_id=157171034]
+[node name="EffAtk4" type="TextureRect" parent="Screen/ResultStats2/OffenseStats" unique_id=157171034]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.0765625
@@ -702,7 +712,7 @@ anchor_bottom = 0.8564814
 texture = ExtResource("3_4m7n1")
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="ResultStats2/OffenseStats/EffAtk4" unique_id=1870825260]
+[node name="Label" type="Label" parent="Screen/ResultStats2/OffenseStats/EffAtk4" unique_id=1870825260]
 layout_mode = 0
 anchor_left = 0.03003003
 anchor_top = 0.16129032
@@ -712,7 +722,7 @@ text = "PURE MAGIC"
 label_settings = SubResource("LabelSettings_w853u")
 metadata/_edit_use_anchors_ = true
 
-[node name="EffAtk5" type="TextureRect" parent="ResultStats2/OffenseStats" unique_id=975432947]
+[node name="EffAtk5" type="TextureRect" parent="Screen/ResultStats2/OffenseStats" unique_id=975432947]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.0765625
@@ -722,7 +732,7 @@ anchor_bottom = 0.9685184
 texture = ExtResource("3_4m7n1")
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="ResultStats2/OffenseStats/EffAtk5" unique_id=967520320]
+[node name="Label" type="Label" parent="Screen/ResultStats2/OffenseStats/EffAtk5" unique_id=967520320]
 layout_mode = 0
 anchor_left = 0.03003003
 anchor_top = 0.16129032
@@ -732,7 +742,7 @@ text = "TRIGGER TRAP"
 label_settings = SubResource("LabelSettings_w853u")
 metadata/_edit_use_anchors_ = true
 
-[node name="Title" type="Label" parent="ResultStats2/OffenseStats" unique_id=607345355]
+[node name="Title" type="Label" parent="Screen/ResultStats2/OffenseStats" unique_id=607345355]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.08684896
