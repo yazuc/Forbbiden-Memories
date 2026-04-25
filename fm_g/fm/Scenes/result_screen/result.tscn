@@ -1,0 +1,744 @@
+[gd_scene format=3 uid="uid://dbhghvsumsmrb"]
+
+[ext_resource type="Texture2D" uid="uid://dhheibfg2vbnt" path="res://Scenes/result_screen/result_assets/result_banner.png" id="1_mx7us"]
+[ext_resource type="Texture2D" uid="uid://da1jtv0fsnesm" path="res://Scenes/result_screen/result_assets/arrows.png" id="2_lcptf"]
+[ext_resource type="Texture2D" uid="uid://n41yruv5wjpe" path="res://Scenes/result_screen/result_assets/interface.png" id="3_4m7n1"]
+[ext_resource type="Texture2D" uid="uid://ckdgcu4gl6rpx" path="res://Scenes/result_screen/result_assets/duel_skill.png" id="4_ix8h0"]
+[ext_resource type="FontFile" uid="uid://leuwbw2cg0ck" path="res://assets/fontbitmap.png" id="4_ktl0h"]
+[ext_resource type="Texture2D" uid="uid://b7pa2hdgedh1c" path="res://Scenes/result_screen/result_assets/spoils.png" id="5_3xgda"]
+[ext_resource type="Texture2D" uid="uid://d0iursu6rovqm" path="res://Scenes/result_screen/result_assets/spoil.png" id="6_lt27x"]
+[ext_resource type="Texture2D" uid="uid://cdr2kojnkh5fo" path="res://Scenes/result_screen/result_assets/pow.png" id="7_ktl0h"]
+[ext_resource type="Texture2D" uid="uid://c675vaqdjnv4o" path="res://Scenes/result_screen/result_assets/rank.png" id="8_w853u"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_w853u"]
+font = ExtResource("4_ktl0h")
+font_size = 47
+font_color = Color(0.7019608, 0.83137256, 1, 1)
+outline_size = 48
+outline_color = Color(0.09019608, 0.09019608, 0.99607843, 1)
+shadow_size = 623
+shadow_color = Color(0.09019608, 0.09019608, 0.99607843, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ktl0h"]
+font = ExtResource("4_ktl0h")
+font_size = 40
+
+[sub_resource type="LabelSettings" id="LabelSettings_ij37n"]
+font = ExtResource("4_ktl0h")
+font_size = 74
+
+[sub_resource type="LabelSettings" id="LabelSettings_myuiu"]
+font = ExtResource("4_ktl0h")
+font_size = 40
+font_color = Color(0.7019608, 0.83137256, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_da1uo"]
+font = ExtResource("4_ktl0h")
+font_size = 38
+
+[sub_resource type="LabelSettings" id="LabelSettings_tibvy"]
+font = ExtResource("4_ktl0h")
+font_size = 40
+font_color = Color(1, 1, 0.05882353, 1)
+
+[node name="Result" type="Control" unique_id=448693560]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Panel" type="Panel" parent="." unique_id=1556058574]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="ResultBanner" type="TextureRect" parent="." unique_id=271410632]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.16302083
+anchor_top = 0.024074074
+anchor_right = 0.85729164
+anchor_bottom = 0.13333334
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_mx7us")
+metadata/_edit_use_anchors_ = true
+
+[node name="Arrow" type="TextureRect" parent="." unique_id=1350531604]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.89635414
+anchor_top = 0.06574075
+anchor_right = 0.946875
+anchor_bottom = 0.1425926
+texture = ExtResource("2_lcptf")
+metadata/_edit_use_anchors_ = true
+
+[node name="Arrow2" type="TextureRect" parent="." unique_id=2067449912]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.059895832
+anchor_top = 0.06574075
+anchor_right = 0.110416666
+anchor_bottom = 0.1425926
+offset_left = 26.0
+offset_right = 26.0
+texture = ExtResource("2_lcptf")
+flip_h = true
+metadata/_edit_use_anchors_ = true
+
+[node name="MainSpoil" type="Control" parent="." unique_id=1506126342]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="CardsUsed" type="TextureRect" parent="MainSpoil" unique_id=118579231]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0765625
+anchor_top = 0.21111111
+anchor_right = 0.94375
+anchor_bottom = 0.29722223
+texture = ExtResource("3_4m7n1")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="MainSpoil/CardsUsed" unique_id=365786633]
+layout_mode = 0
+anchor_left = 0.03003003
+anchor_top = 0.16129032
+anchor_right = 0.4234234
+anchor_bottom = 0.6989247
+text = "CARDS USED"
+label_settings = SubResource("LabelSettings_w853u")
+metadata/_edit_use_anchors_ = true
+
+[node name="You" type="Label" parent="MainSpoil/CardsUsed" unique_id=959237813]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.7131832
+anchor_top = -0.32258064
+anchor_right = 0.7605917
+anchor_bottom = 0.10776346
+offset_left = -0.45007324
+offset_right = 0.61486816
+offset_bottom = -0.02200222
+text = "YOU"
+label_settings = SubResource("LabelSettings_ktl0h")
+metadata/_edit_use_anchors_ = true
+
+[node name="COM" type="Label" parent="MainSpoil/CardsUsed" unique_id=592548521]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.8843544
+anchor_top = -0.32258064
+anchor_right = 0.9317628
+anchor_bottom = 0.10776346
+offset_left = -0.45007324
+offset_right = 0.61486816
+offset_bottom = -0.02200222
+text = "COM"
+label_settings = SubResource("LabelSettings_ktl0h")
+metadata/_edit_use_anchors_ = true
+
+[node name="RemainingLP" type="TextureRect" parent="MainSpoil" unique_id=346278877]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.075
+anchor_top = 0.32314816
+anchor_right = 0.9421875
+anchor_bottom = 0.4074074
+texture = ExtResource("3_4m7n1")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="MainSpoil/RemainingLP" unique_id=1559168089]
+layout_mode = 0
+anchor_left = 0.031231232
+anchor_top = 0.15384616
+anchor_right = 0.25705707
+anchor_bottom = 0.6703297
+offset_right = -3.0517578e-05
+text = "REMAINING LP"
+label_settings = SubResource("LabelSettings_w853u")
+metadata/_edit_use_anchors_ = true
+
+[node name="You" type="Label" parent="MainSpoil/RemainingLP" unique_id=537951926]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.7131832
+anchor_top = -0.32258064
+anchor_right = 0.7605917
+anchor_bottom = 0.10776346
+offset_left = -0.45007324
+offset_right = 0.61486816
+offset_bottom = -0.02200222
+text = "YOU"
+label_settings = SubResource("LabelSettings_ktl0h")
+metadata/_edit_use_anchors_ = true
+
+[node name="COM" type="Label" parent="MainSpoil/RemainingLP" unique_id=1450165880]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.8843544
+anchor_top = -0.32258064
+anchor_right = 0.9317628
+anchor_bottom = 0.10776346
+offset_left = -0.45007324
+offset_right = 0.61486816
+offset_bottom = -0.02200222
+text = "COM"
+label_settings = SubResource("LabelSettings_ktl0h")
+metadata/_edit_use_anchors_ = true
+
+[node name="DuelSkill" type="TextureRect" parent="MainSpoil" unique_id=482832814]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.09322917
+anchor_top = 0.45740741
+anchor_right = 0.40595704
+anchor_bottom = 0.5821673
+texture = ExtResource("4_ix8h0")
+metadata/_edit_use_anchors_ = true
+
+[node name="Spoils" type="TextureRect" parent="MainSpoil" unique_id=978542759]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.092708334
+anchor_top = 0.65555555
+anchor_right = 0.52239573
+anchor_bottom = 0.79101497
+offset_right = 6.1035156e-05
+texture = ExtResource("5_3xgda")
+metadata/_edit_use_anchors_ = true
+
+[node name="Spoil" type="TextureRect" parent="MainSpoil" unique_id=614400600]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.009895833
+anchor_top = 0.875
+anchor_right = 0.9921875
+anchor_bottom = 0.98333335
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("6_lt27x")
+metadata/_edit_use_anchors_ = true
+
+[node name="Tag" type="TextureRect" parent="MainSpoil" unique_id=1820789920]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.6197917
+anchor_top = 0.45833334
+anchor_right = 0.68991953
+anchor_bottom = 0.5643689
+texture = ExtResource("7_ktl0h")
+metadata/_edit_use_anchors_ = true
+
+[node name="Rank" type="TextureRect" parent="MainSpoil" unique_id=1783228161]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.7091578
+anchor_top = 0.4692386
+anchor_right = 0.86786014
+anchor_bottom = 0.69111794
+texture = ExtResource("8_w853u")
+metadata/_edit_use_anchors_ = true
+
+[node name="Winner" type="Label" parent="MainSpoil" unique_id=1475225065]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.6703125
+anchor_top = 0.39907408
+anchor_right = 0.809375
+anchor_bottom = 0.4537037
+text = "WINNER ..."
+label_settings = SubResource("LabelSettings_ktl0h")
+metadata/_edit_use_anchors_ = true
+
+[node name="SpoilNRO" type="Label" parent="MainSpoil" unique_id=124129277]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0234375
+anchor_top = 0.84537035
+anchor_right = 0.1625
+anchor_bottom = 0.9
+text = "001"
+label_settings = SubResource("LabelSettings_ktl0h")
+metadata/_edit_use_anchors_ = true
+
+[node name="SpoilName" type="Label" parent="MainSpoil" unique_id=2048228497]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.027604166
+anchor_top = 0.8972222
+anchor_right = 0.5932292
+anchor_bottom = 0.96574074
+text = "Blue eyes white dragon"
+label_settings = SubResource("LabelSettings_ij37n")
+metadata/_edit_use_anchors_ = true
+
+[node name="ResultStats" type="Control" parent="." unique_id=1087315756]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Turns" type="Label" parent="ResultStats" unique_id=141281232]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.6411458
+anchor_top = 0.1675926
+anchor_right = 0.7182292
+anchor_bottom = 0.20462964
+text = "TURNS"
+label_settings = SubResource("LabelSettings_myuiu")
+metadata/_edit_use_anchors_ = true
+
+[node name="VictoryCon" type="Label" parent="ResultStats" unique_id=1415340619]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.10039063
+anchor_top = 0.15203363
+anchor_right = 0.3503906
+anchor_bottom = 0.18981484
+text = "VICTORY CONDITIONS"
+label_settings = SubResource("LabelSettings_da1uo")
+metadata/_edit_use_anchors_ = true
+
+[node name="WinType" type="Label" parent="ResultStats/VictoryCon" unique_id=1736330718]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.06666667
+anchor_top = 1.1518564
+anchor_right = 1.0666667
+anchor_bottom = 2.3479168
+text = "TOTAL ANNIHILATION"
+label_settings = SubResource("LabelSettings_tibvy")
+metadata/_edit_use_anchors_ = true
+
+[node name="OffenseStats" type="Control" parent="ResultStats" unique_id=1216928623]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="AvgAtk" type="TextureRect" parent="ResultStats/OffenseStats" unique_id=369911428]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0765625
+anchor_top = 0.2944444
+anchor_right = 0.94375
+anchor_bottom = 0.38055554
+texture = ExtResource("3_4m7n1")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="ResultStats/OffenseStats/AvgAtk" unique_id=2116403420]
+layout_mode = 0
+anchor_left = 0.03003003
+anchor_top = 0.16129032
+anchor_right = 0.4234234
+anchor_bottom = 0.6989247
+text = "AVERAGE ATK FACTOR"
+label_settings = SubResource("LabelSettings_w853u")
+metadata/_edit_use_anchors_ = true
+
+[node name="You" type="Label" parent="ResultStats/OffenseStats/AvgAtk" unique_id=667729284]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.7131832
+anchor_top = -0.32258064
+anchor_right = 0.7605917
+anchor_bottom = 0.10776346
+offset_left = -0.45007324
+offset_right = 0.61486816
+offset_bottom = -0.02200222
+text = "YOU"
+label_settings = SubResource("LabelSettings_ktl0h")
+metadata/_edit_use_anchors_ = true
+
+[node name="COM" type="Label" parent="ResultStats/OffenseStats/AvgAtk" unique_id=433028812]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.8843544
+anchor_top = -0.32258064
+anchor_right = 0.9317628
+anchor_bottom = 0.10776346
+offset_left = -0.45007324
+offset_right = 0.61486816
+offset_bottom = -0.02200222
+text = "COM"
+label_settings = SubResource("LabelSettings_ktl0h")
+metadata/_edit_use_anchors_ = true
+
+[node name="CardDestruction" type="TextureRect" parent="ResultStats/OffenseStats" unique_id=524531040]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0765625
+anchor_top = 0.40648144
+anchor_right = 0.94375
+anchor_bottom = 0.4925926
+texture = ExtResource("3_4m7n1")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="ResultStats/OffenseStats/CardDestruction" unique_id=244724007]
+layout_mode = 0
+anchor_left = 0.03003003
+anchor_top = 0.16129032
+anchor_right = 0.4234234
+anchor_bottom = 0.6989247
+text = "CARD DESTRUCTION"
+label_settings = SubResource("LabelSettings_w853u")
+metadata/_edit_use_anchors_ = true
+
+[node name="EffAtk" type="TextureRect" parent="ResultStats/OffenseStats" unique_id=764910524]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0765625
+anchor_top = 0.5185186
+anchor_right = 0.94375
+anchor_bottom = 0.6046297
+texture = ExtResource("3_4m7n1")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="ResultStats/OffenseStats/EffAtk" unique_id=80594403]
+layout_mode = 0
+anchor_left = 0.03003003
+anchor_top = 0.16129032
+anchor_right = 0.4234234
+anchor_bottom = 0.6989247
+text = "EFFECTIVE ATTACKS"
+label_settings = SubResource("LabelSettings_w853u")
+metadata/_edit_use_anchors_ = true
+
+[node name="Title" type="Label" parent="ResultStats/OffenseStats" unique_id=581117099]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.08684896
+anchor_top = 0.26592252
+anchor_right = 0.33684894
+anchor_bottom = 0.30370373
+text = "OFFENSE STATISTICS"
+label_settings = SubResource("LabelSettings_ktl0h")
+metadata/_edit_use_anchors_ = true
+
+[node name="DefenseStats" type="Control" parent="ResultStats" unique_id=1651555049]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="AvgAtk" type="TextureRect" parent="ResultStats/DefenseStats" unique_id=156268438]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0765625
+anchor_top = 0.64814824
+anchor_right = 0.94375
+anchor_bottom = 0.73425937
+texture = ExtResource("3_4m7n1")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="ResultStats/DefenseStats/AvgAtk" unique_id=371901055]
+layout_mode = 0
+anchor_left = 0.03003003
+anchor_top = 0.16129032
+anchor_right = 0.4234234
+anchor_bottom = 0.6989247
+text = "AVERAGE DFD FACTOR"
+label_settings = SubResource("LabelSettings_w853u")
+metadata/_edit_use_anchors_ = true
+
+[node name="You" type="Label" parent="ResultStats/DefenseStats/AvgAtk" unique_id=1546480593]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.7131832
+anchor_top = -0.32258064
+anchor_right = 0.7605917
+anchor_bottom = 0.10776346
+offset_left = -0.45007324
+offset_right = 0.61486816
+offset_bottom = -0.02200222
+text = "YOU"
+label_settings = SubResource("LabelSettings_ktl0h")
+metadata/_edit_use_anchors_ = true
+
+[node name="COM" type="Label" parent="ResultStats/DefenseStats/AvgAtk" unique_id=1025743279]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.8843544
+anchor_top = -0.32258064
+anchor_right = 0.9317628
+anchor_bottom = 0.10776346
+offset_left = -0.45007324
+offset_right = 0.61486816
+offset_bottom = -0.02200222
+text = "COM"
+label_settings = SubResource("LabelSettings_ktl0h")
+metadata/_edit_use_anchors_ = true
+
+[node name="CardDestruction" type="TextureRect" parent="ResultStats/DefenseStats" unique_id=2115836070]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0765625
+anchor_top = 0.7601852
+anchor_right = 0.94375
+anchor_bottom = 0.8462963
+texture = ExtResource("3_4m7n1")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="ResultStats/DefenseStats/CardDestruction" unique_id=1748348789]
+layout_mode = 0
+anchor_left = 0.03003003
+anchor_top = 0.16129032
+anchor_right = 0.4234234
+anchor_bottom = 0.6989247
+text = "DEFENSIVE LOSSES"
+label_settings = SubResource("LabelSettings_w853u")
+metadata/_edit_use_anchors_ = true
+
+[node name="EffAtk" type="TextureRect" parent="ResultStats/DefenseStats" unique_id=375560365]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0765625
+anchor_top = 0.87222224
+anchor_right = 0.94375
+anchor_bottom = 0.9583333
+texture = ExtResource("3_4m7n1")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="ResultStats/DefenseStats/EffAtk" unique_id=1097846837]
+layout_mode = 0
+anchor_left = 0.03003003
+anchor_top = 0.16129032
+anchor_right = 0.4234234
+anchor_bottom = 0.6989247
+text = "DEFENSIVE WINS"
+label_settings = SubResource("LabelSettings_w853u")
+metadata/_edit_use_anchors_ = true
+
+[node name="Title" type="Label" parent="ResultStats/DefenseStats" unique_id=2119912143]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0890625
+anchor_top = 0.61851853
+anchor_right = 0.3390625
+anchor_bottom = 0.6562997
+text = "DEFENSE STATISTICS"
+label_settings = SubResource("LabelSettings_ktl0h")
+metadata/_edit_use_anchors_ = true
+
+[node name="ResultStats2" type="Control" parent="." unique_id=544601849]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="OffenseStats" type="Control" parent="ResultStats2" unique_id=2137990106]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="AvgAtk" type="TextureRect" parent="ResultStats2/OffenseStats" unique_id=1830282821]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0765625
+anchor_top = 0.21018516
+anchor_right = 0.94375
+anchor_bottom = 0.29629627
+texture = ExtResource("3_4m7n1")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="ResultStats2/OffenseStats/AvgAtk" unique_id=1138167790]
+layout_mode = 0
+anchor_left = 0.03003003
+anchor_top = 0.16129032
+anchor_right = 0.4234234
+anchor_bottom = 0.6989247
+text = "COMBO PLAYS"
+label_settings = SubResource("LabelSettings_w853u")
+metadata/_edit_use_anchors_ = true
+
+[node name="You" type="Label" parent="ResultStats2/OffenseStats/AvgAtk" unique_id=1010927048]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.7131832
+anchor_top = -0.32258064
+anchor_right = 0.7605917
+anchor_bottom = 0.10776346
+offset_left = -0.45007324
+offset_right = 0.61486816
+offset_bottom = -0.02200222
+text = "YOU"
+label_settings = SubResource("LabelSettings_ktl0h")
+metadata/_edit_use_anchors_ = true
+
+[node name="COM" type="Label" parent="ResultStats2/OffenseStats/AvgAtk" unique_id=1938085663]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.8843544
+anchor_top = -0.32258064
+anchor_right = 0.9317628
+anchor_bottom = 0.10776346
+offset_left = -0.45007324
+offset_right = 0.61486816
+offset_bottom = -0.02200222
+text = "COM"
+label_settings = SubResource("LabelSettings_ktl0h")
+metadata/_edit_use_anchors_ = true
+
+[node name="CardDestruction" type="TextureRect" parent="ResultStats2/OffenseStats" unique_id=491164886]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0765625
+anchor_top = 0.3222222
+anchor_right = 0.94375
+anchor_bottom = 0.40833333
+texture = ExtResource("3_4m7n1")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="ResultStats2/OffenseStats/CardDestruction" unique_id=274338815]
+layout_mode = 0
+anchor_left = 0.03003003
+anchor_top = 0.16129032
+anchor_right = 0.4234234
+anchor_bottom = 0.6989247
+text = "FACE-DOWN PLAY"
+label_settings = SubResource("LabelSettings_w853u")
+metadata/_edit_use_anchors_ = true
+
+[node name="EffAtk" type="TextureRect" parent="ResultStats2/OffenseStats" unique_id=1389840015]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0765625
+anchor_top = 0.43425936
+anchor_right = 0.94375
+anchor_bottom = 0.52037036
+texture = ExtResource("3_4m7n1")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="ResultStats2/OffenseStats/EffAtk" unique_id=918069331]
+layout_mode = 0
+anchor_left = 0.03003003
+anchor_top = 0.16129032
+anchor_right = 0.4234234
+anchor_bottom = 0.6989247
+text = "INITIATE FUSION"
+label_settings = SubResource("LabelSettings_w853u")
+metadata/_edit_use_anchors_ = true
+
+[node name="EffAtk2" type="TextureRect" parent="ResultStats2/OffenseStats" unique_id=1119285725]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0765625
+anchor_top = 0.5462963
+anchor_right = 0.94375
+anchor_bottom = 0.6324073
+texture = ExtResource("3_4m7n1")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="ResultStats2/OffenseStats/EffAtk2" unique_id=1730150250]
+layout_mode = 0
+anchor_left = 0.03003003
+anchor_top = 0.16129032
+anchor_right = 0.4234234
+anchor_bottom = 0.6989247
+text = "EQUIP MAGIC"
+label_settings = SubResource("LabelSettings_w853u")
+metadata/_edit_use_anchors_ = true
+
+[node name="EffAtk3" type="TextureRect" parent="ResultStats2/OffenseStats" unique_id=826076002]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0765625
+anchor_top = 0.65833336
+anchor_right = 0.94375
+anchor_bottom = 0.7444443
+texture = ExtResource("3_4m7n1")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="ResultStats2/OffenseStats/EffAtk3" unique_id=1146221334]
+layout_mode = 0
+anchor_left = 0.03003003
+anchor_top = 0.16129032
+anchor_right = 0.4234234
+anchor_bottom = 0.6989247
+text = "CHANGE FIELD"
+label_settings = SubResource("LabelSettings_w853u")
+metadata/_edit_use_anchors_ = true
+
+[node name="EffAtk4" type="TextureRect" parent="ResultStats2/OffenseStats" unique_id=157171034]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0765625
+anchor_top = 0.77037036
+anchor_right = 0.94375
+anchor_bottom = 0.8564814
+texture = ExtResource("3_4m7n1")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="ResultStats2/OffenseStats/EffAtk4" unique_id=1870825260]
+layout_mode = 0
+anchor_left = 0.03003003
+anchor_top = 0.16129032
+anchor_right = 0.4234234
+anchor_bottom = 0.6989247
+text = "PURE MAGIC"
+label_settings = SubResource("LabelSettings_w853u")
+metadata/_edit_use_anchors_ = true
+
+[node name="EffAtk5" type="TextureRect" parent="ResultStats2/OffenseStats" unique_id=975432947]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0765625
+anchor_top = 0.8824074
+anchor_right = 0.94375
+anchor_bottom = 0.9685184
+texture = ExtResource("3_4m7n1")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="ResultStats2/OffenseStats/EffAtk5" unique_id=967520320]
+layout_mode = 0
+anchor_left = 0.03003003
+anchor_top = 0.16129032
+anchor_right = 0.4234234
+anchor_bottom = 0.6989247
+text = "TRIGGER TRAP"
+label_settings = SubResource("LabelSettings_w853u")
+metadata/_edit_use_anchors_ = true
+
+[node name="Title" type="Label" parent="ResultStats2/OffenseStats" unique_id=607345355]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.08684896
+anchor_top = 0.18166326
+anchor_right = 0.33684894
+anchor_bottom = 0.21944447
+text = "SPECIAL ARTS"
+label_settings = SubResource("LabelSettings_ktl0h")
+metadata/_edit_use_anchors_ = true

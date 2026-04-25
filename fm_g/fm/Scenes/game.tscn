@@ -18,6 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://coi18rhwpw1ja" path="res://Scenes/spiral.tscn" id="17_85qyi"]
 [ext_resource type="PackedScene" uid="uid://df5idd2nj5vrc" path="res://HUD/seletorInimigo.tscn" id="17_ewbju"]
 [ext_resource type="PackedScene" uid="uid://bso0m3vtw8pd5" path="res://Scenes/blackhole.tscn" id="18_85qyi"]
+[ext_resource type="PackedScene" uid="uid://dbhghvsumsmrb" path="res://Scenes/result_screen/result.tscn" id="19_iivbl"]
 
 [sub_resource type="Environment" id="Environment_v158k"]
 background_mode = 2
@@ -293,3 +294,7 @@ visible = false
 [node name="Blackhole" parent="." unique_id=20704425 instance=ExtResource("18_85qyi")]
 visible = false
 position = Vector2(731, 106)
+
+[node name="Result" parent="." unique_id=448693560 instance=ExtResource("19_iivbl")]
+visible = false
+z_index = 4096
