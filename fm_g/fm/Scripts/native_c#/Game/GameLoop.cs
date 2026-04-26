@@ -78,7 +78,6 @@ namespace fm
 			
 			if (_gameState.IsGameOver())
 			{
-				GD.Print("Game is already over after while loop!");
 				await MaoDoJogador.Tools.TransitionTo(CameraHand, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);
 				RotateCameraPivot180Slow();				
 				await GlobalUsings.Instance.GoBack();	
@@ -268,9 +267,13 @@ namespace fm
 				if(monstroAliado == null) continue;				
 				
 				var monstroInimigo = _gameState.OpponentPlayer.Field.GetMonsterInZone(ret.DefenderZone);
-				await MaoDoInimigo.Tools.TransitionTo(CameraInimigo, 0.4f, MaoDoInimigo._transitionCam, false);			
-				await MaoDoInimigo.AtualizarPosicaoSeletor3DInimigo(MaoDoInimigo.SlotsCampo, ret.DefenderZone);
-				Task.Delay(500).Wait();
+				if(monstroInimigo != null)
+				{
+					await MaoDoInimigo.Tools.TransitionTo(CameraInimigo, 0.4f, MaoDoInimigo._transitionCam, false);			
+					await MaoDoInimigo.AtualizarPosicaoSeletor3DInimigo(MaoDoInimigo.SlotsCampo, ret.DefenderZone);
+					Task.Delay(500).Wait();					
+				}
+
 				if (!monstroAliado.HasAttackedThisTurn)
 				{
 					await ResolverBatalha(monstroAliado, monstroInimigo);

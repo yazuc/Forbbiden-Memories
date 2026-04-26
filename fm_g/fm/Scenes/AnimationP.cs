@@ -59,10 +59,10 @@ namespace fm{
 
 			Vector3 originalEnemyPos = Vector3.Zero;
 			Vector3 originalEnemyRot = Vector3.Zero;
-			Board.Visible = false;
+			// Board.Visible = false;
 
 			var taskMe = meuMonstro3d.TransitionCardTo(position3D + new Vector3(0,0,(diffEnemy*-2)),0.5f);
-			meuMonstro3d.Scale *= 2;
+			// meuMonstro3d.Scale *= 2;
 			if(monstroInimigo3d != null)
 			{
 				originalEnemyPos = monstroInimigo3d.GlobalPosition;
@@ -71,7 +71,7 @@ namespace fm{
 				monstroInimigo3d.Rotation = new Vector3(0,diffEnemy*-1.5707964f,0);
 
 				var taskIni = monstroInimigo3d.TransitionCardTo(position3D + new Vector3(0,0,(diffEnemy*2)),0.5f);
-				monstroInimigo3d.Scale *= 2;
+				// monstroInimigo3d.Scale *= 2;
 			}
 
 			await Task.Delay(600);
@@ -145,11 +145,11 @@ namespace fm{
 				monstroInimigo3d.carta.Defense -= 500;
 				monstroInimigo3d.UpdateCard(monstroInimigo3d.carta);
 			}
-			meuMonstro3d.Scale /= 2;
-			if(monstroInimigo3d != null)
-				monstroInimigo3d.Scale /= 2;
+			// meuMonstro3d.Scale /= 2;
+			// if(monstroInimigo3d != null)
+			// 	monstroInimigo3d.Scale /= 2;
 
-			Board.Visible = true;
+			// Board.Visible = true;
 		}
 
 		public async Task ActivateSpell(Carta3d card)

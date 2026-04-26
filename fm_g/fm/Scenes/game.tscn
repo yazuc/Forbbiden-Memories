@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dj7s3t4ux6vfw"]
 
-[ext_resource type="Script" uid="uid://daj0t8aw721wf" path="res://Scripts/native_c#/Main.cs" id="1_e2o6t"]
+[ext_resource type="Script" uid="uid://dmauyivnrd7sn" path="res://Scripts/native_c#/Game/Main.cs" id="1_iivbl"]
 [ext_resource type="Script" uid="uid://c0sbtdk4bpvtm" path="res://Scenes/Helper.cs" id="2_ewbju"]
 [ext_resource type="PackedScene" uid="uid://c8mda7ioh6qlg" path="res://testeMao/Mao.tscn" id="2_nb51f"]
 [ext_resource type="Script" uid="uid://cw75wo561ptws" path="res://Scenes/AnimationP.cs" id="2_nnt18"]
@@ -27,7 +27,7 @@ glow_enabled = true
 [sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_h4fw4"]
 
 [node name="Game" type="Node3D" unique_id=705124670 node_paths=PackedStringArray("MaoVisual", "MaoInimigo", "CameraHand", "CameraField", "CameraInimigo", "CameraPivot", "LP_You", "LP_Com", "You", "Com")]
-script = ExtResource("1_e2o6t")
+script = ExtResource("1_iivbl")
 MaoVisual = NodePath("MaoJogador")
 MaoInimigo = NodePath("MaoInimigo")
 CameraHand = NodePath("CameraPivot/CameraHand")

@@ -1,3 +1,4 @@
+using fm;
 using Godot;
 using System;
 
@@ -43,6 +44,9 @@ public partial class Result : Control
 		}
     }
 
-
+	public void Setup(Rank rank)
+	{
+		
+	}
 	
 }
