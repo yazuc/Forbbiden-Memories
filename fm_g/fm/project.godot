@@ -19,7 +19,6 @@ config/icon="res://icon.svg"
 [autoload]
 
 GlobalUsings="*uid://oh1wbdrmkcu1"
-Carta3d="*uid://c3fy4s3sps4kh"
 ScreenTransition="*uid://cougx8v2wv7nr"
 Dialogic="*uid://ds2q0uclmolvu"
 
