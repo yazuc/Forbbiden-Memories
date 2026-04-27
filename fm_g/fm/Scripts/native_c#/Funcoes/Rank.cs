@@ -41,5 +41,23 @@ namespace fm
         /// your current LP
         /// </summary>
         public int RemainingLP {get;set;}
+
+        public Rank()
+        {
+            
+        }
+        public Rank(string def)
+        {
+            Turns = 3;
+            EffectiveAttacks = 3;
+            DefensiveWins = 4;
+            FacedownPlays = 5;
+            AttemptToFuse = 1;
+            AttemptToEquip = 0;
+            SpellUsed = 1;
+            TriggerTrap = 0;
+            CardsUsed = 1;
+            RemainingLP = 8000;
+        }
     }    
 }

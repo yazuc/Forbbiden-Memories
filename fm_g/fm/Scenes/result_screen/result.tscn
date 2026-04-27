@@ -673,7 +673,7 @@ text = "0"
 label_settings = SubResource("LabelSettings_ktl0h")
 metadata/_edit_use_anchors_ = true
 
-[node name="avgcom" type="Label" parent="Screen/ResultStats/DefenseStats/AvgAtk" unique_id=772575636 groups=["label"]]
+[node name="dfdcom" type="Label" parent="Screen/ResultStats/DefenseStats/AvgAtk" unique_id=772575636 groups=["label"]]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.9009009
