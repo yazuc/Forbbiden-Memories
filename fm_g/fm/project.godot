@@ -27,6 +27,8 @@ Dialogic="*uid://ds2q0uclmolvu"
 directories/dch_directory={
 "bakura": "res://assets/personagens/bakura.dch",
 "character": "res://assets/character.dch",
+"jono": "res://assets/personagens/jono.dch",
+"seto": "res://assets/personagens/seto.dch",
 "simon": "res://assets/personagens/simon.dch",
 "teana": "res://assets/personagens/teana.dch",
 "villager1": "res://assets/personagens/villager1.dch",
@@ -34,6 +36,7 @@ directories/dch_directory={
 "villager3": "res://assets/personagens/villager3.dch"
 }
 directories/dtl_directory={
+"city_plaza": "res://Resources/timelines/city_plaza.dtl",
 "dueling_grounds_1": "res://Resources/timelines/dueling_grounds_1.dtl",
 "introseq": "res://Resources/timelines/introseq.dtl",
 "timeline": "res://Resources/timeline.dtl"

@@ -47,9 +47,23 @@ teana: How about a duel?
 				jump StartDuel
 			- <Talk to someone else>
 			- <Go outside>
+				jump Outside
 		- <Go outside>
+			jump Outside
 	- <Go outside>
+		jump Outside
 - <Go outside>
+	jump Outside
+label Outside
+leave --All--
+join teana left [animation="Slide From Left" wait="true"]
+teana: Hey, did you know that there's a festival going on in the town plaza?
+teana: Come on! Let's check it out!
+teana: I'll bet we'll find Jono there!
+leave --All--
+[background arg="#000000ff" fade="0.5" wait="true"]
+[clear time="0.7" step="false" portraits="false" background="false" positions="false" style="false" node="/root/DialogicLayout_NewFile/Control/Dialogo"]
+jump city_plaza/
 label StartDuel
 leave --All--
 [background arg="#000000ff" fade="0.5" wait="true"]

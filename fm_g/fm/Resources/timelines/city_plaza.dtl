@@ -1,0 +1,46 @@
+[style name="New_File"]
+[background arg="res://assets/background/Background_36_Pointer_F7_05_36_00_.png" fade="0.0" wait="true"]
+join teana left [animation="Slide From Left" length="0.7" wait="true"]
+teana: Wow... there're lots of people around.
+teana: Look, the mages are about to start their procession...
+leave --All--
+[background arg="#000000ff" fade="0.5" wait="true"]
+[clear time="0.7" step="false" portraits="false" background="false" positions="false" style="false" node="/root/DialogicLayout_NewFile/Control/Dialogo"]
+[background arg="res://assets/background-story/mages_proce.png" fade="0.1" wait="true"]
+[style name="New_File"]
+teana: Awesome...
+teana: ...but kinda spooky, too.
+teana: This must be the work of that detestable high mage, Heishin.
+teana: When I was a kid, it used to be more wholesome.
+teana: Even the attitude of the mages have changed for the worse...
+teana: What's our world coming to...?
+[background arg="#000000ff" fade="0.5" wait="true"]
+[clear time="0.7" step="false" portraits="false" background="false" positions="false" style="false" node="/root/DialogicLayout_NewFile/Control/Dialogo"]
+[background arg="res://assets/background/Background_36_Pointer_F7_05_36_00_.png" fade="0.0" wait="true"]
+[style name="New_File"]
+join teana left [animation="Slide From Left" wait="true"]
+teana: Want to go someplace else?
+leave --All--
+[background arg="#000000ff" fade="0.5" wait="true"]
+[clear time="0.7" step="false" portraits="false" background="false" positions="false" style="false" node="/root/DialogicLayout_NewFile/Control/Dialogo"]
+[background arg="res://assets/background-story/jonoseto.png" fade="0.1"]
+[style name="New_File"]
+teana: Look! It's Jono! I can't believe it, but he's dueling over there!
+jono: I...\
+I lost...
+\seto: I believe I have wasted my efforts on an insignificant speck.
+jono: Say what!?
+\seto: Forgive my choice of words. You were... mildly enternaining.
+teana: Hey! Jono!
+[background arg="#000000ff" fade="0.5" wait="true"]
+[clear time="0.7" step="false" portraits="false" background="false" positions="false" style="false" node="/root/DialogicLayout_NewFile/Control/Dialogo"]
+[background arg="res://assets/background/Background_37_Pointer_F7_05_37_00_.png" fade="0.0" wait="true"]
+[style name="New_File"]
+join jono left [animation="Slide From Left" wait="true"]
+teana: What's going on?
+jono: Whaddaya think? Ain't it obvious?
+teana: You lost...
+jono: Don't be so blunt! I didn't lose... I had a setback...
+leave --All--
+join seto left [animation="Slide From Left" wait="true"]
+\seto: I grow weary of this insect...
