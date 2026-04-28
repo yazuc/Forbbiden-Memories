@@ -17,6 +17,7 @@ namespace fm
 		public FieldZones Field { get; set; }
 		public Label LP { get; set; }
 		public Label DeckNro { get; set; }
+		public Rank Rank {get;set;}
 
 		public Player(string name, List<Cards> deck, Godot.Collections.Array<Marker3D>  SlotsCampo, Godot.Collections.Array<Marker3D> SlotsCampoST, Label LP, Label You, int startingLP = 8000)
 		{
@@ -25,22 +26,13 @@ namespace fm
 			this.LP = LP;		
 			this.DeckNro = You;
 			Hand = new List<Cards>();
+			Rank = new Rank();
 			Graveyard = new List<Cards>();
 			Deck = deck;
 			this.SlotsCampo = SlotsCampo;
 			this.SlotsCampoST = SlotsCampoST;			
 			Field = new FieldZones(SlotsCampo.Select(x => x.Name.ToString()).ToList());
 		}			
-
-		public void DrawCard(Cards card)
-		{
-			if (Deck.Count > 0)
-			{
-				Hand.Add(card);
-				Deck.Remove(card);
-				DeckNro.Text = Deck.Count().ToString();
-			}
-		}
 		
 		public bool TakeDamage(int dmg){
 			var LifeWas = LifePoints;

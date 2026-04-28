@@ -13,8 +13,6 @@ public partial class Result : Control
 		Screen = GetNode<Control>("Screen");
 		if(Screen != null)
 			Screens = Screen.GetChildren().Cast<Control>().ToList();
-
-		Setup(null);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -52,7 +50,7 @@ public partial class Result : Control
 		foreach(Label item in nodes)
 		{
 			GD.Print(item.Name);
-			RankMapper.ToNode(item, new Rank("oi"));
+			RankMapper.ToNode(item, rank);
 		}		
 	}
 	
