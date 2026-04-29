@@ -7,6 +7,7 @@ extends RichTextLabel
 signal started_revealing_text()
 signal continued_revealing_text(new_character : String)
 signal finished_revealing_text()
+@export var Miniature : TextureRect
 enum Alignment {LEFT, CENTER, RIGHT}
 
 @export var enabled := true
@@ -49,7 +50,7 @@ func _set(property: StringName, what: Variant) -> bool:
 func _ready() -> void:
 	# add to necessary
 	add_to_group('dialogic_dialog_text')
-	meta_hover_ended.connect(_on_meta_hover_ended)
+	meta_hover_ended.connect(_on_meta_hover_ended)	
 	meta_hover_started.connect(_on_meta_hover_started)
 	meta_clicked.connect(_on_meta_clicked)
 	gui_input.connect(on_gui_input)
@@ -60,6 +61,9 @@ func _ready() -> void:
 	if start_hidden:
 		textbox_root.hide()
 	text = ""
+	
+	if Miniature != null:
+		Dialogic.Text.speaker_updated.connect(_on_speaker_updated)
 
 	var custom_bbcode_effects: Array = ProjectSettings.get_setting("dialogic/text/custom_bbcode_effects", "").split(",", false)
 	for i in custom_bbcode_effects:
@@ -197,3 +201,29 @@ func custom_fx_skip() -> void:
 	for effect in custom_effects:
 		if effect.has_method("skip"):
 			effect.skip()
+			
+func _on_speaker_updated(character):
+	if Miniature == null or character == null:
+		return
+
+	# Check if this character exists on screen
+	var char_node = get_tree().current_scene.find_child(character.display_name, true, false)
+
+	var on_screen := char_node != null 
+
+	if on_screen:
+		Miniature.hide()
+	else:
+		var portrait_name = character.display_name + "_mini"
+		var info = character.get_portrait_info(portrait_name)
+
+		if "export_overrides" in info:
+			var image_path = info["export_overrides"].get("image", "")
+			
+			if image_path != "":
+				image_path = image_path.strip_edges()
+				image_path = image_path.trim_prefix("\"").trim_suffix("\"")
+				Miniature.texture = load(image_path)
+				Miniature.show()
+			else:
+				Miniature.hide()

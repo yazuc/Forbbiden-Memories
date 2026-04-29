@@ -69,7 +69,7 @@ script = ExtResource("6_ye81g")
 Sprite = ExtResource("7_4xtja")
 metadata/_edit_use_anchors_ = true
 
-[node name="DialogicNode_DialogText" type="RichTextLabel" parent="Dialogo" unique_id=2145779501]
+[node name="DialogicNode_DialogText" type="RichTextLabel" parent="Dialogo" unique_id=2145779501 node_paths=PackedStringArray("Miniature")]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.047395833
@@ -79,5 +79,15 @@ anchor_bottom = 0.8131579
 theme_override_fonts/normal_font = ExtResource("3_yx0on")
 theme_override_font_sizes/normal_font_size = 48
 script = ExtResource("2_hwnuo")
+Miniature = NodePath("../../Miniature")
 metadata/_custom_type_script = "uid://drhfq6rmdeuri"
+metadata/_edit_use_anchors_ = true
+
+[node name="Miniature" type="TextureRect" parent="." unique_id=1780270003]
+visible = false
+anchors_preset = -1
+anchor_left = 0.8130208
+anchor_top = 0.45833334
+anchor_right = 0.8984375
+anchor_bottom = 0.6101852
 metadata/_edit_use_anchors_ = true
