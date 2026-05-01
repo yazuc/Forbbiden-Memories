@@ -10,25 +10,16 @@
 "style": "",
 "suffix": ""
 },
-&"default_portrait": "jono",
+&"default_portrait": "darkshrine_mini",
 &"description": "",
-&"display_name": "jono",
+&"display_name": "darkshrine",
 &"mirror": false,
 &"nicknames": [""],
-&"offset": Vector2(-200, -705),
+&"offset": Vector2(0, 0),
 &"portraits": {
-"jono": {
+"darkshrine_mini": {
 "export_overrides": {
-"image": ""
-},
-"mirror": false,
-"offset": Vector2(0, 0),
-"scale": 1,
-"scene": ""
-},
-"jono_mini": {
-"export_overrides": {
-"image": "\"res://assets/mugshots/mugshot_frame_3.png\""
+"image": "\"res://assets/mugshots/darkshrine.png\""
 },
 "mirror": false,
 "offset": Vector2(0, 0),
@@ -36,5 +27,5 @@
 "scene": "res://addons/dialogic/Modules/Character/default_portrait.tscn"
 }
 },
-&"scale": 0.6
+&"scale": 1.0
 }

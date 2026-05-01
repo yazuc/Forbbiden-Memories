@@ -43,3 +43,30 @@ join seto left [animation="Slide From Left" wait="true"]
 \seto: Is there not one among you that is worthy of my attention?
 jono: Man! The nerve of this guy
 teana: Hey, Prince... Why don't you challenge him?
+teana: After all, you're the best duelist I've ever seen!
+teana: I'll bet you can beat him!
+jono: Yeah, Prince! Do it! Show him who's boss around here!
+\seto: Hello... Are you my next victim?
+- <Duel>
+	\seto: I hope you are better than the last one. Come! Let us duel.
+	jump Continuation
+- <Pass>
+label Continuation
+darkshrine: Master Seto! Master Heishin calls for you.
+\seto: I see...
+\seto: So be it. The duel is postponed.
+\seto: Am I correct in assuming that you frequent the town's duel field?
+jono: That's right.
+\seto: Then wait there... I shall grace you with a visit.
+\seto: Seto is my name. Remember it...
+leave --All--
+join jono left [animation="Slide From Left" wait="true"]
+jono: Can you believe that guy!? A mage wtih attitude!!!
+teana: Yeah... A real charmer.
+jono: I got a feeling Prince will put him in his place. Won't ya, buddy?
+jono: C'mon, let's look around and then head for the duel field.
+leave --All--
+[background arg="#000000ff" fade="0.5" wait="true"]
+[clear time="0.7" step="false" portraits="false" background="false" positions="false" style="false" node="/root/DialogicLayout_NewFile/Control/Dialogo"]
+do GlobalUsings.GoBackOverworld(0.8)
+[end_timeline]

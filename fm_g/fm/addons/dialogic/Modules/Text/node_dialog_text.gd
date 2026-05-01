@@ -206,7 +206,6 @@ func _on_speaker_updated(character):
 	if Miniature == null or character == null:
 		return
 
-	# Check if this character exists on screen
 	var char_node = get_tree().current_scene.find_child(character.display_name, true, false)
 
 	var on_screen := char_node != null 

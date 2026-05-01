@@ -27,6 +27,7 @@ Dialogic="*uid://ds2q0uclmolvu"
 directories/dch_directory={
 "bakura": "res://assets/personagens/bakura.dch",
 "character": "res://assets/character.dch",
+"darkshrine": "res://assets/personagens/darkshrine.dch",
 "jono": "res://assets/personagens/jono.dch",
 "seto": "res://assets/personagens/seto.dch",
 "simon": "res://assets/personagens/simon.dch",

@@ -5,6 +5,7 @@ teana: I've been waiting for you...
 teana: Jono was also here a few minutes ago. But he's gone now...
 teana: How about a duel?
 [clear time="0.1" step="false" portraits="false" music="false" background="false" positions="false" style="false" node=""]
+label TeanaLoopBack
 - <Duel>
 	set {DeckIndex} = 2.0
 	teana: Okay, let's play! Hope you're not a sore loser!
@@ -46,6 +47,7 @@ teana: How about a duel?
 				set {DeckIndex} = 5.0
 				jump StartDuel
 			- <Talk to someone else>
+				jump TeanaLoopBack
 			- <Go outside>
 				jump Outside
 		- <Go outside>

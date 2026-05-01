@@ -12,7 +12,7 @@
 },
 &"default_portrait": "seto",
 &"description": "",
-&"display_name": "Seto",
+&"display_name": "seto",
 &"mirror": false,
 &"nicknames": [""],
 &"offset": Vector2(-200, -705),
@@ -25,6 +25,15 @@
 "offset": Vector2(0, 0),
 "scale": 1,
 "scene": ""
+},
+"seto_mini": {
+"export_overrides": {
+"image": "\"res://assets/mugshots/mugshot_frame_7.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": "res://addons/dialogic/Modules/Character/default_portrait.tscn"
 }
 },
 &"scale": 0.6
