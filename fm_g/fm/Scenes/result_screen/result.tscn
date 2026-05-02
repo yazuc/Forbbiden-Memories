@@ -54,7 +54,7 @@ grow_vertical = 2
 script = ExtResource("1_w853u")
 metadata/_edit_use_anchors_ = true
 
-[node name="Panel" type="Panel" parent="." unique_id=1556058574]
+[node name="Background" type="Panel" parent="." unique_id=1556058574]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1129,4 +1129,28 @@ anchor_right = 0.33684894
 anchor_bottom = 0.21944447
 text = "SPECIAL ARTS"
 label_settings = SubResource("LabelSettings_ktl0h")
+metadata/_edit_use_anchors_ = true
+
+[node name="SpoilScreen" type="Control" parent="Screen" unique_id=1524457709]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Spoils" type="GridContainer" parent="Screen/SpoilScreen" unique_id=248134863]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.31302083
+anchor_top = 0.2712963
+anchor_right = 0.6921875
+anchor_bottom = 0.82314813
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 7
+theme_override_constants/v_separation = 4
+columns = 5
 metadata/_edit_use_anchors_ = true
