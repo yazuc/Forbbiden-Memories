@@ -23,6 +23,7 @@ public partial class GlobalUsings : Node
 	public string Deckeditor = "res://Menu/DeckEditor/DeckEditor.tscn";
 	public string Password = "res://Menu/Password/Password.tscn";
 	public string UserDeck =  "d002";
+	public ActiveScene activeScene;	
 
 	public Deck Deck = new Deck();
 	public List<string> Dialogue = new List<string>();

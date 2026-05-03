@@ -7,6 +7,8 @@ public partial class World : Node3D
 	[Export] public Control MarkerUI;
 	[Export] public Node3D Anchors;
 	[Export] public AnimatedSprite3D Seletor {get;set;}
+	public Label PlaceName {get;set;}
+	public TextureRect UIHolder {get;set;}
 	public PackedScene scene = GD.Load<PackedScene>("res://Menu/Story/Story_Control.tscn");
 	
 	public List<Marker3D> points = new();
@@ -14,11 +16,14 @@ public partial class World : Node3D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		PlaceName = GetNode<Label>("Label");
+		UIHolder = GetNode<TextureRect>("WorldNameLabel");
 		Seletor.Play();
 		foreach(Node Mark in Anchors.GetChildren())
 		{
 			points.Add(Mark as Marker3D);
 		}
+		PlaceName.Text = points[index].EditorDescription;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -56,10 +61,8 @@ public partial class World : Node3D
 	}
 
 	private async Task HandleAccept()
-	{
-		SetProcess(false);
-
-		DefineBackground(points[index].Name);
+	{		
+		DefineBackground(points[index].Name);		
 
 		//aqui vai virar .dtl do index
 		//GlobalUsings.Instance.IniciarDialogoNoMundo("res://Resources/dialogo-simon.dtl");
@@ -102,6 +105,7 @@ public partial class World : Node3D
 			index = points.IndexOf(best);
 			changePos(index);
 		}
+		PlaceName.Text = points[index].EditorDescription;
 	}
 
 	public void changePos(int pos)
@@ -115,17 +119,39 @@ public partial class World : Node3D
 	{		
 		if(markerName == "DuelGround")
 		{
-			GlobalUsings.Instance.IniciarDialogoNoMundo("res://Resources/timelines/dueling_grounds_1.dtl");
+			SetProcess(false);
 			Visible = false;
+			GlobalUsings.Instance.activeScene = ActiveScene.World;
+			GlobalUsings.Instance.IniciarDialogoNoMundo("res://Resources/timelines/dueling_grounds_1.dtl");
 			GlobalUsings.Instance.currentBackGround = 1;			
-		}
+		}		
 		if(markerName == "DarkShrine")
-			GlobalUsings.Instance.currentBackGround = 34;
+		{
+			SetProcess(false);
+			Visible = false;
+			GlobalUsings.Instance.activeScene = ActiveScene.World;
+			GlobalUsings.Instance.IniciarDialogoNoMundo("res://Resources/timelines/city_plaza_empty.dtl");
+			GlobalUsings.Instance.currentBackGround = 34;			
+		}
 		if(markerName == "CardShop")
 			GlobalUsings.Instance.currentBackGround = 3;
 		if(markerName == "Tower")
+		{
+			SetProcess(false);
+			Visible = false;
+			GlobalUsings.Instance.activeScene = ActiveScene.World;
+			GlobalUsings.Instance.IniciarDialogoNoMundo("res://Resources/timelines/shrine_empty.dtl");
 			GlobalUsings.Instance.currentBackGround = 2;
+		}
 		if(markerName == "Pharaoh")
+		{
+			SetProcess(false);
+			Visible = false;
+			UIHolder.Visible = false;
+			PlaceName.Visible = false;
+			GlobalUsings.Instance.activeScene = ActiveScene.Duel;
+			GlobalUsings.Instance.IniciarDialogoNoMundo("res://Resources/timelines/prince_01.dtl");
 			GlobalUsings.Instance.currentBackGround = 0;
+		}
 	}
 }

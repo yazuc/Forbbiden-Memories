@@ -10,13 +10,22 @@
 "style": "",
 "suffix": ""
 },
-&"default_portrait": "darkshrine_mini",
+&"default_portrait": "darkshrine",
 &"description": "",
 &"display_name": "darkshrine",
 &"mirror": false,
 &"nicknames": [""],
-&"offset": Vector2(0, 0),
+&"offset": Vector2(-200, -705),
 &"portraits": {
+"darkshrine": {
+"export_overrides": {
+"image": ""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
 "darkshrine_mini": {
 "export_overrides": {
 "image": "\"res://assets/mugshots/darkshrine.png\""
@@ -27,5 +36,5 @@
 "scene": "res://addons/dialogic/Modules/Character/default_portrait.tscn"
 }
 },
-&"scale": 1.0
+&"scale": 0.6
 }

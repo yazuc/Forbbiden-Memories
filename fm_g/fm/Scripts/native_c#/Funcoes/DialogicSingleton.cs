@@ -1,17 +1,36 @@
+using fm;
 using Godot;
 using System;
 
 public partial class DialogicSingleton : Node
-{
+{    
+    public override void _Ready()
+    {
+        var tree = (SceneTree)Engine.GetMainLoop();
+        var dialogic = tree.Root.GetNode("Dialogic");
+
+        dialogic.Connect("timeline_ended", new Callable(this, nameof(OnTimelineEnded)));
+    }
     public void StartConversation(string timelinepath)
     {
         // Usamos Engine.GetMainLoop() para chegar na SceneTree 
         // mesmo se este node não estiver na árvore.
         var tree = (SceneTree)Engine.GetMainLoop();
-        var dialogic = tree.Root.GetNode("Dialogic");    
-                
+        var dialogic = tree.Root.GetNode("Dialogic");            
         dialogic.Call("start", timelinepath);
     }
+    private void OnTimelineEnded()
+    {
+        var world = GetNode<World>("../../World");
+        if(world != null && GlobalUsings.Instance.activeScene == ActiveScene.World)
+        {
+            world.SetProcess(true);
+            world.Visible = true;
+        }
+        GD.Print("Conversation finished!");
+        // Do whatever you need here (resume gameplay, trigger next event, etc.)
+    }
+
     //usage example, seta uma bool no dialogo, aonde caso tenha acessado o dialogo de simon uma vez, essa flag fica true
     //se essa fica está true, então o simon fala outra coisa, ou redireciona pra outro dialogo
     //pra nao ficar cloggado um só dialogo.

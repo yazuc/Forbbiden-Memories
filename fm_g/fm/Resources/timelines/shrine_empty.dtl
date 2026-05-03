@@ -1,0 +1,7 @@
+[style name="New_File"]
+[background arg="res://assets/background/Background_03_Pointer_F7_05_03_00_.png" fade="0.0"]
+join darkshrine left [animation="Slide From Left"]
+darkshrine: There hallowed halls are protecteed by High Mage Heishin! Commoners are not allowed!
+darkshrine: Begone with you!
+[clear time="1.0" node=""]
+[end_timeline]
