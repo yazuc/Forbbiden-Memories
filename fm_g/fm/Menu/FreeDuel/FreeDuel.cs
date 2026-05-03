@@ -28,9 +28,7 @@ public partial class FreeDuel : Control
 		}
 		if (@event.IsActionReleased("ui_cancel"))
 		{
-			await GlobalUsings.Instance.GoBack();
-			// GlobalUsings.Instance.FadeToWhite(0.3f, GetTree().CurrentScene);
-			// Free();
+			_ = GlobalUsings.Instance.GoBack(from: this);
 		}
 	}
 

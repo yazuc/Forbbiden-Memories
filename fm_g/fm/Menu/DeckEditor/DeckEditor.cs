@@ -21,19 +21,19 @@ public partial class DeckEditor : Control
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override async void _Process(double delta)
+	public override void _Process(double delta)
 	{				
-		MoveSelector(j);
-		if (Input.IsActionJustReleased("ui_cancel"))
-		{
-			await GlobalUsings.Instance.GoBack();
-		}
+		MoveSelector(j);		
 	}
-	public override void _Input(InputEvent @event)
+	public override async void _Input(InputEvent @event)
 	{
 		if (@event.IsActionPressed("ui_left") || @event.IsActionPressed("ui_right"))
 		{
 			GetViewport().SetInputAsHandled();
+		}
+		if (Input.IsActionJustReleased("ui_cancel"))
+		{
+			await GlobalUsings.Instance.GoBack();
 		}
 	}
 

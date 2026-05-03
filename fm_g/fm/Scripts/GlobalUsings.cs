@@ -81,6 +81,8 @@ public partial class GlobalUsings : Node
 
 	public void SceneTransition(string path, Node from = null)
 	{		
+		var current = GetTree().CurrentScene;
+		
 		var scene = GD.Load<PackedScene>(path);
 		var instance = scene.Instantiate();
 
@@ -102,17 +104,21 @@ public partial class GlobalUsings : Node
 		
 	}
 
-	public async Task GoBack(bool pop = false)
+	public async Task GoBack(bool pop = false, Node from = null)
 	{
 		GD.Print(_sceneStack.Count());
 		if (_sceneStack.Count == 0)
 			return;
 		await ScreenTransition.Instance.FadeOut(0.5f);
-
-		var current = GetTree().CurrentScene;
+		var currentTree = GetTree();
+		var current = currentTree.CurrentScene;
+		if(current == null)
+		{
+			current = from;
+		}
 
 		if (current != null)
-			current.QueueFree();
+			current.Free();
 
 		PrintStackState();
 		var previous = pop ? _sceneStack.Peek() : _sceneStack.Pop();

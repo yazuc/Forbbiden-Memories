@@ -80,7 +80,7 @@ namespace fm
 			{
 				await MaoDoJogador.Tools.TransitionTo(CameraHand, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);
 				RotateCameraPivot180Slow();				
-				await GlobalUsings.Instance.GoBack();	
+				await GlobalUsings.Instance.GoBack(from: this);	
 			}
 		}
 
