@@ -106,13 +106,15 @@ public partial class GlobalUsings : Node
 	}
 
 	public async Task GoBack(bool pop = false, Node from = null)
-	{
-		GD.Print(_sceneStack.Count());
+	{				
+		AdjustToWorld();
 		if (_sceneStack.Count == 0)
 			return;
+
 		await ScreenTransition.Instance.FadeOut(0.5f);
 		var currentTree = GetTree();
 		var current = currentTree.CurrentScene;
+
 		if(current == null)
 		{
 			current = from;
@@ -138,6 +140,17 @@ public partial class GlobalUsings : Node
 			
 			await ScreenTransition.Instance.FadeIn(0.5f);
 		}
+	}
+
+	public void AdjustToWorld()
+	{
+		if(activeScene == ActiveScene.Duel)
+		{
+			var world = GetNode<World>("../World");
+			world.SetProcess(true);
+			world.Visible = true;
+			activeScene = ActiveScene.World;
+		}		
 	}
 
 	public void PrintStackState()

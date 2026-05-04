@@ -4,7 +4,6 @@ using System;
 public partial class World : Node3D
 {
 	[Export] public Camera3D Camera;
-	[Export] public Control MarkerUI;
 	[Export] public Node3D Anchors;
 	[Export] public AnimatedSprite3D Seletor {get;set;}
 	public Label PlaceName {get;set;}
