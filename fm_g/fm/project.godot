@@ -26,6 +26,7 @@ Dialogic="*uid://ds2q0uclmolvu"
 
 directories/dch_directory={
 "bakura": "res://assets/personagens/bakura.dch",
+"card_shop": "res://assets/personagens/card_shop.dch",
 "character": "res://assets/character.dch",
 "darkshrine": "res://assets/personagens/darkshrine.dch",
 "jono": "res://assets/personagens/jono.dch",
@@ -37,6 +38,7 @@ directories/dch_directory={
 "villager3": "res://assets/personagens/villager3.dch"
 }
 directories/dtl_directory={
+"card_shop": "res://Resources/timelines/card_shop.dtl",
 "city_plaza": "res://Resources/timelines/city_plaza.dtl",
 "city_plaza_empty": "res://Resources/timelines/city_plaza_empty.dtl",
 "dueling_grounds_1": "res://Resources/timelines/dueling_grounds_1.dtl",

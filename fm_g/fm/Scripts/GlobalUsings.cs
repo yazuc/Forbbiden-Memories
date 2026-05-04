@@ -22,6 +22,7 @@ public partial class GlobalUsings : Node
 	public string Freeduel = "res://Menu/FreeDuel/FreeDuel.tscn";
 	public string Deckeditor = "res://Menu/DeckEditor/DeckEditor.tscn";
 	public string Password = "res://Menu/Password/Password.tscn";
+	public string MainMenu = "res://Menu/Principal/MainMenu.tscn";
 	public string UserDeck =  "d002";
 	public ActiveScene activeScene;	
 
@@ -40,7 +41,6 @@ public partial class GlobalUsings : Node
 		dialogic = new DialogicSingleton();
     	AddChild(dialogic);
 		DeckIndex = 1;
-		PopulateDialogue();		
 		#if DEBUG
 			UserDeck = "d002";
 		#endif
@@ -103,6 +103,14 @@ public partial class GlobalUsings : Node
 		GetTree().Root.AddChild(instance);
 		GetTree().CurrentScene = instance;
 		
+	}
+
+	public void ChangeSceneToMainMenu()
+	{
+		var scene = GD.Load<PackedScene>(MainMenu);
+		var instance = scene.Instantiate();
+		GetTree().Root.AddChild(instance);
+		GetTree().CurrentScene = instance;
 	}
 
 	public async Task GoBack(bool pop = false, Node from = null)
@@ -216,43 +224,5 @@ public partial class GlobalUsings : Node
 	{
 		await FadeToBlack(0.5f, Mundo, this);		
 	}
-
-	public void PopulateDialogue()
-	{
-		// Dialogue.Add("My dear prince! Are you going to the city to play cards again!?");		
-		// Dialogue.Add("You are of royal blood! Walking the city streets dressed as a commoner......Have you no shame!?");
-		// Dialogue.Add("Quite frankly, I'm embarrassed!");
-		// Dialogue.Add("<Run away>");
-		// Dialogue.Add("<Keep listening>");
-		// Dialogue.Add("The Pharaoh has gotten wind of your activities...And he's quite concerned!");
-		// Dialogue.Add("<Run away>");
-		// Dialogue.Add("<Keep listening>");
-		// Dialogue.Add("I realize I'm to blame for teaching you the card game...But you overindulge, my prince!");
-		// Dialogue.Add("<Run away>");
-		// Dialogue.Add("<Keep listening>");
-		// Dialogue.Add("It is high time you put aside this ridiculous pastime and focus on your studies.");
-		// Dialogue.Add("<Run away>");
-		// Dialogue.Add("<Keep listening>");
-		// Dialogue.Add("It is wrong to worry the Pharaoh and the Queen so much! Please, dear Prince... Return to your room.");
-		// Dialogue.Add("Wait! Stop, my prince!");
-		// Dialogue.Add("Drat!");
-		// Dialogue.Add("He's gone...");
-		Dialogue.Add("Prince Leozin.");
-		Dialogue.Add("You've returned...");
-		Dialogue.Add("It is well into the night...");
-		Dialogue.Add("Please return to the palace.");
-		Dialogue.Add("Dear prince...");
-		Dialogue.Add("If you still wish to");
-		Dialogue.Add("play cards...");
-		Dialogue.Add("...then try your hand");
-		Dialogue.Add("against me.");
-		Dialogue.Add("If you lose, you must");
-		Dialogue.Add("return to your room.");
-		Dialogue.Add("I'm sure you'll find");
-		Dialogue.Add("me a worthy opponent.");
-		Dialogue.Add("<Duel>");
-		Dialogue.Add("<Pass>");		
-	}
-
 
 }

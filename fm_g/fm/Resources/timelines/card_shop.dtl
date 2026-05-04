@@ -1,0 +1,20 @@
+[style name="New_File"]
+[background arg="res://assets/background/Background_04_Pointer_F7_05_04_00_.png" fade="0.0"]
+join card_shop rightmost [animation="Slide From Left"]
+card_shop: Hello there!
+[clear time="1.0" portraits="false" music="false" background="false" positions="false" style="false" node=""]
+- Save
+- Return to Title
+	jump GoTitle
+- Leave Shop
+	jump GoBack
+label GoBack
+leave --All--
+[background arg="#000000ff" fade="0.5" wait="true"]
+[clear time="0.7" step="false" portraits="false" background="false" positions="false" style="false" node="/root/DialogicLayout_NewFile/Control/Dialogo"]
+do GlobalUsings.GoBackOverworld(0.8)
+label GoTitle
+leave --All--
+[background arg="#000000ff" fade="0.5" wait="true"]
+[clear time="0.7" step="false" portraits="false" background="false" positions="false" style="false" node="/root/DialogicLayout_NewFile/Control/Dialogo"]
+do GlobalUsings.ChangeSceneToMainMenu()
