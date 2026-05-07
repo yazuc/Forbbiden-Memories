@@ -133,9 +133,9 @@ public partial class World : Node3D
 			GlobalUsings.Instance.currentBackGround = 34;			
 		}
 		if(markerName == "CardShop")
-		SetProcess(false);
+			SetProcess(false);
 			Visible = false;
-			GlobalUsings.Instance.activeScene = ActiveScene.World;
+			GlobalUsings.Instance.activeScene = ActiveScene.MainMenu;
 			GlobalUsings.Instance.IniciarDialogoNoMundo("res://Resources/timelines/card_shop.dtl");
 			GlobalUsings.Instance.currentBackGround = 3;
 		if(markerName == "Tower")

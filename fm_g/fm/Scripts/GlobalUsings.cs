@@ -107,10 +107,16 @@ public partial class GlobalUsings : Node
 
 	public void ChangeSceneToMainMenu()
 	{
-		var scene = GD.Load<PackedScene>(MainMenu);
-		var instance = scene.Instantiate();
-		GetTree().Root.AddChild(instance);
-		GetTree().CurrentScene = instance;
+		var scene = GetNode<MainMenu>("../MainMenu");
+		if(scene != null)
+		{
+			scene.Visible = true;
+			scene.SetProcess(true);
+			scene.SetProcessInput(true);
+			scene.SetProcessUnhandledInput(true);
+			scene.textureButtons[0].GrabFocus();		
+			_sceneStack = new();	
+		}
 	}
 
 	public async Task GoBack(bool pop = false, Node from = null)

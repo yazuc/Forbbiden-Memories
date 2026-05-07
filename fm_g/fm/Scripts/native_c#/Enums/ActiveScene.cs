@@ -2,5 +2,6 @@ public enum ActiveScene
 {
     Duel,
     World,
-    Story
+    Story,
+    MainMenu
 }
