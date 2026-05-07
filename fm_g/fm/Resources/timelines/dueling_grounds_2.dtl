@@ -1,0 +1,3 @@
+[style name="New_File"]
+[background arg="res://assets/background/Background_02_Pointer_F7_05_02_00_.png" fade="0.0"]
+join jono left [animation="Slide From Left"]

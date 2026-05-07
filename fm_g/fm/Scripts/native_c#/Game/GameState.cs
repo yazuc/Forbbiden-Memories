@@ -94,7 +94,14 @@ namespace fm
 		public void RealizaMainPhase(FusionResult play)
 		{
 			var cardData = play.MainCard;	
-			CurrentPlayer.Field.placeCard(play);								
+			CurrentPlayer.Field.placeCard(play);
+			if(play.IsFaceDown)		
+				CurrentPlayer.Rank.AddFacedownPlay();		
+			if(play.MainCard.IsSpell() && !play.IsFaceDown)
+				CurrentPlayer.Rank.AddSpellUsed();
+			CurrentPlayer.Rank.AttemptToFuse += play.AttemptToFuse;
+			CurrentPlayer.Rank.AttemptToEquip += play.AttemptToEquip;
+
 			CurrentPlayer.DiscardUsedCard(play.CardsUsed.Select(x => x.Id).ToList());				
 			Player1.Field.DrawFieldState();
 			Player2.Field.DrawFieldState();	

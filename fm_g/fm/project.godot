@@ -42,6 +42,7 @@ directories/dtl_directory={
 "city_plaza": "res://Resources/timelines/city_plaza.dtl",
 "city_plaza_empty": "res://Resources/timelines/city_plaza_empty.dtl",
 "dueling_grounds_1": "res://Resources/timelines/dueling_grounds_1.dtl",
+"dueling_grounds_2": "res://Resources/timelines/dueling_grounds_2.dtl",
 "introseq": "res://Resources/timelines/introseq.dtl",
 "prince_01": "res://Resources/timelines/prince_01.dtl",
 "shrine_empty": "res://Resources/timelines/shrine_empty.dtl",

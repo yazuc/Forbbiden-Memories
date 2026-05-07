@@ -78,6 +78,7 @@ namespace fm
 			
 			if (_gameState.IsGameOver())
 			{
+				_gameState.Player1.Rank.SetEndDuel(_gameState.CurrentTurn, _gameState.Player1.LifePoints, _gameState.Player1.Deck.Count());
 				await MaoDoJogador.Tools.TransitionTo(CameraHand, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);
 				RotateCameraPivot180Slow();				
 				await GlobalUsings.Instance.GoBack(from: this);	
@@ -106,7 +107,8 @@ namespace fm
 
 		private async Task ExecuteMainPhase()
 		{
-			GD.Print($"--- {_gameState.CurrentPlayer.Name}'s {_gameState.CurrentPhase} Enemy? {_gameState.CurrentPlayer.IsEnemy}---");					
+			GD.Print($"--- {_gameState.CurrentPlayer.Name}'s {_gameState.CurrentPhase} Enemy? {_gameState.CurrentPlayer.IsEnemy}---");	
+			_gameState.CurrentPlayer.Rank.printRank();				
  			await MaoDoJogador.AtualizarMao(_gameState.CurrentPlayer.Hand.Select(x => x.Id).ToList());   
 			_gameState.CurrentPhase = TurnPhase.Main1;
 			if(_gameState.CurrentPlayer.IsEnemy)

@@ -58,5 +58,56 @@ namespace fm
             SpellUsed = 1;
             TriggerTrap = 1;
         }
+
+        public void printRank()
+        {
+            GD.Print($"Turns: {Turns}");
+            GD.Print($"Effective Attacks: {EffectiveAttacks}");
+            GD.Print($"Defensive Wins: {DefensiveWins}");
+            GD.Print($"Facedown Plays: {FacedownPlays}");
+            GD.Print($"Attempt To Fuse: {AttemptToFuse}");
+            GD.Print($"Attempt To Equip: {AttemptToEquip}");
+            GD.Print($"Spell Used: {SpellUsed}");
+            GD.Print($"Trigger Trap: {TriggerTrap}");
+            GD.Print($"Cards Used: {CardsUsed}");
+            GD.Print($"Remaining LP: {RemainingLP}");
+        }
+
+        public void SetEndDuel(int turn, int remainingLP, int cardsUsed)
+        {
+            RemainingLP = remainingLP;
+            Turns = turn;
+            CardsUsed = cardsUsed;
+        }
+       
+        public void AddEffectiveAttack()
+        {
+            EffectiveAttacks++;
+        }
+        public void AddDefensiveWin()
+        {
+            DefensiveWins++;
+        }
+        public void AddFacedownPlay()
+        {
+            FacedownPlays++;
+        }
+        public void AddAttemptToFuse()
+        {
+            AttemptToFuse++;    
+        }
+        public void AddAttemptToEquip()
+        {
+            AttemptToEquip++;
+        }
+        public void AddSpellUsed()
+        {
+            SpellUsed++;
+        }
+        public void AddTriggerTrap()
+        {
+            TriggerTrap++;
+        }
+        
     }    
 }

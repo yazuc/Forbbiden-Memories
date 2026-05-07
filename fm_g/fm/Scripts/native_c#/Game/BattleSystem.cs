@@ -98,7 +98,7 @@ namespace fm
 				result.Description = $"Battle is a draw! Both monsters remain.";
 			}
 			
-			if(attackPower == defensePower){
+			if(attackPower == defensePower && defendingMonster.IsAttackMode){
 				result.AttackerDestroyed = true;
 				result.DefenderDestroyed = true;
 			}
@@ -114,20 +114,25 @@ namespace fm
 			if(!result.AttackerDestroyed && !result.DefenderDestroyed)
 			{
 				CurrentPlayer.TakeDamage(result.DamageDealt);		
+				if(defendingMonster != null)
+					defender.Rank.AddDefensiveWin();
 			}
 			if(result.AttackerDestroyed && result.DefenderDestroyed)
 			{
-				//descobrir pq draw ta bugado			
 				defender.Field.RemoveMonster(defendingMonster.zoneName);	
-				CurrentPlayer.Field.RemoveMonster(attackingMonster.zoneName);												
+				CurrentPlayer.Field.RemoveMonster(attackingMonster.zoneName);			
+				CurrentPlayer.Rank.AddEffectiveAttack();		
+				defender.Rank.AddEffectiveAttack();							
 			}
 			if(result.DefenderDestroyed && !result.AttackerDestroyed){			
 				defender.Field.RemoveMonster(defendingMonster.zoneName);
-				defender.TakeDamage(result.DamageDealt);									
+				defender.TakeDamage(result.DamageDealt);
+				CurrentPlayer.Rank.AddEffectiveAttack();										
 			}
 			if(result.AttackerDestroyed && !result.DefenderDestroyed){
 				CurrentPlayer.Field.RemoveMonster(attackingMonster.zoneName);							
 				CurrentPlayer.TakeDamage(result.DamageDealt);
+				defender.Rank.AddEffectiveAttack();
 			}
 		}
 

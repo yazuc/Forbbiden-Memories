@@ -31,21 +31,9 @@ namespace fm
 			SlotsCampoST = GetSlotsFromGroup("player_spell_slot");
 			SlotsCampoSTIni = GetSlotsFromGroup("enemy_spell_slot");
 			index_deck = GlobalUsings.Instance.DeckIndex;
-			
-			// 1. Instanciar Database
-			var db = CardDatabase.Instance;
-			//db.SyncJsonToDatabase("cards.json"); // Load cards from JSON into the database if not already loaded
-			//db.ImportAllNpcs("res://assets/npcs");
-			// 2. Carregar Deck e Carta
+			var db = GlobalUsings.Instance.db;
 			var deckIni = new Deck();
-			// Certifique-se que o caminho do arquivo está acessível pelo Godot
-			//FmStarterDeckGenerator generator = new FmStarterDeckGenerator();
-			//List<QuickType.Cards> starterDeck = generator.GenerateStarterDeck(db.GetAllCards());          
-			//Funcoes.WriteCardsToFile(starterDeck, "starter_deck_ini.txt");
-	
 			deckIni.LoadDeck(db.GetDeckByNpcId(index_deck));
-			// 3. Inicializar o GameLoop
-			// Passando Alice e Bob como os duelistas
 			if (MaoVisual != null)
 			{				
 				gL = new GameLoop(

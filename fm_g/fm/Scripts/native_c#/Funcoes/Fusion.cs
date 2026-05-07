@@ -18,6 +18,8 @@ namespace fm
 			public bool FusaoAconteceu {get;set;}
 			public bool FalhaEquip {get;set;}
 			public string WorldPos {get;set;} = string.Empty;
+			public int AttemptToFuse {get;set;} = 0;
+			public int AttemptToEquip {get;set;} = 0;
 			public List<Cards> AppliedEquips { get; set; } = new List<Cards>();
 			public List<Cards> CardsUsed {get;set;} = new List<Cards>();
 			public List<FusionStep> Steps { get; set; } = new();
@@ -107,6 +109,7 @@ namespace fm
 				{
 					if (!nextCard.IsSpellTrap() || result.MainCard.IsSpellTrap() && nextCard.IsSpellTrap())
 					{
+						result.AttemptToFuse++;
 						currentCardId = nextId;
 						result.MainCard = nextCard;
 						result.AppliedEquips.Clear();
@@ -116,6 +119,7 @@ namespace fm
 					}
 					else
 					{
+						result.AttemptToEquip++;
 						step.Action = FusionAction.EquipFail;
 						step.ResultCard = result.MainCard;
 						result.FalhaEquip = true;
