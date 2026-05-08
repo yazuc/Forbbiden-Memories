@@ -160,7 +160,9 @@ public partial class GlobalUsings : Node
 	{
 		if(activeScene == ActiveScene.Duel)
 		{
-			var world = GetNode<World>("../World");
+			var world = GetNodeOrNull<World>("../World");
+			if(world == null)
+				return;
 			world.SetProcess(true);
 			world.Visible = true;
 			activeScene = ActiveScene.World;

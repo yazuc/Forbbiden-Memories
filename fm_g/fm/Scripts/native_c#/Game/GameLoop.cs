@@ -18,8 +18,12 @@ namespace fm
 		private BattleSystem _battleSystem;
 		private const int HAND_SIZE = 5;
 		private bool _isBattlePhaseActive = false;
+		public Result resultScreen;
 
-		public GameLoop(Player player1, Player player2, MaoJogador maoUI, MaoInimigo maoInimigo, Camera3D CameraHand, Camera3D CameraField, Camera3D CameraInimigo, Node3D CameraPivot)
+		public GameLoop(
+		 Player player1, Player player2, MaoJogador maoUI,
+		 MaoInimigo maoInimigo, Camera3D CameraHand, Camera3D CameraField,
+		Camera3D CameraInimigo, Node3D CameraPivot, Result resultScreen)
 		{
 			_gameState = new GameState(player1, player2, maoUI, maoInimigo);
 			_effectManager = new CardEffectManager();
@@ -31,6 +35,7 @@ namespace fm
 			this.CameraInimigo = CameraInimigo;
 			this.CameraPivot = CameraPivot;
 			this._aiPlayer = new AIPlayer(AIPlayer.DifficultyLevel.Hard);
+			this.resultScreen = resultScreen;
 		}
 
 		public void Initialize()
@@ -81,7 +86,9 @@ namespace fm
 				_gameState.Player1.Rank.SetEndDuel(_gameState.CurrentTurn, _gameState.Player1.LifePoints, _gameState.Player1.Deck.Count());
 				await MaoDoJogador.Tools.TransitionTo(CameraHand, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);
 				RotateCameraPivot180Slow();				
-				await GlobalUsings.Instance.GoBack(from: this);	
+				resultScreen.Setup(_gameState.Player1.Rank, this);
+				resultScreen.Visible = true;
+				//await GlobalUsings.Instance.GoBack(from: this);	
 			}
 		}
 

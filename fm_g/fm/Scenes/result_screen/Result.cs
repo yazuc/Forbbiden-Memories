@@ -6,6 +6,7 @@ public partial class Result : Control
 {
 	public Control Screen {get;set;}
 	public List<Control> Screens;
+	public Node node;
 	public Godot.GridContainer Grid {get;set;}
 	public PackedScene CardUI = GD.Load<PackedScene>("res://Menu/Password/card_ui.tscn");
 
@@ -16,6 +17,9 @@ public partial class Result : Control
 	{
 		Grid = GetNode<Godot.GridContainer>("Screen/SpoilScreen/Spoils");
 		Screen = GetNode<Control>("Screen");
+		SetProcessInput(false);
+		SetProcess(false);
+		SetProcessUnhandledInput(false);
 		if(Screen != null)
 			Screens = Screen.GetChildren().Cast<Control>().ToList();
 		if(Grid != null)
@@ -31,6 +35,10 @@ public partial class Result : Control
 
     public override void _UnhandledInput(InputEvent @event)
     {
+		if(@event.IsActionPressed("ui_accept"))
+		{
+			_ = ReturnNode();
+		}
 		if (@event.IsActionPressed("ui_right"))
 		{
 			Screens[index].Visible = false;
@@ -52,13 +60,19 @@ public partial class Result : Control
 			Screens[index].Visible = true;
 		}
     }
-
-	public void Setup(Rank rank)
+	public async Task ReturnNode()
 	{
+		await GlobalUsings.Instance.GoBack(from: node);
+	}
+	public void Setup(Rank rank, Node node)
+	{
+		this.node = node;
 		var nodes = GetTree().GetNodesInGroup("label");
+		SetProcessInput(true);
+		SetProcess(true);
+		SetProcessUnhandledInput(true);
 		foreach(Label item in nodes)
 		{
-			GD.Print(item.Name);
 			RankMapper.ToNode(item, rank);
 		}		
 	}

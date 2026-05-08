@@ -21,11 +21,12 @@ namespace fm
 		[Export] public Label You;
 		[Export] public Label Com;
 		public int index_deck {get;set;} 
+		public Result resultScreen;
 		private GameLoop gL;
 		
 		public override async void _Ready()
 		{						
-			
+			resultScreen = GetNode<Result>("Result");
 			SlotsCampo = GetSlotsFromGroup("player_monster_slots");
 			SlotsCampoIni = GetSlotsFromGroup("enemy_monster_slots");
 			SlotsCampoST = GetSlotsFromGroup("player_spell_slot");
@@ -44,7 +45,8 @@ namespace fm
 					CameraHand,
 					CameraField,
 					CameraInimigo,
-					CameraPivot
+					CameraPivot,
+					resultScreen
 				);
 				gL.MaoDoJogador.gameLoop = gL;
 				gL.MaoDoInimigo.gameLoop = gL;
