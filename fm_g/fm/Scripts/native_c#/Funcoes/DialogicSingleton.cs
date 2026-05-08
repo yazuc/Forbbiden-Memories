@@ -26,10 +26,12 @@ public partial class DialogicSingleton : Node
         {
             world.SetProcess(true);
             world.Visible = true;
+            return;
         }
         if(world != null && GlobalUsings.Instance.activeScene == ActiveScene.MainMenu)
         {
             world.QueueFree();
+            GD.Print("World freed after dialogue."); 
         }
         GD.Print("Conversation finished!");
         // Do whatever you need here (resume gameplay, trigger next event, etc.)
