@@ -22,10 +22,6 @@ public partial class Result : Control
 		SetProcessUnhandledInput(false);
 		if(Screen != null)
 			Screens = Screen.GetChildren().Cast<Control>().ToList();
-		if(Grid != null)
-		{
-			InstanciaMao(new List<int>(){1,2,3,4,5,6,7,8,9,10,11,12,13,14,15});
-		}
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -64,7 +60,7 @@ public partial class Result : Control
 	{
 		await GlobalUsings.Instance.GoBack(from: node);
 	}
-	public void Setup(Rank rank, Node node)
+	public void Setup(RankEnum resultado, Rank rank, Rank rankEne, Node node)
 	{
 		this.node = node;
 		var nodes = GetTree().GetNodesInGroup("label");
@@ -75,6 +71,16 @@ public partial class Result : Control
 		{
 			RankMapper.ToNode(item, rank);
 		}		
+		foreach(Label item in nodes)
+		{
+			RankMapper.ToNodeEnemy(item, rankEne);
+		}
+		List<DropPool> dropPool = new List<DropPool>();
+		for(int i = 1; i <= 15; i++)
+		{			
+			dropPool.Add(GlobalUsings.Instance.db.ScanDropPool(1, Converter(resultado)));
+		}
+		InstanciaMao(dropPool.Select(x => x.CardId).ToList());
 	}
 
 	public void InstanciaMao(List<int> CartasNaMaoLocal)
@@ -87,6 +93,25 @@ public partial class Result : Control
 			cartaControlada.Theme = GD.Load<Theme>("res://Resources/tema_carta_hand.tres");
 			Grid.AddChild(cartaControlada);	
 		}
+	}
+
+	public string Converter(RankEnum rank)
+	{
+		return rank switch
+		{
+			RankEnum.SPOW => "SAPow",
+			RankEnum.APOW => "SAPow",
+			RankEnum.STEC => "SATec",
+			RankEnum.ATEC => "SATec",
+			RankEnum.BPOW => "BCD",
+			RankEnum.CPOW => "BCD",
+			RankEnum.DPOW => "BCD",
+			RankEnum.BTEC => "BCD",
+			RankEnum.CTEC => "BCD",
+			RankEnum.DTEC => "BCD",
+
+			_ => throw new ArgumentException("Invalid RankEnum value", nameof(rank)),
+		};
 	}
 	
 }

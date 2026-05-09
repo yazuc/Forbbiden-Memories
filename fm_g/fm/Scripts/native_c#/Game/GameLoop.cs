@@ -84,9 +84,13 @@ namespace fm
 			if (_gameState.IsGameOver())
 			{
 				_gameState.Player1.Rank.SetEndDuel(_gameState.CurrentTurn, _gameState.Player1.LifePoints, _gameState.Player1.Deck.Count());
+				_gameState.Player2.Rank.SetEndDuel(_gameState.CurrentTurn, _gameState.Player2.LifePoints, _gameState.Player2.Deck.Count());
+				var rankCalc = new RankResult();
+				rankCalc.RankStats = _gameState.Player1.Rank;
+				var resultado = rankCalc.ResultSetter();
 				await MaoDoJogador.Tools.TransitionTo(CameraHand, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);
 				RotateCameraPivot180Slow();				
-				resultScreen.Setup(_gameState.Player1.Rank, this);
+				resultScreen.Setup(resultado, _gameState.Player1.Rank, _gameState.Player2.Rank, this);
 				resultScreen.Visible = true;
 				//await GlobalUsings.Instance.GoBack(from: this);	
 			}

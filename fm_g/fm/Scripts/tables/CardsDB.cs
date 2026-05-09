@@ -2,6 +2,7 @@ using SQLite;
 using System.Collections.Generic;
 using System.IO;
 using QuickType;
+using System.Security.Cryptography.X509Certificates;
 
 namespace fm
 {
@@ -21,6 +22,9 @@ namespace fm
 			_database.CreateTable<NpcDeck>();	
 			_database.CreateTable<User>();	
 			_database.CreateTable<UserDeck>();
+			_database.CreateTable<DropPool>();
+			
+			
 		}
 
 		public static CardDatabase Instance
@@ -196,6 +200,32 @@ namespace fm
 			}
 
 			GD.Print($"{files.Length} NPCs importados com sucesso!");
+		}
+
+		public DropPool ScanDropPool(int duelistID, string poolType)
+		{
+			var dropPools = _database.Table<DropPool>()
+				.Where(x => x.Duelist == duelistID && x.PoolType == poolType)
+				.ToList();
+
+			if (!dropPools.Any())
+				return null;
+
+			int totalWeight = dropPools.Sum(x => x.CardProbability);
+
+			int roll = Random.Shared.Next(totalWeight);
+
+			int current = 0;
+
+			foreach (var drop in dropPools)
+			{
+				current += drop.CardProbability;
+
+				if (roll < current)
+					return drop;
+			}
+
+			return null;
 		}
 
 		public void ImportNpcJson(string jsonPath)
