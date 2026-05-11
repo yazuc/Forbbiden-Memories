@@ -206,6 +206,7 @@ public partial class GlobalUsings : Node
 		if (!_dueloIniciado)
 		{
 			int index = (int)dialogic.GetVariable("DeckIndex");
+			activeScene = ActiveScene.Duel;
 			GD.Print(index);
 			DeckIndex = index;
 			await FadeToBlack(2.5f, Duelo, this);			
