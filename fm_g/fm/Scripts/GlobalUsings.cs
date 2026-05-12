@@ -85,8 +85,14 @@ public partial class GlobalUsings : Node
 		var current = GetTree().CurrentScene;
 		
 		var scene = GD.Load<PackedScene>(path);
-		var instance = scene.Instantiate();
+		Control? storyControl = GetNodeOrNull<Control>("../StoryUI");
+		Node? instance = storyControl;
+		if(storyControl == null || path != Story)
+		{
+			instance = scene.Instantiate();
+		}
 
+	
 		// Hide current scene and push to stack
 		if (from != null)
 		{
@@ -100,8 +106,11 @@ public partial class GlobalUsings : Node
 				c.Visible = false;
 		}
 		PrintStackState();
-		GetTree().Root.AddChild(instance);
-		GetTree().CurrentScene = instance;
+		if(path != Story)
+		{
+			GetTree().Root.AddChild(instance);
+			GetTree().CurrentScene = instance;			
+		}
 		
 	}
 
