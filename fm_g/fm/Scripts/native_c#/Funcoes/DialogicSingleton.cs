@@ -19,6 +19,12 @@ public partial class DialogicSingleton : Node
         var dialogic = tree.Root.GetNode("Dialogic");            
         dialogic.Call("start", timelinepath);
     }
+    public void StartConversation(string timelinePath, string label)
+    {
+        var tree = (SceneTree)Engine.GetMainLoop();
+        var dialogic = tree.Root.GetNode("Dialogic");
+        dialogic.Call("start", timelinePath, label);
+    }
     private void OnTimelineEnded()
     {
         var world = GetNode<World>("../../World");

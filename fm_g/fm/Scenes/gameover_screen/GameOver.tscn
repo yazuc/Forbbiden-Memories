@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://b15nkeralcif7"]
+
+[ext_resource type="Texture2D" uid="uid://clk7a53872wx8" path="res://Scenes/gameover_screen/assets/PlayStation - Yu-Gi-Oh! Forbidden Memories - Miscellaneous - Game Over Screen.png" id="1_foewu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oc6ql"]
+atlas = ExtResource("1_foewu")
+region = Rect2(11.367, 41.515, 329.667, 241.971)
+
+[node name="GameOver" type="Control" unique_id=336840042]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Background" type="TextureRect" parent="." unique_id=2086819492]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_oc6ql")
+metadata/_edit_use_anchors_ = true

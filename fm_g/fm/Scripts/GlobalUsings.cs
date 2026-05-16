@@ -23,6 +23,7 @@ public partial class GlobalUsings : Node
 	public string Deckeditor = "res://Menu/DeckEditor/DeckEditor.tscn";
 	public string Password = "res://Menu/Password/Password.tscn";
 	public string MainMenu = "res://Menu/Principal/MainMenu.tscn";
+	public string GameOver = "res://Scenes/gameover_screen/GameOver.tscn";
 	public string UserDeck =  "d002";
 	public ActiveScene activeScene;	
 
@@ -178,6 +179,26 @@ public partial class GlobalUsings : Node
 		}		
 	}
 
+	public async void GameOverTransition()
+	{
+		await FadeToBlack(0.5f, GameOver, this);
+		await Task.Delay(500);
+		await ScreenTransition.Instance.FadeOut(0.5f);
+		
+		var gameover = GetNodeOrNull<Control>("../GameOver");
+		var world = GetNodeOrNull<World>("../World");
+		
+		if(gameover != null)		
+			gameover.QueueFree();
+		if(world != null)		
+			world.QueueFree();
+
+		await Task.Delay(500);
+		ChangeSceneToMainMenu();
+		await ScreenTransition.Instance.FadeIn(0.9f);
+
+	}
+
 	public void PrintStackState()
 	{
 		GD.Print("--- ESTADO DA PILHA (Topo para Fundo) ---");
@@ -208,6 +229,14 @@ public partial class GlobalUsings : Node
 
 		// 3. Iniciamos a conversa dentro da nova cena carregada
 		dialogic.StartConversation(timelinePath);
+	}
+
+	public void IniciarDialogoNoMundo(string timelinePath, string Label)
+	{
+		//timelines que precisam de label, precisam ser definidos estilo e bg para que não falte na hora de apresentar
+		var worldNode = GetTree().CurrentScene;					
+		SceneTransition(Story, worldNode);
+		dialogic.StartConversation(timelinePath, Label);
 	}
 
 	public async void IniciarDuelo()
