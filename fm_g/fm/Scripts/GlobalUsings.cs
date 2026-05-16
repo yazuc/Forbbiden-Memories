@@ -129,6 +129,7 @@ public partial class GlobalUsings : Node
 		}
 	}
 
+	//goback precisa de algumas parametrizações para quando o duelo inicia de um dialogo
 	public async Task GoBack(bool pop = false, Node from = null)
 	{				
 		AdjustToWorld();

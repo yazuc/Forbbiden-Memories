@@ -38,15 +38,16 @@ directories/dch_directory={
 "villager3": "res://assets/personagens/villager3.dch"
 }
 directories/dtl_directory={
-"card_shop": "res://Resources/timelines/card_shop.dtl",
-"city_plaza": "res://Resources/timelines/city_plaza.dtl",
-"city_plaza_empty": "res://Resources/timelines/city_plaza_empty.dtl",
-"dueling_grounds_1": "res://Resources/timelines/dueling_grounds_1.dtl",
-"dueling_grounds_2": "res://Resources/timelines/dueling_grounds_2.dtl",
+"card_shop": "res://Resources/timelines/card_shop/card_shop.dtl",
+"city_plaza": "res://Resources/timelines/city_plaza/city_plaza.dtl",
+"city_plaza_empty": "res://Resources/timelines/city_plaza/city_plaza_empty.dtl",
+"dueling_grounds_1": "res://Resources/timelines/dueling_grounds/dueling_grounds_1.dtl",
+"dueling_grounds_2": "res://Resources/timelines/dueling_grounds/dueling_grounds_2.dtl",
+"ground_duels": "res://Resources/timelines/dueling_grounds/ground_duels.dtl",
 "introseq": "res://Resources/timelines/introseq.dtl",
-"prince_01": "res://Resources/timelines/prince_01.dtl",
-"shrine_empty": "res://Resources/timelines/shrine_empty.dtl",
-"timeline": "res://Resources/timeline.dtl"
+"prince_00": "res://Resources/timelines/prince_castle/prince_00.dtl",
+"prince_01": "res://Resources/timelines/prince_castle/prince_01.dtl",
+"shrine_empty": "res://Resources/timelines/tower/shrine_empty.dtl"
 }
 layout/style_directory={
 "New_File": "res://Resources/New_File.tres"

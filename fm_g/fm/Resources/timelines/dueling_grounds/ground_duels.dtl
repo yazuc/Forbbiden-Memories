@@ -1,18 +1,13 @@
+label TeanaLoopBack
 [style name="New_File"]
 [background arg="res://assets/background/Background_02_Pointer_F7_05_02_00_.png" fade="0.0"]
-join teana left [animation="Slide From Left" length="0.7" wait="true"]
-teana: I've been waiting for you...
-teana: Jono was also here a few minutes ago. But he's gone now...
-teana: How about a duel?
-[clear time="0.1" step="false" portraits="false" music="false" background="false" positions="false" style="false" node=""]
-label TeanaLoopBack
 leave --All-- [animation="Slide From Left" length="0.7" wait="true"]
 join teana left [animation="Slide From Left" length="0.7" wait="true"]
 - <Duel>
 	set {DeckIndex} = 2.0
 	teana: Okay, let's play! Hope you're not a sore loser!
 	leave teana [animation="Slide To Left" length="0.7" wait="true"]
-	jump StartDuel
+	jump dueling_grounds_1/StartDuel
 - <Talk to somone else>
 	leave teana
 	join villager1 left [animation="Slide From Left" length="0.7" wait="true"]
@@ -25,7 +20,7 @@ join teana left [animation="Slide From Left" length="0.7" wait="true"]
 		villager1: Okay, let's play!
 		leave villager1 [animation="Slide To Left" length="0.7" wait="true"]
 		set {DeckIndex} = 4.0
-		jump StartDuel
+		jump dueling_grounds_1/StartDuel
 	- <Talk to someone else>
 		leave villager1
 		join villager2 left [animation="Slide From Left" length="0.7" wait="true"]
@@ -38,7 +33,7 @@ join teana left [animation="Slide From Left" length="0.7" wait="true"]
 			set {DeckIndex} = 5.0
 			villager2: All right, let's play!
 			leave villager2 [animation="Slide To Left" length="0.7" wait="true"]
-			jump StartDuel
+			jump dueling_grounds_1/StartDuel
 		- <Talk to someone else>
 			leave --All--
 			join villager3 left [animation="Slide From Left" length="0.7" wait="true"]
@@ -48,30 +43,14 @@ join teana left [animation="Slide From Left" length="0.7" wait="true"]
 			- <Duel>
 				villager3: Okay, boy. Let's play!
 				set {DeckIndex} = 6.0
-				jump StartDuel
+				jump dueling_grounds_1/StartDuel
 			- <Talk to someone else>
 				jump TeanaLoopBack
 			- <Go outside>
-				jump Outside
+				jump dueling_grounds_1/Outside
 		- <Go outside>
-			jump Outside
+			jump dueling_grounds_1/Outside
 	- <Go outside>
-		jump Outside
+		jump dueling_grounds_1/Outside
 - <Go outside>
-	jump Outside
-label Outside
-leave --All--
-join teana left [animation="Slide From Left" wait="true"]
-teana: Hey, did you know that there's a festival going on in the town plaza?
-teana: Come on! Let's check it out!
-teana: I'll bet we'll find Jono there!
-leave --All--
-[background arg="#000000ff" fade="0.5" wait="true"]
-[clear time="0.7" step="false" portraits="false" background="false" positions="false" style="false" node="/root/DialogicLayout_NewFile/Control/Dialogo"]
-jump city_plaza/
-label StartDuel
-leave --All--
-[background arg="#000000ff" fade="0.5" wait="true"]
-[clear time="0.7" step="false" portraits="false" background="false" positions="false" style="false" node="/root/DialogicLayout_NewFile/Control/Dialogo"]
-do GlobalUsings.IniciarDuelo()
-[end_timeline]
+	jump dueling_grounds_1/Outside
