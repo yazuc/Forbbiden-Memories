@@ -32,7 +32,7 @@ public partial class GlobalUsings : Node
 	public CardDatabase db = CardDatabase.Instance;
 	public DialogicSingleton dialogic;
 	public bool stop = false;
-	private static bool _dueloIniciado = false;
+	public static bool _dueloIniciado = false;
 	private Stack<Node> _sceneStack = new();
 
 	// Called when the node enters the scene tree for the first time.
@@ -81,7 +81,7 @@ public partial class GlobalUsings : Node
 			tween.TweenProperty(obj,"modulate", Colors.White, tempo);		
 	}
 
-	public void SceneTransition(string path, Node from = null)
+	public void SceneTransition(string path, Node from = null, bool dialogic = false)
 	{		
 		var current = GetTree().CurrentScene;
 		
@@ -115,6 +115,14 @@ public partial class GlobalUsings : Node
 		
 	}
 
+	public void GameToDialogic()
+	{
+		string Local = (string)dialogic.GetVariable("Dialogue");
+		string Label = (string)dialogic.GetVariable("Label");
+		IniciarDialogoNaLabel(Local, Label);
+		
+	}
+
 	public void ChangeSceneToMainMenu()
 	{
 		var scene = GetNode<MainMenu>("../MainMenu");
@@ -130,9 +138,9 @@ public partial class GlobalUsings : Node
 	}
 
 	//goback precisa de algumas parametrizações para quando o duelo inicia de um dialogo
-	public async Task GoBack(bool pop = false, Node from = null)
+	public async Task GoBack(bool pop = false, Node from = null, bool dialogic = false)
 	{				
-		AdjustToWorld();
+		//AdjustToWorld();
 		if (_sceneStack.Count == 0)
 			return;
 
@@ -151,6 +159,11 @@ public partial class GlobalUsings : Node
 		PrintStackState();
 		var previous = pop ? _sceneStack.Peek() : _sceneStack.Pop();
 		GD.Print(previous.Name);
+		if (dialogic)
+		{
+			GameToDialogic();
+			return;
+		}
 
 		if (previous != null)
 		{
@@ -213,8 +226,11 @@ public partial class GlobalUsings : Node
 		foreach (Node node in _sceneStack)
 		{
 			// Imprime o índice, o nome do nó e o tipo da classe
-			GD.Print($"{index}: Nome: {node.Name} | Tipo: {node.GetType().Name}");
-			index++;
+			if (IsInstanceValid(node))
+			{
+				GD.Print($"{index}: Nome: {node.Name} | Tipo: {node.GetType().Name}");
+				index++;				
+			}
 		}
 		GD.Print("---------------------------------------");
 	}
@@ -232,11 +248,12 @@ public partial class GlobalUsings : Node
 		dialogic.StartConversation(timelinePath);
 	}
 
-	public void IniciarDialogoNoMundo(string timelinePath, string Label)
+	public void IniciarDialogoNaLabel(string timelinePath, string Label)
 	{
 		//timelines que precisam de label, precisam ser definidos estilo e bg para que não falte na hora de apresentar
 		var worldNode = GetTree().CurrentScene;					
-		SceneTransition(Story, worldNode);
+		//aqui matamos a ref
+		//SceneTransition(Story, worldNode);
 		dialogic.StartConversation(timelinePath, Label);
 	}
 
@@ -271,6 +288,11 @@ public partial class GlobalUsings : Node
 	public async void GoBackOverworld(float tempo)
 	{
 		await FadeToBlack(0.5f, Mundo, this);		
+	}
+
+	public void EndDuel()
+	{
+		_dueloIniciado = false;
 	}
 
 }

@@ -206,8 +206,12 @@ func _on_speaker_updated(character):
 	if Miniature == null or character == null or get_tree().current_scene:
 		return
 
-	var char_node = get_tree().current_scene.find_child(character.display_name, true, false)
+	var scene = get_tree().current_scene
 
+	if scene == null:
+		return
+
+	var char_node = scene.find_child(character.display_name, true, false)
 	var on_screen := char_node != null 
 
 	if on_screen:

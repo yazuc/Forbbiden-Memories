@@ -44,6 +44,7 @@ directories/dtl_directory={
 "dueling_grounds_1": "res://Resources/timelines/dueling_grounds/dueling_grounds_1.dtl",
 "dueling_grounds_2": "res://Resources/timelines/dueling_grounds/dueling_grounds_2.dtl",
 "ground_duels": "res://Resources/timelines/dueling_grounds/ground_duels.dtl",
+"ground_duels_lost": "res://Resources/timelines/dueling_grounds/ground_duels_lost.dtl",
 "introseq": "res://Resources/timelines/introseq.dtl",
 "prince_00": "res://Resources/timelines/prince_castle/prince_00.dtl",
 "prince_01": "res://Resources/timelines/prince_castle/prince_01.dtl",
@@ -90,7 +91,8 @@ audio/channel_defaults={
 }
 variables={
 "DeckIndex": 2,
-"SimonOnce": false
+"Dialogue": "",
+"Label": ""
 }
 save/autosave=false
 animations/leave_default="Slide To Left"

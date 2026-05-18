@@ -58,8 +58,10 @@ public partial class Result : Control
     }
 	public async Task ReturnNode()
 	{
-		await GlobalUsings.Instance.GoBack(from: node);
+		var dialogue = (string)GlobalUsings.Instance.dialogic.GetVariable("Dialogue");				
+		await GlobalUsings.Instance.GoBack(from: node, dialogic: !string.IsNullOrEmpty(dialogue));
 	}
+
 	public void Setup(RankEnum resultado, Rank rank, Rank rankEne, Node node)
 	{
 		this.node = node;

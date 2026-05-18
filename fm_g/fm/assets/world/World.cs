@@ -31,11 +31,7 @@ public partial class World : Node3D
 		if(points.Count == 0) return;
 		changePos(index);
 		if (Input.IsActionJustReleased("ui_accept"))
-		{
-			// SetProcess(false);
-			// Visible = false;
-			// DefineBackground(points[index].Name);	
-			// GlobalUsings.Instance.FadeToBlack(0.3f, GlobalUsings.Instance.Story, this);					
+		{					
 			await HandleAccept();			
 		}
 		
@@ -120,7 +116,7 @@ public partial class World : Node3D
 		{
 			SetProcess(false);
 			Visible = false;
-			GlobalUsings.Instance.activeScene = ActiveScene.World;
+			GlobalUsings.Instance.activeScene = ActiveScene.Duel;
 			GlobalUsings.Instance.IniciarDialogoNoMundo("res://Resources/timelines/dueling_grounds/dueling_grounds_1.dtl");
 			GlobalUsings.Instance.currentBackGround = 1;			
 			return;

@@ -83,6 +83,7 @@ namespace fm
 			
 			if (_gameState.IsGameOver())
 			{
+				GlobalUsings.Instance.EndDuel();
 				_gameState.Player1.Rank.SetEndDuel(_gameState.CurrentTurn, _gameState.Player1.LifePoints, _gameState.Player1.Deck.Count());
 				_gameState.Player2.Rank.SetEndDuel(_gameState.CurrentTurn, _gameState.Player2.LifePoints, _gameState.Player2.Deck.Count());
 				var rankCalc = new RankResult();

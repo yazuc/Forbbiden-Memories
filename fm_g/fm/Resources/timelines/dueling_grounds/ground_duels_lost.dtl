@@ -1,0 +1,39 @@
+label TeanaLost
+[style name="New_File"]
+[background arg="res://assets/background/Background_02_Pointer_F7_05_02_00_.png" fade="0.0"]
+join teana left [animation="Slide From Left"]
+teana: Ouch!
+teana: Looks like I lost.
+teana: Oh well...
+teana: I'll play you again when I get a little better.
+- <Talk to someone else>
+	jump ground_duels/villager1
+- <Go outside>
+	jump dueling_grounds_1/Outside
+label Villager1Lost
+[style name="New_File"]
+[background arg="res://assets/background/Background_02_Pointer_F7_05_02_00_.png" fade="0.0"]
+join villager1 left [animation="Slide From Left"]
+villager1: Well, well... let's play again sometime...
+- <Talk to someone else>
+	jump ground_duels/villager2
+- <Go outside>
+	jump dueling_grounds_1/Outside
+label Villager2Lost
+[style name="New_File"]
+[background arg="res://assets/background/Background_02_Pointer_F7_05_02_00_.png" fade="0.0"]
+join villager2 left [animation="Slide From Left"]
+villager2: You won... I guess I owe you a card.
+- <Talk to someone else>
+	jump ground_duels/villager3
+- <Go outside>
+	jump dueling_grounds_1/Outside
+label Villager3Lost
+[style name="New_File"]
+[background arg="res://assets/background/Background_02_Pointer_F7_05_02_00_.png" fade="0.0"]
+join villager3 left [animation="Slide From Left"]
+villager3: Hmph! I reckon I lost...
+- <Talk to someone else>
+	jump ground_duels/TeanaLoopBack
+- <Go outside>
+	jump dueling_grounds_1/Outside

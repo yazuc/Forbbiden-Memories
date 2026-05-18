@@ -28,12 +28,12 @@ public partial class DialogicSingleton : Node
     private void OnTimelineEnded()
     {
         var world = GetNode<World>("../../World");
-        if(world != null && GlobalUsings.Instance.activeScene == ActiveScene.World)
-        {
-            world.SetProcess(true);
-            world.Visible = true;
-            return;
-        }
+        // if(world != null && GlobalUsings.Instance.activeScene == ActiveScene.World)
+        // {
+        //     world.SetProcess(true);
+        //     world.Visible = true;
+        //     return;
+        // }
         if(world != null && GlobalUsings.Instance.activeScene == ActiveScene.MainMenu)
         {
             world.QueueFree();

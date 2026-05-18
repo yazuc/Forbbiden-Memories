@@ -7,10 +7,14 @@ join teana left [animation="Slide From Left" length="0.7" wait="true"]
 	set {DeckIndex} = 2.0
 	teana: Okay, let's play! Hope you're not a sore loser!
 	leave teana [animation="Slide To Left" length="0.7" wait="true"]
+	set {Dialogue} = "res://Resources/timelines/dueling_grounds/ground_duels_lost.dtl"
+	set {Label} = "TeanaLost"
 	jump dueling_grounds_1/StartDuel
 - <Talk to somone else>
+	label villager1
 	leave teana
 	join villager1 left [animation="Slide From Left" length="0.7" wait="true"]
+	label villager1
 	villager1: Y'know, there's some kinda festival goin' on in the town plaza.
 	villager1: But we'd rather play games right here, like we always do.
 	villager1: Wanna take me on?
@@ -20,8 +24,11 @@ join teana left [animation="Slide From Left" length="0.7" wait="true"]
 		villager1: Okay, let's play!
 		leave villager1 [animation="Slide To Left" length="0.7" wait="true"]
 		set {DeckIndex} = 4.0
+		set {Dialogue} = "res://Resources/timelines/dueling_grounds/ground_duels_lost.dtl"
+		set {Label} = "Villager1Lost"
 		jump dueling_grounds_1/StartDuel
 	- <Talk to someone else>
+		label villager2
 		leave villager1
 		join villager2 left [animation="Slide From Left" length="0.7" wait="true"]
 		villager2: Hey. Did you find yourself any rare cards?
@@ -33,8 +40,11 @@ join teana left [animation="Slide From Left" length="0.7" wait="true"]
 			set {DeckIndex} = 5.0
 			villager2: All right, let's play!
 			leave villager2 [animation="Slide To Left" length="0.7" wait="true"]
+			set {Dialogue} = "res://Resources/timelines/dueling_grounds/ground_duels_lost.dtl"
+			set {Label} = "Villager2Lost"
 			jump dueling_grounds_1/StartDuel
 		- <Talk to someone else>
+			label villager3
 			leave --All--
 			join villager3 left [animation="Slide From Left" length="0.7" wait="true"]
 			villager3: You talkin' to me, boy? I got better things to do.
@@ -43,6 +53,8 @@ join teana left [animation="Slide From Left" length="0.7" wait="true"]
 			- <Duel>
 				villager3: Okay, boy. Let's play!
 				set {DeckIndex} = 6.0
+				set {Dialogue} = "res://Resources/timelines/dueling_grounds/ground_duels_lost.dtl"
+				set {Label} = "Villager3Lost"
 				jump dueling_grounds_1/StartDuel
 			- <Talk to someone else>
 				jump TeanaLoopBack
