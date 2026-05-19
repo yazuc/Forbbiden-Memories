@@ -19,11 +19,23 @@ public partial class DialogicSingleton : Node
         var dialogic = tree.Root.GetNode("Dialogic");            
         dialogic.Call("start", timelinepath);
     }
-    public void StartConversation(string timelinePath, string label)
+    public async void StartConversation(string timelinePath, string label)
     {
-        var tree = (SceneTree)Engine.GetMainLoop();
-        var dialogic = tree.Root.GetNode("Dialogic");
-        dialogic.Call("start", timelinePath, label);
+        var tree = GetTree();
+
+        await ToSignal(tree, SceneTree.SignalName.ProcessFrame);
+
+        var dialogic = tree.Root.GetNodeOrNull<Node>("Dialogic");
+
+        if (dialogic == null)
+        {
+            GD.PrintErr("Dialogic node not found.");
+            return;
+        }
+
+        GD.Print($"Starting: {timelinePath} / {label}");
+
+        dialogic.CallDeferred("start", timelinePath, label);
     }
     private void OnTimelineEnded()
     {

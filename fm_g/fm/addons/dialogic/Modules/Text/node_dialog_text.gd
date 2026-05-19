@@ -203,7 +203,7 @@ func custom_fx_skip() -> void:
 			effect.skip()
 			
 func _on_speaker_updated(character):
-	if Miniature == null or character == null or get_tree().current_scene:
+	if Miniature == null or character == null:
 		return
 
 	var scene = get_tree().current_scene
