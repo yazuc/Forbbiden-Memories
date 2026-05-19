@@ -154,7 +154,7 @@ public partial class GlobalUsings : Node
 		}
 
 		if (current != null)
-			current.Free();
+			current.QueueFree();
 
 		PrintStackState();
 		var previous = pop ? _sceneStack.Peek() : _sceneStack.Pop();
