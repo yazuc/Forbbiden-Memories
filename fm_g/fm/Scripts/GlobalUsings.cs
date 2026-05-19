@@ -175,6 +175,10 @@ public partial class GlobalUsings : Node
 				c.Visible = true;
 			if (previous is MainMenu menu)
 				menu.textureButtons[0].GrabFocus();
+			if(previous is World)
+			{
+				AdjustToWorld();
+			}
 			
 			await ScreenTransition.Instance.FadeIn(0.5f);
 		}
@@ -251,7 +255,6 @@ public partial class GlobalUsings : Node
 	public void IniciarDialogoNaLabel(string timelinePath, string Label)
 	{
 		//timelines que precisam de label, precisam ser definidos estilo e bg para que não falte na hora de apresentar
-		var worldNode = GetTree().CurrentScene;					
 		//aqui matamos a ref
 		//SceneTransition(Story, worldNode);
 		dialogic.StartConversation(timelinePath, Label);
