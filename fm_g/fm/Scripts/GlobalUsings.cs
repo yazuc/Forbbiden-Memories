@@ -140,7 +140,6 @@ public partial class GlobalUsings : Node
 	//goback precisa de algumas parametrizações para quando o duelo inicia de um dialogo
 	public async Task GoBack(bool pop = false, Node from = null, bool dialogic = false)
 	{				
-		//AdjustToWorld();
 		if (_sceneStack.Count == 0)
 			return;
 
@@ -161,6 +160,7 @@ public partial class GlobalUsings : Node
 		GD.Print(previous.Name);
 		if (dialogic)
 		{
+			activeScene = ActiveScene.Story;
 			GameToDialogic();
 			return;
 		}
@@ -177,6 +177,7 @@ public partial class GlobalUsings : Node
 				menu.textureButtons[0].GrabFocus();
 			if(previous is World)
 			{
+				GD.Print("is world");
 				AdjustToWorld();
 			}
 			
@@ -186,7 +187,7 @@ public partial class GlobalUsings : Node
 
 	public void AdjustToWorld()
 	{
-		if(activeScene == ActiveScene.Duel)
+		if(activeScene == ActiveScene.Duel  || activeScene == ActiveScene.Story)
 		{
 			var world = GetNodeOrNull<World>("../World");
 			if(world == null)

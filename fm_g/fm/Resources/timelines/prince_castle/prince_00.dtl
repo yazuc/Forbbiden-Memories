@@ -13,8 +13,8 @@ simon: ...Have you no shame!? Quite frankly, I'm embarrassed!
 	simon: Drat! He's gone...
 	leave simon
 	[background arg="#000000ff" fade="0.5" wait="true"]
-	[clear time="1.0" step="false" portraits="false" music="false" background="false" style="false" node="/root/DialogicLayout_NewFile/Control/Dialogo"]
 	do GlobalUsings.GoBackOverworld(0.8)
+	[clear time="1.0" step="false" portraits="false" music="false" background="false" style="false" node="/root/DialogicLayout_NewFile/Control/Dialogo"]
 	[end_timeline]
 - <Keep listening>
 	jump timeline/KeepL
