@@ -57,6 +57,7 @@ public partial class World : Node3D
 
 	private async Task HandleAccept()
 	{		
+		TickUI();
 		DefineBackground(points[index].Name);		
 
 		//aqui vai virar .dtl do index

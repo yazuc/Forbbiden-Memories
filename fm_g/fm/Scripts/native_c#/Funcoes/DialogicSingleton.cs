@@ -44,6 +44,7 @@ public partial class DialogicSingleton : Node
         if(activeScene > 0)
         {
             GlobalUsings.Instance.activeScene = (ActiveScene)activeScene;
+            SetVariable("ActiveScene", -1);
         }
 
         if(world != null && GlobalUsings.Instance.activeScene == ActiveScene.World)
