@@ -1260,9 +1260,6 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_td626")
 
-[sub_resource type="Environment" id="Environment_55kwu"]
-background_mode = 1
-
 [sub_resource type="LabelSettings" id="LabelSettings_k3lar"]
 font = ExtResource("51_w4lh7")
 font_size = 51
@@ -1270,6 +1267,9 @@ shadow_size = 9
 shadow_color = Color(0.13682574, 0.13682574, 0.13682568, 1)
 stacked_outline_count = 1
 stacked_outline_0/size = 18
+
+[sub_resource type="Environment" id="Environment_55kwu"]
+background_mode = 1
 
 [node name="World" type="Node3D" unique_id=1906406321 node_paths=PackedStringArray("Camera", "Anchors", "Seletor")]
 script = ExtResource("1_nx736")
@@ -1325,6 +1325,22 @@ grow_vertical = 2
 texture = ExtResource("50_f3o6s")
 metadata/_edit_use_anchors_ = true
 
+[node name="Label" type="Label" parent="WorldNameLabel" unique_id=1066148491]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.2393027
+anchor_top = 0.2
+anchor_right = 0.7567353
+anchor_bottom = 0.78064513
+grow_horizontal = 2
+grow_vertical = 2
+text = "Card Shop"
+label_settings = SubResource("LabelSettings_k3lar")
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+metadata/_edit_use_anchors_ = true
+
 [node name="AnimatedSprite3D" parent="." unique_id=115538128 instance=ExtResource("49_55kwu")]
 transform = Transform3D(1, 0, 0, 0, 0.99736285, 0.07257673, 0, -0.07257673, 0.99736285, -11.890697, 16.389908, -31.22946)
 top_level = true
@@ -1336,18 +1352,3 @@ frame_progress = 0.35045314
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1532452019]
 environment = SubResource("Environment_55kwu")
-
-[node name="Label" type="Label" parent="." unique_id=1066148491]
-anchors_preset = -1
-anchor_left = 0.3359375
-anchor_top = 0.043518517
-anchor_right = 0.675
-anchor_bottom = 0.13333334
-grow_horizontal = 2
-grow_vertical = 2
-text = "Card Shop"
-label_settings = SubResource("LabelSettings_k3lar")
-horizontal_alignment = 1
-vertical_alignment = 1
-clip_text = true
-metadata/_edit_use_anchors_ = true

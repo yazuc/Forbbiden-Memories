@@ -15,7 +15,7 @@ public partial class World : Node3D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		PlaceName = GetNode<Label>("Label");
+		PlaceName = GetNode<Label>("WorldNameLabel/Label");
 		UIHolder = GetNode<TextureRect>("WorldNameLabel");
 		Seletor.Play();
 		foreach(Node Mark in Anchors.GetChildren())
@@ -108,6 +108,14 @@ public partial class World : Node3D
 		Vector3 pos3D = points[pos].GlobalPosition;
 		pos3D += new Vector3(0,3,0);
 		Seletor.Position = pos3D;
+	}
+
+	public void TickUI(bool show = false)
+	{
+		UIHolder.Visible = !UIHolder.Visible;
+		if(show)
+			UIHolder.Visible = show;
+		
 	}
 
 	public void DefineBackground(string markerName)

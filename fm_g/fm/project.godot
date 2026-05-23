@@ -90,6 +90,7 @@ audio/channel_defaults={
 }
 }
 variables={
+"ActiveScene": -1,
 "DeckIndex": 2,
 "Dialogue": "",
 "Label": ""

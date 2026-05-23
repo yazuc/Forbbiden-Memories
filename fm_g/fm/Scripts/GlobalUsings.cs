@@ -26,7 +26,6 @@ public partial class GlobalUsings : Node
 	public string GameOver = "res://Scenes/gameover_screen/GameOver.tscn";
 	public string UserDeck =  "d002";
 	public ActiveScene activeScene;	
-
 	public Deck Deck = new Deck();
 	public List<string> Dialogue = new List<string>();
 	public CardDatabase db = CardDatabase.Instance;
@@ -57,7 +56,7 @@ public partial class GlobalUsings : Node
 	{
 		if(path == "introseq")
 		{
-			IniciarDialogoNoMundo("res://Resources/timelines/introseq.dtl");
+			IniciarDialogoNoMundo("res://Resources/timelines/introseq.dtl", obj);
 			return;
 		}
 		await ScreenTransition.Instance.FadeOut(0.5f);
@@ -66,9 +65,6 @@ public partial class GlobalUsings : Node
 	}
 	public void FadeToWhite(float tempo, Node obj)
 	{
-		// obj.SetProcess(true);
-		// obj.SetProcessInput(true);
-		// obj.SetProcessUnhandledInput(true);
 		if(obj is MainMenu menu)
 		{
 			obj.SetProcess(true);
@@ -145,12 +141,7 @@ public partial class GlobalUsings : Node
 
 		await ScreenTransition.Instance.FadeOut(0.5f);
 		var currentTree = GetTree();
-		var current = currentTree.CurrentScene;
-
-		if(current == null)
-		{
-			current = from;
-		}
+		var current = from != null ? from : currentTree.CurrentScene;
 
 		if (current != null)
 			current.QueueFree();
@@ -160,6 +151,7 @@ public partial class GlobalUsings : Node
 		GD.Print(previous.Name);
 		if (dialogic)
 		{
+			GD.Print("caiu dialogic?");
 			activeScene = ActiveScene.Story;
 			GameToDialogic();
 			return;
@@ -240,10 +232,10 @@ public partial class GlobalUsings : Node
 		GD.Print("---------------------------------------");
 	}
 
-	public void IniciarDialogoNoMundo(string timelinePath)
+	public void IniciarDialogoNoMundo(string timelinePath, Node from = null)
 	{
 		// 1. Pegamos o World (Cena de exploração)
-		var worldNode = GetTree().CurrentScene;
+		var worldNode = GetTree().CurrentScene ?? from;
 		
 		// 2. Salvamos o World na Stack e carregamos a cena de Story/Dialogic
 		// Isso garante que o 'World' esteja no topo da pilha
@@ -267,7 +259,7 @@ public partial class GlobalUsings : Node
 		{
 			int index = (int)dialogic.GetVariable("DeckIndex");
 			activeScene = ActiveScene.Duel;
-			GD.Print(index);
+			GD.Print(index);			
 			DeckIndex = index;
 			await FadeToBlack(2.5f, Duelo, this);			
 			_dueloIniciado = true;

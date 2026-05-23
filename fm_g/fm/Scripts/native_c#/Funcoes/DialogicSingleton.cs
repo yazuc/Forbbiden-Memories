@@ -40,8 +40,15 @@ public partial class DialogicSingleton : Node
     private void OnTimelineEnded()
     {
         var world = GetNode<World>("../../World");
+        int activeScene = (int)GetVariable("ActiveScene");
+        if(activeScene > 0)
+        {
+            GlobalUsings.Instance.activeScene = (ActiveScene)activeScene;
+        }
+
         if(world != null && GlobalUsings.Instance.activeScene == ActiveScene.World)
         {
+            world.TickUI(true);
             world.SetProcess(true);
             world.Visible = true;
             return;
@@ -52,7 +59,6 @@ public partial class DialogicSingleton : Node
             GD.Print("World freed after dialogue."); 
         }
         GD.Print("Conversation finished!");
-        // Do whatever you need here (resume gameplay, trigger next event, etc.)
     }
 
     //usage example, seta uma bool no dialogo, aonde caso tenha acessado o dialogo de simon uma vez, essa flag fica true
