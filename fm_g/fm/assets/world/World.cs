@@ -114,8 +114,11 @@ public partial class World : Node3D
 	public void TickUI(bool show = false)
 	{
 		UIHolder.Visible = !UIHolder.Visible;
-		if(show)
+		if (show)
+		{
 			UIHolder.Visible = show;
+			PlaceName.Visible = show;
+		}
 		
 	}
 

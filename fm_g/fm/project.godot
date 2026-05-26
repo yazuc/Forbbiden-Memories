@@ -48,6 +48,7 @@ directories/dtl_directory={
 "introseq": "res://Resources/timelines/introseq.dtl",
 "prince_00": "res://Resources/timelines/prince_castle/prince_00.dtl",
 "prince_01": "res://Resources/timelines/prince_castle/prince_01.dtl",
+"prince_02": "res://Resources/timelines/prince_castle/prince_02.dtl",
 "shrine_empty": "res://Resources/timelines/tower/shrine_empty.dtl"
 }
 layout/style_directory={

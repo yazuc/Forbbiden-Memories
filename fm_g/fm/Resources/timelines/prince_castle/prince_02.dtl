@@ -1,0 +1,13 @@
+label SimonLost
+[style name="New_File"]
+[background arg="res://assets/background/Background_01_Pointer_F7_05_01_00_.png" fade="0.0"]
+join simon left [animation="Slide From Left"]
+simon: You Won...
+simon: T'would seem that I taught you well...
+simon: You've grown strong.
+simon: You've won fair and square.
+simon: As promised, you may go.
+simon: I've nothing more to say...
+[clear time="1.0" node=""]
+set {ActiveScene} = 1.0
+[end_timeline]

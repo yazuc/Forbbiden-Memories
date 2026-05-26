@@ -68,5 +68,6 @@ jono: C'mon, let's look around and then head for the duel field.
 leave --All--
 [background arg="#000000ff" fade="0.5" wait="true"]
 [clear time="0.7" step="false" portraits="false" background="false" positions="false" style="false" node="/root/DialogicLayout_NewFile/Control/Dialogo"]
-do GlobalUsings.GoBackOverworld(0.5)
+# do GlobalUsings.GoBackOverworld(0.5)
+set {ActiveScene} = 1.0
 [end_timeline]

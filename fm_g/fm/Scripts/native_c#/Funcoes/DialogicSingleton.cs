@@ -49,9 +49,11 @@ public partial class DialogicSingleton : Node
 
         if(world != null && GlobalUsings.Instance.activeScene == ActiveScene.World)
         {
+            GD.Print("Timeline ended, resuming world.");
             world.TickUI(true);
             world.SetProcess(true);
             world.Visible = true;
+            _ = ScreenTransition.Instance.FadeIn(0.5f);
             return;
         }
         if(world != null && GlobalUsings.Instance.activeScene == ActiveScene.MainMenu)
