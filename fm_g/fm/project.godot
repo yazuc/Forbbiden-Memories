@@ -94,7 +94,10 @@ variables={
 "ActiveScene": -1,
 "DeckIndex": 2,
 "Dialogue": "",
-"Label": ""
+"Label": "",
+"Story": {
+"Unlock": 0.0
+}
 }
 save/autosave=false
 animations/leave_default="Slide To Left"

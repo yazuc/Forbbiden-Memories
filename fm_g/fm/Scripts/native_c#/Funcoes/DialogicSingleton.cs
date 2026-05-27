@@ -41,6 +41,7 @@ public partial class DialogicSingleton : Node
     {
         var world = GetNode<World>("../../World");
         int activeScene = (int)GetVariable("ActiveScene");
+        CheckUnlocked();
         if(activeScene > 0)
         {
             GlobalUsings.Instance.activeScene = (ActiveScene)activeScene;
@@ -81,7 +82,7 @@ public partial class DialogicSingleton : Node
         varSubsystem.Call("set_variable", variablePath, value);
     }
 
-   public Variant GetVariable(string variablePath)
+    public Variant GetVariable(string variablePath)
     {
         var tree = (SceneTree)Engine.GetMainLoop();
         var dialogic = tree.Root.GetNode("Dialogic");
@@ -89,6 +90,14 @@ public partial class DialogicSingleton : Node
         var varSubsystem = dialogic.GetNode("VAR");
 
         return varSubsystem.Call("get_variable", variablePath);
+    }
+
+    //unlocks tied to story progression, forr obvious reasons.
+    public void CheckUnlocked()
+    {
+        int index = (int)GetVariable("Story.Unlock");
+        GD.Print("Current Unlock Index: " + index);
+        SetVariable("Story.Unlock", 0);
     }
 
     public void PausaCena()

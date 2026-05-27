@@ -1,4 +1,5 @@
 label SimonLost
+set {Story.Unlock} = 1.0
 [style name="New_File"]
 [background arg="res://assets/background/Background_01_Pointer_F7_05_01_00_.png" fade="0.0"]
 join simon left [animation="Slide From Left"]
