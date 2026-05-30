@@ -62,6 +62,7 @@ func _ready() -> void:
 		textbox_root.hide()
 	text = ""
 	
+	
 	if Miniature != null:
 		Dialogic.Text.speaker_updated.connect(_on_speaker_updated)
 

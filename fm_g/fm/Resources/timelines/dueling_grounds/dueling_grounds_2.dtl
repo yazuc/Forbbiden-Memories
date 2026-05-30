@@ -1,3 +1,49 @@
 [style name="New_File"]
 [background arg="res://assets/background/Background_02_Pointer_F7_05_02_00_.png" fade="0.0"]
 join jono left [animation="Slide From Left"]
+jono: Geez... Who dose that mage think he is anyway!?
+jono: I gotta admit, though... that guy was real tough...
+jono: Hey, Prince, How about a game until that guy comes back?
+[clear time="1.0" portraits="false" music="false" background="false" positions="false" style="false" node=""]
+- <Duel>
+	set {Dialogue} = "res://Resources/timelines/dueling_grounds/ground_duels_lost.dtl"
+	set {Label} = "JonoLost"
+	set {DeckIndex} = 3.0
+	jump IniciarDuelo/StartDuel
+- <Pass>
+	jono: 'Fraid of starting off on the wrong foot, eh? I can understand that.
+	jono: Let's wait for thee mage.
+	jono: Y'know, the guy's real tough...
+	jono: Listen, I play here day in and day out. And you know I'm pretty good...
+	jono: Fact is, there ain't too many duelists I can't beat.
+	jono: But that mage... Man...! He's good!
+	jono: I didn't have a chance!
+	jono: Listen, Prince... Don't underestimate the guy.
+	jono: I know you're good. But don't get sloppy...
+label SetoBack
+if {Story.DuelSeto1} == true:
+	leave jono [animation="Slide To Left" wait="true"]
+	[background arg="res://assets/background-story/SetoDG.png" fade="0.5"]
+	jono: There he is... He's back.
+	jono: Do me a favor and whip the guy.
+	teana: Do it, Prince!
+	[background arg="#000000ff" fade="0.4" wait="true"]
+	[background arg="res://assets/background/Background_02_Pointer_F7_05_02_00_.png" fade="0.0"]
+	join seto left [animation="Slide From Left" wait="true"]
+	\seto: I do not know how good you are... But I hope you will entertain me.
+	\seto: I will have you know that I enjoy a good game...
+	\seto: Do not disappoint me!
+	set {DeckIndex} = 7.0
+	set {Dialogue} = "res://Resources/timelines/dueling_grounds/ground_duels_lost.dtl"
+	set {Label} = "SetoLost"
+	jump IniciarDuelo/StartDuel
+label JonoHappy
+join jono left [animation="Slide From Left"]
+jono: Didja see the look on his face!? You were grreat!!!
+teana: Prince... You're just too good!
+jono: "I bid you farewell"... Hah! what a loser!
+jono: Prince, Well, what now?
+jono: You still got some time?
+- <Go outside>
+set {ActiveScene} = 1.0
+[end_timeline]

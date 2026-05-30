@@ -37,3 +37,25 @@ villager3: Hmph! I reckon I lost...
 	jump ground_duels/TeanaLoopBack
 - <Go outside>
 	jump dueling_grounds_1/Outside
+label JonoLost
+[style name="New_File"]
+[background arg="res://assets/background/Background_02_Pointer_F7_05_02_00_.png" fade="0.0"]
+join jono left [animation="Slide From Left"]
+jono: Geez, Prince! You whipped me! Y'know you are good!
+jono: Do me a favor and beat that mage, willya?
+leave jono [animation="Slide To Left"]
+jump dueling_grounds_2/SetoBack
+label SetoLost
+[style name="New_File"]
+[background arg="res://assets/background/Background_02_Pointer_F7_05_02_00_.png" fade="0.0"]
+join seto left [animation="Slide From Left"]
+\seto: I... I cannot believe I lost...
+leave seto
+join seto left [animation="Slide From Left"]
+\seto: But... wait a moment. You... you are...
+\seto: Hmmm... I see...
+\seto: Enough. That is all forr today.
+\seto: I have a feeling our paths will cross elsewhere...
+\seto: 'Till then... I bid you farewell.
+leave seto
+jump dueling_grounds_2/JonoHappy

@@ -1,0 +1,16 @@
+[style name="New_File"]
+[background arg="#000000ff" fade="0.0"]
+joey: Wake up, Yugi!
+yugi: Huh...?
+[background arg="res://assets/background/Background_08_Pointer_F7_05_08_00_.png" fade="0.5" wait="true"]
+join joey left [animation="Slide From Left" wait="true"]
+joey: You dozed off, fella!
+yugi: Really...? Sorry...
+joey: What's the matter? So nervous you couldn't sleep last night?
+yugi: I... had... a dream...
+joey: You were dreaming!? Man! Nothing fazes you, does it?
+joey: C'mon. It's time for the opening ceremony. Let's go.
+leave --All--
+yugi: (... ... ... ...)
+[background arg="#000000ff" fade="0.5" wait="true"]
+jump Domino_02/

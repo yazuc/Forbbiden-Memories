@@ -1,6 +1,8 @@
 [style name="New_File"]
 [background arg="res://assets/background/Background_01_Pointer_F7_05_01_00_.png" fade="0.0"]
 join simon left [animation="Slide From Left"]
+if {Story.DuelSimon} == true:
+	jump prince_03/
 simon: Prince. You've returned...
 simon: It is well into the night... Please return to the palace.
 simon: Dear prince... If you still wish to play cards...
@@ -12,12 +14,8 @@ simon: I'm sure you'll finde me a worthy opponent.
 	simon: Ho ho ho. My dear prince... I taught you the game.
 	simon: You don't really think you're going to win, do you?
 	simon: Prepare yourself!!
-	leave --All--
-	[background arg="#000000ff" fade="0.5" wait="true"]
-	[clear time="0.7" step="false" portraits="false" background="false" positions="false" style="false" node="/root/DialogicLayout_NewFile/Control/Dialogo"]
 	set {Dialogue} = "res://Resources/timelines/prince_castle/prince_02.dtl"
 	set {Label} = "SimonLost"
-	set {DeckIndex} = 1.0
-	do GlobalUsings.IniciarDuelo()
-	[end_timeline]
+	set {Story.DuelSimon} = true
+	jump IniciarDuelo/StartDuel
 - <Pass>

@@ -9,7 +9,7 @@ join teana left [animation="Slide From Left" length="0.7" wait="true"]
 	leave teana [animation="Slide To Left" length="0.7" wait="true"]
 	set {Dialogue} = "res://Resources/timelines/dueling_grounds/ground_duels_lost.dtl"
 	set {Label} = "TeanaLost"
-	jump dueling_grounds_1/StartDuel
+	jump IniciarDuelo/StartDuel
 - <Talk to somone else>
 	label villager1
 	leave teana
@@ -26,7 +26,7 @@ join teana left [animation="Slide From Left" length="0.7" wait="true"]
 		set {DeckIndex} = 4.0
 		set {Dialogue} = "res://Resources/timelines/dueling_grounds/ground_duels_lost.dtl"
 		set {Label} = "Villager1Lost"
-		jump dueling_grounds_1/StartDuel
+		jump IniciarDuelo/StartDuel
 	- <Talk to someone else>
 		label villager2
 		leave villager1
@@ -42,7 +42,7 @@ join teana left [animation="Slide From Left" length="0.7" wait="true"]
 			leave villager2 [animation="Slide To Left" length="0.7" wait="true"]
 			set {Dialogue} = "res://Resources/timelines/dueling_grounds/ground_duels_lost.dtl"
 			set {Label} = "Villager2Lost"
-			jump dueling_grounds_1/StartDuel
+			jump IniciarDuelo/StartDuel
 		- <Talk to someone else>
 			label villager3
 			leave --All--
@@ -55,7 +55,7 @@ join teana left [animation="Slide From Left" length="0.7" wait="true"]
 				set {DeckIndex} = 6.0
 				set {Dialogue} = "res://Resources/timelines/dueling_grounds/ground_duels_lost.dtl"
 				set {Label} = "Villager3Lost"
-				jump dueling_grounds_1/StartDuel
+				jump IniciarDuelo/StartDuel
 			- <Talk to someone else>
 				jump TeanaLoopBack
 			- <Go outside>

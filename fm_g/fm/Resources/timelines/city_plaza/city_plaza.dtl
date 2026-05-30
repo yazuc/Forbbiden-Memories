@@ -1,5 +1,6 @@
 [style name="New_File"]
 [background arg="res://assets/background/Background_36_Pointer_F7_05_36_00_.png" fade="0.0" wait="true"]
+set {Story.PlazaEvent} = true
 join teana left [animation="Slide From Left" length="0.7" wait="true"]
 teana: Wow... there're lots of people around.
 teana: Look, the mages are about to start their procession...
@@ -47,8 +48,10 @@ teana: After all, you're the best duelist I've ever seen!
 teana: I'll bet you can beat him!
 jono: Yeah, Prince! Do it! Show him who's boss around here!
 \seto: Hello... Are you my next victim?
+[clear time="1.0" portraits="false" music="false" background="false" positions="false" style="false" node=""]
 - <Duel>
 	\seto: I hope you are better than the last one. Come! Let us duel.
+	set {Story.DuelSeto1} = true
 	jump Continuation
 - <Pass>
 label Continuation

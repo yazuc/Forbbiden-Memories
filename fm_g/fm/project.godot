@@ -29,15 +29,22 @@ directories/dch_directory={
 "card_shop": "res://assets/personagens/card_shop.dch",
 "character": "res://assets/character.dch",
 "darkshrine": "res://assets/personagens/darkshrine.dch",
+"heishin": "res://assets/personagens/heishin.dch",
+"joey": "res://assets/personagens/joey.dch",
 "jono": "res://assets/personagens/jono.dch",
+"princess": "res://assets/personagens/princess.dch",
 "seto": "res://assets/personagens/seto.dch",
 "simon": "res://assets/personagens/simon.dch",
 "teana": "res://assets/personagens/teana.dch",
 "villager1": "res://assets/personagens/villager1.dch",
 "villager2": "res://assets/personagens/villager2.dch",
-"villager3": "res://assets/personagens/villager3.dch"
+"villager3": "res://assets/personagens/villager3.dch",
+"yugi": "res://assets/personagens/yugi.dch"
 }
 directories/dtl_directory={
+"Domino_01": "res://Resources/timelines/DominoCity/Domino_01.dtl",
+"Domino_02": "res://Resources/timelines/DominoCity/Domino_02.dtl",
+"IniciarDuelo": "res://Resources/timelines/Funcoes/IniciarDuelo.dtl",
 "card_shop": "res://Resources/timelines/card_shop/card_shop.dtl",
 "city_plaza": "res://Resources/timelines/city_plaza/city_plaza.dtl",
 "city_plaza_empty": "res://Resources/timelines/city_plaza/city_plaza_empty.dtl",
@@ -49,6 +56,7 @@ directories/dtl_directory={
 "prince_00": "res://Resources/timelines/prince_castle/prince_00.dtl",
 "prince_01": "res://Resources/timelines/prince_castle/prince_01.dtl",
 "prince_02": "res://Resources/timelines/prince_castle/prince_02.dtl",
+"prince_03": "res://Resources/timelines/prince_castle/prince_03.dtl",
 "shrine_empty": "res://Resources/timelines/tower/shrine_empty.dtl"
 }
 layout/style_directory={
@@ -96,6 +104,9 @@ variables={
 "Dialogue": "",
 "Label": "",
 "Story": {
+"DuelSeto1": false,
+"DuelSimon": false,
+"PlazaEvent": false,
 "Unlock": 0.0
 }
 }

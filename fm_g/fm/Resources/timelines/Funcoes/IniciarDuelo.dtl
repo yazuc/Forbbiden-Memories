@@ -1,0 +1,6 @@
+label StartDuel
+leave --All--
+[background arg="#000000ff" fade="0.5" wait="true"]
+[clear time="0.7" step="false" portraits="false" background="false" positions="false" style="false" node="/root/DialogicLayout_NewFile/Control/Dialogo"]
+do GlobalUsings.IniciarDuelo()
+[end_timeline]

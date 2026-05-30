@@ -1,0 +1,163 @@
+simon: Well, it's about time!
+simon: Go on now! Off to your room!
+leave simon [animation="Slide To Left"]
+[background arg="#000000ff" fade="0.5" wait="true"]
+[background arg="res://assets/background/Background_05_Pointer_F7_05_05_00_.png" fade="0.5" wait="true"]
+join simon left [animation="Slide From Left" wait="true"]
+simon: I really hope you're ready to call it a day...
+[background arg="#000000ff" fade="0.0"]
+leave simon
+[background arg="res://assets/background-story/Background_03_Pointer_F7_05_02_01_.png" fade="0.0"]
+simon: Sometimes I wonder if the prince does this just to annoy me...
+darkshrine: Lord Simon Muran! We've got trouble!
+darkshrine: Th-the High Mage... The High Mage Heishin and his men...
+darkshrine: They wield a strrange power... They're invading the palace!!!
+simon: What!?
+darkshrine: I think it's sorcery, my lord! I'm afraid there's naught we can do to fend them off...
+simon: Where's the High Mage now !?
+darkshrine: In the Palace Hall, my lord!
+[background arg="#000000ff" fade="0.0"]
+simon: Heishin... Heishin! What could that dog have in mind ?
+[background arg="res://assets/background-story/destructed.png" fade="0.0"]
+simon: Wha... What the...
+join heishin left [animation="Slide From Left"]
+heishin: It's good to see you again, Simon Muran...
+simon: You dare to revolt... Are you mad!?
+heishin: Mad...? Me?
+heishin: I don't think so... I've but come to claim my throne.
+simon: Your throne!?
+heishin: Yes, my throne. For I now have the 'Power'...
+simon: The 'Power'... No... It cannot be...
+heishin: I see recognition in your eyes. But then we both draw our roots frorm out sorcerous forefathers...
+simon: The power of darkness...!?
+heishin: That's right. I've discovered the forbidden treasure...
+[background arg="#000000ff" fade="0.0"]
+leave heishin
+[background arg="res://assets/background-story/Background_04_Pointer_F7_05_03_01_.png" fade="0.0"]
+heishin: Here! Taste the forbidden power of darkness!!!
+[background arg="#000000ff" fade="0.0"]
+[background arg="res://assets/background/Background_05_Pointer_F7_05_05_00_.png" fade="0.0"]
+!?
+join princess left [animation="Slide From Left" wait="true"]
+princess: Prince!
+princess: The High Mage Heishin has invaded the palace!
+princess: This place is too dangerous! We must leave at once!
+leave princess
+[background arg="#000000ff" fade="0.0"]
+[background arg="res://assets/background-story/Background_05_Pointer_F7_05_04_01_.png" fade="0.0"]
+princess: No...
+\seto: Prince... Did you hope to escape me?
+\seto: We meet again...
+\seto: All right men... Away with this servant!
+\seto: I wish to speak with the prince.
+darkshrine: By your command!
+princess: Prince!
+darkshrine: Be quiet and come with us!
+[background arg="#000000ff" fade="0.0"]
+[background arg="res://assets/background/Background_06_Pointer_F7_05_06_00_.png" fade="0.0"]
+join seto left [animation="Slide From Left" wait="true"]
+\seto: Why do you flee? Prince.
+\seto: Heishin already holds the King and Queen captive.
+\seto: Running away would only provoke Heishin to end their lives...
+\seto: Is that what you want?
+\seto: Well... I'll tell you what I want. Something that only one royal blood would know...
+\seto: ...the location of the Millennium Item.
+\seto: Tell me where it is and I'll spare the King and Queen!
+\seto: You know where it is! So... tell me!
+- <Refuse>
+	\seto: Don't take me for a fool... You know where it is
+- <Tell>
+simon: My prince...!
+\seto: Simon Muran!
+leave seto
+[background arg="#000000ff" fade="0.0"]
+[background arg="res://assets/background-story/Background_06_Pointer_F7_05_05_01_.png" fade="0.0"]
+simon: Dear prince... Here is the Millennium Item...
+simon: Take it... take it and run!!!
+Prince gets the Millennium Puzzle!
+[background arg="#000000ff" fade="0.0"]
+[background arg="res://assets/background/Background_06_Pointer_F7_05_06_00_.png" fade="0.0"]
+join simon left [animation="Slide From Left" wait="true"]
+simon: You must keep this treasurer from falling into the hands of these vermin!!!
+simon: The treasure is the final key to unlocking the seal to great power.
+simon: Should it fall in the hands of the wicked, it would mean armageddon...
+\seto: Well, well... You couldn't have brought it at a better time.
+\seto: Hand  the key over to me right now, and I might help the two of you escape from Heishin
+simon: Ignore this cur! He wags his tail at Heishin's command! He's not to be trusted!
+simon: Leave him to me, my prince! You must escape!
+\seto: Out of my way, old man!
+simon: Go, my prince! Run!
+label ForceRun
+- <Run>
+	[background arg="#000000ff" fade="0.0"]
+	leave --All--
+	[background arg="res://assets/background/Background_06_Pointer_F7_05_06_00_.png" fade="0.0"]
+- <Stay>
+	simon: Listen to what I say... Get out of here!
+	jump ForceRun
+join heishin left [animation="Slide From Left" wait="true"]
+heishin: Do not move! You are mine!
+heishin: I see you've found them, Seto. Well done.
+\seto: Yes, my lord...
+heishin: You didn't think you'd escape me, did you?
+heishin: There's no point in resisting. Admit your defeat...
+heishin: ...and hand it over. Give me the Millennium Item!!!
+simon: Only one option rermains, my prince.
+simon: You must do battle with Heishin. Challenge him to a duel with your cards and the Millennium Item!
+[clear time="1.0" portraits="false" music="false" background="false" positions="false" style="false" node=""]
+label HeishinForceDuel
+- <Duel>
+	set {DeckIndex} = 8.0
+	set {Dialogue} = "res://Resources/timelines/prince_castle/prince_03.dtl"
+	set {Label} = "HeishinWin"
+	heishin: A wasted effort, boy! You lack the power to defeat me!
+	jump IniciarDuelo/StartDuel
+- <Pass>
+	simon: My dear prince! You must confront him!
+	simon: The Millennium Item will unleash the dark powers of your cards.
+	simon: Face him! You must defeat Heishin!
+	jump HeishinForceDuel
+label HeishinWin
+[style name="New_File"]
+[background arg="res://assets/background/Background_06_Pointer_F7_05_06_00_.png" fade="0.0"]
+join heishin left [animation="Slide From Left"]
+heishin: Foolish child! You've wasted my time!
+heishin: If you insist on keeping the Millennium Puzzle, I'll just rip it from your lifeless fingers!
+leave --All--
+[background arg="#000000ff" fade="0.5" wait="true"]
+[background arg="res://assets/background-story/Background_07_Pointer_F7_05_06_01_.png" fade="0.5" wait="true"]
+heishin: !!!
+heishin: Out of my way, old man! Or else...
+simon: My prince! Shatter the Millennium Puzzle...
+simon: You must not hand it over to this vile creature!
+heishin: Out of my way, old man! Get your hands off me!
+simon: Prince... The puzzle...
+simon: ...don't give them the puzzle...
+label ChoicePuzzle
+- <Don't shatter the puzzle>
+	simon: I beg you... the puzzle...
+	simon: ...shatter it...
+	jump ChoicePuzzle
+- <Shatter the puzzle>
+	[background arg="#000000ff" fade="0.5" wait="true"]
+	[background arg="res://assets/background-story/Background_08_Pointer_F7_05_07_01_.png" fade="0.5" wait="true"]
+heishin: No!!!
+[background arg="#ffffffff" fade="0.5" wait="true"]
+[background arg="res://assets/background/Background_07_Pointer_F7_05_07_00_.png" fade="0.5" wait="true"]
+join simon left [animation="Slide From Left" wait="true"]
+simon: Prince...
+!?
+simon: Thank goodness! You've awoken! We're inside the Millennium Puzzle.
+simon: To be precise, your soul is now sealed within the puzzle.
+simon: I'm sorry, my prince. But this was the only way I could save you and the puzzle.
+simon: I couldn't allow you to simply hand over the puzzle to the likes of Heishin.
+simon: The power of darkness that Heishin sought to unravel could only lead to destruction.
+simon: One day, when someone puts the puzzle together again, you will live to walk among men.
+simon: Until that day comes... Sleep, my prince.
+simon: I'm sure there is someone out there destined to assemble the Puzzle.
+simon: In the end, that person and the Millennium Puzzle will guide you back to our world.
+simon: Now rest, dear prince... Close your eyes...
+[background arg="#ffffffff" fade="0.5" wait="true"]
+leave --All--
+[background arg="#000000ff" fade="0.5" wait="true"]
+jump Domino_01/
