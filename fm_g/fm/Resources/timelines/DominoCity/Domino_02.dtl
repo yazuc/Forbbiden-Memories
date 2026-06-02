@@ -4,3 +4,30 @@ Welcome to Yu-Gi-Oh! World Tournament, sponsored by the Kaiba Corporation!
 We're now at the TOWN OF DOMINO where selected duelists have gathered to decide who is number one!
 joey: This is it, Yugi.
 yugi: Yeah...
+[background arg="#000000ff" fade="0.5" wait="true"]
+[background arg="res://assets/background-story/speaker_bg-export.png" fade="0.0"]
+join commentator left [animation="Slide From Left"]
+commentator: The battles are about to begin...
+commentator: But before we start, there are a few rules to explain...
+commentator: Tournament rules are divided between the preliminaries and the finals. For example...
+leave --All--
+joey: Who cares about the rules. All you gotta do is keep winning!
+joey: Right, Yugi?
+yugi: Huh? Yeah. I guess so...
+join commentator left [animation="Slide From Left"]
+commentator: ...and now, a few words from out sponsor, Mr. Kaiba!
+leave --All--
+join kaiba left [animation="Slide From Left"]
+kaiba: I thank you for joining us in deciding the king of kings...
+kaiba: Today we duel to decide who is the Game Master... the ultimate duelist!
+kaiba: And I, too, am intent upon winning that honor...
+joey: That Kaiba gets on my nerves!
+joey: If anybody puts him out of the tournament, I hope it's me!
+joey: Yugi, I'm hoping to face you in the finals... Okay?
+yugi: Sure!
+leave --All--
+join commentator left [animation="Slide From Left"]
+commentator: All right then, ladies and gentleman! May the best man win! Let the duels begin!!!
+leave --All--
+[background arg="#000000ff" fade="0.5" wait="true"]
+[end_timeline]
