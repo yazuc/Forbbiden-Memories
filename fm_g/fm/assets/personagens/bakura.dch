@@ -12,7 +12,7 @@
 },
 &"default_portrait": "bakura",
 &"description": "",
-&"display_name": "Bakura",
+&"display_name": "bakura",
 &"mirror": false,
 &"nicknames": [""],
 &"offset": Vector2(-200, -705),

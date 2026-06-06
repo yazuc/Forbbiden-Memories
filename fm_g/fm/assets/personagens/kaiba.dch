@@ -25,6 +25,15 @@
 "offset": Vector2(0, 0),
 "scale": 1,
 "scene": ""
+},
+"kaiba_mini": {
+"export_overrides": {
+"image": "\"res://assets/Story_mugshots/default_023.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": "res://addons/dialogic/Modules/Character/default_portrait.tscn"
 }
 },
 &"scale": 0.6
