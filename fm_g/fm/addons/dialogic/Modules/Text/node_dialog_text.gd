@@ -18,6 +18,7 @@ enum Alignment {LEFT, CENTER, RIGHT}
 @export var start_hidden := true
 
 var revealing := false
+var current_character = null
 var base_visible_characters := 0
 
 # The used speed per revealed character.
@@ -62,9 +63,13 @@ func _ready() -> void:
 		textbox_root.hide()
 	text = ""
 	
-	
-	if Miniature != null:
-		Dialogic.Text.speaker_updated.connect(_on_speaker_updated)
+	if Miniature != null:		
+		var char = Dialogic.Text.get_current_speaker()
+		if char != null:			
+			update_miniature(char)
+		if not Dialogic.Text.speaker_updated.is_connected(_on_speaker_updated):
+			print("signal connected if not any")
+			Dialogic.Text.speaker_updated.connect(_on_speaker_updated)
 
 	var custom_bbcode_effects: Array = ProjectSettings.get_setting("dialogic/text/custom_bbcode_effects", "").split(",", false)
 	for i in custom_bbcode_effects:
@@ -204,30 +209,23 @@ func custom_fx_skip() -> void:
 			effect.skip()
 			
 func _on_speaker_updated(character):
+	current_character = character
+	update_miniature(character)
+			
+func update_miniature(character):
 	if Miniature == null or character == null:
 		return
 
-	var scene = get_tree().current_scene
+	var portrait_name = character.display_name + "_mini"
+	var info = character.get_portrait_info(portrait_name)
 
-	if scene == null:
-		return
+	if "export_overrides" in info:
+		var image_path = info["export_overrides"].get("image", "")
 
-	var char_node = scene.find_child(character.display_name, true, false)
-	var on_screen := char_node != null 
-
-	if on_screen:
-		Miniature.hide()
-	else:
-		var portrait_name = character.display_name + "_mini"
-		var info = character.get_portrait_info(portrait_name)
-
-		if "export_overrides" in info:
-			var image_path = info["export_overrides"].get("image", "")
-			
-			if image_path != "":
-				image_path = image_path.strip_edges()
-				image_path = image_path.trim_prefix("\"").trim_suffix("\"")
-				Miniature.texture = load(image_path)
-				Miniature.show()
-			else:
-				Miniature.hide()
+		if image_path != "":
+			image_path = image_path.strip_edges()
+			image_path = image_path.trim_prefix("\"").trim_suffix("\"")
+			Miniature.texture = load(image_path)
+			Miniature.show()
+		else:
+			Miniature.hide()
