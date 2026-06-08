@@ -7,6 +7,7 @@ public partial class DeckEditor : Control
 {
 	[Export] public Panel selector;
 	[Export] public ScrollContainer scroll;    	
+	public DeckBuildEnum DeckBuild {get;set;} = DeckBuildEnum.Trunk;
 	public int j = 0;	
 	public bool once = false;
 	[Export] public Godot.VBoxContainer decklist;	
@@ -98,6 +99,7 @@ public partial class DeckEditor : Control
 			if(cell is SlotCarta slot)
 			{
 				decklist.AddChild(slot);
+				slot.DeckBuild = DeckBuild;
 				slot.Initialize(item, i);		
 				slotCartas.Add(slot);		
 				i++;				

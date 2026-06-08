@@ -19,11 +19,11 @@ namespace fm
 		[Export] public Godot.ColorRect CardSigns;		
 		private static Dictionary<int, AtlasTexture> _typeCache = new();
 		private static Dictionary<int, AtlasTexture> _signCache = new();
-
 		private static readonly AtlasTexture AtlasBase = GD.Load<AtlasTexture>("res://Resources/types.res");
 		private static readonly AtlasTexture AtlasBaseSign = GD.Load<AtlasTexture>("res://Resources/signs.res");
 		public Cards item {get;set;}
 		public int index {get;set;}
+		public DeckBuildEnum DeckBuild {get;set;} 
 		
 		// Called when the node enters the scene tree for the first time.
 		public override void _Ready()
@@ -42,6 +42,22 @@ namespace fm
 
 		public void Initialize(Cards item, int index)
 		{
+			var DeckNumber = GetNode<ColorRect>("DeckNumber");
+			if(DeckBuild == DeckBuildEnum.Trunk)
+			{
+				DeckNumber.Visible = false;				
+			}
+			if(DeckBuild == DeckBuildEnum.Deck)
+			{
+				var nodes = GetTree().GetNodesInGroup("Trunk").Cast<ColorRect>().ToList();
+				DeckNumber.Visible = true;	
+				foreach (var node in nodes)
+				{
+					node.Visible = false;
+				}
+				
+			}
+
 			this.item = item;
 			this.index = index;		
 
