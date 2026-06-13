@@ -10,6 +10,8 @@ namespace fm
 		[Export] public Godot.Label DeckNumber;
 		[Export] public Godot.Label CardNumber;
 		[Export] public Godot.Label CardName;
+		[Export] public Godot.Label TrunkNumber;
+		[Export] public Godot.Label InDeckNumber;
 		[Export] public Godot.Label CardStats;
 		[Export] public Godot.Label CardType;
 		[Export] public TextureRect Type;
@@ -45,17 +47,22 @@ namespace fm
 			var DeckNumber = GetNode<ColorRect>("DeckNumber");
 			if(DeckBuild == DeckBuildEnum.Trunk)
 			{
-				DeckNumber.Visible = false;				
+				TrunkNumber.Text = 
+				(GlobalUsings.Instance.db.GetUserTrunk(GlobalUsings.Instance.UserDeck, item.Id)?.Quantity - GlobalUsings.Instance.Deck.Cards.Count(x => x.Id == item.Id)).ToString() ?? "0";
+				InDeckNumber.Text = GlobalUsings.Instance.Deck.Cards.Count(x => x.Id == item.Id).ToString() ?? "0";
+				DeckNumber.Visible = false;								
 			}
 			if(DeckBuild == DeckBuildEnum.Deck)
 			{
-				var nodes = GetTree().GetNodesInGroup("Trunk").Cast<ColorRect>().ToList();
 				DeckNumber.Visible = true;	
-				foreach (var node in nodes)
-				{
-					node.Visible = false;
-				}
-				
+				// var nodes = GetTree().GetNodesInGroup("Trunk").Cast<ColorRect>().ToList();
+				// if(nodes != null && nodes.Count > 0)
+				// {
+				// 	foreach (var node in nodes)
+				// 	{
+				// 		node.Visible = false;
+				// 	}					
+				// }				
 			}
 
 			this.item = item;

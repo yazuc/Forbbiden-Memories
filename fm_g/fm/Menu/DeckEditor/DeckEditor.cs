@@ -9,16 +9,18 @@ public partial class DeckEditor : Control
 	[Export] public ScrollContainer scroll;    	
 	public DeckBuildEnum DeckBuild {get;set;} = DeckBuildEnum.Trunk;
 	public int j = 0;	
-	public bool once = false;
+	public bool once = false, SetupDone = false, SetupDoneDeck = false;
 	[Export] public Godot.VBoxContainer decklist;	
 	private List<SlotCarta> slotCartas = new List<SlotCarta>();
 	public List<TextureButton> textureButtons;
 	// Called when the node enters the scene tree for the first time.
 	public override  void _Ready()
 	{
-		Setup();	
-		textureButtons = GetTree().GetNodesInGroup("button").Cast<TextureButton>().ToList();	
-		textureButtons[0].GrabFocus();
+		SetupTrunk();
+		HideSlotInGroup(DeckBuild.ToString(), true);
+		HideSlotInGroup(DeckBuildEnum.Deck.ToString(), false);
+		// textureButtons = GetTree().GetNodesInGroup("button").Cast<TextureButton>().ToList();	
+		// textureButtons[0].GrabFocus();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -30,6 +32,18 @@ public partial class DeckEditor : Control
 	{
 		if (@event.IsActionPressed("ui_left") || @event.IsActionPressed("ui_right"))
 		{
+			if (@event.IsActionPressed("ui_right"))
+			{
+				GD.Print("called");				
+				DeckBuild = DeckBuildEnum.Deck;
+				SetupDeck();	
+			}
+			if (@event.IsActionPressed("ui_left"))
+			{
+				GD.Print("called left");				
+				DeckBuild = DeckBuildEnum.Trunk;
+				SetupTrunk();
+			}
 			GetViewport().SetInputAsHandled();
 		}
 		if (Input.IsActionJustReleased("ui_cancel"))
@@ -40,24 +54,24 @@ public partial class DeckEditor : Control
 
     public override void _UnhandledInput(InputEvent @event)
     {
-		var index = textureButtons.IndexOf(textureButtons.FirstOrDefault(x => x.HasFocus()));			
+		// var index = textureButtons.IndexOf(textureButtons.FirstOrDefault(x => x.HasFocus()));			
 		
-		if (@event.IsActionPressed("ui_lb"))
-		{			
-			if(index <= 0) index = textureButtons.Count;		
-			textureButtons[index - 1].GrabFocus(); 
-			Filter((TipoFiltro)index - 1);
+		// if (@event.IsActionPressed("ui_lb"))
+		// {			
+		// 	if(index <= 0) index = textureButtons.Count;		
+		// 	textureButtons[index - 1].GrabFocus(); 
+		// 	Filter((TipoFiltro)index - 1);
 
-		}
-		if (@event.IsActionPressed("ui_rb"))
-		{
-			if(index >= textureButtons.Count - 1) index = -1;			
-			textureButtons[index + 1].GrabFocus(); 
-			Filter((TipoFiltro)index + 1);
-		}
+		// }
+		// if (@event.IsActionPressed("ui_rb"))
+		// {
+		// 	if(index >= textureButtons.Count - 1) index = -1;			
+		// 	textureButtons[index + 1].GrabFocus(); 
+		// 	Filter((TipoFiltro)index + 1);
+		// }		
         if(@event.IsActionPressed("ui_down"))
 		{
-			if(j < decklist.GetChildren().Count - 1)
+			if(j < decklist.GetChildren().OfType<SlotCarta>().Count(x => x.Visible) - 1)
 				j++;				
 		}
 		if (@event.IsActionPressed("ui_up"))
@@ -101,15 +115,86 @@ public partial class DeckEditor : Control
 				decklist.AddChild(slot);
 				slot.DeckBuild = DeckBuild;
 				slot.Initialize(item, i);		
+				slot.AddToGroup(DeckBuild.ToString());
 				slotCartas.Add(slot);		
 				i++;				
 			}
 		}	
 	}
 
+	public void SetupTrunk()
+	{
+		if (SetupDone)
+		{
+			HideSlotInGroup(DeckBuildEnum.Deck.ToString(), false);			
+			HideSlotInGroup(DeckBuildEnum.Trunk.ToString(), true);
+			return;
+		}
+
+		var scene1 = "res://Menu/DeckEditor/slot_carta.scn";
+		var scene = GD.Load<PackedScene>(scene1);
+		int i = 1;
+		foreach(var item in GlobalUsings.Instance.db.GetAllCards().OrderBy(x => x.Id))
+		{
+			var cell = scene.Instantiate();				
+			if(cell is SlotCarta slot)
+			{
+				decklist.AddChild(slot);
+				slot.DeckBuild = DeckBuildEnum.Trunk;
+				slot.Initialize(item, i);		
+				slot.AddToGroup(DeckBuild.ToString());
+				slotCartas.Add(slot);		
+				i++;				
+			}
+		}	
+		SetupDone = true;
+	}
+
+	public void SetupDeck()
+	{
+		if (SetupDoneDeck)
+		{
+			HideSlotInGroup(DeckBuildEnum.Deck.ToString(), true);
+			HideSlotInGroup(DeckBuildEnum.Trunk.ToString(), false);
+			return;
+		}
+
+		var scene1 = "res://Menu/DeckEditor/slot_carta.scn";
+		var scene = GD.Load<PackedScene>(scene1);
+		int i = 1;
+		foreach(var item in GlobalUsings.Instance.Deck.Cards)
+		{
+			var cell = scene.Instantiate();				
+			if(cell is SlotCarta slot)
+			{
+				decklist.AddChild(slot);
+				slot.DeckBuild = DeckBuildEnum.Deck;
+				slot.Initialize(item, i);		
+				slot.AddToGroup(DeckBuild.ToString());
+				slotCartas.Add(slot);		
+				i++;				
+			}
+		}	
+		SetupDoneDeck = true;	
+		HideSlotInGroup(DeckBuildEnum.Deck.ToString(), true);
+		HideSlotInGroup(DeckBuildEnum.Trunk.ToString(), false);
+	}
+
+	public void HideSlotInGroup(string group, bool visible = false)
+	{
+		if(!visible)
+			GetTree().CallGroup(group, "hide");
+		if(visible)
+			GetTree().CallGroup(group, "show");
+		// var nodes = GetTree().GetNodesInGroup(group).Cast<Control>().ToList();
+		// foreach (var node in nodes)
+		// {
+		// 	node.Visible = visible;
+		// }
+	}
+
 	public void MoveSelector(int index)
 	{
-		GD.Print(index);
 		if (decklist.GetChildCount() == 0)
 			return;
 

@@ -139,6 +139,7 @@ player_monster_slots="slot de monstros do player"
 enemy_monster_slots="grupo de monstros do inimigo"
 enemy_spell_slot=""
 player_spell_slot=""
+Trunk=""
 
 [gui]
 

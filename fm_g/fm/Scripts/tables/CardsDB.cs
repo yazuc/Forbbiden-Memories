@@ -22,9 +22,8 @@ namespace fm
 			_database.CreateTable<NpcDeck>();	
 			_database.CreateTable<User>();	
 			_database.CreateTable<UserDeck>();
-			_database.CreateTable<DropPool>();
-			
-			
+			_database.CreateTable<UserTrunk>();
+			_database.CreateTable<DropPool>();			
 		}
 
 		public static CardDatabase Instance
@@ -36,6 +35,22 @@ namespace fm
 			}
 		}
 
+		public void SetupTrunkTest()
+		{
+			var trunk = new UserTrunk
+			{
+				UserID = "d001",
+				CardID = 657,
+				Quantity = 40
+			};
+
+			_database?.Insert(trunk);
+		}
+
+		public UserTrunk? GetUserTrunk(string userId, int cardId)
+		{
+			return _database?.Table<UserTrunk>().FirstOrDefault(ut => ut.UserID == userId && ut.CardID == cardId);
+		}		
 
 		public void Initialize(string dbPath)
 		{
