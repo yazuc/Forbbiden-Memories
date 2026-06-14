@@ -10,5 +10,6 @@ public enum GuardianStar
     Sun = 7,
     Moon = 8,
     Venus = 9,
+    Undefined = 10
     
 }

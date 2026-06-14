@@ -54,10 +54,12 @@ public partial class DeckEditor : Control
 
     public override void _UnhandledInput(InputEvent @event)
     {
-		// var index = textureButtons.IndexOf(textureButtons.FirstOrDefault(x => x.HasFocus()));			
 		
 		// if (@event.IsActionPressed("ui_lb"))
 		// {			
+		// 	textureButtons = GetTree().GetNodesInGroup("button").Cast<TextureButton>().ToList();	
+		// 	textureButtons[0].GrabFocus();
+		// 	var index = textureButtons.IndexOf(textureButtons.FirstOrDefault(x => x.HasFocus()));			
 		// 	if(index <= 0) index = textureButtons.Count;		
 		// 	textureButtons[index - 1].GrabFocus(); 
 		// 	Filter((TipoFiltro)index - 1);
@@ -65,6 +67,9 @@ public partial class DeckEditor : Control
 		// }
 		// if (@event.IsActionPressed("ui_rb"))
 		// {
+		// 	textureButtons = GetTree().GetNodesInGroup("button").Cast<TextureButton>().ToList();	
+		// 	textureButtons[0].GrabFocus();
+		// 	var index = textureButtons.IndexOf(textureButtons.FirstOrDefault(x => x.HasFocus()));		
 		// 	if(index >= textureButtons.Count - 1) index = -1;			
 		// 	textureButtons[index + 1].GrabFocus(); 
 		// 	Filter((TipoFiltro)index + 1);

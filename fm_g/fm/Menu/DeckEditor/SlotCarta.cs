@@ -49,7 +49,7 @@ namespace fm
 			{
 				TrunkNumber.Text = 
 				(GlobalUsings.Instance.db.GetUserTrunk(GlobalUsings.Instance.UserDeck, item.Id)?.Quantity - GlobalUsings.Instance.Deck.Cards.Count(x => x.Id == item.Id)).ToString() ?? "0";
-				InDeckNumber.Text = GlobalUsings.Instance.Deck.Cards.Count(x => x.Id == item.Id).ToString() ?? "0";
+				InDeckNumber.Text = GlobalUsings.Instance.Deck.Cards.Count(x => x.Id == item.Id).ToString() ?? "";
 				DeckNumber.Visible = false;								
 			}
 			if(DeckBuild == DeckBuildEnum.Deck)
@@ -68,9 +68,19 @@ namespace fm
 			this.item = item;
 			this.index = index;		
 
+				
 			string stats =  "[ " + item.Attack.ToString() + "\n" + "\\ " + item.Defense.ToString();
-			if(item.Type == CardTypeEnum.Spell || item.Type == CardTypeEnum.Trap || item.Type == CardTypeEnum.Ritual || item.Type == CardTypeEnum.Equipment)
+			if(TrunkNumber.Text == "")
+			{
 				stats = "";
+				item.Name = "";
+				item.GuardianStarA = GuardianStar.Undefined;
+				item.GuardianStarB = GuardianStar.Undefined;
+				item.Type = CardTypeEnum.Indefinido;
+				
+			} 
+			if(item.Type == CardTypeEnum.Spell || item.Type == CardTypeEnum.Trap || item.Type == CardTypeEnum.Ritual || item.Type == CardTypeEnum.Equipment)
+				stats = "";				
 			FillLabel(
 				index.ToString(),
 				item.Id.ToString(),
@@ -110,6 +120,11 @@ namespace fm
 			}
 
 			Type.Texture = _typeCache[key];
+
+			if(cardType == CardTypeEnum.Indefinido)
+			{
+				Type.Visible = false;
+			}			
 		}
 
 

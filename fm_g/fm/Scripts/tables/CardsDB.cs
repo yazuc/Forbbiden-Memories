@@ -23,7 +23,7 @@ namespace fm
 			_database.CreateTable<User>();	
 			_database.CreateTable<UserDeck>();
 			_database.CreateTable<UserTrunk>();
-			_database.CreateTable<DropPool>();			
+			_database.CreateTable<DropPool>();		
 		}
 
 		public static CardDatabase Instance
@@ -51,6 +51,21 @@ namespace fm
 		{
 			return _database?.Table<UserTrunk>().FirstOrDefault(ut => ut.UserID == userId && ut.CardID == cardId);
 		}		
+
+		public static List<UserTrunk> InitializeUserTrunk(
+			string userId,
+			IEnumerable<UserDeck> deckCards)
+		{
+			return deckCards
+				.GroupBy(x => x.CardID)
+				.Select(g => new UserTrunk
+				{
+					UserID = userId,
+					CardID = g.Key,
+					Quantity = g.Count()
+				})
+				.ToList();
+		}
 
 		public void Initialize(string dbPath)
 		{
