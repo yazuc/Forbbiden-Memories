@@ -77,7 +77,20 @@ public partial class DeckEditor : Control
 		// 	if(index >= textureButtons.Count - 1) index = -1;			
 		// 	textureButtons[index + 1].GrabFocus(); 
 		// 	Filter((TipoFiltro)index + 1);
-		// }				
+		// }		
+		if(@event.IsActionPressed("ui_accept"))
+		{
+			if(DeckBuild == DeckBuildEnum.Trunk)
+			{
+				GetCardInPos(DeckBuildEnum.Trunk);
+				GD.Print("add card from trunk to deck if less than 40 cards");
+			}
+			if(DeckBuild == DeckBuildEnum.Deck)
+			{
+				GetCardInPos(DeckBuildEnum.Deck);
+				GD.Print("remove card from deck to trunk");
+			}
+		}
 		if(@event.IsActionPressed("ui_down"))
 		{
 			if(opt < decklist.GetChildren().OfType<SlotCarta>().Count(x => x.Visible) - 1)
@@ -138,6 +151,7 @@ public partial class DeckEditor : Control
 		{
 			HideSlotInGroup(DeckBuildEnum.Deck.ToString(), false);			
 			HideSlotInGroup(DeckBuildEnum.Trunk.ToString(), true);
+			slotCartas = slotCartas.OrderBy(x => x.DeckBuild == DeckBuildEnum.Trunk).ToList();
 			return;
 		}
 
@@ -157,6 +171,7 @@ public partial class DeckEditor : Control
 				i++;				
 			}
 		}	
+		slotCartas = slotCartas.OrderBy(x => x.DeckBuild == DeckBuildEnum.Trunk).ToList();
 		SetupDone = true;
 	}
 
@@ -166,6 +181,7 @@ public partial class DeckEditor : Control
 		{
 			HideSlotInGroup(DeckBuildEnum.Deck.ToString(), true);
 			HideSlotInGroup(DeckBuildEnum.Trunk.ToString(), false);
+			slotCartas = slotCartas.OrderBy(x => x.DeckBuild == DeckBuildEnum.Deck).ToList();
 			return;
 		}
 
@@ -186,8 +202,18 @@ public partial class DeckEditor : Control
 			}
 		}	
 		SetupDoneDeck = true;	
+		slotCartas = slotCartas.OrderBy(x => x.DeckBuild == DeckBuildEnum.Deck).ToList();
 		HideSlotInGroup(DeckBuildEnum.Deck.ToString(), true);
 		HideSlotInGroup(DeckBuildEnum.Trunk.ToString(), false);
+	}
+
+	public string GetCardInPos(DeckBuildEnum deckBuild)
+	{
+		slotCartas = slotCartas.OrderByDescending(x => x.DeckBuild == deckBuild).ToList();
+		var slot = slotCartas[opt];
+		var CardName = slot.CardName.Text;
+		GD.Print(CardName);
+		return CardName ?? "";
 	}
 
 	public void HideSlotInGroup(string group, bool visible = false)
