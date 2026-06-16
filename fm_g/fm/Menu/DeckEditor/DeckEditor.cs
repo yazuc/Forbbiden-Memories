@@ -8,7 +8,7 @@ public partial class DeckEditor : Control
 	[Export] public Panel selector;
 	[Export] public ScrollContainer scroll;    	
 	public DeckBuildEnum DeckBuild {get;set;} = DeckBuildEnum.Trunk;
-	public int j = 0;	
+	public int j = 0, k = 0, opt = 0;	
 	public bool once = false, SetupDone = false, SetupDoneDeck = false;
 	[Export] public Godot.VBoxContainer decklist;	
 	private List<SlotCarta> slotCartas = new List<SlotCarta>();
@@ -26,7 +26,7 @@ public partial class DeckEditor : Control
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{				
-		MoveSelector(j);		
+		MoveSelector(opt);		
 	}
 	public override async void _Input(InputEvent @event)
 	{
@@ -34,12 +34,16 @@ public partial class DeckEditor : Control
 		{
 			if (@event.IsActionPressed("ui_right"))
 			{
+				j = opt;
+				opt = k;
 				GD.Print("called");				
 				DeckBuild = DeckBuildEnum.Deck;
 				SetupDeck();	
 			}
 			if (@event.IsActionPressed("ui_left"))
-			{
+			{			
+				k = opt;
+				opt = j;
 				GD.Print("called left");				
 				DeckBuild = DeckBuildEnum.Trunk;
 				SetupTrunk();
@@ -73,17 +77,18 @@ public partial class DeckEditor : Control
 		// 	if(index >= textureButtons.Count - 1) index = -1;			
 		// 	textureButtons[index + 1].GrabFocus(); 
 		// 	Filter((TipoFiltro)index + 1);
-		// }		
-        if(@event.IsActionPressed("ui_down"))
+		// }				
+		if(@event.IsActionPressed("ui_down"))
 		{
-			if(j < decklist.GetChildren().OfType<SlotCarta>().Count(x => x.Visible) - 1)
-				j++;				
+			if(opt < decklist.GetChildren().OfType<SlotCarta>().Count(x => x.Visible) - 1)
+				opt++;				
 		}
 		if (@event.IsActionPressed("ui_up"))
 		{
-			if(j > 0)
-				j--;							
-		}
+			if(opt > 0)
+				opt--;							
+		}			
+	
     }
 
 	public void Filter(TipoFiltro tipo)

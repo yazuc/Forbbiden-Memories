@@ -47,9 +47,11 @@ namespace fm
 			var DeckNumber = GetNode<ColorRect>("DeckNumber");
 			if(DeckBuild == DeckBuildEnum.Trunk)
 			{
+				var QtdTrunk = GlobalUsings.Instance.db.GetUserTrunk(GlobalUsings.Instance.UserDeck, item.Id)?.Quantity;
+				var QtdDeck = GlobalUsings.Instance.Deck.Cards.Count(x => x.Id == item.Id);
 				TrunkNumber.Text = 
-				(GlobalUsings.Instance.db.GetUserTrunk(GlobalUsings.Instance.UserDeck, item.Id)?.Quantity - GlobalUsings.Instance.Deck.Cards.Count(x => x.Id == item.Id)).ToString() ?? "0";
-				InDeckNumber.Text = GlobalUsings.Instance.Deck.Cards.Count(x => x.Id == item.Id).ToString() ?? "";
+				(QtdTrunk - QtdDeck).ToString() ?? "0";
+				InDeckNumber.Text = QtdTrunk > 0 ? QtdDeck.ToString() : "";
 				DeckNumber.Visible = false;								
 			}
 			if(DeckBuild == DeckBuildEnum.Deck)
