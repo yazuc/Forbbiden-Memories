@@ -34,11 +34,13 @@ namespace fm
 			index_deck = GlobalUsings.Instance.DeckIndex;
 			var db = GlobalUsings.Instance.db;
 			var deckIni = new Deck();
+			var Deck = new Deck();
+			Deck.LoadDeck(db.GetUserDeck(GlobalUsings.Instance.UserDeck));
 			deckIni.LoadDeck(db.GetDeckByNpcId(index_deck));
 			if (MaoVisual != null)
 			{				
 				gL = new GameLoop(
-					new Player("Alice", GlobalUsings.Instance.Deck.Cards, SlotsCampo, SlotsCampoST, LP_You, You, 8000), 
+					new Player("Alice", Deck.Cards, SlotsCampo, SlotsCampoST, LP_You, You, 8000), 
 					new Player("Bob", deckIni.Cards, SlotsCampoIni, SlotsCampoSTIni, LP_Com, Com, 100),
 					MaoVisual,
 					MaoInimigo,
