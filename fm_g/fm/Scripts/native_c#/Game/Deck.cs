@@ -28,19 +28,21 @@ namespace fm
 			}
 			else
 			{
-				Console.WriteLine("Deck is full. Cannot add more cards.");
+				GD.Print("Deck is full. Cannot add more cards.");
 			}
 		}
 
-		public void RemoveCard(Cards card)
+		public void RemoveCard(int ID)
 		{
-			if (Cards.Contains(card))
+			var card = Cards.FirstOrDefault(c => c.Id == ID);
+			if (card != null)
 			{
 				Cards.Remove(card);
+				GD.Print(Cards.Count);
 			}
 			else
 			{
-				Console.WriteLine("Card not found in deck.");
+				GD.Print("Card not found in deck.");
 			}
 		}
 

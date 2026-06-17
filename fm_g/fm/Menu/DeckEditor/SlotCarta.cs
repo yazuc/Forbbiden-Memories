@@ -56,15 +56,7 @@ namespace fm
 			}
 			if(DeckBuild == DeckBuildEnum.Deck)
 			{
-				DeckNumber.Visible = true;	
-				// var nodes = GetTree().GetNodesInGroup("Trunk").Cast<ColorRect>().ToList();
-				// if(nodes != null && nodes.Count > 0)
-				// {
-				// 	foreach (var node in nodes)
-				// 	{
-				// 		node.Visible = false;
-				// 	}					
-				// }				
+				DeckNumber.Visible = true;				
 			}
 
 			this.item = item;
@@ -92,6 +84,32 @@ namespace fm
 				item.GuardianStarA,
 				item.GuardianStarB
 			);
+		}
+
+		public void FillEmpty()
+		{
+			FillLabel(
+				"",
+				"",
+				"",
+				"",
+				CardTypeEnum.Indefinido,
+				GuardianStar.Undefined,
+				GuardianStar.Undefined
+			);
+		}
+
+		public void UpdateNumbers()
+		{
+			if(DeckBuild == DeckBuildEnum.Trunk)
+			{
+				var QtdTrunk = GlobalUsings.Instance.db.GetUserTrunk(GlobalUsings.Instance.UserDeck, item.Id)?.Quantity;
+				var QtdDeck = GlobalUsings.Instance.Deck.Cards.Count(x => x.Id == item.Id);
+				TrunkNumber.Text = 
+				(QtdTrunk - QtdDeck).ToString() ?? "0";
+				InDeckNumber.Text = QtdTrunk > 0 ? QtdDeck.ToString() : "";
+				DeckNumber.Visible = false;								
+			}
 		}
 
 		public void FillLabel(string DeckNumber, string CardNumber, string CardName, string CardStats, CardTypeEnum CardType, GuardianStar CardSign, GuardianStar CardSign2)

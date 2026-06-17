@@ -52,6 +52,11 @@ namespace fm
 			return _database?.Table<UserTrunk>().FirstOrDefault(ut => ut.UserID == userId && ut.CardID == cardId);
 		}		
 
+		public List<UserTrunk> GetUserTrunk(string userId)
+		{
+			return _database.Table<UserTrunk>().Where(ut => ut.UserID == userId).ToList();
+		}	
+
 		//Método a ser utilizado em conjunto com o método que gera o deck aleatório
 		//A ideia é forçar a criação do trunk junto com  o deck.
 		public static List<UserTrunk> InitializeUserTrunk(

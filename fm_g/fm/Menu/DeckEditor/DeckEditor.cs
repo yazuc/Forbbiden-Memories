@@ -78,16 +78,17 @@ public partial class DeckEditor : Control
 		// 	textureButtons[index + 1].GrabFocus(); 
 		// 	Filter((TipoFiltro)index + 1);
 		// }		
-		if(@event.IsActionPressed("ui_accept"))
+		if(@event.IsActionReleased("ui_accept"))
 		{
 			if(DeckBuild == DeckBuildEnum.Trunk)
 			{
-				GetCardInPos(DeckBuildEnum.Trunk);
+				GlobalUsings.Instance.Deck.AddCard(GlobalUsings.Instance.db.GetCardById(GetCardInPos(DeckBuildEnum.Trunk)));
+				UpdateNumber(DeckBuildEnum.Trunk);
 				GD.Print("add card from trunk to deck if less than 40 cards");
 			}
 			if(DeckBuild == DeckBuildEnum.Deck)
 			{
-				GetCardInPos(DeckBuildEnum.Deck);
+				GlobalUsings.Instance.Deck.RemoveCard(GetCardInPos(DeckBuildEnum.Deck));
 				GD.Print("remove card from deck to trunk");
 			}
 		}
@@ -107,7 +108,9 @@ public partial class DeckEditor : Control
 	public void Filter(TipoFiltro tipo)
 	{
 		if(tipo == TipoFiltro.Numero)
-			slotCartas = slotCartas.OrderBy(x => x.item.Id).ToList();					
+			slotCartas = slotCartas.OrderBy(x => x.item.Id).ToList();		
+		if(tipo == TipoFiltro.NumeroSlot)
+			slotCartas = slotCartas.OrderBy(x => int.Parse(x.DeckNumber.Text)).ToList();	
 		if(tipo == TipoFiltro.Monstro)
 			slotCartas = slotCartas.OrderByDescending(x => !x.item.IsSpellTrap()).ToList();
 		if(tipo == TipoFiltro.Ataque)
@@ -206,14 +209,81 @@ public partial class DeckEditor : Control
 		HideSlotInGroup(DeckBuildEnum.Deck.ToString(), true);
 		HideSlotInGroup(DeckBuildEnum.Trunk.ToString(), false);
 	}
-
-	public string GetCardInPos(DeckBuildEnum deckBuild)
+	public void UpdateNumber(DeckBuildEnum deckBuild)
 	{
+
 		slotCartas = slotCartas.OrderByDescending(x => x.DeckBuild == deckBuild).ToList();
 		var slot = slotCartas[opt];
-		var CardName = slot.CardName.Text;
-		GD.Print(CardName);
-		return CardName ?? "";
+		slot.UpdateNumbers();
+	}
+
+	public int GetCardInPos(DeckBuildEnum deckBuild)
+	{
+
+		slotCartas = slotCartas.OrderByDescending(x => x.DeckBuild == deckBuild).ToList();
+		var slot = slotCartas[opt];
+		if(slot == null || slot.CardNumber.Text == "")
+		{
+			return 0;
+		}
+		string CardName = slot.CardNumber.Text;
+		var cardID = CardName != null ? int.Parse(CardName) : 0; 
+		if(deckBuild == DeckBuildEnum.Trunk)
+		{
+			AddCarta(slot);
+		}
+		if(deckBuild == DeckBuildEnum.Deck)
+		{
+			RemoveCarta(slot);
+		}
+		
+		GD.Print(cardID);
+		return cardID;
+	}
+
+	public void AddCarta(SlotCarta slot)
+	{		
+		var deckSlot = slotCartas.FirstOrDefault(x => x.DeckBuild == DeckBuildEnum.Deck && x.CardNumber.Text == "");	
+		if(deckSlot != null)
+		{
+			deckSlot.FillLabel(
+				deckSlot.DeckNumber.Text,
+				slot.CardNumber.Text,
+				slot.CardName.Text,
+				slot.CardStats.Text,
+				slot.item.Type,
+				slot.item.GuardianStarA,
+				slot.item.GuardianStarB				
+			);
+			deckSlot.DeckBuild = DeckBuildEnum.Deck;
+			slotCartas.Add(deckSlot);
+		}
+				
+		UpdateVisualDeck(DeckBuildEnum.Deck);
+	}
+
+	public void RemoveCarta(SlotCarta slot)
+	{				
+
+		slot.FillEmpty();	
+		slotCartas.RemoveAt(opt);
+		slotCartas.Add(slot);			
+		UpdateVisualDeck(DeckBuildEnum.Deck);
+	}
+
+	public void UpdateVisualDeck(DeckBuildEnum deckBuild)
+	{
+		var targetIndices = decklist.GetChildren()
+			.OfType<SlotCarta>()
+			.Select((slot, index) => new { slot, index })
+			.Where(x => x.slot.DeckBuild == deckBuild)
+			.Select(x => x.index)
+			.ToList();
+
+		for (int i = 0; i < targetIndices.Count; i++)
+		{
+			decklist.MoveChild(slotCartas[i], i);
+		}	
 	}
 
 	public void HideSlotInGroup(string group, bool visible = false)
@@ -222,11 +292,6 @@ public partial class DeckEditor : Control
 			GetTree().CallGroup(group, "hide");
 		if(visible)
 			GetTree().CallGroup(group, "show");
-		// var nodes = GetTree().GetNodesInGroup(group).Cast<Control>().ToList();
-		// foreach (var node in nodes)
-		// {
-		// 	node.Visible = visible;
-		// }
 	}
 
 	public void MoveSelector(int index)
@@ -244,7 +309,6 @@ public partial class DeckEditor : Control
 		}
 		
 		scroll.EnsureControlVisible(slot);
-		//scroll.ScrollVertical = (int)slot.Position.Y;
 		slot.ForceUpdateTransform();
 
 		var rect = slot.GetGlobalRect();			

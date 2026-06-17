@@ -27,6 +27,7 @@ public partial class GlobalUsings : Node
 	public string UserDeck =  "d002";
 	public ActiveScene activeScene;	
 	public Deck Deck = new Deck();
+	public List<UserTrunk> UserTrunk = new List<UserTrunk>();
 	public List<string> Dialogue = new List<string>();
 	public CardDatabase db = CardDatabase.Instance;
 	public DialogicSingleton dialogic;
@@ -40,6 +41,7 @@ public partial class GlobalUsings : Node
 		Instance = this;
 		dialogic = new DialogicSingleton();
     	AddChild(dialogic);
+		UserTrunk = db.GetUserTrunk(UserDeck);
 		DeckIndex = 1;
 		#if DEBUG
 			UserDeck = "d002";

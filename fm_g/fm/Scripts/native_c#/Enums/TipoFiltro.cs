@@ -6,5 +6,6 @@ public enum TipoFiltro
     Ataque,
     Defesa,
     Tipo,
-    Novo
+    Novo,
+    NumeroSlot
 }
