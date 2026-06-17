@@ -35,7 +35,7 @@ namespace fm
 			var db = GlobalUsings.Instance.db;
 			var deckIni = new Deck();
 			var Deck = new Deck();
-			Deck.LoadDeck(db.GetUserDeck(GlobalUsings.Instance.UserDeck));
+			Deck.LoadDeck(GlobalUsings.Instance.Deck.Cards);
 			deckIni.LoadDeck(db.GetDeckByNpcId(index_deck));
 			if (MaoVisual != null)
 			{				
