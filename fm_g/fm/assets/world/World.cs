@@ -130,7 +130,6 @@ public partial class World : Node3D
 			Visible = false;
 			GlobalUsings.Instance.activeScene = ActiveScene.Duel;
 			GlobalUsings.Instance.IniciarDialogoNoMundo("res://Resources/timelines/dueling_grounds/dueling_grounds_1.dtl");
-			GlobalUsings.Instance.currentBackGround = 1;			
 			return;
 		}		
 		if(markerName == "DarkShrine")
@@ -139,7 +138,6 @@ public partial class World : Node3D
 			Visible = false;
 			GlobalUsings.Instance.activeScene = ActiveScene.World;
 			GlobalUsings.Instance.IniciarDialogoNoMundo("res://Resources/timelines/city_plaza/city_plaza_empty.dtl");
-			GlobalUsings.Instance.currentBackGround = 34;			
 		}
 		if(markerName == "CardShop")
 		{
@@ -147,7 +145,6 @@ public partial class World : Node3D
 			Visible = false;
 			GlobalUsings.Instance.activeScene = ActiveScene.MainMenu;
 			GlobalUsings.Instance.IniciarDialogoNoMundo("res://Resources/timelines/card_shop/card_shop.dtl");
-			GlobalUsings.Instance.currentBackGround = 3;			
 		}
 		if(markerName == "Tower")
 		{
@@ -155,7 +152,6 @@ public partial class World : Node3D
 			Visible = false;
 			GlobalUsings.Instance.activeScene = ActiveScene.World;
 			GlobalUsings.Instance.IniciarDialogoNoMundo("res://Resources/timelines/tower/shrine_empty.dtl");
-			GlobalUsings.Instance.currentBackGround = 2;
 		}
 		if(markerName == "Pharaoh")
 		{
@@ -165,7 +161,6 @@ public partial class World : Node3D
 			PlaceName.Visible = false;
 			GlobalUsings.Instance.activeScene = ActiveScene.Duel;
 			GlobalUsings.Instance.IniciarDialogoNoMundo("res://Resources/timelines/prince_castle/prince_01.dtl");
-			GlobalUsings.Instance.currentBackGround = 0;
 		}
 	}
 }

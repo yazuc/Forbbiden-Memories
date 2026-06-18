@@ -108,6 +108,7 @@ namespace fm
 				TrunkNumber.Text = 
 				(QtdTrunk - QtdDeck).ToString() ?? "0";
 				InDeckNumber.Text = QtdTrunk > 0 ? QtdDeck.ToString() : "";
+				//InDeckNumber.LabelSettings.FontColor = QtdDeck == 3 ? new Color(Colors.Red) : new Color(Colors.White);				
 				DeckNumber.Visible = false;								
 			}
 		}

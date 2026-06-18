@@ -14,8 +14,6 @@ public partial class GlobalUsings : Node
 	public int DeckIndex = 0;
 	public int BoardIndex = 0;
 	public int currentNpc = 0;
-	public int currentBackGround;	
-	public string LastLocation = "Mundo";
 	public string Mundo = "res://world.tscn";
 	public string Duelo = "res://Scenes/game.tscn";
 	public string Story = "res://Menu/Story/Story_Control.tscn";
@@ -80,9 +78,7 @@ public partial class GlobalUsings : Node
 	}
 
 	public void SceneTransition(string path, Node from = null, bool dialogic = false)
-	{		
-		var current = GetTree().CurrentScene;
-		
+	{				
 		var scene = GD.Load<PackedScene>(path);
 		Control? storyControl = GetNodeOrNull<Control>("../StoryUI");
 		Node? instance = storyControl;
