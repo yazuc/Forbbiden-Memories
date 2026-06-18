@@ -211,7 +211,6 @@ public partial class DeckEditor : Control
 	}
 	public void UpdateNumber(DeckBuildEnum deckBuild)
 	{
-
 		slotCartas = slotCartas.OrderByDescending(x => x.DeckBuild == deckBuild).ToList();
 		var slot = slotCartas[opt];
 		slot.UpdateNumbers();
@@ -256,7 +255,8 @@ public partial class DeckEditor : Control
 				slot.item.GuardianStarB				
 			);
 			deckSlot.DeckBuild = DeckBuildEnum.Deck;
-			slotCartas.Add(deckSlot);
+			//slotCartas.Add(deckSlot);
+			GD.Print(slotCartas.Count(x => x.DeckBuild == DeckBuildEnum.Deck));			
 		}
 				
 		UpdateVisualDeck(DeckBuildEnum.Deck);
@@ -282,6 +282,8 @@ public partial class DeckEditor : Control
 
 		for (int i = 0; i < targetIndices.Count; i++)
 		{
+			if(slotCartas[i].CardName.Text != string.Empty)
+				slotCartas[i].DeckNumber.Text = (i + 1).ToString();
 			decklist.MoveChild(slotCartas[i], i);
 		}	
 	}
