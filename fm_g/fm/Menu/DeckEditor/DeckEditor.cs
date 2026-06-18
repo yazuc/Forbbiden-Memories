@@ -82,8 +82,12 @@ public partial class DeckEditor : Control
 		{
 			if(DeckBuild == DeckBuildEnum.Trunk)
 			{
-				GlobalUsings.Instance.Deck.AddCard(GlobalUsings.Instance.db.GetCardById(GetCardInPos(DeckBuildEnum.Trunk)));
-				UpdateNumber(DeckBuildEnum.Trunk);
+				var cardId = GetCardInPos(DeckBuildEnum.Trunk);
+				if (CardAmountInDeck(cardId) && cardId != 0)
+				{
+					GlobalUsings.Instance.Deck.AddCard(GlobalUsings.Instance.db.GetCardById(cardId));
+					UpdateNumber(DeckBuildEnum.Trunk);					
+				}
 				GD.Print("add card from trunk to deck if less than 40 cards");
 			}
 			if(DeckBuild == DeckBuildEnum.Deck)
@@ -155,6 +159,7 @@ public partial class DeckEditor : Control
 			HideSlotInGroup(DeckBuildEnum.Deck.ToString(), false);			
 			HideSlotInGroup(DeckBuildEnum.Trunk.ToString(), true);
 			slotCartas = slotCartas.OrderBy(x => x.DeckBuild == DeckBuildEnum.Trunk).ToList();
+			UpdateVisualDeck(DeckBuildEnum.Trunk);
 			return;
 		}
 
@@ -185,6 +190,7 @@ public partial class DeckEditor : Control
 			HideSlotInGroup(DeckBuildEnum.Deck.ToString(), true);
 			HideSlotInGroup(DeckBuildEnum.Trunk.ToString(), false);
 			slotCartas = slotCartas.OrderBy(x => x.DeckBuild == DeckBuildEnum.Deck).ToList();
+			UpdateVisualDeck(DeckBuildEnum.Deck);
 			return;
 		}
 
@@ -229,6 +235,7 @@ public partial class DeckEditor : Control
 		var cardID = CardName != null ? int.Parse(CardName) : 0; 
 		if(deckBuild == DeckBuildEnum.Trunk)
 		{
+			GD.Print(slot.DeckBuild);
 			AddCarta(slot);
 		}
 		if(deckBuild == DeckBuildEnum.Deck)
@@ -242,33 +249,46 @@ public partial class DeckEditor : Control
 
 	public void AddCarta(SlotCarta slot)
 	{		
-		var deckSlot = slotCartas.FirstOrDefault(x => x.DeckBuild == DeckBuildEnum.Deck && x.CardNumber.Text == "");	
-		if(deckSlot != null)
+		if(slot.CardName.Text != string.Empty)
 		{
-			deckSlot.FillLabel(
-				deckSlot.DeckNumber.Text,
-				slot.CardNumber.Text,
-				slot.CardName.Text,
-				slot.CardStats.Text,
-				slot.item.Type,
-				slot.item.GuardianStarA,
-				slot.item.GuardianStarB				
-			);
-			deckSlot.DeckBuild = DeckBuildEnum.Deck;
-			//slotCartas.Add(deckSlot);
-			GD.Print(slotCartas.Count(x => x.DeckBuild == DeckBuildEnum.Deck));			
+			if (CardAmountInDeck(slot.item.Id))
+			{				
+				var deckSlot = slotCartas.FirstOrDefault(x => x.DeckBuild == DeckBuildEnum.Deck && x.CardNumber.Text == "");	
+				if(deckSlot != null)
+				{
+					deckSlot.FillLabel(
+						deckSlot.DeckNumber.Text,
+						slot.CardNumber.Text,
+						slot.CardName.Text,
+						slot.CardStats.Text,
+						slot.item.Type,
+						slot.item.GuardianStarA,
+						slot.item.GuardianStarB				
+					);
+					deckSlot.DeckBuild = DeckBuildEnum.Deck;
+					//slotCartas.Add(deckSlot);
+					GD.Print(slotCartas.Count(x => x.DeckBuild == DeckBuildEnum.Deck));			
+				}
+						
+				UpdateVisualDeck(DeckBuildEnum.Trunk);
+			}
 		}
-				
-		UpdateVisualDeck(DeckBuildEnum.Deck);
 	}
 
 	public void RemoveCarta(SlotCarta slot)
 	{				
-
 		slot.FillEmpty();	
 		slotCartas.RemoveAt(opt);
 		slotCartas.Add(slot);			
 		UpdateVisualDeck(DeckBuildEnum.Deck);
+		UpdateVisualDeck(DeckBuildEnum.Trunk);
+	}
+
+	public bool CardAmountInDeck(int cardId)
+	{
+		int countInDeck = GlobalUsings.Instance.Deck.Cards.Count(x => x.Id == cardId);	
+		int countInTrunk = GlobalUsings.Instance.db.GetUserTrunk(GlobalUsings.Instance.UserDeck, cardId)?.Quantity ?? 0;		
+		return countInDeck < 3 && countInTrunk > 0 && countInTrunk - countInDeck > 0;
 	}
 
 	public void UpdateVisualDeck(DeckBuildEnum deckBuild)
@@ -279,12 +299,21 @@ public partial class DeckEditor : Control
 			.Where(x => x.slot.DeckBuild == deckBuild)
 			.Select(x => x.index)
 			.ToList();
+		var slotsDeckLista = slotCartas.Where(x => x.DeckBuild == deckBuild).ToList();
 
 		for (int i = 0; i < targetIndices.Count; i++)
 		{
-			if(slotCartas[i].CardName.Text != string.Empty)
-				slotCartas[i].DeckNumber.Text = (i + 1).ToString();
-			decklist.MoveChild(slotCartas[i], i);
+			if(deckBuild == DeckBuildEnum.Deck)
+			{				
+				if(slotsDeckLista[i].CardName.Text != string.Empty)
+					slotsDeckLista[i].DeckNumber.Text = (i + 1).ToString();
+				decklist.MoveChild(slotsDeckLista[i], i);
+			}
+			if(deckBuild == DeckBuildEnum.Trunk)
+			{
+				slotsDeckLista[i].UpdateNumbers();
+				decklist.MoveChild(slotsDeckLista[i], i);
+			}
 		}	
 	}
 
@@ -298,6 +327,7 @@ public partial class DeckEditor : Control
 
 	public void MoveSelector(int index)
 	{
+		GD.Print(index);
 		if (decklist.GetChildCount() == 0)
 			return;
 

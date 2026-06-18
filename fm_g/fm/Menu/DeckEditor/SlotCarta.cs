@@ -144,7 +144,11 @@ namespace fm
 			if(cardType == CardTypeEnum.Indefinido)
 			{
 				Type.Visible = false;
-			}			
+			}		
+			if(cardType != CardTypeEnum.Indefinido)
+			{
+				Type.Visible = true;
+			}
 		}
 
 
