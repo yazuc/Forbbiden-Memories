@@ -7,12 +7,15 @@ public partial class DeckEditor : Control
 {
 	[Export] public Panel selector;
 	[Export] public ScrollContainer scroll;    	
+	[Export] public Godot.Label CardsInDeck;
 	public DeckBuildEnum DeckBuild {get;set;} = DeckBuildEnum.Trunk;
 	public int j = 0, k = 0, opt = 0;	
 	public bool once = false, SetupDone = false, SetupDoneDeck = false;
 	[Export] public Godot.VBoxContainer decklist;	
 	private List<SlotCarta> slotCartas = new List<SlotCarta>();
 	public List<TextureButton> textureButtons;
+	private double inputCooldown = 0.0;
+private const double RepeatDelay = 0.15;
 	// Called when the node enters the scene tree for the first time.
 	public override  void _Ready()
 	{
@@ -25,7 +28,26 @@ public partial class DeckEditor : Control
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
-	{				
+	{
+		inputCooldown -= delta;
+
+		if (inputCooldown <= 0)
+		{
+			if (Input.IsActionPressed("ui_down"))
+			{
+				if (opt < decklist.GetChildren().OfType<SlotCarta>().Count(x => x.Visible) - 1)
+					opt++;
+
+				inputCooldown = RepeatDelay;
+			}
+			else if (Input.IsActionPressed("ui_up"))
+			{
+				if (opt > 0)
+					opt--;
+
+				inputCooldown = RepeatDelay;
+			}
+		}
 		MoveSelector(opt);		
 	}
 	public override async void _Input(InputEvent @event)
@@ -95,18 +117,8 @@ public partial class DeckEditor : Control
 				GlobalUsings.Instance.Deck.RemoveCard(GetCardInPos(DeckBuildEnum.Deck));
 				GD.Print("remove card from deck to trunk");
 			}
-		}
-		if(@event.IsActionPressed("ui_down"))
-		{
-			if(opt < decklist.GetChildren().OfType<SlotCarta>().Count(x => x.Visible) - 1)
-				opt++;				
-		}
-		if (@event.IsActionPressed("ui_up"))
-		{
-			if(opt > 0)
-				opt--;							
-		}			
-	
+			CardsInDeck.Text = GlobalUsings.Instance.Deck.Cards.Count.ToString();
+		}	
     }
 
 	public void Filter(TipoFiltro tipo)
@@ -327,7 +339,6 @@ public partial class DeckEditor : Control
 
 	public void MoveSelector(int index)
 	{
-		GD.Print(index);
 		if (decklist.GetChildCount() == 0)
 			return;
 
@@ -342,7 +353,6 @@ public partial class DeckEditor : Control
 		
 		scroll.EnsureControlVisible(slot);
 		slot.ForceUpdateTransform();
-
 		var rect = slot.GetGlobalRect();			
 		selector.GlobalPosition = rect.Position;
 		selector.Size = rect.Size;			

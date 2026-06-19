@@ -20,6 +20,11 @@ namespace fm
 			Cards = cards.OrderBy(_ => rng.Next()).Take(40).ToList(); // Shuffle and take up to 40
 		}
 
+		public List<int> GetCardIDs()
+		{
+			return Cards.Select(c => c.Id).ToList();
+		}
+
 		public void AddCard(Cards card)
 		{
 			if (Cards.Count < 40) // Assuming a max deck size of 40

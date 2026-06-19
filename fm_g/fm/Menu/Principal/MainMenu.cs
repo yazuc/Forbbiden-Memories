@@ -51,6 +51,8 @@ public partial class MainMenu : Control
 			return GlobalUsings.Instance.Deckeditor;
 		if(pos == 3)
 			return GlobalUsings.Instance.Password;
+		if(pos == 5)
+			return "Save";
 
 		return GlobalUsings.Instance.Duelo;
 	}

@@ -59,6 +59,11 @@ public partial class GlobalUsings : Node
 			IniciarDialogoNoMundo("res://Resources/timelines/introseq.dtl", obj);
 			return;
 		}
+		if(path == "Save")
+		{
+			db.UpdateUserDeck("d002", Deck.GetCardIDs());
+			return;
+		}
 		await ScreenTransition.Instance.FadeOut(0.5f);
 		SceneTransition(path, obj);
 		await ScreenTransition.Instance.FadeIn(0.5f);

@@ -69,7 +69,7 @@ region = Rect2(96, 0, 16, 16)
 atlas = SubResource("CompressedTexture2D_q074v")
 region = Rect2(96, 0, 16, 16)
 
-[node name="DeckEditor" type="Control" unique_id=1886919409 node_paths=PackedStringArray("selector", "scroll", "decklist")]
+[node name="DeckEditor" type="Control" unique_id=1886919409 node_paths=PackedStringArray("selector", "scroll", "CardsInDeck", "decklist")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -81,6 +81,7 @@ size_flags_vertical = 3
 script = ExtResource("1_flj88")
 selector = NodePath("Panel/CardSeletor")
 scroll = NodePath("Panel/VScrollBar")
+CardsInDeck = NodePath("Panel/CardsInDeck/Label2")
 decklist = NodePath("Panel/VScrollBar/VBoxContainer")
 metadata/_edit_use_anchors_ = true
 

@@ -104,6 +104,23 @@ namespace fm
 			}
 			return Deck;
 		}
+
+		public bool UpdateUserDeck(string DeckID, List<int> newCardIds)
+		{
+			var existingEntries = _database.Table<UserDeck>().Where(x => x.DeckID == DeckID).ToList();
+
+			// Remove old entries
+			foreach (var entry in existingEntries)
+			{
+				_database.Delete(entry);
+			}
+
+			// Add new entries
+			var newEntries = newCardIds.Select(cardId => new UserDeck { DeckID = DeckID, CardID = cardId }).ToList();
+			_database.InsertAll(newEntries);
+
+			return true;
+		}
 		public new List<Cards> GetDeckByNpcId(int id)
 		{
 			var list_card = _database?.Table<NpcDeck>().Where(c => c.NpcId == id).Take(40).Select(x => x.CardId).ToList();
