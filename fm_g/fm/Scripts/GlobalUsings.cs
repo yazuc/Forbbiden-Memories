@@ -61,7 +61,7 @@ public partial class GlobalUsings : Node
 		}
 		if(path == "Save")
 		{
-			db.UpdateUserDeck("d002", Deck.GetCardIDs());
+			db.UpdateUserDeck("d002", Deck.GetCardIDs(), UserTrunk);
 			return;
 		}
 		await ScreenTransition.Instance.FadeOut(0.5f);
@@ -282,6 +282,25 @@ public partial class GlobalUsings : Node
 			PrintTree(child, indent + "  ");
 		}
 	}
+
+	public void AddDrops(List<int> dropID)
+	{
+		UserTrunk.AddRange(
+			dropID
+				.GroupBy(id => id)
+				.Select(g => new UserTrunk
+				{
+					CardID = g.Key,
+					UserID = UserDeck,
+					Quantity = g.Count()
+				})
+		);
+	}
+
+	public UserTrunk? GetUserTrunk(string userId, int cardId)
+	{
+		return UserTrunk.FirstOrDefault(ut => ut.UserID == userId && ut.CardID == cardId);
+	}	
 
 
 	public async void GoBackOverworld(float tempo)

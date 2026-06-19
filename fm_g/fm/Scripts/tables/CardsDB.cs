@@ -105,10 +105,15 @@ namespace fm
 			return Deck;
 		}
 
-		public bool UpdateUserDeck(string DeckID, List<int> newCardIds)
+		public bool UpdateUserDeck(string DeckID, List<int> newCardIds, List<UserTrunk> userTrunks)
 		{
 			var existingEntries = _database.Table<UserDeck>().Where(x => x.DeckID == DeckID).ToList();
+			var existingTrunk = _database.Table<UserTrunk>().Where(x => x.UserID == DeckID).ToList();
 
+			foreach(var entry in existingTrunk)
+			{
+				_database.Delete(entry);
+			}
 			// Remove old entries
 			foreach (var entry in existingEntries)
 			{
@@ -118,6 +123,7 @@ namespace fm
 			// Add new entries
 			var newEntries = newCardIds.Select(cardId => new UserDeck { DeckID = DeckID, CardID = cardId }).ToList();
 			_database.InsertAll(newEntries);
+			_database.InsertAll(userTrunks);
 
 			return true;
 		}

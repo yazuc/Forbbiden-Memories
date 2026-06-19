@@ -91,7 +91,7 @@ namespace fm
 				var resultado = rankCalc.ResultSetter();
 				await MaoDoJogador.Tools.TransitionTo(CameraHand, 0.5f, MaoDoJogador._transitionCam, MaoDoJogador.STOP);
 				RotateCameraPivot180Slow();				
-				resultScreen.Setup(resultado, _gameState.Player1.Rank, _gameState.Player2.Rank, this);
+				resultScreen.Setup(resultado, _gameState.Player1.Rank, _gameState.Player2.Rank, this, GlobalUsings.Instance.DeckIndex);
 				resultScreen.Visible = true;
 				//await GlobalUsings.Instance.GoBack(from: this);	
 			}

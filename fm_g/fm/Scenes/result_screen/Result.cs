@@ -62,8 +62,11 @@ public partial class Result : Control
 		await GlobalUsings.Instance.GoBack(from: node.GetParent(), dialogic: !string.IsNullOrEmpty(dialogue));
 	}
 
-	public void Setup(RankEnum resultado, Rank rank, Rank rankEne, Node node)
+	public void Setup(RankEnum resultado, Rank rank, Rank rankEne, Node node, int index = 1)
 	{
+		#if DEBUG
+			resultado = RankEnum.SPOW;			
+		#endif
 		this.node = node;
 		var nodes = GetTree().GetNodesInGroup("label");
 		SetProcessInput(true);
@@ -80,9 +83,11 @@ public partial class Result : Control
 		List<DropPool> dropPool = new List<DropPool>();
 		for(int i = 1; i <= 15; i++)
 		{			
-			dropPool.Add(GlobalUsings.Instance.db.ScanDropPool(1, Converter(resultado)));
+			dropPool.Add(GlobalUsings.Instance.db.ScanDropPool(index, Converter(resultado)));
 		}
-		InstanciaMao(dropPool.Select(x => x.CardId).ToList());
+		var insta = dropPool.Select(x => x.CardId).ToList();
+		GlobalUsings.Instance.AddDrops(insta);
+		InstanciaMao(insta);
 	}
 
 	public void InstanciaMao(List<int> CartasNaMaoLocal)

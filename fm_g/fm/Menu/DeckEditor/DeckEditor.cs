@@ -8,6 +8,7 @@ public partial class DeckEditor : Control
 	[Export] public Panel selector;
 	[Export] public ScrollContainer scroll;    	
 	[Export] public Godot.Label CardsInDeck;
+	[Export] public Godot.Label TrunkCards;
 	public DeckBuildEnum DeckBuild {get;set;} = DeckBuildEnum.Trunk;
 	public int j = 0, k = 0, opt = 0;	
 	public bool once = false, SetupDone = false, SetupDoneDeck = false;
@@ -22,6 +23,7 @@ private const double RepeatDelay = 0.15;
 		SetupTrunk();
 		HideSlotInGroup(DeckBuild.ToString(), true);
 		HideSlotInGroup(DeckBuildEnum.Deck.ToString(), false);
+		TrunkCards.Text = GlobalUsings.Instance.UserTrunk.Count.ToString();
 		// textureButtons = GetTree().GetNodesInGroup("button").Cast<TextureButton>().ToList();	
 		// textureButtons[0].GrabFocus();
 	}
@@ -119,6 +121,7 @@ private const double RepeatDelay = 0.15;
 				GD.Print("remove card from deck to trunk");
 			}
 			CardsInDeck.Text = GlobalUsings.Instance.Deck.Cards.Count.ToString();
+			TrunkCards.Text = GlobalUsings.Instance.UserTrunk.Count.ToString();
 		}	
     }
 
@@ -300,7 +303,7 @@ private const double RepeatDelay = 0.15;
 	public bool CardAmountInDeck(int cardId)
 	{
 		int countInDeck = GlobalUsings.Instance.Deck.Cards.Count(x => x.Id == cardId);	
-		int countInTrunk = GlobalUsings.Instance.db.GetUserTrunk(GlobalUsings.Instance.UserDeck, cardId)?.Quantity ?? 0;		
+		int countInTrunk = GlobalUsings.Instance.GetUserTrunk(GlobalUsings.Instance.UserDeck, cardId)?.Quantity ?? 0;		
 		return countInDeck < 3 && countInTrunk > 0 && countInTrunk - countInDeck > 0;
 	}
 

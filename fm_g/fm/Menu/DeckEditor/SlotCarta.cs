@@ -47,7 +47,7 @@ namespace fm
 			var DeckNumber = GetNode<ColorRect>("DeckNumber");
 			if(DeckBuild == DeckBuildEnum.Trunk)
 			{
-				var QtdTrunk = GlobalUsings.Instance.db.GetUserTrunk(GlobalUsings.Instance.UserDeck, item.Id)?.Quantity;
+				var QtdTrunk = GlobalUsings.Instance.GetUserTrunk(GlobalUsings.Instance.UserDeck, item.Id)?.Quantity;
 				var QtdDeck = GlobalUsings.Instance.Deck.Cards.Count(x => x.Id == item.Id);
 				TrunkNumber.Text = 
 				(QtdTrunk - QtdDeck).ToString() ?? "0";
@@ -103,7 +103,7 @@ namespace fm
 		{
 			if(DeckBuild == DeckBuildEnum.Trunk)
 			{
-				var QtdTrunk = GlobalUsings.Instance.db.GetUserTrunk(GlobalUsings.Instance.UserDeck, item.Id)?.Quantity;
+				var QtdTrunk = GlobalUsings.Instance.GetUserTrunk(GlobalUsings.Instance.UserDeck, item.Id)?.Quantity;
 				var QtdDeck = GlobalUsings.Instance.Deck.Cards.Count(x => x.Id == item.Id);
 				TrunkNumber.Text = 
 				(QtdTrunk - QtdDeck).ToString() ?? "0";

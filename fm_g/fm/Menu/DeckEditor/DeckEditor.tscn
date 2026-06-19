@@ -17,6 +17,7 @@ font_size = 23
 
 [sub_resource type="LabelSettings" id="LabelSettings_05k6i"]
 font = ExtResource("3_1mu7v")
+font_size = 23
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pbus5"]
 atlas = ExtResource("6_05k6i")
@@ -69,7 +70,7 @@ region = Rect2(96, 0, 16, 16)
 atlas = SubResource("CompressedTexture2D_q074v")
 region = Rect2(96, 0, 16, 16)
 
-[node name="DeckEditor" type="Control" unique_id=1886919409 node_paths=PackedStringArray("selector", "scroll", "CardsInDeck", "decklist")]
+[node name="DeckEditor" type="Control" unique_id=1886919409 node_paths=PackedStringArray("selector", "scroll", "CardsInDeck", "TrunkCards", "decklist")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -82,6 +83,7 @@ script = ExtResource("1_flj88")
 selector = NodePath("Panel/CardSeletor")
 scroll = NodePath("Panel/VScrollBar")
 CardsInDeck = NodePath("Panel/CardsInDeck/Label2")
+TrunkCards = NodePath("Panel/TrunkCards/Label")
 decklist = NodePath("Panel/VScrollBar/VBoxContainer")
 metadata/_edit_use_anchors_ = true
 
@@ -151,7 +153,6 @@ offset_right = 1.9582672
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.96000123, 1)
-text = "9999"
 label_settings = SubResource("LabelSettings_05k6i")
 vertical_alignment = 2
 metadata/_edit_use_anchors_ = true
