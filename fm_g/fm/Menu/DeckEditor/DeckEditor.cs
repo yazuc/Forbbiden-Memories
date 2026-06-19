@@ -74,7 +74,8 @@ private const double RepeatDelay = 0.15;
 		}
 		if (Input.IsActionJustReleased("ui_cancel"))
 		{
-			await GlobalUsings.Instance.GoBack();
+			if(GlobalUsings.Instance.Deck.Cards.Count() == 40)
+				await GlobalUsings.Instance.GoBack();
 		}
 	}
 
