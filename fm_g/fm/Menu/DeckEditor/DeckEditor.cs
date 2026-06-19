@@ -24,8 +24,8 @@ private const double RepeatDelay = 0.15;
 		HideSlotInGroup(DeckBuild.ToString(), true);
 		HideSlotInGroup(DeckBuildEnum.Deck.ToString(), false);
 		TrunkCards.Text = GlobalUsings.Instance.UserTrunk.Count.ToString();
-		// textureButtons = GetTree().GetNodesInGroup("button").Cast<TextureButton>().ToList();	
-		// textureButtons[0].GrabFocus();
+		textureButtons = GetTree().GetNodesInGroup("button").Cast<TextureButton>().ToList();	
+		textureButtons[0].GrabFocus();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -46,6 +46,20 @@ private const double RepeatDelay = 0.15;
 			{
 				if (opt > 0)
 					opt--;
+
+				inputCooldown = RepeatDelay;
+			}
+			if (Input.IsActionPressed("ui_lt"))
+			{
+				if (opt < decklist.GetChildren().OfType<SlotCarta>().Count(x => x.Visible) - 1)
+					opt += 10;
+
+				inputCooldown = RepeatDelay;
+			}
+			if (Input.IsActionPressed("ui_rt"))
+			{
+				if (opt > 0)
+					opt -= 10;
 
 				inputCooldown = RepeatDelay;
 			}
@@ -84,25 +98,24 @@ private const double RepeatDelay = 0.15;
     public override void _UnhandledInput(InputEvent @event)
     {
 		
-		// if (@event.IsActionPressed("ui_lb"))
-		// {			
-		// 	textureButtons = GetTree().GetNodesInGroup("button").Cast<TextureButton>().ToList();	
-		// 	textureButtons[0].GrabFocus();
-		// 	var index = textureButtons.IndexOf(textureButtons.FirstOrDefault(x => x.HasFocus()));			
-		// 	if(index <= 0) index = textureButtons.Count;		
-		// 	textureButtons[index - 1].GrabFocus(); 
-		// 	Filter((TipoFiltro)index - 1);
+		var index = textureButtons.IndexOf(textureButtons.FirstOrDefault(x => x.HasFocus()));		
+		if (@event.IsActionPressed("ui_lb"))
+		{			
+			textureButtons = GetTree().GetNodesInGroup("button").Cast<TextureButton>().ToList();	
+			textureButtons[0].GrabFocus();		
+			if(index <= 0) index = textureButtons.Count;		
+			textureButtons[index - 1].GrabFocus(); 
+			Filter((TipoFiltro)index - 1);
 
-		// }
-		// if (@event.IsActionPressed("ui_rb"))
-		// {
-		// 	textureButtons = GetTree().GetNodesInGroup("button").Cast<TextureButton>().ToList();	
-		// 	textureButtons[0].GrabFocus();
-		// 	var index = textureButtons.IndexOf(textureButtons.FirstOrDefault(x => x.HasFocus()));		
-		// 	if(index >= textureButtons.Count - 1) index = -1;			
-		// 	textureButtons[index + 1].GrabFocus(); 
-		// 	Filter((TipoFiltro)index + 1);
-		// }		
+		}
+		if (@event.IsActionPressed("ui_rb"))
+		{
+			textureButtons = GetTree().GetNodesInGroup("button").Cast<TextureButton>().ToList();	
+			textureButtons[0].GrabFocus();
+			if(index >= textureButtons.Count - 1) index = -1;			
+			textureButtons[index + 1].GrabFocus(); 
+			Filter((TipoFiltro)index + 1);
+		}		
 		if(@event.IsActionReleased("ui_accept"))
 		{
 			if(DeckBuild == DeckBuildEnum.Trunk)
@@ -127,6 +140,7 @@ private const double RepeatDelay = 0.15;
 
 	public void Filter(TipoFiltro tipo)
 	{
+
 		if(tipo == TipoFiltro.Numero)
 			slotCartas = slotCartas.OrderBy(x => x.item.Id).ToList();		
 		if(tipo == TipoFiltro.NumeroSlot)
@@ -146,6 +160,7 @@ private const double RepeatDelay = 0.15;
 		}
 		j = 0;
 		MoveSelector(j);
+		UpdateVisualDeck(DeckBuild);
 	}
 
 	public void Setup()
