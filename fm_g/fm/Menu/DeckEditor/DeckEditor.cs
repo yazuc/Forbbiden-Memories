@@ -16,7 +16,7 @@ public partial class DeckEditor : Control
 	public List<TextureButton> textureButtons;
 	private double inputCooldown = 0.0;
 private const double RepeatDelay = 0.15;
-	// Called when the node enters the scene tree for the first time.
+	// Called when the node enters the scene tree for the first time
 	public override  void _Ready()
 	{
 		SetupTrunk();
