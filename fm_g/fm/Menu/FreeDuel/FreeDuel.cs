@@ -21,10 +21,12 @@ public partial class FreeDuel : Control
 		{
 			GlobalUsings.Instance.DeckIndex = _currentIndex;
 			if(GlobalUsings.Instance.DeckIndex > 0)
-				await GlobalUsings.Instance.FadeToBlack(0.3f, GlobalUsings.Instance.Duelo, GetTree().CurrentScene);			
+			{
+				if(GlobalUsings.Instance.IsUnlocked(GlobalUsings.Instance.DeckIndex))
+					await GlobalUsings.Instance.FadeToBlack(0.3f, GlobalUsings.Instance.Duelo, GetTree().CurrentScene);										
+			}
 			else
 				await GlobalUsings.Instance.FadeToBlack(0.3f, GlobalUsings.Instance.Deckeditor, GetTree().CurrentScene);
-			//GetTree().ChangeSceneToFile("res://Scenes/game.tscn");
 		}
 		if (@event.IsActionReleased("ui_cancel"))
 		{

@@ -93,11 +93,16 @@ public partial class DialogicSingleton : Node
     }
 
     //unlocks tied to story progression, forr obvious reasons.
+    //a ideia ainda é alterar isso, fazer uma void function que consuma as variáveis do dialogic no meio da execução, pra evitar depender do dialogo estar finalizado
     public void CheckUnlocked()
     {
         int index = (int)GetVariable("Story.Unlock");
         GD.Print("Current Unlock Index: " + index);
-        SetVariable("Story.Unlock", 0);
+        if(index > 0)
+        {
+            GlobalUsings.Instance.EventsToSave.Add(new Event("Unlock", index.ToString(), GlobalUsings.Instance.UserDeck));
+        }
+        SetVariable("Story.Unlock", 0);            
     }
 
     public void PausaCena()

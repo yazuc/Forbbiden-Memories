@@ -32,7 +32,7 @@ namespace fm
 			//if (Input.IsActionJustPressed("ui_left"))  IrParaIndex(indexAtual - 1);
 		}
 
-		public void IrParaIndex(int novoIndex)
+		public void IrParaIndex(int novoIndex, bool show = false)
 		{
 			if (Texture is not AtlasTexture atlasTexture) return;
 				
@@ -54,7 +54,14 @@ namespace fm
 
 			Rect2 region = atlasTexture.Region;
 			region.Position = new Vector2(novoX, novoY);
-			atlasTexture.Region = region;
+			if (show)
+			{
+				atlasTexture.Region = region;
+			}
+			else
+			{
+				Texture = null;
+			}
 
 		}
 }

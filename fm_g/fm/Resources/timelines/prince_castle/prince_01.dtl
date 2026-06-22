@@ -17,5 +17,7 @@ simon: I'm sure you'll finde me a worthy opponent.
 	set {Dialogue} = "res://Resources/timelines/prince_castle/prince_02.dtl"
 	set {Label} = "SimonLost"
 	set {Story.DuelSimon} = true
+	set {Story.Unlock} = {DeckIndex}
+	do GlobalUsings.ProcUnlock()
 	jump IniciarDuelo/StartDuel
 - <Pass>

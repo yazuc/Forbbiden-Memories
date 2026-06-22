@@ -11,9 +11,11 @@ public partial class GridContainer : Godot.GridContainer
 		var scene = GD.Load<PackedScene>(scene1);
 		for(int i = 0; i < 40; i++)
 		{
+			var show = GlobalUsings.Instance.IsUnlocked(i);
+			show = i == 39 || i == 0 ? true : show;		
 			var cell = scene.Instantiate();
-			cell.Call("IrParaIndex", i);
-			AddChild(cell);
+			cell.Call("IrParaIndex", i, show);
+			AddChild(cell);				
 		}
 
 	}

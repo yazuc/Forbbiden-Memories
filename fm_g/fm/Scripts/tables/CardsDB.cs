@@ -24,6 +24,7 @@ namespace fm
 			_database.CreateTable<UserDeck>();
 			_database.CreateTable<UserTrunk>();
 			_database.CreateTable<DropPool>();		
+			_database.CreateTable<Event>();
 		}
 
 		public static CardDatabase Instance

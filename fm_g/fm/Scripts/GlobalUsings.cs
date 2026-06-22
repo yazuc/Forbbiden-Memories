@@ -25,8 +25,8 @@ public partial class GlobalUsings : Node
 	public string UserDeck =  "d002";
 	public ActiveScene activeScene;	
 	public Deck Deck = new Deck();
-	public List<UserTrunk> UserTrunk = new List<UserTrunk>();
-	public List<string> Dialogue = new List<string>();
+	public List<UserTrunk> UserTrunk = new List<UserTrunk>();	
+	public List<Event> EventsToSave = new List<Event>();
 	public CardDatabase db = CardDatabase.Instance;
 	public DialogicSingleton dialogic;
 	public bool stop = false;
@@ -144,7 +144,7 @@ public partial class GlobalUsings : Node
 
 		await ScreenTransition.Instance.FadeOut(0.5f);
 		var currentTree = GetTree();
-		var current = from != null ? from : currentTree.CurrentScene;
+		var current = currentTree.CurrentScene != null ? currentTree.CurrentScene : from != null ? from : currentTree.CurrentScene;
 
 		if (current != null)
 			current.QueueFree();
@@ -301,6 +301,19 @@ public partial class GlobalUsings : Node
 	{
 		return UserTrunk.FirstOrDefault(ut => ut.UserID == userId && ut.CardID == cardId);
 	}	
+
+	public void ProcUnlock()
+	{
+
+		dialogic.CheckUnlocked();
+		foreach(var item  in EventsToSave)
+		GD.Print(item.Name, item.Value);
+	}
+
+	public bool IsUnlocked(int i)
+	{
+		return GlobalUsings.Instance.EventsToSave.Count(x => x.Name == "Unlock" && x.Value == i.ToString()) > 0;
+	}
 
 
 	public async void GoBackOverworld(float tempo)
