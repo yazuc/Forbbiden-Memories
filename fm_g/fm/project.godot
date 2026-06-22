@@ -108,6 +108,7 @@ variables={
 "Story": {
 "DuelSeto1": false,
 "DuelSimon": false,
+"IntroSeq": false,
 "PlazaEvent": false,
 "Unlock": 0.0
 }

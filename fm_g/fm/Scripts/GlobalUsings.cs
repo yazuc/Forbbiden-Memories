@@ -132,7 +132,7 @@ public partial class GlobalUsings : Node
 			scene.SetProcessInput(true);
 			scene.SetProcessUnhandledInput(true);
 			scene.textureButtons[0].GrabFocus();		
-			_sceneStack = new();	
+			_sceneStack = new Stack<Node>();	
 		}
 	}
 
@@ -302,6 +302,11 @@ public partial class GlobalUsings : Node
 		return UserTrunk.FirstOrDefault(ut => ut.UserID == userId && ut.CardID == cardId);
 	}	
 
+	public void RegisterEvent(string Event)
+	{
+		EventsToSave.Add(new Event(Event, "1", UserDeck));
+	}
+
 	public void ProcUnlock()
 	{
 
@@ -312,7 +317,10 @@ public partial class GlobalUsings : Node
 
 	public bool IsUnlocked(int i)
 	{
-		return GlobalUsings.Instance.EventsToSave.Count(x => x.Name == "Unlock" && x.Value == i.ToString()) > 0;
+		if(EventsToSave != null)
+			return EventsToSave.Count(x => x.Name == "Unlock" && x.Value == i.ToString()) > 0;
+
+		return false;
 	}
 
 

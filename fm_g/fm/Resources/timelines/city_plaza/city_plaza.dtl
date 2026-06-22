@@ -1,6 +1,7 @@
 [style name="New_File"]
 [background arg="res://assets/background/Background_36_Pointer_F7_05_36_00_.png" fade="0.0" wait="true"]
 set {Story.PlazaEvent} = true
+do GlobalUsings.RegisterEvent("Story.PlazaEvent")
 join teana left [animation="Slide From Left" length="0.7" wait="true"]
 teana: Wow... there're lots of people around.
 teana: Look, the mages are about to start their procession...
@@ -52,6 +53,7 @@ jono: Yeah, Prince! Do it! Show him who's boss around here!
 - <Duel>
 	\seto: I hope you are better than the last one. Come! Let us duel.
 	set {Story.DuelSeto1} = true
+	do GlobalUsings.RegisterEvent("Story.DuelSeto1")
 	jump Continuation
 - <Pass>
 label Continuation

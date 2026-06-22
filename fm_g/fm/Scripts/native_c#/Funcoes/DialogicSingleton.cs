@@ -59,7 +59,7 @@ public partial class DialogicSingleton : Node
         }
         if(world != null && GlobalUsings.Instance.activeScene == ActiveScene.MainMenu)
         {
-            world.QueueFree();
+            world.Free();
             GD.Print("World freed after dialogue."); 
         }
         GD.Print("Conversation finished!");

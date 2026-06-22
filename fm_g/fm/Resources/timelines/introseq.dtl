@@ -1,5 +1,12 @@
+if {Story.IntroSeq} == true:
+	[background arg="#000000ff" fade="0.5" wait="true"]
+	set {ActiveScene} = 1.0
+	do GlobalUsings.GoBackOverworld(0.8)
+	[end_timeline]
 [style name="New_File"]
 [background arg="res://assets/background-story/Background_01_Pointer_F7_05_00_01_2_.png" fade="0.0"]
+set {Story.IntroSeq} = true
+do GlobalUsings.RegisterEvent("Story.IntroSeq")
 <Empty Text Event>
 [wait_input]
 [background arg="res://assets/background-story/Background_02_Pointer_F7_05_01_01_.png" fade="1.5" wait="true"]
