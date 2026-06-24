@@ -23,7 +23,7 @@ public partial class FreeDuel : Control
 			if(GlobalUsings.Instance.DeckIndex > 0)
 			{
 				if(GlobalUsings.Instance.IsUnlocked(GlobalUsings.Instance.DeckIndex))
-					await GlobalUsings.Instance.FadeToBlack(0.3f, GlobalUsings.Instance.Duelo, GetTree().CurrentScene);										
+					await GlobalUsings.Instance.FadeToBlack(0.3f, GlobalUsings.Instance.Duelo, this);										
 			}
 			else
 				await GlobalUsings.Instance.FadeToBlack(0.3f, GlobalUsings.Instance.Deckeditor, GetTree().CurrentScene);

@@ -316,7 +316,9 @@ public partial class GlobalUsings : Node
 	}
 
 	public bool IsUnlocked(int i)
-	{
+	{	
+		if(i == 39)
+			return true;
 		if(EventsToSave != null)
 			return EventsToSave.Count(x => x.Name == "Unlock" && x.Value == i.ToString()) > 0;
 

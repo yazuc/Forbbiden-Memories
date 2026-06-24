@@ -46,8 +46,7 @@ public partial class DialogicSingleton : Node
         {
             GlobalUsings.Instance.activeScene = (ActiveScene)activeScene;
             SetVariable("ActiveScene", -1);
-        }
-
+        }       
         if(world != null && GlobalUsings.Instance.activeScene == ActiveScene.World)
         {
             GD.Print("Timeline ended, resuming world.");
