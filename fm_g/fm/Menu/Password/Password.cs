@@ -5,6 +5,7 @@ public partial class Password : Control
 {
 	[Export] public LineEdit PasswordNumber {get;set;}
 	[Export] public CardUi cardUi {get;set;}
+	[Export] public Label Stars {get;set;}
 	private TextureRect _cursor;
 	private List<Label> _digits = new();
     private int _activeIndex = 0;
@@ -12,6 +13,9 @@ public partial class Password : Control
 	public override void _Ready()
 	{
 		_cursor = GetNode<TextureRect>("HBoxContainer/VBoxContainer2/TextureRect2/Selector");
+		cardUi.Display(0, true);
+		GD.Print(GlobalUsings.Instance.db.GetStars("d002"));
+		Stars.Text = GlobalUsings.Instance.Stars.ToString();
 		foreach (Node child in GetNode("HBoxContainer/VBoxContainer2/TextureRect2/HBoxContainer").GetChildren())
         {
             if (child is Label label)
@@ -109,6 +113,7 @@ public partial class Password : Control
 
 	public void ResetPassword()
 	{
+		cardUi.Display(0, true);
 		foreach(var item in _digits)
 			item.Text = "0";
 	}

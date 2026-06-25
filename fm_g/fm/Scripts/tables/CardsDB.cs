@@ -94,6 +94,8 @@ namespace fm
 		// Fetch a specific card by ID (Much faster than LINQ on a List)
 		public Cards? GetCardById(int id) => _database?.Table<Cards>().FirstOrDefault(c => c.Id == id);
 		public Cards? GetCardByCode(string Code) => _database?.Table<Cards>().FirstOrDefault(c => c.CardCode == Code);
+
+		public int? GetStars(string ID) => _database?.Table<User>().FirstOrDefault(x => x.DeckID == ID)?.Stars;
 		public List<Cards> GetUserDeck(string DeckID)
 		{
 			var cards = _database.Table<UserDeck>().Where(x => x.DeckID == DeckID).Select(i => i.CardID).ToList();
@@ -110,6 +112,13 @@ namespace fm
 		{
 			var existingEntries = _database.Table<UserDeck>().Where(x => x.DeckID == DeckID).ToList();
 			var existingTrunk = _database.Table<UserTrunk>().Where(x => x.UserID == DeckID).ToList();
+			var existingEvents = _database.Table<Event>().Where(x => x.UserID == DeckID).ToList();
+
+			var eventsToAdd = GlobalUsings.Instance.EventsToSave
+			.Where(e => !existingEvents.Any(x => x.Name == e.Name && x.Value == e.Value))
+			.ToList();
+
+			_database.InsertAll(eventsToAdd);
 
 			foreach(var entry in existingTrunk)
 			{
