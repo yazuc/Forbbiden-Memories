@@ -210,6 +210,7 @@ texture_focused = SubResource("AtlasTexture_3fs1e")
 stretch_mode = 0
 
 [node name="Library" type="TextureButton" parent="InsideMenu" unique_id=1955255360]
+visible = false
 custom_minimum_size = Vector2(375, 125)
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_bykt1")
