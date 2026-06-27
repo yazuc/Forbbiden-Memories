@@ -8,8 +8,8 @@ public partial class DialogicSingleton : Node
     {
         var tree = (SceneTree)Engine.GetMainLoop();
         var dialogic = tree.Root.GetNode("Dialogic");
-
-        dialogic.Connect("timeline_ended", new Callable(this, nameof(OnTimelineEnded)));
+        dialogic.Connect("timeline_ended", new Callable(this, nameof(OnTimelineEnded)));        
+        dialogic.Connect("ready", new Callable(this, nameof(LoadVariables)));    
     }
     public void StartConversation(string timelinepath)
     {
@@ -79,6 +79,14 @@ public partial class DialogicSingleton : Node
         // Use the 'set_variable' method
         // variablePath is the name you gave it in the Dialogic Editor
         varSubsystem.Call("set_variable", variablePath, value);
+    }
+
+    public void LoadVariables()
+    {
+        foreach(var item in GlobalUsings.Instance.EventsToSave.Where(x => x.Name != "Unlock"))
+        {
+            SetVariable(item.Name, true);
+        }        
     }
 
     public Variant GetVariable(string variablePath)

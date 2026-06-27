@@ -30,4 +30,4 @@ join commentator left [animation="Slide From Left"]
 commentator: All right then, ladies and gentleman! May the best man win! Let the duels begin!!!
 leave --All--
 [background arg="#000000ff" fade="0.5" wait="true"]
-[end_timeline]
+jump card_shop_tea/

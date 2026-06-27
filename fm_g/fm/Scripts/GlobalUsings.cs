@@ -38,6 +38,7 @@ public partial class GlobalUsings : Node
 	public override void _Ready()
 	{
 		Instance = this;
+		EventsToSave = db.LoadEvents(UserDeck);
 		dialogic = new DialogicSingleton();
     	AddChild(dialogic);
 		Stars = db.GetStars(UserDeck) ?? 0;
@@ -63,7 +64,7 @@ public partial class GlobalUsings : Node
 		}
 		if(path == "Save")
 		{
-			db.UpdateUserDeck("d002", Deck.GetCardIDs(), UserTrunk);
+			SaveGame();
 			return;
 		}
 		await ScreenTransition.Instance.FadeOut(0.5f);
@@ -122,6 +123,11 @@ public partial class GlobalUsings : Node
 		string Label = (string)dialogic.GetVariable("Label");
 		IniciarDialogoNaLabel(Local, Label);
 		
+	}
+
+	public void SaveGame()
+	{
+		db.UpdateUserDeck("d002", Deck.GetCardIDs(), UserTrunk);
 	}
 
 	public void ChangeSceneToMainMenu()

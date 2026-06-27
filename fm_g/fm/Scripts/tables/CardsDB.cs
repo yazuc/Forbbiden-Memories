@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using QuickType;
 using System.Security.Cryptography.X509Certificates;
+using System.Diagnostics.Tracing;
 
 namespace fm
 {
@@ -149,6 +150,11 @@ namespace fm
 				
 			}			
 		 	return cardsdeck;
+		}
+
+		public List<Event> LoadEvents(string UserID)
+		{
+			return _database.Table<Event>().Where(x => x.UserID ==  UserID).ToList();
 		}
 			
 		public void SyncEquipsJsonToDatabase(string jsonFilePath = "/mnt/Nvme/fm-db/equip.json")

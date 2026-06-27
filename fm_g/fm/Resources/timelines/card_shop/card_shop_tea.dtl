@@ -1,14 +1,19 @@
 [style name="New_File"]
-[background arg="res://assets/background/Background_04_Pointer_F7_05_04_00_.png" fade="0.0"]
-join card_shop rightmost [animation="Slide From Left"]
-card_shop: Hello there!
+[background arg="res://assets/background/Background_10_Pointer_F7_05_10_00_.png" fade="0.0"]
+join tea rightmost [animation="Slide From Left"]
+tea: Hi Yugi!
+tea: I'm working part-time at this card shop during the  tournament.
+tea: What do you want to do?
 [clear time="1.0" portraits="false" music="false" background="false" positions="false" style="false" node=""]
+label Menu
 - Save
 	do GlobalUsings.SaveGame()
 - Return to Title
 	jump GoTitle
 - Leave Shop
-	jump GoBack
+	tea: Good Luck!
+	leave --All-- [animation="Slide To Left" wait="true"]
+	jump Domino_Duels01/
 label GoBack
 leave --All--
 [background arg="#000000ff" fade="0.5" wait="true"]

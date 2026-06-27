@@ -1,0 +1,15 @@
+[style name="New_File"]
+[background arg="res://assets/background/Background_09_Pointer_F7_05_09_00_.png" fade="0.5" wait="true"]
+if {Story.DuelRex} == false:
+	commentator: Preliminary Match #1\
+	Yugi vs Rex Raptor!
+	join rex left [animation="Slide From Left" wait="true"]
+	rex: It's been awhile,  Yugi...
+	rex: Guess you're gonna be  watching me in the finals!
+	set {DeckIndex} = 9.0
+	set {Dialogue} = "res://Resources/timelines/DominoCity/Domino_Duels01.dtl"
+	set {Label} = "RexLost"
+	set {Story.DuelRex} = true
+	jump IniciarDuelo/StartDuel
+	label RexLost
+jump card_shop_tea/

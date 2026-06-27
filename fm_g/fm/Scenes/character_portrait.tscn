@@ -15,5 +15,4 @@ Sprite = NodePath("AnimatedSprite2D")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1848739461]
 sprite_frames = ExtResource("2_o2dp4")
-animation = &"kaiba"
-frame_progress = 0.8720188
+animation = &"rex"
