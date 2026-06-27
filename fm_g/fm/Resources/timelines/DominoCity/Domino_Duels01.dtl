@@ -10,6 +10,7 @@ if {Story.DuelRex} == false:
 	set {Dialogue} = "res://Resources/timelines/DominoCity/Domino_Duels01.dtl"
 	set {Label} = "RexLost"
 	set {Story.DuelRex} = true
+	do GlobalUsings.RegisterEvent("Story.DuelRex")
 	jump IniciarDuelo/StartDuel
 	label RexLost
 jump card_shop_tea/
