@@ -2,7 +2,37 @@
 
 [ext_resource type="PackedScene" uid="uid://dj75drx3468yi" path="res://assets/world_after/Untitled.glb" id="1_8doic"]
 
+[sub_resource type="Environment" id="Environment_8doic"]
+background_mode = 1
+
 [node name="world_bf" type="Node3D" unique_id=60216396]
 
 [node name="Model" parent="." unique_id=696457813 instance=ExtResource("1_8doic")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.3283596, 0, 4.579053)
+
+[node name="Node" type="Node" parent="." unique_id=518012476]
+
+[node name="Shrine" type="Camera3D" parent="Node" unique_id=742352330]
+transform = Transform3D(-0.033864517, -0.5835554, 0.811367, -0.024335017, 0.8120734, 0.58304775, -0.99913013, -6.7656757e-18, -0.041701302, 137.69098, 15.018991, 0.5917959)
+
+[node name="WaterShrine" type="Camera3D" parent="Node" unique_id=697446362]
+transform = Transform3D(-0.98459744, -0.103004, 0.14127348, 0.046876606, 0.622919, 0.78088063, -0.16843577, 0.77547544, -0.60849595, 40.066547, 47.905453, -95.86635)
+
+[node name="Colosseum" type="Camera3D" parent="Node" unique_id=1271375111]
+transform = Transform3D(-0.73421144, 0.37395248, -0.5666508, -0.03310257, 0.81392395, 0.5800277, 0.6781134, 0.44462055, -0.5852135, -82.70257, 50.34028, -69.41582)
+
+[node name="MountainShrine" type="Camera3D" parent="Node" unique_id=185377037]
+transform = Transform3D(0.1567064, 0.6803939, -0.7158962, -0.15151201, 0.7328327, 0.66332525, 0.9759546, 0.00451956, 0.21792741, -112.75886, 57.39172, 32.629116)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1778736469]
+environment = SubResource("Environment_8doic")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=103383575]
+transform = Transform3D(1, 0, 0, 0, 0.37698412, 0.92621976, 0, -0.92621976, 0.37698412, 7.431862, 136.14297, 18.566399)
+light_indirect_energy = 5.364
+light_angular_distance = 34.09
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="." unique_id=2031650976]
+transform = Transform3D(1, 0, 0, 0, -0.43901426, 0.8984801, 0, -0.8984801, -0.43901426, -144.28964, 84.02349, -158.21829)
+light_indirect_energy = 5.364
+light_angular_distance = 34.09
